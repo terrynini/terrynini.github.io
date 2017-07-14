@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#33474d">
+	<title>0x00 2017 AIS3 pre-exam write up | Terrynini的札記</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	
+      <link rel="alternate" href="/atom.xml" title="Terrynini的札記" type="application/atom+xml">
+    
+</head>
+
+<body>
+
+	<header class="header">
+		<nav class="header__nav">
+			
+				<a href="/archives" class="header__link">Archive</a>
+			
+				<a href="/tags" class="header__link">Tags</a>
+			
+				<a href="/atom.xml" class="header__link">RSS</a>
+			
+		</nav>
+        <img class="header__logo"
+             src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
+             style="background-color:white;" width="100px">
+		<h2 class="header__subtitle">This is my blog!</h2>
+	</header>
+
+	<main>
+		<article>
+	
+		<h1>0x00 2017 AIS3 pre-exam write up</h1>
+	
+	<div class="article__infos">
+		<span class="article__date">2017-07-15</span><br />
+		
+		
+	</div>
+
+	
+
+	
+		<p>總之我終於擊敗惰性開始寫writeup了，去年剛開始接觸資安的時候好像還不知道AIS3，所以這是第一次參加AIS3，總之本來想好好解逆向結果解不出來只有12名，培訓時間還跟我要去日本的時間完美的重疊了，慘。<br><br>這次沒什麼圖片，他關太快了，雖然簡單的都還滿簡單的。</p>
+<h3 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h3><p>其實這題在幹嘛我忘記了</p>
+<h3 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h3><p>這題要求登入一個用php寫得簡單網頁，php做的就是用你的username去找他本來就寫好的一串md5 hash然後把你輸入的password也做md5之後使用 <code>==</code> 做比較，不難發現是php弱比較的利用，仔細看就會發現有一個md5 hash是 <code>0e</code> 開頭，把對應的username還有 <code>QNKCDZO</code> 當作密碼就會拿到flag了。</p>
+<h3 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h3><p>這題根本是從eduCTF拿過來再利用吧哈哈哈<br><br>總之是LFI(local file inclusion)的漏洞，flag在哪我失憶了。</p>
+<h3 id="web4"><a href="#web4" class="headerlink" title="web4"></a>web4</h3><p>這題也有LFI的漏洞，不過靠LFI把index.php拉出來會發現他把一個upload的功能隱藏起來，從網址進去之後會發現它是一個只能上傳jpg圖片的功能，然後會告訴你上傳之後亂數產生的檔名，但是只是單純過濾副檔名，所以用phar搭配LFI的漏洞可以做出web shell，再來就只是拿flag而已。</p>
+<h3 id="Pwn1"><a href="#Pwn1" class="headerlink" title="Pwn1"></a>Pwn1</h3><p>這題你輸入什麼他就直接跳到那裡執行這樣，有個function叫做youcanseeme，跳過去執行就好了，值得注意的是因為scanf吃到空白會停止，而剛好function的開頭位址會讓scnaf只吃到一半，所以要往後跳一點。</p>
+<h3 id="Pwn2"><a href="#Pwn2" class="headerlink" title="Pwn2"></a>Pwn2</h3><p>用C++寫的一支程式，雖然是PE檔案格式，結果這題連分析也不用就知道要怎樣做了，關鍵在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">struct user &#123;</div><div class="line">	char name[20];</div><div class="line">	int pass;</div><div class="line">&#125; ais3_user;</div></pre></td></tr></table></figure></p>
+<p>因為C++中這種struct的記憶體會連在一起，所以輸入name的時候多敲幾個把pass壓過去就好了。</p>
+<h3 id="Reverse1"><a href="#Reverse1" class="headerlink" title="Reverse1"></a>Reverse1</h3><p>直接執行，中間會產生flag。</p>
+<h3 id="Reverse2"><a href="#Reverse2" class="headerlink" title="Reverse2"></a>Reverse2</h3><p>這題給了rev2和encrypted兩個檔案，encrypted是被rev2加密的flag<br>，rev2加密的方式是用srand(time(NULL))之後，然後使用rand()來加密，程式內有顯示這支程式建立的時間是台灣時間 6/26。<br>因為time(NULL)實際上傳回的是目前的unix timestamp，srand再以此做出亂數表，因此把6/26的unix timestamp開始一直用srand做出亂數表，然後跟encrypted做xor然後檢查是不是flag就好了。</p>
+<p>###Crypto1<br>失憶</p>
+<p>###Crypto2<br>因為用了ECB mode ，所以每個區塊間沒有關聯，而且加密用的key也不會換，造成cut &amp; paste attack。</p>
+<p>###Crypto3 &amp; Crypto4<br>sha1 collision，這兩題滿有趣的。</p>
+<p>###MISC1 &amp; 2 &amp; 4<br>總之因為我失憶還有各種惰性，還是算了吧</p>
+
+	
+
+	
+		<span class="different-posts"><a href="/tw/2017-AIS3-pre-exam-write-up/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+
+	
+
+</article>
+
+	</main>
+
+	<footer class="footer">
+	<div class="footer-content">
+		
+	      <div class="footer__element">
+	<p>Hi there, <br />welcome to my Blog glad you found it. Have a look around, will you?</p>
+</div>
+
+	    
+	      <div class="footer__element">
+	<h5>Check out</h5>
+	<ul class="footer-links">
+		<li class="footer-links__link"><a href="/archives">Archive</a></li>
+		
+		  <li class="footer-links__link"><a href="/atom.xml">RSS</a></li>
+	    
+		<li class="footer-links__link"><a href="/about">about page</a></li>
+		<li class="footer-links__link"><a href="/tags">Tags</a></li>
+		<li class="footer-links__link"><a href="/categories">Categories</a></li>
+	</ul>
+</div>
+
+	    
+
+		<div class="footer-credit">
+			<span>© 2017 Terrynini | Powered by <a href="https://hexo.io/">Hexo</a></span>
+		</div>
+
+	</div>
+
+
+</footer>
+
+
+</body>
+
+</html>
