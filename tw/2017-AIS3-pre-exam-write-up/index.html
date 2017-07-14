@@ -65,6 +65,29 @@
 <h3 id="MISC4"><a href="#MISC4" class="headerlink" title="MISC4"></a>MISC4</h3><p>這題要ssh到一台主機，然後權限很低，flag就在眼前但是不能cat。<br>有三個檔案flag、shell、shell.c，shell.c長這樣：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;unistd.h&gt;</div><div class="line"></div><div class="line">int filter(char* cmd)&#123;</div><div class="line">        int r=0;</div><div class="line">        r += strstr(cmd, &quot;=&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;PATH&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;export&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;/&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;\\&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;`&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;flag&quot;)!=0;</div><div class="line">        return r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">extern char** environ;</div><div class="line">void delete_env()&#123;</div><div class="line">        char** p;</div><div class="line">        for(p=environ; *p; p++) memset(*p, 0, strlen(*p));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main(int argc, char* argv[], char** envp)&#123;</div><div class="line">        setregid(getegid(), -1);</div><div class="line">        if(argc &lt; 2) &#123; return 0; &#125;</div><div class="line">        delete_env();</div><div class="line">        putenv(&quot;PATH=/this_is_not_a_valid_path&quot;);</div><div class="line">        if(filter(argv[1])) return 0;</div><div class="line">        printf(&quot;%s\n&quot;, argv[1]);</div><div class="line">        system( argv[1] );</div><div class="line">        return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>總之只能用sh內建的指令echo跟pwd啥的，加上一些神奇的東西就變成：<br><figure class="figure"><img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc4_00.png" alt="AIS3_misc4_00.png" title=""><figcaption class="figure__caption">AIS3_misc4_00.png</figcaption></figure></p>
 
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://terrynini.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 	
 
 	
@@ -104,7 +127,6 @@
 		</div>
 
 	</div>
-
 
 </footer>
 
