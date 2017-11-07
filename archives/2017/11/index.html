@@ -42,45 +42,48 @@
              src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
              style="background-color:white;" width="100px">
 		</a>
-		<h2 class="header__subtitle">foxes are so cute</h2>
+		<h2 class="header__subtitle">Hi, I'm Terrynini</h2>
 	</header>
 
 	<main>
-		
+		<h1>Archive</h1>
 
-<h1>#reverse</h1>
+
 
 
 
 <ul class="archive">
-		<li class="archive__year archive__expendable archive__expendable_disabled">
+	
+	
+		<li class="archive__year archive__expendable ">
+			<span>2017</span>
 			<ul>
-			
 				
-					
-					
+					<li class="archive__month archive__expendable">
+						<span>November</span>
+						<ul>
+							
+								<li class="archive__entry"><a href="/2017-HITCON-qual-Sakura/">2017_HITCON_qual::Sakura</a></li>
+							
+						</ul>
+					</li>
 
 				
-					
-					
-
-				
-			
-				
-					
-					
-						<li class="archive__entry"><a href="/tw/Reversing-kr-write-up-1/">Reversing.kr write-up #1</a></li>
-					
-
-				
-					
-					
-
-				
-			
 			</ul>
 		</li>
+		
+	
 </ul>
+
+<script>
+	const expandables = document.querySelectorAll('.archive__expendable')
+	for(let i = 0; i < expandables.length; i++) {
+		expandables[i].addEventListener('click', (e) => {
+			e.stopPropagation()
+			expandables[i].classList.toggle('archive__expendable_collapsed')
+		})
+	}
+</script>
 
 	</main>
 

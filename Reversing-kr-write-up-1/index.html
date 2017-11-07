@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta name="theme-color" content="#33474d">
-	<title>Reversing.kr write-up #1 | Terrynini&#39;s den</title>
+	<title>Reversing.kr #1 | Terrynini&#39;s den</title>
 	<link rel="stylesheet" href="/css/style.css" />
 	
       <link rel="alternate" href="/atom.xml" title="Terrynini&#39;s den" type="application/atom+xml">
@@ -42,13 +42,13 @@
              src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
              style="background-color:white;" width="100px">
 		</a>
-		<h2 class="header__subtitle">foxes are so cute</h2>
+		<h2 class="header__subtitle">Hi, I'm Terrynini</h2>
 	</header>
 
 	<main>
 		<article>
 	
-		<h1>Reversing.kr write-up #1</h1>
+		<h1>Reversing.kr #1</h1>
 	
 	<div class="article__infos">
 		<span class="article__date">2017-07-20</span><br />
@@ -59,7 +59,7 @@
 		
 		
 			<span class="article__tags">
-			  	<a class="article__tag-link" href="/tags/reverse/">reverse</a> <a class="article__tag-link" href="/tags/reversing-kr/">reversing-kr</a>
+			  	<a class="article__tag-link" href="/tags/Reverse/">Reverse</a> <a class="article__tag-link" href="/tags/Reversing-kr/">Reversing-kr</a>
 			</span>
 		
 	</div>
@@ -68,7 +68,7 @@
 
 	
 		<p>本來想把9題擠一篇的，但想想還是分一下好了，<br>總之Easy系列完全就是 easy peasy lemon squeezy<br>這篇共4題，還沒解題建議不要先看。<br><a id="more"></a></p>
-<h2 id="Easy-Crack"><a href="#Easy-Crack" class="headerlink" title="Easy Crack"></a>Easy Crack</h2><p>首先發現輸入密碼錯誤時會跳出錯誤訊息：<br><figure class="figure"><img src="/tw/Reversing-kr-write-up-1/EasyCrack001.png" alt="EasyCrack001.png" title=""><figcaption class="figure__caption">EasyCrack001.png</figcaption></figure><br>以 Incorrect Password 作為關鍵字搜尋disassemble的位址<br>往上一點會發現上面有字串的判斷邏輯：<br><figure class="figure"><img src="/tw/Reversing-kr-write-up-1/EasyCrack002.png" alt="EasyCrack002.png" title=""><figcaption class="figure__caption">EasyCrack002.png</figcaption></figure><br>慢慢比對就可以把flag拼出來了：<br><figure class="figure"><img src="/tw/Reversing-kr-write-up-1/EasyCrack003.png" alt="EasyCrack003.png" title=""><figcaption class="figure__caption">EasyCrack003.png</figcaption></figure></p>
+<h2 id="Easy-Crack"><a href="#Easy-Crack" class="headerlink" title="Easy Crack"></a>Easy Crack</h2><p>首先發現輸入密碼錯誤時會跳出錯誤訊息：<br><figure class="figure"><img src="/Reversing-kr-write-up-1/EasyCrack001.png" alt="EasyCrack001.png" title=""><figcaption class="figure__caption">EasyCrack001.png</figcaption></figure><br>以 Incorrect Password 作為關鍵字搜尋disassemble的位址<br>往上一點會發現上面有字串的判斷邏輯：<br><figure class="figure"><img src="/Reversing-kr-write-up-1/EasyCrack002.png" alt="EasyCrack002.png" title=""><figcaption class="figure__caption">EasyCrack002.png</figcaption></figure><br>慢慢比對就可以把flag拼出來了：<br><figure class="figure"><img src="/Reversing-kr-write-up-1/EasyCrack003.png" alt="EasyCrack003.png" title=""><figcaption class="figure__caption">EasyCrack003.png</figcaption></figure></p>
 <h2 id="Easy-Keygen"><a href="#Easy-Keygen" class="headerlink" title="Easy Keygen"></a>Easy Keygen</h2><p>題目要求我們找到序號為 5B134977135E7D13 時，名字應該會是什麼<br>分析後發現程式會把[0x10,0x20,0x30]作為key不斷xor輸入的字串<br>然後把加密後的字串的ascii用hex印出來<br>寫個腳本反解回去就好了:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> binascii <span class="keyword">import</span> *</div><div class="line"></div><div class="line">serial = bytearray(unhexlify(<span class="string">"5B134977135E7D13"</span>))</div><div class="line">key = [<span class="number">0x10</span>, <span class="number">0x20</span>, <span class="number">0x30</span>]</div><div class="line">flag = <span class="string">""</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(serial)):</div><div class="line">    flag += chr(serial[i] ^ key[i%len(key)])</div><div class="line"></div><div class="line">print(flag)</div><div class="line"></div></pre></td></tr></table></figure></p>
 <h2 id="Easy-Unpack"><a href="#Easy-Unpack" class="headerlink" title="Easy Unpack"></a>Easy Unpack</h2><p>總之這殼還滿簡單的，解壓縮結束時有個jmp，跟過去就是OEP了<br>本來以為兩個段是像upx一樣，一個段解壓縮進去另外一個段再執行，<br>但是其中一個段好像沒有執行權限。</p>
 <h2 id="Easy-ELF"><a href="#Easy-ELF" class="headerlink" title="Easy ELF"></a>Easy ELF</h2><p>丟進gdb下幾個斷點就可以知道要求輸入的長度是5，<br>並且對字元做xor然後做檢查<br>看是要逆算回來還是做個fuzzing就好了</p>
@@ -99,7 +99,7 @@ s.setAttribute('data-timestamp', +new Date());
 	
 
 	
-		<span class="different-posts"><a href="/tw/Reversing-kr-write-up-1/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+		<span class="different-posts"><a href="/Reversing-kr-write-up-1/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
 
 	
 

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#33474d">
+	<title>AIS3 pre-exam write up | Terrynini&#39;s den</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	
+      <link rel="alternate" href="/atom.xml" title="Terrynini&#39;s den" type="application/atom+xml">
+    
+	<link rel="icon"href="/favicon48.ico" />
+	<script>
+  (function(ii,ss,oo,gg,rr,aa,mm){ii['GoogleAnalyticsObject']=rr;ii[rr]=ii[rr]||function(){
+  (ii[rr].q=ii[rr].q||[]).push(arguments)},ii[rr].l=1*new Date();aa=ss.createElement(oo),
+  mm=ss.getElementsByTagName(oo)[0];aa.async=1;aa.src=gg;mm.parentNode.insertBefore(aa,mm)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-102620536-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
+
+<body>
+
+	<header class="header">
+		<nav class="header__nav">
+			
+				<a href="/archives" class="header__link">Archive</a>
+			
+				<a href="/categories" class="header__link">Categories</a>
+			
+				<a href="https://github.com/terrynini" class="header__link">Github</a>
+			
+				<a href="/tags" class="header__link">Tags</a>
+			
+		</nav>
+		<a href="/">
+        <img class="header__logo"
+             src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
+             style="background-color:white;" width="100px">
+		</a>
+		<h2 class="header__subtitle">foxes are so cute</h2>
+	</header>
+
+	<main>
+		<article>
+	
+		<h1>AIS3 pre-exam write up</h1>
+	
+	<div class="article__infos">
+		<span class="article__date">2017-07-15</span><br />
+		
+			<span class="article__category">
+				<a class="article-category-link" href="/categories/WriteUp/">WriteUp</a>
+			</span><br />
+		
+		
+			<span class="article__tags">
+			  	<a class="article__tag-link" href="/tags/AIS3/">AIS3</a> <a class="article__tag-link" href="/tags/CTF/">CTF</a>
+			</span>
+		
+	</div>
+
+	
+
+	
+		<p>總之我終於擊敗惰性開始寫writeup了，去年剛開始接觸資安的時候好像還不知道AIS3，所以這是第一次參加AIS3，總之本來想好好解逆向結果解不出來只有12名，培訓時間還跟我要去日本的時間完美的重疊了，慘。<br><br><a id="more"></a></p>
+<h3 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h3><p>其實這題在幹嘛我忘記了</p>
+<h3 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$msg = <span class="string">""</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">"password"</span>]))</div><div class="line">&#123;</div><div class="line">    $username = (string)$_POST[<span class="string">"username"</span>];</div><div class="line">    $password = (string)$_POST[<span class="string">"password"</span>];</div><div class="line"></div><div class="line">    $success = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">foreach</span> ($db <span class="keyword">as</span> $row)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> ($username == $row[<span class="string">"username"</span>] <span class="keyword">and</span> md5($password) == $row[<span class="string">"password"</span>])</div><div class="line">        &#123;</div><div class="line">            $msg = <span class="string">"Successful login as $username. Here's your flag: "</span>.$flag;</div><div class="line">            $success = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!$success)</div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Invalid username or password."</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>這題要求登入一個用php寫得簡單網頁，php做的就是用你的username去找他本來就寫好的一串md5 hash然後把你輸入的password也做md5之後使用 <code>==</code> 做比較，不難發現是php弱比較的利用，仔細看就會發現有一個md5 hash是 <code>0e</code> 開頭，把對應的username還有 <code>QNKCDZO</code> 當作密碼就會拿到flag了。</p>
+<h3 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h3><p>這題根本是從eduCTF拿過來再利用吧哈哈哈<br><br>總之是LFI(local file inclusion)的漏洞，flag在哪我失憶了。</p>
+<h3 id="web4"><a href="#web4" class="headerlink" title="web4"></a>web4</h3><p>這題也有LFI的漏洞，不過靠LFI把index.php拉出來會發現他把一個upload的功能隱藏起來，從網址進去之後會發現它是一個只能上傳jpg圖片的功能，然後會告訴你上傳之後亂數產生的檔名，但是只是單純過濾副檔名，所以用phar搭配LFI的漏洞可以做出web shell，再來就只是拿flag而已。</p>
+<h3 id="Pwn1"><a href="#Pwn1" class="headerlink" title="Pwn1"></a>Pwn1</h3><p>這題你輸入什麼他就直接跳到那裡執行這樣，有個function叫做youcanseeme，跳過去執行就好了，值得注意的是因為scanf吃到空白會停止，而剛好function的開頭位址會讓scnaf只吃到一半，所以要往後跳一點。</p>
+<h3 id="Pwn2"><a href="#Pwn2" class="headerlink" title="Pwn2"></a>Pwn2</h3><p>用C++寫的一支程式，雖然是PE檔案格式，結果這題連分析也不用就知道要怎樣做了，關鍵在<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">user</span> &#123;</span></div><div class="line">	<span class="keyword">char</span> name[<span class="number">20</span>];</div><div class="line">	<span class="keyword">int</span> pass;</div><div class="line">&#125; ais3_user;</div></pre></td></tr></table></figure><br>因為C++中這種struct的記憶體會連在一起，所以輸入name的時候多敲幾個把pass壓過去就好了。</p>
+<h3 id="Reverse1"><a href="#Reverse1" class="headerlink" title="Reverse1"></a>Reverse1</h3><p>直接執行，中間會產生flag。</p>
+<h3 id="Reverse2"><a href="#Reverse2" class="headerlink" title="Reverse2"></a>Reverse2</h3><p>這題給了rev2和encrypted兩個檔案，encrypted是被rev2加密的flag<br>，rev2加密的方式是用srand(time(NULL))之後，然後使用rand()來加密，程式內有顯示這支程式建立的時間是台灣時間 6/26。<br>因為time(NULL)實際上傳回的是目前的unix timestamp，srand再以此做出亂數表，因此把6/26的unix timestamp開始一直用srand做出亂數表，然後跟encrypted做xor然後檢查是不是flag就好了。</p>
+<h3 id="Crypto1"><a href="#Crypto1" class="headerlink" title="Crypto1"></a>Crypto1</h3><p>這題的flag被三個數值做xor，不過不需要做出個別值，因為xor之後完全沒有差別，因為知道flag是AIS3開頭，所以把xor的值解出來後把剩下的部分也xor出來就好了<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">	<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> val1 = ?????????, val2 = ?????????, val3 = ???????, val4 = ??????, i, *ptr;</div><div class="line">	<span class="keyword">char</span> flag[<span class="number">29</span>] = <span class="string">"????????????????????????????"</span>; <span class="comment">// Hint: The flag begins with AIS3</span></div><div class="line">	</div><div class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>, ptr = (<span class="keyword">int</span>*)flag ; i &lt; <span class="number">7</span> ; ++i)</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ptr[i] ^ val1 ^ val2 ^ val3 ^ val4);</div><div class="line">	</div><div class="line">	<span class="comment">/*</span></div><div class="line">	964600246</div><div class="line">	1376627084</div><div class="line">	1208859320</div><div class="line">	1482862807</div><div class="line">	1326295511</div><div class="line">	1181531558</div><div class="line">	2003814564</div><div class="line">	*/</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure></p>
+<h3 id="Crypto2"><a href="#Crypto2" class="headerlink" title="Crypto2"></a>Crypto2</h3><p>因為用了ECB mode ，所以每個區塊間沒有關聯，而且加密用的key也不會換，造成cut &amp; paste attack。<br></p>
+<h3 id="Crypto3-amp-Crypto4"><a href="#Crypto3-amp-Crypto4" class="headerlink" title="Crypto3 &amp; Crypto4"></a>Crypto3 &amp; Crypto4</h3><p>sha1 collision，這兩題滿有趣的。<br><br>在做比較的時候使用的是 <code>===</code> 而不是 <code>==</code> 所以不能用陣列的方法繞過，因此就是利用google在2月時找到的sha1碰撞，把兩個文件作為username還有password傳入。<br><br>Crypto4 則是利用string() parse的時候會被<code>\00</code>截斷，加入題目要求的字串，而最後一個條件則是sha1的結果開頭要是<code>f00d</code>，只要在文件後面加入一堆<code>\00</code>，結果就會不一樣，所以就寫個腳本自動檢查就好了。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include</span>(<span class="string">"flag.php"</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">"source"</span>])) &#123;</div><div class="line">    show_source(<span class="keyword">__FILE__</span>);</div><div class="line">    <span class="keyword">exit</span>();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">startsWith</span><span class="params">($haystack, $needle)</span></span></div><div class="line">&#123;</div><div class="line">    $length = strlen($needle);</div><div class="line">    <span class="keyword">return</span> (substr($haystack, <span class="number">0</span>, $length) === $needle);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">"password"</span>]))</div><div class="line">&#123;</div><div class="line">    $username = (string)$_POST[<span class="string">"username"</span>];</div><div class="line">    $password = (string)$_POST[<span class="string">"password"</span>];</div><div class="line"></div><div class="line">    $h1 = sha1($username);</div><div class="line">    $h2 = sha1($password);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> ($username == $password)</div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Your password can not be your username."</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ($h1 === $h2)</div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Flag1: $flag1"</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (strpos($username, <span class="string">"Snoopy_do_not_like_cats_hahahaha"</span>) !== <span class="keyword">false</span> <span class="keyword">and</span></div><div class="line">            strpos($password, <span class="string">"ddaa_is_PHD"</span>) !== <span class="keyword">false</span> <span class="keyword">and</span></div><div class="line">            startsWith($h1, <span class="string">"f00d"</span>))</div><div class="line">        &#123;</div><div class="line">            $msg .= <span class="string">"&lt;/br&gt;"</span>;</div><div class="line">            $msg .= <span class="string">"Flag2: $flag2"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Invalid password."</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="MISC2"><a href="#MISC2" class="headerlink" title="MISC2"></a>MISC2</h3><p>就只顯示了<code>I&#39;ve sent you something :)</code>，網頁註解裡面有一個img的tag <code>&lt;img src=&#39;sudoku.png&#39;&gt;</code>，把註解拿開後會顯示一張數獨的圖片：<br><figure class="figure"><img src="/tw/tw/2017-AIS3-pre-exam-write-up/sudoku.png" alt="sudoku.png" title=""><figcaption class="figure__caption">sudoku.png</figcaption></figure><br><br>然後我以為這題是steganography，結果跟原圖根本就連一bit都沒差別啊。<br><br>用curl看header才會發現：<br><br><figure class="figure"><img src="/tw/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_00.png" alt="AIS3_misc2_00.png" title=""><figcaption class="figure__caption">AIS3_misc2_00.png</figcaption></figure><br><br>decode後就會得到<code>S74G32.php</code>，進去後會看到一張png:<br><br><figure class="figure"><img src="/tw/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_01.png" alt="AIS3_misc2_01.png" title=""><figcaption class="figure__caption">AIS3_misc2_01.png</figcaption></figure><br><br>總之我的膝蓋告訴我flag一定在白色的地方，因為他九成是png:<br><br><figure class="figure"><img src="/tw/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_02.png" alt="AIS3_misc2_02.png" title=""><figcaption class="figure__caption">AIS3_misc2_02.png</figcaption></figure></p>
+<h3 id="MISC4"><a href="#MISC4" class="headerlink" title="MISC4"></a>MISC4</h3><p>這題要ssh到一台主機，然後權限很低，flag就在眼前但是不能cat。<br>有三個檔案flag、shell、shell.c，shell.c長這樣：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;unistd.h&gt;</div><div class="line"></div><div class="line">int filter(char* cmd)&#123;</div><div class="line">        int r=0;</div><div class="line">        r += strstr(cmd, &quot;=&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;PATH&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;export&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;/&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;\\&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;`&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;flag&quot;)!=0;</div><div class="line">        return r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">extern char** environ;</div><div class="line">void delete_env()&#123;</div><div class="line">        char** p;</div><div class="line">        for(p=environ; *p; p++) memset(*p, 0, strlen(*p));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main(int argc, char* argv[], char** envp)&#123;</div><div class="line">        setregid(getegid(), -1);</div><div class="line">        if(argc &lt; 2) &#123; return 0; &#125;</div><div class="line">        delete_env();</div><div class="line">        putenv(&quot;PATH=/this_is_not_a_valid_path&quot;);</div><div class="line">        if(filter(argv[1])) return 0;</div><div class="line">        printf(&quot;%s\n&quot;, argv[1]);</div><div class="line">        system( argv[1] );</div><div class="line">        return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>總之只能用sh內建的指令echo跟pwd啥的，加上一些神奇的東西就變成：<br><figure class="figure"><img src="/tw/tw/2017-AIS3-pre-exam-write-up/AIS3_misc4_00.png" alt="AIS3_misc4_00.png" title=""><figcaption class="figure__caption">AIS3_misc4_00.png</figcaption></figure></p>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://terrynini.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+	
+
+	
+		<span class="different-posts"><a href="/tw/tw/2017-AIS3-pre-exam-write-up/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+
+	
+
+</article>
+
+	</main>
+
+	<footer class="footer">
+	<div class="footer-content">
+		
+	      <div class="footer__element">
+	<h5>Check out</h5>
+	<ul class="footer-links">
+		<li class="footer-links__link"><a href="/archives">Archive</a></li>
+		<li class="footer-links__link"><a href="/about">about page</a></li>
+		<li class="footer-links__link"><a href="/tags">Tags</a></li>
+		<li class="footer-links__link"><a href="/categories">Categories</a></li>
+	</ul>
+</div>
+
+	    
+
+		<div class="footer-credit">
+			<span>© 2017 Terrynini | Powered by <a href="https://hexo.io/">Hexo</a></span>
+		</div>
+
+	</div>
+</footer>
+
+
+
+</body>
+
+</html>
