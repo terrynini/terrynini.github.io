@@ -67,7 +67,7 @@
 	
 
 	
-		<p>要求輸入 400 個字元<br>然後會把輸入當作20*20的陣列丟入function做驗證<br>有 150 個迴圈<br>在進入迴圈會把需要的 local 變數設好<br>流程如下<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">取一個本地變數出來</div><div class="line">每個迴圈做的次數不等</div><div class="line"></div><div class="line">迴圈</div><div class="line">    根據剛剛取出的數為準從使用者輸入中拿字元出來&lt;br&gt;</div><div class="line">    檢查範圍是否在1~9&lt;br&gt;</div><div class="line">    不能有重複的數字&lt;br&gt;</div><div class="line">    都沒問題就把它累加進本回圈的sum並且放入sha256要用的陣列中&lt;br&gt;</div><div class="line">迴圈結束</div><div class="line"></div><div class="line">檢查sum是否符合本迴圈要求的數值</div><div class="line">通過150個迴圈的話則會印出flag</div></pre></td></tr></table></figure></p>
+		<p>要求輸入 400 個字元<br>然後會把輸入當作20*20的陣列丟入function做驗證<br>有 150 個迴圈<br>在進入迴圈會把需要的 local 變數設好<br>流程如下<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">取一個本地變數出來</div><div class="line">每個迴圈做的次數不等</div><div class="line"></div><div class="line">迴圈</div><div class="line">    根據剛剛取出的數為準從使用者輸入中拿字元出來</div><div class="line">    檢查範圍是否在1~9</div><div class="line">    不能有重複的數字</div><div class="line">    都沒問題就把它累加進本回圈的sum並且放入sha256要用的陣列中</div><div class="line">    再取一次本地變數出來</div><div class="line">迴圈結束</div><div class="line"></div><div class="line">檢查sum是否符合本迴圈要求的數值</div><div class="line">通過150個迴圈的話則會印出flag</div></pre></td></tr></table></figure></p>
 <p>我看有人用angr解，但是我覺得塞位置給 angr avoid 有點麻煩<br><br>不如把 psudocode dump 出來用正規表達取變數直接生一段 z3 code 解限制式<br></p>
 <p>方便等等 parse 先把一些奇怪的 function name 修改一下<br><br>大多數只是單純回傳，我命名為 nothing<br><br>有做加法再回傳的命名為 plus_數字<br><br>把 psudocode 放進 <code>sakura_de.c</code> <br><br>然後前面 local variable 的指定式長得太大眾臉了，我把它移到 <code>variable</code> 文字檔<br></p>
 <p><strong>solver.py</strong></p>
@@ -103,7 +103,7 @@ s.setAttribute('data-timestamp', +new Date());
 	
 
 	
-		<span class="different-posts"><a href="/2017-HITCON-qual-Sakura/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+		<span class="different-posts"><a href="/tw/2017-HITCON-qual-Sakura/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
 
 	
 
