@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#33474d">
+	<title>Advance_Algorithm::homework1 | Terrynini&#39;s den</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	
+      <link rel="alternate" href="/atom.xml" title="Terrynini&#39;s den" type="application/atom+xml">
+    
+    <link rel="icon"href="/favicon48.ico" />
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
+      </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-1');
+</script>
+
+</head>
+
+<body>
+
+	<header class="header">
+		<nav class="header__nav">
+			
+				<a href="/archives" class="header__link">Archive</a>
+			
+				<a href="/categories" class="header__link">Categories</a>
+			
+				<a href="https://www.facebook.com/profile.php?id=100001963625238" class="header__link">Facebook</a>
+			
+				<a href="https://github.com/terrynini" class="header__link">Github</a>
+			
+				<a href="/tags" class="header__link">Tags</a>
+			
+				<a href="/about" class="header__link">About</a>
+			
+		</nav>
+		<a href="/">
+        <img class="header__logo"
+             src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
+             style="background-color:white;" width="100px">
+		</a>
+		<h2 class="header__subtitle">Hi, I'm Terrynini</h2>
+	</header>
+
+	<main>
+		<article>
+	
+		<h1>Advance_Algorithm::homework1</h1>
+	
+	<div class="article__infos">
+		<span class="article__date">2017-11-13</span><br />
+		
+		
+	</div>
+
+	
+
+	
+		<p>整理一下何錦文教授高等演算法課上的作業。<br>有什麼問題都可以在下面留言討論，私訊我也可以<br>Written in English.<br><a id="more"></a></p>
+<h5 id="1-Recall-the-recursive-program-discussed-in-the-class-that-computes-the-n-th-Fibonacci-number-Compute-the-number-of-additions-used-by-the-program"><a href="#1-Recall-the-recursive-program-discussed-in-the-class-that-computes-the-n-th-Fibonacci-number-Compute-the-number-of-additions-used-by-the-program" class="headerlink" title="1. Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program."></a>1. Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program.</h5><p>$$ T(n) = T(n-1) + T(n-2) + 1 $$<br>$$ T(n) &lt; 2T(n-1) + 1 = 4T(n-2) + 2 + 1 = 8T(n-3) + 4 + 2 + 1 $$<br>$$ T(n) &lt; 2^kT(n-k) + \frac{(1-2^k)}{1-2} $$<br>$$ O(T(n)) = O( 2^kT(n-k) + \frac{1-2^k}{1-2} ) = O(2^n) $$</p>
+<h5 id="2-Determine-the-space-complexity-of-the-quicksort-algorithm"><a href="#2-Determine-the-space-complexity-of-the-quicksort-algorithm" class="headerlink" title="2. Determine the space complexity of the quicksort algorithm."></a>2. Determine the space complexity of the quicksort algorithm.</h5><p>For in-place quick sort, space complexity is determined by stacks used by recursive call. The best case, it needs <code>O(logn)</code> recursive call to sort, the space complexity is <code>O(logn)</code>. The worse case, it needs <code>O(n)</code> recursive call to sort, the space complexity is <code>O(n)</code>. We know the the average case of quick sort is that it need  <code>O(logn)</code> recursive call, so the space complexity of quicksort is <code>O(logn)</code>.</p>
+<h5 id="3-Derive-an-exact-closed-formula-of-the-merge-sort-recurrence-relation-T-n-T-n-T-lfloor-frac-n-2-rfloor-T-lceil-frac-n-2-rceil-n-1-T-1-0"><a href="#3-Derive-an-exact-closed-formula-of-the-merge-sort-recurrence-relation-T-n-T-n-T-lfloor-frac-n-2-rfloor-T-lceil-frac-n-2-rceil-n-1-T-1-0" class="headerlink" title="3. Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) = 0$"></a>3. Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) = 0$</h5><p>$$ T(n) = 2T(\frac{n}{2}) + n-1 = 4T(\frac{n}{4}) + n-2 + n-1 = 8T(\frac{n}{8}) + n-4 + n-2 + n-1 $$<br>$$ T(n) = 2^kT(\frac{n}{2^k}) + kn + \frac{1-2^k}{1-2} $$<br>$$ if \frac{n}{2^k} = 1 , k = log_2(n) $$<br>$$ T(n) = nlog_2(n) + \frac{1-n}{1-2}$$</p>
+<h5 id="4-Given-a-set-of-n-1-numbers-out-of-the-first-2n-natural-numbers-1-2-…-2n-prove-by-mathematic-induction-that-here-are-two-numbers-in-the-set-one-of-which-divides-the-other"><a href="#4-Given-a-set-of-n-1-numbers-out-of-the-first-2n-natural-numbers-1-2-…-2n-prove-by-mathematic-induction-that-here-are-two-numbers-in-the-set-one-of-which-divides-the-other" class="headerlink" title="4. Given a set of n+1 numbers out of the first 2n natural numbers 1, 2, …, 2n, prove by mathematic induction that here are two numbers in the set, one of which divides the other."></a>4. Given a set of n+1 numbers out of the first 2n natural numbers 1, 2, …, 2n, prove by mathematic induction that here are two numbers in the set, one of which divides the other.</h5><p><strong><em>Basis</em></strong> : $n = 1, 1|2 $</p>
+<p>Assume that, for $n = k$, it holds(select k+1 numbers from first 2k natural numbers).</p>
+<p>When $ n = k + 1 $(select k+2 numbers from first 2k+2 natural numbers), there are three situation:</p>
+<ol>
+<li>Each number we select is less or equal to 2k, means that we select k+2 numbers from first 2k natural numbers. Under this situation, it holds.</li>
+<li>One number we select is greater than 2k, means that we select remaining k+1 numbers from first 2k natural numbers. Under this situation, it holds.</li>
+<li>We select both 2k+1 and 2k+2 :<ul>
+<li>If we select k+1, then $(k+1)|(2k+2)$. It holds.</li>
+<li>If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean x is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$</li>
+</ul>
+</li>
+</ol>
+<h5 id="5-For-an-undirected-graph-G-V-E-and-a-vertex-v-in-V-let-G-backslash-v-denote-the-subgraph-of-G-obtained-by-removing-v-and-all-the-edges-incident-to-v-from-G-If-G-is-connected-prove-that-we-can-always-find-a-vertex-v-in-G-such-that-G-backslash-v-is-connected"><a href="#5-For-an-undirected-graph-G-V-E-and-a-vertex-v-in-V-let-G-backslash-v-denote-the-subgraph-of-G-obtained-by-removing-v-and-all-the-edges-incident-to-v-from-G-If-G-is-connected-prove-that-we-can-always-find-a-vertex-v-in-G-such-that-G-backslash-v-is-connected" class="headerlink" title="5. For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected."></a>5. For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.</h5><p>We know that if a graph is connected, there is a spanning tree.<br>Removing the leaf node of spanning tree still makes graph connected.</p>
+<h5 id="6-Given-n-geq-1-numbers-x1-x2-…-xn-show-that-the-function-f-x-sum-1-le-i-le-n-x-x-i-takes-its-minimum-value-at-the-median-of-these-n-number-Extend-this-result-to-the-following-problem"><a href="#6-Given-n-geq-1-numbers-x1-x2-…-xn-show-that-the-function-f-x-sum-1-le-i-le-n-x-x-i-takes-its-minimum-value-at-the-median-of-these-n-number-Extend-this-result-to-the-following-problem" class="headerlink" title="6. Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) = \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem:"></a>6. Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) = \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem:</h5><h5 id="Given-n-pairs-of-numbers-a1-b1-…-an-bn-with-each-ai-ne-0-determine-the-position-at-which-the-function-f-x-sum-1-le-i-le-n-a-ix-b-i-takes-its-minimum-value"><a href="#Given-n-pairs-of-numbers-a1-b1-…-an-bn-with-each-ai-ne-0-determine-the-position-at-which-the-function-f-x-sum-1-le-i-le-n-a-ix-b-i-takes-its-minimum-value" class="headerlink" title="Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value."></a>Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value.</h5><p>$$let\;M\;=\;median\;of\;x_i$$<br>$$ x_1 \le x_2 \le … \le x_s \le A \le x(s+2) \le … \le x_t \le M \le x(t+2) \le … \le x_n $$</p>
+<ol>
+<li>If n is odd and an arbitrary number A is less or equal than M:</li>
+</ol>
+<h5 id="7-Prove-the-Helly-Property-on-Trees-Given-a-tree-T-and-k-subtrees-of-T-such-that-each-pair-of-subtrees-has-at-least-one-vertex-in-common-show-that-there-is-at-least-one-vertex-in-common-to-all-the-subtrees"><a href="#7-Prove-the-Helly-Property-on-Trees-Given-a-tree-T-and-k-subtrees-of-T-such-that-each-pair-of-subtrees-has-at-least-one-vertex-in-common-show-that-there-is-at-least-one-vertex-in-common-to-all-the-subtrees" class="headerlink" title="7. Prove the Helly Property on Trees: Given a tree T and k subtrees of T such that each pair of subtrees has at least one vertex in common, show that there is at least one vertex in common to all the subtrees.."></a>7. Prove the Helly Property on Trees: Given a tree T and k subtrees of T such that each pair of subtrees has at least one vertex in common, show that there is at least one vertex in common to all the subtrees..</h5><h5 id="8-Let-d1-d2-…-dn-n-2-be-positive-integers-Prove-that-if-d1-d2--dn-2n-2-then-there-exists-a-tree-with-n-vertices-of-degrees-exactly-d1-d2-…-dn-Based-on-your-proof-design-an-efficient-algorithm-to-construct-such-a-tree"><a href="#8-Let-d1-d2-…-dn-n-2-be-positive-integers-Prove-that-if-d1-d2--dn-2n-2-then-there-exists-a-tree-with-n-vertices-of-degrees-exactly-d1-d2-…-dn-Based-on-your-proof-design-an-efficient-algorithm-to-construct-such-a-tree" class="headerlink" title="8. Let d1, d2, …, dn, n 2, be positive integers. Prove that if d1 + d2 +  + dn= 2n 2, then there exists a tree with n vertices of degrees exactly d1, d2, …, dn. Based on your proof, design an efficient algorithm to construct such a tree."></a>8. Let d1, d2, …, dn, n 2, be positive integers. Prove that if d1 + d2 +  + dn= 2n 2, then there exists a tree with n vertices of degrees exactly d1, d2, …, dn. Based on your proof, design an efficient algorithm to construct such a tree.</h5><h5 id="9-Let-G-V-E-be-a-directed-graph-not-necessarily-acyclic-Design-an-efficient-algorithm-to-label-the-vertices-of-the-graph-with-distinct-labels-from-1-to-V-such-that-the-label-of-each-vertex-v-is-greater-than-the-label-of-at-least-one-of-v’s-predecessors-or-determine-that-no-such-labeling-is-possible-A-predecessor-of-v-is-a-vertex-w-such-that-wv--E"><a href="#9-Let-G-V-E-be-a-directed-graph-not-necessarily-acyclic-Design-an-efficient-algorithm-to-label-the-vertices-of-the-graph-with-distinct-labels-from-1-to-V-such-that-the-label-of-each-vertex-v-is-greater-than-the-label-of-at-least-one-of-v’s-predecessors-or-determine-that-no-such-labeling-is-possible-A-predecessor-of-v-is-a-vertex-w-such-that-wv--E" class="headerlink" title="9. Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that wv  E.)"></a>9. Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that wv  E.)</h5><h5 id="10-Give-a-linear-time-algorithm-that-takes-as-input-a-tree-and-determines-whether-it-has-a-perfect-matching-a-set-of-edges-that-touches-each-node-exactly-once"><a href="#10-Give-a-linear-time-algorithm-that-takes-as-input-a-tree-and-determines-whether-it-has-a-perfect-matching-a-set-of-edges-that-touches-each-node-exactly-once" class="headerlink" title="10. Give a linear-time algorithm that takes as input a tree and determines whether it has a perfect matching: a set of edges that touches each node exactly once."></a>10. Give a linear-time algorithm that takes as input a tree and determines whether it has a perfect matching: a set of edges that touches each node exactly once.</h5><h5 id="11-Consider-a-variation-of-the-towers-of-Hanoi-We-no-longer-assume-that-all-the-disks-are-initially-on-one-peg-They-may-be-arbitrarily-distributed-among-the-three-pegs-as-long-as-they-are-ordered-in-decreasing-sizes-on-each-peg-The-purpose-remains-to-move-all-disks-to-one-specified-peg-under-the-same-constraints-as-the-original-problem-with-as-few-moves-as-possible-Design-an-algorithm-to-find-a-minimal-sequence-of-moves-How-about-the-reverse-of-the-problem"><a href="#11-Consider-a-variation-of-the-towers-of-Hanoi-We-no-longer-assume-that-all-the-disks-are-initially-on-one-peg-They-may-be-arbitrarily-distributed-among-the-three-pegs-as-long-as-they-are-ordered-in-decreasing-sizes-on-each-peg-The-purpose-remains-to-move-all-disks-to-one-specified-peg-under-the-same-constraints-as-the-original-problem-with-as-few-moves-as-possible-Design-an-algorithm-to-find-a-minimal-sequence-of-moves-How-about-the-reverse-of-the-problem" class="headerlink" title="11. Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?"></a>11. Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?</h5><h5 id="12-Let-T-be-an-undirected-tree-The-distance-between-two-vertices-in-T-is-the-length-of-the-path-connecting-these-two-vertices-neighbors-have-distance-1-The-diameter-of-T-is-the-maximal-distance-over-all-pairs-of-vertices-Design-an-algorithm-to-find-the-diameter-of-the-given-tree"><a href="#12-Let-T-be-an-undirected-tree-The-distance-between-two-vertices-in-T-is-the-length-of-the-path-connecting-these-two-vertices-neighbors-have-distance-1-The-diameter-of-T-is-the-maximal-distance-over-all-pairs-of-vertices-Design-an-algorithm-to-find-the-diameter-of-the-given-tree" class="headerlink" title="12. Let T be an undirected tree. The distance between two vertices in T is the length of the path connecting these two vertices (neighbors have distance 1). The diameter of T is the maximal distance over all pairs of vertices. Design an algorithm to find the diameter of the given tree."></a>12. Let T be an undirected tree. The distance between two vertices in T is the length of the path connecting these two vertices (neighbors have distance 1). The diameter of T is the maximal distance over all pairs of vertices. Design an algorithm to find the diameter of the given tree.</h5><h5 id="13-Consider-the-iterative-method-for-solving-the-towers-of-Hanoi-problem-described-in-Unit-2-Prove-the-correctness-of-the-algorithm"><a href="#13-Consider-the-iterative-method-for-solving-the-towers-of-Hanoi-problem-described-in-Unit-2-Prove-the-correctness-of-the-algorithm" class="headerlink" title="13. Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm."></a>13. Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm.</h5>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://terrynini.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+	
+
+	
+		<span class="different-posts"><a href="/en/Advance-Algorithm-homework1/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+
+	
+
+</article>
+
+	</main>
+
+	<footer class="footer">
+	<div class="footer-content">
+		
+	      <div class="footer__element">
+	<h5>Check out</h5>
+	<ul class="footer-links">
+		<li class="footer-links__link"><a href="/archives">Archive</a></li>
+		<li class="footer-links__link"><a href="/about">About</a></li>
+		<li class="footer-links__link"><a href="/categories">Categories</a></li>
+        <li class="footer-links__link"><a href="/tags">Tags</a></li>
+        <li class="footer-links__link"><a href="https://github.com/terrynini">Github</a></li>
+        
+	</ul>
+</div>
+
+	    
+
+		<div class="footer-credit">
+			<span> 2017 Terrynini | Powered by <a href="https://hexo.io/">Hexo</a></span>
+		</div>
+
+	</div>
+</footer>
+
+
+
+</body>
+
+</html>
