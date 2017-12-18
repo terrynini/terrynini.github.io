@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#33474d">
+	<title>2017::SECCON::Write-up | Terrynini&#39;s den</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	
+      <link rel="alternate" href="/atom.xml" title="Terrynini&#39;s den" type="application/atom+xml">
+    
+    <link rel="icon"href="/favicon48.ico" />
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
+      </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<style>
+    tab { padding-left: 2em; }
+    tab2 { padding-left: 4em; }
+    tab3 { padding-left: 12em; }
+    tab4 { padding-left: 16em; }
+    tab5 { padding-left: 20em; }
+    tab6 { padding-left: 24em; }
+    tab7 { padding-left: 28em; }
+    tab8 { padding-left: 32em; }
+    tab9 { padding-left: 36em; }
+    tab10 { padding-left: 40em; }
+    tab11 { padding-left: 44em; }
+    tab12 { padding-left: 48em; }
+    tab13 { padding-left: 52em; }
+    tab14 { padding-left: 56em; }
+    tab15 { padding-left: 60em; }
+    tab16 { padding-left: 64em; }
+</style>
+
+</head>
+
+<body>
+
+	<header class="header">
+		<nav class="header__nav">
+			
+				<a href="/archives" class="header__link">Archive</a>
+			
+				<a href="/categories" class="header__link">Categories</a>
+			
+				<a href="https://www.facebook.com/profile.php?id=100001963625238" class="header__link">Facebook</a>
+			
+				<a href="https://github.com/terrynini" class="header__link">Github</a>
+			
+				<a href="/tags" class="header__link">Tags</a>
+			
+				<a href="/about" class="header__link">About</a>
+			
+		</nav>
+		<a href="/">
+        <img class="header__logo"
+             src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
+             style="background-color:white;" width="100px">
+		</a>
+		<h2 class="header__subtitle">Hi, I'm Terrynini</h2>
+	</header>
+
+	<main>
+		<article>
+	
+		<h1>2017::SECCON::Write-up</h1>
+	
+	<div class="article__infos">
+		<span class="article__date">2017-12-18</span><br />
+		
+			<span class="article__category">
+				<a class="article-category-link" href="/categories/WriteUp/">WriteUp</a>
+			</span><br />
+		
+		
+			<span class="article__tags">
+			  	<a class="article__tag-link" href="/tags/CTF/">CTF</a> <a class="article__tag-link" href="/tags/SECCON/">SECCON</a>
+			</span>
+		
+	</div>
+
+	
+
+	
+		<p>I will add write-up of printf machine in next few day.</p>
+<a id="more"></a>
+<p>SHA-1 is dead - 100 point</p>
+<pre><code>SHA-1 is dead
+http://sha1.pwn.seccon.jp/
+Upload two files satisfy following conditions:
+
+file1 != file2
+SHA1(file1) == SHA1(file2)
+SHA256(file1) &lt;&gt; SHA256(file2)
+2017KiB &lt; sizeof(file1) &lt; 2018KiB
+2017KiB &lt; sizeof(file2) &lt; 2018KiB
+* 1KiB = 1024 bytes
+</code></pre><p>Just download sha1 collision pdf made by Google, then concatenate it with something.<br>Actually we don’t need to check the result of SHA-256 of two pdf……<br>Maybe wa can find a SHA-256 collision? </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> urllib2</div><div class="line"><span class="keyword">from</span>  hashlib <span class="keyword">import</span> sha1</div><div class="line"><span class="keyword">from</span>  hashlib <span class="keyword">import</span> sha256</div><div class="line"><span class="keyword">import</span> urllib</div><div class="line"></div><div class="line">pdf1 = urllib2.urlopen(<span class="string">"http://shattered.io/static/shattered-1.pdf"</span>).read()[:<span class="number">500</span>]</div><div class="line">pdf2 = urllib2.urlopen(<span class="string">"http://shattered.io/static/shattered-2.pdf"</span>).read()[:<span class="number">500</span>]</div><div class="line"></div><div class="line">pdf1 = pdf1.ljust( <span class="number">2065409</span>, <span class="string">"\00"</span>) <span class="comment">#padding pdf to 2017Kib + 1</span></div><div class="line">pdf2 = pdf2.ljust( <span class="number">2065409</span>, <span class="string">"\00"</span>)</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    check1 = sha256(pdf1).hexdigest()</div><div class="line">    check2 = sha256(pdf2).hexdigest()</div><div class="line">    <span class="keyword">if</span> check1 != check2:</div><div class="line">        <span class="keyword">break</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        pdf1  = pdf1+<span class="string">"\00"</span></div><div class="line">        pdf2  = pdf2+<span class="string">"\00"</span></div><div class="line"></div><div class="line">file1 = open(<span class="string">"upload1"</span>,<span class="string">"w"</span>)</div><div class="line">file2 = open(<span class="string">"upload2"</span>,<span class="string">"w"</span>)</div><div class="line">file1.write(pdf1)</div><div class="line">file2.write(pdf2)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">print</span> sha1(pdf1).hexdigest()</div><div class="line"><span class="keyword">print</span> sha1(pdf2).hexdigest()</div><div class="line"><span class="keyword">print</span> sha256(pdf1).hexdigest()</div><div class="line"><span class="keyword">print</span> sha256(pdf2).hexdigest()</div><div class="line"><span class="keyword">print</span> len(pdf1)</div><div class="line"><span class="keyword">print</span> len(pdf2)</div></pre></td></tr></table></figure>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://terrynini.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+	
+
+	
+		<span class="different-posts"><a href="/en/2017-SECCON-Write-up/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+
+	
+
+</article>
+
+	</main>
+
+	<footer class="footer">
+	<div class="footer-content">
+		
+	      <div class="footer__element">
+	<h5>Check out</h5>
+	<ul class="footer-links">
+		<li class="footer-links__link"><a href="/archives">Archive</a></li>
+		<li class="footer-links__link"><a href="/about">About</a></li>
+		<li class="footer-links__link"><a href="/categories">Categories</a></li>
+        <li class="footer-links__link"><a href="/tags">Tags</a></li>
+        <li class="footer-links__link"><a href="https://github.com/terrynini">Github</a></li>
+        
+	</ul>
+</div>
+
+	    
+
+		<div class="footer-credit">
+			<span> 2017 Terrynini | Powered by <a href="https://hexo.io/">Hexo</a></span>
+		</div>
+
+	</div>
+</footer>
+
+
+
+</body>
+
+</html>

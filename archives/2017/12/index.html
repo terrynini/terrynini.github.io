@@ -73,99 +73,44 @@
 	</header>
 
 	<main>
-		
+		<h1>Archive</h1>
 
-<h1>#HITCON</h1>
+
 
 
 
 <ul class="archive">
-		<li class="archive__year archive__expendable archive__expendable_disabled">
+	
+	
+		<li class="archive__year archive__expendable ">
+			<span>2017</span>
 			<ul>
-			
 				
-					
-					
+					<li class="archive__month archive__expendable">
+						<span>December</span>
+						<ul>
+							
+								<li class="archive__entry"><a href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a></li>
+							
+						</ul>
+					</li>
 
 				
-					
-					
-
-				
-					
-					
-						<li class="archive__entry"><a href="/en/2017-HITCON-qual-Sakura-English/">2017_HITCON_qual::Sakura::English</a></li>
-					
-
-				
-			
-				
-					
-					
-
-				
-			
-				
-					
-					
-
-				
-					
-					
-
-				
-			
-				
-					
-					
-
-				
-			
-				
-					
-					
-
-				
-			
-				
-					
-					
-
-				
-					
-					
-
-				
-			
-				
-					
-					
-
-				
-					
-					
-
-				
-			
-				
-					
-					
-
-				
-					
-					
-
-				
-					
-					
-						<li class="archive__entry"><a href="/tw/2017-HITCON-qual-Sakura/">2017_HITCON_qual::Sakura</a></li>
-					
-
-				
-			
 			</ul>
 		</li>
+		
+	
 </ul>
+
+<script>
+	const expandables = document.querySelectorAll('.archive__expendable')
+	for(let i = 0; i < expandables.length; i++) {
+		expandables[i].addEventListener('click', (e) => {
+			e.stopPropagation()
+			expandables[i].classList.toggle('archive__expendable_collapsed')
+		})
+	}
+</script>
 
 	</main>
 
