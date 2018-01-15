@@ -1,16 +1,10 @@
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
@@ -40,17 +34,11 @@ p {
 }
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
@@ -69,17 +57,11 @@ height: 0.5rem,
 }
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
@@ -110,7 +92,7 @@ article {
   }
 }
 article h1 {
-  font-family: "Noto Serif", serif;
+  font-family: "Noto Sans", sans-serif;
 }
 h1,
 h2,
@@ -392,17 +374,11 @@ article .different-posts {
 }
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
@@ -529,17 +505,11 @@ article .different-posts {
 }
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
@@ -655,17 +625,11 @@ article .different-posts {
 }
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
@@ -865,17 +829,11 @@ pre .javascript .function {
 }
 @font-face {
   font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Noto Sans";
-  src: url("fonts/Noto_Sans/NotoSans-Italic.ttf");
-  font-style: italic;
+  src: url("fonts/Noto_sansCJKtc-hinted/NotoSansCJKtc-Regular.otf");
 }
 @font-face {
   font-family: "Noto Serif";
-  src: url("fonts/Noto_Serif/NotoSerif-Regular.ttf");
+  src: url("fonts/Noto_SerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf");
   font-style: normal;
 }
 @font-face {
