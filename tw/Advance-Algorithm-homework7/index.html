@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="theme-color" content="#33474d">
+	<title>Advance-Algorithm::homework7 | Terrynini&#39;s den</title>
+	<link rel="stylesheet" href="/css/style.css" />
+	
+      <link rel="alternate" href="/atom.xml" title="Terrynini&#39;s den" type="application/atom+xml">
+    
+    <link rel="icon"href="/favicon48.ico" />
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
+      </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<style>
+    tab { padding-left: 2em; }
+    tab2 { padding-left: 4em; }
+    tab3 { padding-left: 12em; }
+    tab4 { padding-left: 16em; }
+    tab5 { padding-left: 20em; }
+    tab6 { padding-left: 24em; }
+    tab7 { padding-left: 28em; }
+    tab8 { padding-left: 32em; }
+    tab9 { padding-left: 36em; }
+    tab10 { padding-left: 40em; }
+    tab11 { padding-left: 44em; }
+    tab12 { padding-left: 48em; }
+    tab13 { padding-left: 52em; }
+    tab14 { padding-left: 56em; }
+    tab15 { padding-left: 60em; }
+    tab16 { padding-left: 64em; }
+</style>
+
+</head>
+
+<body>
+
+	<header class="header">
+		<nav class="header__nav">
+			
+				<a href="/archives" class="header__link">Archive</a>
+			
+				<a href="/categories" class="header__link">Categories</a>
+			
+				<a href="https://www.facebook.com/profile.php?id=100001963625238" class="header__link">Facebook</a>
+			
+				<a href="https://github.com/terrynini" class="header__link">Github</a>
+			
+				<a href="/tags" class="header__link">Tags</a>
+			
+				<a href="/about" class="header__link">About</a>
+			
+		</nav>
+		<a href="/">
+        <img class="header__logo"
+             src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
+             style="background-color:white;" width="100px">
+		</a>
+		<h2 class="header__subtitle">Hi, I'm Terrynini</h2>
+	</header>
+
+	<main>
+		<article>
+	
+		<h1>Advance-Algorithm::homework7</h1>
+	
+	<div class="article__infos">
+		<span class="article__date">2018-01-15</span><br />
+		
+			<span class="article__category">
+				<a class="article-category-link" href="/categories/Note/">Note</a>
+			</span><br />
+		
+		
+			<span class="article__tags">
+			  	<a class="article__tag-link" href="/tags/Algorithm/">Algorithm</a>
+			</span>
+		
+	</div>
+
+	
+
+	
+		<p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><strong><em>感恩彬智讚嘆彬智</em></strong><br><a id="more"></a></p>
+<h5 id="1-Show-that-the-class-P-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-complement-and-Kleene-star-That-is-if-L1-L2-in-P-then-L1-cup-L2-in-P-etc"><a href="#1-Show-that-the-class-P-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-complement-and-Kleene-star-That-is-if-L1-L2-in-P-then-L1-cup-L2-in-P-etc" class="headerlink" title="1. Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc."></a>1. Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc.</h5><hr>
+<ul>
+<li><a href="https://www.csie.ntu.edu.tw/~hsinmu/courses/_media/ada_11fall/hw6-sol.pdf" target="_blank" rel="external">page 4 - Problem 2-a</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Kleene_star" target="_blank" rel="external">Kleene star</a><h5 id="2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle"><a href="#2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle" class="headerlink" title="2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle."></a>2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle.</h5></li>
+</ul>
+<hr>
+<p>題目：if Decision Hamiltonian Cycle(<strong>DHC</strong>) $\in P<br>\rightarrow$ Finding Hamiltonian Cycle(<strong>FHC</strong>) $\in P$</p>
+<p>假設現在有一個演算法<code>HamCycle(G)</code>可以在P時間內解掉<strong>DHC</strong>，<br>則我們可以建構以下演算法在確定性P時間內解掉<strong>FHC</strong><br>(證明：連結裡面有)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">HCVertices(G)</div><div class="line">    H = []</div><div class="line">    next ← 0  // 初始值不重要</div><div class="line">    choose a starting node v</div><div class="line">    while G has unchecked edges do</div><div class="line">        if HamCycle(G) then</div><div class="line">            // 試著一個個拔掉連在v上的邊</div><div class="line">            // 如果有一個邊e被拿掉後，新的圖就不存在HC，那e就是HC的一部分</div><div class="line">            for all edges e = (v,u) on v do</div><div class="line">                G&apos; ← G − e</div><div class="line">                if HamCycle(G&apos;) then</div><div class="line">                    G = G&apos;</div><div class="line">                else</div><div class="line">                    add v to H</div><div class="line">                    mark e as checked</div><div class="line">                    next ← u</div><div class="line">            v ← next</div><div class="line">    return H</div></pre></td></tr></table></figure></p>
+<p><a href="https://hackmd.io/s/SJkREbaQz#13-%E5%95%8F%E9%A1%8C%E8%AE%8A%E8%BD%89problem-reduction" target="_blank" rel="external">問題變轉(Problem Reduction)</a></p>
+<blockquote>
+<p>媽我找到答案了 裡面的problem 1 <a href="http://www.cs.wustl.edu/~pless/441/hw3soln.pdf" target="_blank" rel="external">http://www.cs.wustl.edu/~pless/441/hw3soln.pdf</a></p>
+</blockquote>
+<h5 id="3-Show-that-the-class-NP-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-and-Kleene-star"><a href="#3-Show-that-the-class-NP-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-and-Kleene-star" class="headerlink" title="3. Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star."></a>3. Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star.</h5><hr>
+<p>類似1.</p>
+<h5 id="4-Prove-that-P-subseteq-NP-cap-co-NP-and-if-NP-ne-co-NP-then-P-ne-NP"><a href="#4-Prove-that-P-subseteq-NP-cap-co-NP-and-if-NP-ne-co-NP-then-P-ne-NP" class="headerlink" title="4. Prove that P $\subseteq$ NP$\cap$ co-NP and if NP$\ne$ co-NP,then P$\ne $NP."></a>4. Prove that P $\subseteq$ NP$\cap$ co-NP and if NP$\ne$ co-NP,then P$\ne $NP.</h5><hr>
+<p><figure class="figure"><img src="https://i.imgur.com/sTOq7zL.png" alt="錦文的講義"><figcaption class="figure__caption">錦文的講義</figcaption></figure><br>$P \subseteq (NP \ \cap \  coNP) \rightarrow P \subseteq NP, P \subseteq coNP$<br>so if $P = NP \\<br>\rightarrow NP \subseteq (NP \ \cap \  coNP) \\<br>\rightarrow NP \subseteq coNP \ 又 \ size(NP)=size(coNP) \\<br>\rightarrow NP = coNP$</p>
+<p>$\because P \Rightarrow Q$ 等價於 $\bar Q \Rightarrow \bar P$<br>$\therefore$ if $NP \neq coNP$, then $P \neq NP$</p>
+<h5 id="5-Show-that-2-CNF-SAT-is-polynomial-time-solvable"><a href="#5-Show-that-2-CNF-SAT-is-polynomial-time-solvable" class="headerlink" title="5. Show that 2-CNF-SAT is polynomial time solvable."></a>5. Show that 2-CNF-SAT is polynomial time solvable.</h5><hr>
+<p><strong>CNF</strong> : conjunctive normal form，數位電路中的product of sum，例：$(A \lor B) \land (C \lor D)$</p>
+<p><a href="https://stackoverflow.com/questions/8467676/how-is-2-cnf-sat-is-in-p-while-3-cnf-sat-is-in-npc" target="_blank" rel="external">stackoverflow</a><br><a href="http://www.csie.ntnu.edu.tw/~u91029/Component.html#6" target="_blank" rel="external">演算法筆記</a></p>
+<blockquote>
+<p>↑這個方法太神啦</p>
+<blockquote>
+<p>太屌辣</p>
+</blockquote>
+</blockquote>
+<h5 id="6-The-subgraph-isomorphism-problem-takes-two-graphs-G1-and-G2-and-asks-whether-G1-is-isomorphic-to-a-subgraph-of-G2-Show-that-this-problem-is-NP-complete"><a href="#6-The-subgraph-isomorphism-problem-takes-two-graphs-G1-and-G2-and-asks-whether-G1-is-isomorphic-to-a-subgraph-of-G2-Show-that-this-problem-is-NP-complete" class="headerlink" title="6. The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete."></a>6. The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete.</h5><hr>
+<p><a href="https://www.chegg.com/homework-help/introduction-to-algorithms-2nd-edition-chapter-34.5-solutions-9780262032933" target="_blank" rel="external">Chegg標準解答</a></p>
+<ul>
+<li><strong>Subgraph Isomorphism Problem</strong><ul>
+<li><code>Input :</code>graph $G_1$, $G_2$</li>
+<li><code>Output:</code>$G_1$ 是否與 $G_2$ 的其中一個 subgraph 同構</li>
+</ul>
+</li>
+</ul>
+<p>證明 <strong>Clique Problem</strong> $\propto$ <strong>Subgraph Isomorphism Problem</strong><br>(以下簡稱<strong>CP</strong>、<strong>SIP</strong>)</p>
+<ol>
+<li>已知 <strong>CP</strong> $\in$ <strong>NPC</strong> <ul>
+<li><code>Input :</code>graph $S$, int $k$</li>
+<li><code>Output:</code>$S$ 是否存在一個 $k$-vertice 的完全子圖</li>
+</ul>
+</li>
+<li>輸入變轉：<ul>
+<li><strong>SIP</strong>的輸入 $G_1 = k$-clique：$O(N^2)$</li>
+<li><strong>SIP</strong>的輸入 $G_2 = S$：$O(N^2)$</li>
+</ul>
+</li>
+<li>因為<code>CP(S,k) = SIP(k-clique,S)</code></li>
+<li>所以 <strong>CP</strong> $\propto$ <strong>SIP</strong> $\rightarrow$ <strong>SIP</strong> $\in$ <strong>NP-hard</strong></li>
+<li>又 <strong>SIP</strong> $\in$ <strong>NP</strong>（簡單寫個NP演算法就知道了）</li>
+<li><strong>SIP</strong> $\in$ <strong>NPC</strong></li>
+</ol>
+<h5 id="7-Given-an-integer-m-by-n-matrix-A-and-an-integer-m-vector-b-the-integer-programming-problem-asks-whether-there-is-an-integer-n-vector-x-such-that-Ax-leq-b-Prove-that-this-problem-is-NP-complete"><a href="#7-Given-an-integer-m-by-n-matrix-A-and-an-integer-m-vector-b-the-integer-programming-problem-asks-whether-there-is-an-integer-n-vector-x-such-that-Ax-leq-b-Prove-that-this-problem-is-NP-complete" class="headerlink" title="7. Given an integer m-by-n matrix $A$, and an integer m-vector $b$, the integer programming problem asks whether there is an integer n-vector $x$ such that $Ax \leq b$. Prove that this problem is NP-complete."></a>7. Given an integer m-by-n matrix $A$, and an integer m-vector $b$, the integer programming problem asks whether there is an integer n-vector $x$ such that $Ax \leq b$. Prove that this problem is NP-complete.</h5><hr>
+<ul>
+<li><strong>Integer Programming Problem</strong><ul>
+<li><code>Input :</code>m*n matrix $A$, m-vector $b$</li>
+<li><code>Output:</code>是否存在一 n-vector $x$ 使得 $Ax \leq b$</li>
+</ul>
+</li>
+</ul>
+<p>證明 <strong>SAT</strong> $\propto$ <strong>Integer Programming Problem</strong> (<strong>IPP</strong>)</p>
+<ol>
+<li>已知 <strong>SAT</strong> $\in$ <strong>NPC</strong> <ul>
+<li><code>Input :</code>CNF布林函式 $E(x) = C_1 \land C_2 \land … \land C_k$ , $x = { x_1,…,x_n}$<br>  如 $C_1 = \lnot x_1 + x_3 + x_7$</li>
+<li><code>Output:</code>是否存在一組輸入當作 $x$ 使得 $E(x) = True$</li>
+</ul>
+</li>
+<li><p>變轉：</p>
+<ul>
+<li><p><strong>IPP</strong>的輸入$A = \begin{bmatrix} \\<br>  a_{11} &amp; a_{12} &amp; … &amp; a_{1n} \\<br>  …    &amp; …    &amp; … &amp; …    \\<br>  a_{m1} &amp; a_{m2} &amp; … &amp; a_{mn} \\<br>  \end{bmatrix}$, $b = \begin{bmatrix}b_1 \\<br>   … \\<br>  b_m \\<br>  \end{bmatrix}$, 其中各列 $a_i*b$ 對應到 $C_i$</p>
+</li>
+<li><p>如：$C_1$ 對應 $(1-x_1)+x_3+x_7 \geq 1 \\<br>  \rightarrow -x_1+x_3+x_7 \geq 0 \\<br>  \rightarrow x_1-x_3-x_7 \leq 0 \\<br>  \rightarrow a_1 = {1,0,-1,0,0,0,-1,…}, b_1=0$</p>
+</li>
+<li><strong>IPP</strong>的輸出改為：是否存在一 n-vector $x={0,1}$ 使得 $ A_x \leq b$，0 對應 $False$，1 對應 $True$</li>
+</ul>
+</li>
+<li>因為<code>SAT(E) = IPP(A,b)</code></li>
+<li>所以 <strong>SAT</strong> $\propto$ <strong>IPP</strong> $\rightarrow$ <strong>IPP</strong> $\in$ <strong>NP-hard</strong></li>
+<li>又 <strong>IPP</strong> $\in$ <strong>NP</strong>（簡單寫個NP演算法就知道了）</li>
+<li><strong>IPP</strong> $\in$ <strong>NPC</strong></li>
+</ol>
+<h5 id="8-Given-a-set-S-of-integers-determine-whether-there-exists-a-subset-A-subseteq-S-such-that-sum-x-in-A-x-sum-x-in-S-A-x-Show-this-problem-is-NP-complete"><a href="#8-Given-a-set-S-of-integers-determine-whether-there-exists-a-subset-A-subseteq-S-such-that-sum-x-in-A-x-sum-x-in-S-A-x-Show-this-problem-is-NP-complete" class="headerlink" title="8. Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum_{x\in A}x = \sum_{x\in S-A} x$. Show this problem is NP-complete."></a>8. Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum_{x\in A}x = \sum_{x\in S-A} x$. Show this problem is NP-complete.</h5><hr>
+<p><a href="https://web.njit.edu/~marvin/cs341/hw/hwsoln13.pdf" target="_blank" rel="external">Problem 1</a></p>
+<ul>
+<li><strong>Partition Problem</strong><ul>
+<li><code>Input :</code>set $S$</li>
+<li><code>Output:</code>是否存在 $S_1, S_2 \in S, S_1 \cap S_2 = \varnothing$ s.t. $\sum S_1 = \sum S_2$</li>
+</ul>
+</li>
+</ul>
+<p>證明 <strong>Subset Sum Problem</strong> $\propto$ <strong>Partition Problem</strong><br>(以下簡稱<strong>SSP</strong>、<strong>PP</strong>)</p>
+<ol>
+<li>已知 <strong>SSP</strong> $\in$ <strong>NPC</strong> <ul>
+<li><code>Input :</code>set $S$, int $k$</li>
+<li><code>Output:</code>是否存在 $S’ \in S$ s.t. $\sum S’ = k$</li>
+</ul>
+</li>
+<li>變轉：<ul>
+<li><strong>PP</strong>的輸入 $X = S \cup {s-2k}$, $s = \sum S$</li>
+</ul>
+</li>
+<li>因為<code>SSP(S,k) = PP(X)</code><ul>
+<li>若左則右：若<code>SSP(S,k)</code>成立，代表$S$中有subset $S’$ 加總為 $k$，則在<code>PP(X)</code>中就可以將 $X$ 分為 $S’\cup {s-2k}$ 和剩下的一半，加總皆為 $s-k$</li>
+<li>若右則左：若<code>PP(X)</code>成立，代表互斥子集 $S_1, S_2$ 加總皆為 $s-k$，且必定其中一邊含有 $s-2k$，將其去除後，該集合 $S’$ 加總為 $k$ 且 $S’ \in S$</li>
+</ul>
+</li>
+<li>所以 <strong>SSP</strong> $\propto$ <strong>PP</strong> $\rightarrow$ <strong>PP</strong> $\in$ <strong>NP-hard</strong></li>
+<li>又 <strong>PP</strong> $\in$ <strong>NP</strong>（簡單寫個NP演算法就知道了）</li>
+<li><strong>PP</strong> $\in$ <strong>NPC</strong></li>
+</ol>
+<h5 id="9-An-undirected-graph-G-is-k-colorable-if-we-can-color-V-G-using-at-most-k-colors-such-that-for-each-edge-xy-in-E-G-its-two-end-vertices-are-x-and-y-are-colored-with-different-colors-Let-k-COLOR-denote-the-problem-of-determine-whether-G-is-k-colorable-Show-that-k-COLOR-is-NP-complete-for-any-constant-k-geq-3"><a href="#9-An-undirected-graph-G-is-k-colorable-if-we-can-color-V-G-using-at-most-k-colors-such-that-for-each-edge-xy-in-E-G-its-two-end-vertices-are-x-and-y-are-colored-with-different-colors-Let-k-COLOR-denote-the-problem-of-determine-whether-G-is-k-colorable-Show-that-k-COLOR-is-NP-complete-for-any-constant-k-geq-3" class="headerlink" title="9. An undirected graph $G$ is k-colorable, if we can color $V(G)$ using at most $k$ colors such that for each edge $xy$ in $E(G)$, its two end vertices are $x$ and $y$ are colored with different colors. Let k-COLOR denote the problem of determine whether $G$ is k-colorable. Show that k-COLOR is NP-complete for any constant $k \geq 3$."></a>9. An undirected graph $G$ is k-colorable, if we can color $V(G)$ using at most $k$ colors such that for each edge $xy$ in $E(G)$, its two end vertices are $x$ and $y$ are colored with different colors. Let k-COLOR denote the problem of determine whether $G$ is k-colorable. Show that k-COLOR is NP-complete for any constant $k \geq 3$.</h5><hr>
+<p><strong>3SAT</strong> $\propto$ <strong>3著色</strong> $\propto$ <strong>k著色</strong></p>
+<ul>
+<li><p><strong>k Coloring Problem</strong></p>
+<ul>
+<li><code>Input :</code>graph $G$, int k , $k &gt; 2$</li>
+<li><code>Output:</code>是否存在一種最多使用k色的著色方式，使G上相鄰的vertex顏色皆不同</li>
+</ul>
+</li>
+<li><p><strong>3 Coloring Problem</strong></p>
+<ul>
+<li><code>Input :</code>graph $G$</li>
+<li><code>Output:</code>是否存在一種最多使用3色的著色方式，使G上相鄰的vertex顏色皆不同</li>
+</ul>
+</li>
+</ul>
+<p>證明 <strong>3SAT</strong> $\propto$ <strong>3 Coloring Problem</strong><br>(以下簡稱<strong>3SAT</strong>、<strong>3CP</strong>)</p>
+<ol>
+<li>已知 <strong>3SAT</strong> $\in$ <strong>NPC</strong><ul>
+<li><code>Input :</code> formula $\phi$variables Set $X$, clauses set $C$ 靠 突然不會訂輸入</li>
+<li><code>Output :</code> 是否能指定$X$一組布林值使$C$中的子句皆為真</li>
+</ul>
+</li>
+<li>變轉：<ul>
+<li>3CP的輸入G = $G_{\phi}$</li>
+</ul>
+</li>
+</ol>
+<p>總之他把圖構成類似電路圖的樣子</p>
+<p><a href="https://www.clear.rice.edu/comp487/3sat-to-3col.pdf" target="_blank" rel="external">https://www.clear.rice.edu/comp487/3sat-to-3col.pdf</a><br><a href="https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf" target="_blank" rel="external">https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf</a></p>
+<h5 id="10-Show-that-the-path-cover-problem-is-NP-complete"><a href="#10-Show-that-the-path-cover-problem-is-NP-complete" class="headerlink" title="10. Show that the path cover problem is NP-complete."></a>10. Show that the path cover problem is NP-complete.</h5><hr>
+<ul>
+<li><strong>Path Cover Problem</strong><ul>
+<li><code>Input :</code>graph $G’$, int k</li>
+<li><code>Output:</code>是否存在一個path的集合 $S$, $|S|&lt;k$, s.t. 所有點都在 $S$ 的任意元素(路徑)上</li>
+</ul>
+</li>
+</ul>
+<p>證明 <strong>Hamiltonian Cycle Problem</strong> $\propto$ <strong>Path Cover Problem</strong><br>(以下簡稱<strong>HCP</strong>、<strong>PCP</strong>)</p>
+<ol>
+<li>已知 <strong>HCP</strong> $\in$ <strong>NPC</strong><ul>
+<li><code>Input :</code>graph $G$</li>
+<li><code>Output:</code>是否存在一cycle $c$ s.t. 所有點都恰在 $c$ 上出現一次</li>
+</ul>
+</li>
+<li>變轉：<ul>
+<li><strong>PCP</strong>的輸入 $G’ =$ 在原圖 $G$ 上找一個邊$(u,v)$，並在 $u$ 上接上一個新的點 $u’$，在 $v$ 上接上一個新的點 $v’$，形成的新圖當作$G’$</li>
+<li><strong>PCP</strong>的輸入 $k = 1$</li>
+</ul>
+</li>
+<li>所以 <strong>HCP</strong> $\propto$ <strong>PCP</strong> $\rightarrow$ <strong>PCP</strong> $\in$ <strong>NP-hard</strong></li>
+<li>又 <strong>PCP</strong> $\in$ <strong>NP</strong>（簡單寫個NP演算法就知道了）</li>
+<li><strong>PCP</strong> $\in$ <strong>NPC</strong></li>
+</ol>
+<h5 id="11-List-all-NP-complete-problems-and-give-proofs-that-appear-in-Ex-1-6"><a href="#11-List-all-NP-complete-problems-and-give-proofs-that-appear-in-Ex-1-6" class="headerlink" title="11. List all NP-complete problems (and give proofs) that appear in Ex.1~6."></a>11. List all NP-complete problems (and give proofs) that appear in Ex.1~6.</h5><hr>
+<blockquote>
+<p>應該不會考吧</p>
+</blockquote>
+<p><div style="color:red"><br>Determine whether each of the following problems is polynomial time solvable or NP-complete.</div></p>
+<p><div></div></p>
+<blockquote>
+<p>隔天要考就沒寫了系列 呵呵</p>
+</blockquote>
+<h5 id="12-Given-a-set-S-of-n-real-numbers-another-real-number-M-and-an-integer-k-we-want-to-determine-whether-or-not-there-exist-k-elements-in-S-whose-sum-is-exactly-M"><a href="#12-Given-a-set-S-of-n-real-numbers-another-real-number-M-and-an-integer-k-we-want-to-determine-whether-or-not-there-exist-k-elements-in-S-whose-sum-is-exactly-M" class="headerlink" title="12. Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$."></a>12. Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$.</h5><hr>
+<p>這個好證，跟前面類似</p>
+<h5 id="13-We-are-given-an-integer-k-and-n-objects-which-have-to-be-placed-in-bins-of-equal-capacity-M-Object-i-1-leq-i-leq-n-requires-mi-units-of-capacity-The-objective-is-to-determine-whether-k-bins-are-enough-to-accommodate-all-n-objects-No-object-may-be-placed-partly-in-one-bin-and-partly-in-another"><a href="#13-We-are-given-an-integer-k-and-n-objects-which-have-to-be-placed-in-bins-of-equal-capacity-M-Object-i-1-leq-i-leq-n-requires-mi-units-of-capacity-The-objective-is-to-determine-whether-k-bins-are-enough-to-accommodate-all-n-objects-No-object-may-be-placed-partly-in-one-bin-and-partly-in-another" class="headerlink" title="13. We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another."></a>13. We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another.</h5><hr>
+<p>這也好證</p>
+<h5 id="14-Given-an-undirecter-graph-G-and-a-number-k"><a href="#14-Given-an-undirecter-graph-G-and-a-number-k" class="headerlink" title="14. Given an undirecter graph $G$ and a number $k$ :"></a>14. Given an undirecter graph $G$ and a number $k$ :</h5><h5 id="a-Is-there-a-cycle-of-length-geq-k"><a href="#a-Is-there-a-cycle-of-length-geq-k" class="headerlink" title="a) Is there a cycle of length $\geq$ k?"></a>a) Is there a cycle of length $\geq$ k?</h5><h5 id="b-Is-there-a-cycle-of-length-leq-k"><a href="#b-Is-there-a-cycle-of-length-leq-k" class="headerlink" title="b) Is there a cycle of length $\leq$ k?"></a>b) Is there a cycle of length $\leq$ k?</h5><h5 id="c-Is-there-a-spanning-tree-with-each-node-of-degree-leq-3"><a href="#c-Is-there-a-spanning-tree-with-each-node-of-degree-leq-3" class="headerlink" title="c) Is there a spanning tree with each node of degree $\leq$ 3?"></a>c) Is there a spanning tree with each node of degree $\leq$ 3?</h5><hr>
+<p>應該還可以</p>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://terrynini.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
+	
+
+	
+		<span class="different-posts"><a href="/tw/Advance-Algorithm-homework7/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
+
+	
+
+</article>
+
+	</main>
+
+	<footer class="footer">
+	<div class="footer-content">
+		
+	      <div class="footer__element">
+	<h5>Check out</h5>
+	<ul class="footer-links">
+		<li class="footer-links__link"><a href="/archives">Archive</a></li>
+		<li class="footer-links__link"><a href="/about">About</a></li>
+		<li class="footer-links__link"><a href="/categories">Categories</a></li>
+        <li class="footer-links__link"><a href="/tags">Tags</a></li>
+        <li class="footer-links__link"><a href="https://github.com/terrynini">Github</a></li>
+        
+	</ul>
+</div>
+
+	    
+
+		<div class="footer-credit">
+			<span> 2018 Terrynini | Powered by <a href="https://hexo.io/">Hexo</a></span>
+		</div>
+
+	</div>
+</footer>
+
+
+
+</body>
+
+</html>
