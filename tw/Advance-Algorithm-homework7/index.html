@@ -234,6 +234,11 @@
 </li>
 </ol>
 <p>總之他把圖構成類似電路圖的樣子</p>
+<p>然後如果要證明 <strong>3著色</strong> $\propto$ <strong>k著色</strong><br>其實非常簡單，以四色為例：</p>
+<ul>
+<li>四色的輸入為：我們只要在三色圖上面新增一個點，並且這個點跟其他所有的點都有邊</li>
+<li>四色的輸出為：是否存在一種著色方法，只用四色就可以畫這張圖<br>假設原圖可以用3色著色，那剛才多加的那個點，<strong><em>一定會需要用到第四色</em></strong>，所以我們可以知道，要變轉到k色著色，只要幫3色圖的輸入加上k-3個點，且這幾個新增的點到每點都要有邊，這樣我們就可以證明 <strong>3著色</strong> $\propto$ <strong>k著色</strong>了。</li>
+</ul>
 <p><a href="https://www.clear.rice.edu/comp487/3sat-to-3col.pdf" target="_blank" rel="external">https://www.clear.rice.edu/comp487/3sat-to-3col.pdf</a><br><a href="https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf" target="_blank" rel="external">https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf</a></p>
 <h5 id="10-Show-that-the-path-cover-problem-is-NP-complete"><a href="#10-Show-that-the-path-cover-problem-is-NP-complete" class="headerlink" title="10. Show that the path cover problem is NP-complete."></a>10. Show that the path cover problem is NP-complete.</h5><hr>
 <ul>
