@@ -1,100 +1,393 @@
 <!DOCTYPE html>
 <html>
+    <!-- title -->
+
+
+
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta name="theme-color" content="#33474d">
-	<title>Advance-Algorithm::homework4 | Terrynini&#39;s den</title>
-	<link rel="stylesheet" href="/css/style.css" />
-	
-      <link rel="alternate" href="/atom.xml" title="Terrynini&#39;s den" type="application/atom+xml">
-    
-    <link rel="icon"href="/favicon48.ico" />
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]}});
-      </script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    <meta name="keywords" content="Terrynini's den | Terrynini">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Advance-Algorithm::homework4 · Terrynini&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
 
-  gtag('config', 'UA-109652024-2');
-</script>
+    body {
+        margin: 0;
+    }
 
-<style>
-    tab { padding-left: 2em; }
-    tab2 { padding-left: 4em; }
-    tab3 { padding-left: 12em; }
-    tab4 { padding-left: 16em; }
-    tab5 { padding-left: 20em; }
-    tab6 { padding-left: 24em; }
-    tab7 { padding-left: 28em; }
-    tab8 { padding-left: 32em; }
-    tab9 { padding-left: 36em; }
-    tab10 { padding-left: 40em; }
-    tab11 { padding-left: 44em; }
-    tab12 { padding-left: 48em; }
-    tab13 { padding-left: 52em; }
-    tab14 { padding-left: 56em; }
-    tab15 { padding-left: 60em; }
-    tab16 { padding-left: 64em; }
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
 </style>
 
+    <link rel="preload" href= /css/style.css?v=20180524 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180524 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+        
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
 </head>
 
-<body>
+    
+        <body class="post-body">
+    
+    
+<header class="header">
 
-	<header class="header">
-		<nav class="header__nav">
-			
-				<a href="/archives" class="header__link">Archive</a>
-			
-				<a href="/categories" class="header__link">Categories</a>
-			
-				<a href="https://www.facebook.com/profile.php?id=100001963625238" class="header__link">Facebook</a>
-			
-				<a href="https://github.com/terrynini" class="header__link">Github</a>
-			
-				<a href="/tags" class="header__link">Tags</a>
-			
-				<a href="/about" class="header__link">About</a>
-			
-		</nav>
-		<a href="/">
-        <img class="header__logo"
-             src="https://avatars2.githubusercontent.com/u/15998206?v=3&u=ccd421b996752d81b31db57e14d65aa52b295dde&s=400"
-             style="background-color:white;" width="100px">
-		</a>
-		<h2 class="header__subtitle">Hi, I'm Terrynini</h2>
-	</header>
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Terrynini&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Advance-Algorithm::homework4</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Terrynini's Den</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
 
-	<main>
-		<article>
-	
-		<h1>Advance-Algorithm::homework4</h1>
-	
-	<div class="article__infos">
-		<span class="article__date">2018-01-15</span><br />
-		
-			<span class="article__category">
-				<a class="article-category-link" href="/categories/Note/">Note</a>
-			</span><br />
-		
-		
-			<span class="article__tags">
-			  	<a class="article__tag-link" href="/tags/Algorithm/">Algorithm</a>
-			</span>
-		
-	</div>
 
-	
 
-	
-		<p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Advance-Algorithm::homework4
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">3,310</span> / Reading time: <span class="post-count">15 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/01/15</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
 <a id="more"></a>
 <h5 id="1-For-two-points-p-and-q-in-the-plane-we-say-that-p-dominates-q-if-both-x-and-y-coordinates-of-p-are-no-less-than-that-of-q-respectively-Given-a-set-S-of-n-points-the-rank-of-a-point-p-in-S-is-the-number-of-points-in-S-dominated-by-p-We-want-to-find-the-rank-of-every-point-in-S-A-naïve-algorithm-needs-O-n2-time-Design-a-faster-algorithm-for-this-problem"><a href="#1-For-two-points-p-and-q-in-the-plane-we-say-that-p-dominates-q-if-both-x-and-y-coordinates-of-p-are-no-less-than-that-of-q-respectively-Given-a-set-S-of-n-points-the-rank-of-a-point-p-in-S-is-the-number-of-points-in-S-dominated-by-p-We-want-to-find-the-rank-of-every-point-in-S-A-naïve-algorithm-needs-O-n2-time-Design-a-faster-algorithm-for-this-problem" class="headerlink" title="1. For two points $p$ and $q$ in the plane, we say that $p$ dominates $q$ if both $x$ and $y$ coordinates of $p$ are no less than that of $q$ respectively. Given a set $S$ of $n$ points, the rank of a point $p$ in $S$ is the number of points in $S$ dominated by $p$. We want to find the rank of every point in $S$. A naïve algorithm needs $O(n2)$ time. Design a faster algorithm for this problem."></a>1. For two points $p$ and $q$ in the plane, we say that $p$ dominates $q$ if both $x$ and $y$ coordinates of $p$ are no less than that of $q$ respectively. Given a set $S$ of $n$ points, the rank of a point $p$ in $S$ is the number of points in $S$ dominated by $p$. We want to find the rank of every point in $S$. A naïve algorithm needs $O(n2)$ time. Design a faster algorithm for this problem.</h5><hr>
 <ul>
@@ -281,66 +574,532 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">思路：（貪婪）</div><div class="line">1. 面值最大的硬幣c[n-1]必選。（反證：如果兌換了x元卻沒有選中它，可知 x &lt; c[n-1]，於是用 x+c[n-1] 元去兌換可以得到一個更好解。）</div><div class="line">2. 假設Sum(i)是c[1]~c[i]中被選中的貨幣的面額和，那麼一定有Sum(i) &lt; c[i+1]。（反證：若 Sum(i) &gt;= c[i+1]，那銀行肯定會給他c[i+1]面值的硬幣。）</div><div class="line">3. 按照2.中所說，如果有 Sum(i) = Sum(i-1)+c[i] &lt; c[i+1]，那麼c[i]將被選中，構築選取序列。</div><div class="line"></div><div class="line">example:</div><div class="line">n = 6</div><div class="line">c[1~n] =  1  3  6  8 15 20</div><div class="line">Sum(i) =  1</div><div class="line">          v              v    // 頭尾先選</div><div class="line">Sum(i) =  1  4</div><div class="line">          v  v           v</div><div class="line">Sum(i) =  1  4 10</div><div class="line">          v  v           v</div><div class="line">Sum(i) =  1  4 -&gt; 11</div><div class="line">          v  v     v     v</div><div class="line">Sum(i) =  1  4 -&gt; 11 26</div><div class="line">          v  v     v     v</div><div class="line">Sum(i) =  1  4 -&gt; 11 -&gt;       // 到底了，選取完畢</div></pre></td></tr></table></figure>
 <p><a href="http://blog.csdn.net/synapse7/article/details/12262029" target="_blank" rel="external">reference</a></p>
 
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework4/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework4/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework4/">January 15th 2018, 11:03:40</a>
+            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/tw/Advance-Algorithm-homework5/" title= Advance-Algorithm::homework5 >
+                    <div class="nextTitle">Advance-Algorithm::homework5</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/en/2017-SECCON-Write-up/" title= 2017::SECCON::Write-up >
+                    <div class="prevTitle">2017::SECCON::Write-up</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
 
-<div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://terrynini.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                            
-
-	
-
-	
-		<span class="different-posts"><a href="/tw/Advance-Algorithm-homework4/" onclick="window.history.go(-1); return false;">⬅️ Go back </a></span>
-
-	
-
-</article>
-
-	</main>
-
-	<footer class="footer">
-	<div class="footer-content">
-		
-	      <div class="footer__element">
-	<h5>Check out</h5>
-	<ul class="footer-links">
-		<li class="footer-links__link"><a href="/archives">Archive</a></li>
-		<li class="footer-links__link"><a href="/about">About</a></li>
-		<li class="footer-links__link"><a href="/categories">Categories</a></li>
-        <li class="footer-links__link"><a href="/tags">Tags</a></li>
-        <li class="footer-links__link"><a href="https://github.com/terrynini">Github</a></li>
+<!-- City版安装代码已完成 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
         
-	</ul>
-</div>
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/Advance-Algorithm-homework4/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "Advance-Algorithm::homework4"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
 
-	    
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
-		<div class="footer-credit">
-			<span> 2018 Terrynini | Powered by <a href="https://hexo.io/">Hexo</a></span>
-		</div>
+    
+    <!--PC版-->
 
-	</div>
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.slideshare.net/ssuserf25451" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
 </footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
 
 
 
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-For-two-points-p-and-q-in-the-plane-we-say-that-p-dominates-q-if-both-x-and-y-coordinates-of-p-are-no-less-than-that-of-q-respectively-Given-a-set-S-of-n-points-the-rank-of-a-point-p-in-S-is-the-number-of-points-in-S-dominated-by-p-We-want-to-find-the-rank-of-every-point-in-S-A-naïve-algorithm-needs-O-n2-time-Design-a-faster-algorithm-for-this-problem"><span class="toc-number">1.</span> <span class="toc-text">1. For two points $p$ and $q$ in the plane, we say that $p$ dominates $q$ if both $x$ and $y$ coordinates of $p$ are no less than that of $q$ respectively. Given a set $S$ of $n$ points, the rank of a point $p$ in $S$ is the number of points in $S$ dominated by $p$. We want to find the rank of every point in $S$. A naïve algorithm needs $O(n2)$ time. Design a faster algorithm for this problem.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-An-array-A-1-dots-n-contains-all-the-integers-from-0-to-n-except-one-integer-It-would-be-easy-to-determine-the-missing-integer-in-O-n-time-by-using-an-auxiliary-array-B-0-dots-n-to-record-which-numbers-appear-in-A-In-this-problem-however-we-cannot-access-an-entire-integer-in-A-with-a-single-operation-The-elements-of-A-are-represented-in-binary-and-the-only-operation-we-can-use-to-access-them-is-“fetch-the-jth-bit-of-A-i-”-which-takes-constant-time-Show-that-if-we-use-only-this-operation-we-can-still-determine-the-missing-integer-in-O-n-time"><span class="toc-number">2.</span> <span class="toc-text">2. An array $A[1\dots n]$ contains all the integers from 0 to n except one integer. It would be easy to determine the missing integer in $O(n)$ time by using an auxiliary array $B[0\dots n]$ to record which numbers appear in A. In this problem, however, we cannot access an entire integer in A with a single operation. The elements of A are represented in binary, and the only operation we can use to access them is “fetch the jth bit of $A[i]$,” which takes constant time. Show that if we use only this operation, we can still determine the missing integer in $O(n)$ time.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Assume-there-are-n-supposedly-identical-VLSI-chips-that-are-capable-of-testing-each-other-There-is-a-test-jig-that-can-accommodate-two-chips-at-a-time-When-the-jig-is-loaded-each-chip-tests-the-other-and-reports-whether-it-is-good-or-bad-A-good-chip-always-reports-accurately-whether-the-other-chip-is-good-or-bad-but-the-answer-of-a-bad-chip-cannot-be-trusted-Show-that-the-good-chips-can-be-identified-with-O-n-pairwise-tests-assuming-that-more-than-frac-n-2-of-the-chips-are-good"><span class="toc-number">3.</span> <span class="toc-text">3. Assume there are n supposedly identical VLSI chips that are capable of testing each other. There is a test jig that can accommodate two chips at a time. When the jig is loaded, each chip tests the other and reports whether it is good or bad. A good chip always reports accurately whether the other chip is good or bad, but the answer of a bad chip cannot be trusted. Show that the good chips can be identified with $O(n)$ pairwise tests, assuming that more than $\frac{n}{2}$ of the chips are good.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Let-T-and-P-be-two-sequences-such-that-P-leq-T-Design-a-linear-time-algorithm-to-determine-whether-P-is-a-subsequence-of-T"><span class="toc-number">4.</span> <span class="toc-text">4. Let T and P be two sequences such that $|P| \leq |T|$. Design a linear time algorithm to determine whether $P$ is a subsequence of $T$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Given-a-sequence-S-of-n-nonnegative-numbers-x-1-x-2-dots-x-n-and-an-integer-k-partition-S-into-k-or-fewer-consecutive-subsequences-such-that-the-largest-sum-of-these-subsequences-is-minimized-over-all-possible-partitions"><span class="toc-number">5.</span> <span class="toc-text">5. Given a sequence $S$ of n nonnegative numbers $x_1, x_2, \dots , x_n$, and an integer $k$, partition $S$ into $k$ or fewer consecutive subsequences such that the largest sum of these subsequences is minimized over all possible partitions.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-You-have-inherited-the-publishing-rights-to-n-songs-by-the-Raucous-Rockers-You-want-to-release-a-boxed-set-of-d-compact-disks-each-of-which-can-hold-at-most-m-minutes-of-music-To-satisfy-the-fans-you-must-put-the-songs-in-chronological-order-but-you-can-omit-songs-regardless-of-when-they-were-recorded-if-necessary-Of-course-no-song-can-be-split-across-a-disk-Given-a-list-of-the-song-lengths-in-chronological-order-your-task-is-to-figure-out-the-maximum-number-of-songs-that-can-be-recorded-on-the-set-of-disks-subject-to-these-criteria"><span class="toc-number">6.</span> <span class="toc-text">6. You have inherited the publishing rights to n songs by the Raucous Rockers. You want to release a boxed set of d compact disks, each of which can hold at most m minutes of music. To satisfy the fans, you must put the songs in chronological order, but you can omit songs (regardless of when they were recorded) if necessary. Of course, no song can be split across a disk. Given a list of the song lengths in chronological order, your task is to figure out the maximum number of songs that can be recorded on the set of disks subject to these criteria.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Solve-“Bitonic-Euclidean-traveling-salesman-problem”-in-chapter-15-of-the-book-CLRS"><span class="toc-number">7.</span> <span class="toc-text">7. Solve “Bitonic Euclidean traveling-salesman problem” in chapter 15 of the book [CLRS].</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Consider-the-activity-selection-problem-appears-in-p-41-of-unit-5-Now-assume-that-each-given-activity-is-associated-with-a-positive-weight-Design-an-algorithm-to-find-an-independent-subset-of-activities-activities-that-can-be-allowed-to-use-the-same-resource-whose-sum-of-weights-is-maximized"><span class="toc-number">8.</span> <span class="toc-text">8. Consider the activity-selection problem appears in p.41 of unit-5. Now, assume that each given activity is associated with a positive weight. Design an algorithm to find an independent subset of activities (activities that can be allowed to use the same resource) whose sum of weights is maximized.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-Solve-Problem-10003-“Cutting-Sticks”-in-the-ACM-web-site"><span class="toc-number">9.</span> <span class="toc-text">9. Solve Problem 10003 “Cutting Sticks” in the ACM web site.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-Given-a-list-of-n-positive-integers-d1-d2-…-dn-we-want-to-efficiently-determine-whether-there-exists-a-simple-undirected-graph-whose-nodes-have-degrees-precisely-d1-d2-…-dn-Design-an-algorithm-to-solve-this-problem"><span class="toc-number">10.</span> <span class="toc-text">10. Given a list of n positive integers d1, d2, …, dn, we want to efficiently determine whether there exists a simple undirected graph whose nodes have degrees precisely d1, d2, …, dn. Design an algorithm to solve this problem.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#11-Given-a-weighted-graph-find-a-spanning-tree-such-that-the-maximal-edge-weight-of-the-tree-is-minimized-over-all-spanning-trees"><span class="toc-number">11.</span> <span class="toc-text">11. Given a weighted graph, find a spanning tree such that the maximal edge weight of the tree is minimized over all spanning trees.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#12-Solve-Problem-11264-“Coin-Collector”-in-the-ACM-web-site"><span class="toc-number">12.</span> <span class="toc-text">12. Solve Problem 11264 “Coin Collector” in the ACM web site.</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 14 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="note"><span class="iconfont-archer">&#xe606;</span>note</span>
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Terrynini'
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- busuanzi  -->
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
-
 </html>
+
+
