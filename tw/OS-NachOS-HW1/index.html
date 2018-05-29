@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html>
+    <!-- title -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    <meta name="keywords" content="Terrynini's den | Terrynini">
+    <meta name="description" content="">
+    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>OS::NachOS::HW1 · Terrynini&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s 1;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= /css/style.css?v=20180524 as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= /css/mobile.css?v=20180524 media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+        
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Terrynini&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">OS::NachOS::HW1</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Terrynini's Den</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style=
+
+
+
+
+
+
+
+
+height:50vh;
+
+>
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            OS::NachOS::HW1
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "OS">OS</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count">3,338</span> / Reading time: <span class="post-count">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/05/29</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+  
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>NachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch <code>patch -p1 &lt; nachos-linux-64bit.diff</code><a id="more"></a></p>
+<h2 id="Multiprogramming"><a href="#Multiprogramming" class="headerlink" title="Multiprogramming"></a>Multiprogramming</h2><p>在還未對 NachOS 進行修改的時候，執行 <code>test1</code>、<code>test2</code> 時會發現跟 source code 的行為不一樣。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./nachos –e ../<span class="built_in">test</span>/test1 –e ../<span class="built_in">test</span>/test2</div></pre></td></tr></table></figure>
+<p>因為原本的 NachOS 並沒有為多個程式做記憶體的管理，雖然有開啟虛擬記憶體，但是基本上沒有作為，所以當多份程式同時執行時時就會重疊到其他程式正在使用的 page ，然後發生錯誤，為此我們要修改 <code>code/userprog/addrspace.cc</code>、<code>code/userprog/addrspace.h</code>，使程式的虛擬記憶體映射到沒有人使用的實體記憶體，而不是互相糾纏。</p>
+<p>首先從 <code>addrspace.cc</code> 開始，建構式直接弄了一個跟實體記憶體一樣大的 <code>pageTable</code> ， 然後還全數映射，但是其實我們的程式沒這麼大，我們只要分配到跟程式一樣大就好了，不過程式的大小必須要到讀了檔案格式才會知道，所以我們可以把這整段 code 註解掉，把映射記憶體這件事挪到 <code>AddrSpace::Load</code> 中。</p>
+<p>還有一行 <code>bzero(kernel-&gt;machine-&gt;mainMemory, MemorySize);</code> 不曉得為什麼被註解了，不過應該要清空記憶體才對，但將記憶體分給多個程式後就不能這樣暴力的把所有記憶體清零，所以我在後面的程式會每分配一頁就清空一頁的記憶體。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">AddrSpace::AddrSpace()</div><div class="line">&#123;</div><div class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[NumPhysPages];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NumPhysPages; i++) &#123;</div><div class="line">        pageTable[i].virtualPage = i;   <span class="comment">// for now, virt page # = phys page #</span></div><div class="line">        pageTable[i].physicalPage = i;</div><div class="line"><span class="comment">//      pageTable[i].physicalPage = 0;</span></div><div class="line">        pageTable[i].valid = TRUE;</div><div class="line"><span class="comment">//      pageTable[i].valid = FALSE;</span></div><div class="line">        pageTable[i].use = FALSE;</div><div class="line">        pageTable[i].dirty = FALSE;</div><div class="line">        pageTable[i].readOnly = FALSE;  </div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 清空記憶體，但是不知道為什麼被註解掉了。</span></div><div class="line"><span class="comment">//    bzero(kernel-&gt;machine-&gt;mainMemory, MemorySize);</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接下來在 <code>AddrSpace::Load</code> 中我們有這樣一個 <code>ASSERT</code>，<code>numPages</code> 就是程式所需要的 <code>page</code> 數量，用來判斷是否有超過實體記憶體的大小，超過就噴exception，因為等等我們要把記憶體分給多個程式，我們要改成 <code>&lt;= 空閒的 page</code> 才對。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ASSERT(numPages &lt;= NumPhysPages);</div></pre></td></tr></table></figure>
+<p>在往後一點我們有一段 code 把我們的 <code>code</code> 段跟 <code>data</code> 段 load 進記憶體，但是這裡填的是 <code>virtualAddr</code> ，本來這樣填是因為虛擬記憶體本沒做事，完全跟時體記憶體一樣 —— 還記得建構式裡 <code>pageTable[i].virtualPage = i;   // for now, virt page # = phys page #</code>？但現在我們必須要換算虛擬記憶體對應的實體記憶體位置再讀入這樣才是正確的。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// then, copy in the code and data segments into memory</span></div><div class="line"><span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</div><div class="line">    DEBUG(<span class="string">'a'</span>, <span class="string">"Initializing code segment, at 0x%x, size %d\n"</span>,noffH.code.virtualAddr, noffH.code.size);</div><div class="line">    executable-&gt;ReadAt(&amp;(machine-&gt;mainMemory[noffH.code.virtualAddr]),noffH.code.size, noffH.code.inFileAddr);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</div><div class="line">    DEBUG(<span class="string">'a'</span>, <span class="string">"Initializing data segment, at 0x%x, size %d\n"</span>,noffH.initData.virtualAddr, noffH.initData.size);</div><div class="line">    executable-&gt;ReadAt(&amp;(machine-&gt;mainMemory[noffH.initData.virtualAddr]),noffH.initData.size, noffH.initData.inFileAddr);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因此先新增兩 <code>static</code> 變數（ <code>static</code> 是這個 <code>class</code> 所共享），用來記錄所有實體頁的使用狀況，以及當前還有多少實體頁是可以使用的，並記得在 <code>addrspace.cc</code> 中對 <code>static</code> 變數做初始化。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.h</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddrSpace</span> &#123;</span></div><div class="line">    ...</div><div class="line">    <span class="keyword">private</span>:</div><div class="line">        ...</div><div class="line">        <span class="keyword">static</span> <span class="keyword">bool</span> PhyPageStatus[NumPhysPages];</div><div class="line">        <span class="keyword">static</span> <span class="keyword">int</span> NumFreePages;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PAGE_OCCU true</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PAGE_FREE false</span></div><div class="line"><span class="keyword">bool</span> AddrSpace::PhyPageStatus[NumPhysPages] = &#123;PAGE_FREE&#125;;</div><div class="line"><span class="keyword">int</span> AddrSpace::NumFreePages = NumPhysPages;</div></pre></td></tr></table></figure>
+<p>並且根據剛剛提到的每一點對 <code>addrspace.cc</code> 做修改。</p>
+<h3 id="清除建構式"><a href="#清除建構式" class="headerlink" title="清除建構式"></a>清除建構式</h3><p>把沒必要的映射拿掉：<br><figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">AddrSpace::AddrSpace()</div><div class="line">&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="分配實體頁"><a href="#分配實體頁" class="headerlink" title="分配實體頁"></a>分配實體頁</h3><p>這邊可以自己維護一個 <code>pool</code> ，把剛 <code>free</code> 掉的 <code>page</code> 用 <code>linklist</code> 存起來，要用就先去這個地方找，不過沒關係，我們就用最樸素（ naive ）的方法 —— 一個一個看，有可以用的就直接抓來用。</p>
+<p>這邊我用了 <code>bzero(&amp;kernel-&gt;machine-&gt;mainMemory[idx * PageSize], PageSize);</code> 來清零分配到的 <code>page</code>，因為我沒看載入的實作（ ReadAt ），但是正常放入 <code>memory</code> 時，如果程式不滿一個 <code>page</code> ，那應該要有 Null Padding ，先把記憶體清零就能保證剩餘的部分都是零了。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bool</span> AddrSpace::Load(<span class="keyword">char</span> *fileName)</div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">//檢查是否有足夠的空閒實體頁</span></div><div class="line">    ASSERT(numPages &lt;= NumFreePages);</div><div class="line">    <span class="comment">//進行分配</span></div><div class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[numPages];</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>; i &lt; numPages; i++) &#123;</div><div class="line">        pageTable[i].virtualPage = i;</div><div class="line">        <span class="keyword">while</span>(idx &lt; NumPhysPages &amp;&amp; AddrSpace::PhyPageStatus[idx] == PAGE_OCCU) idx++;</div><div class="line">        AddrSpace::PhyPageStatus[idx] = PAGE_OCCU;</div><div class="line">        AddrSpace::NumFreePages--;</div><div class="line">        <span class="comment">//清空即將分配的 page</span></div><div class="line">        bzero(&amp;kernel-&gt;machine-&gt;mainMemory[idx * PageSize], PageSize);</div><div class="line">        pageTable[i].physicalPage = idx;</div><div class="line">        pageTable[i].valid = <span class="literal">true</span>;</div><div class="line">        pageTable[i].use = <span class="literal">false</span>;</div><div class="line">        pageTable[i].dirty = <span class="literal">false</span>;</div><div class="line">        pageTable[i].readOnly = <span class="literal">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    DEBUG(dbgAddr, <span class="string">"Initializing address space: "</span> &lt;&lt; numPages &lt;&lt; <span class="string">", "</span> &lt;&lt; size);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="更改讀取位置"><a href="#更改讀取位置" class="headerlink" title="更改讀取位置"></a>更改讀取位置</h3><p>本來是直接放入檔案結構裡面紀錄的 <code>virtualAddr</code> ，但是那是因為還沒有設定好，這裡我們要找出映射後的實體位置，所以我們抓 <code>virtualAddr</code>先除 <code>PageSize</code> 求得是第幾個 <code>page</code>，然後索引 <code>pageTable</code> 找到對應的實體頁是第幾頁，接著乘上每個 <code>page</code> 的大小得到該實體頁的實體記憶體，這時我們已經知道在第幾個實體頁了，不過我們不知道在這一頁的哪裡，所以我們拿本來的 <code>virtualAddr mod PageSize</code> 求得在 page 內的偏移，加上剛剛拿到的實體頁，就是對應的實體位址。<br><figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">bool</span> AddrSpace::Load(<span class="keyword">char</span> *fileName)</div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    DEBUG(dbgAddr, <span class="string">"Initializing address space: "</span> &lt;&lt; numPages &lt;&lt; <span class="string">", "</span> &lt;&lt; size);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</div><div class="line">        DEBUG(dbgAddr, <span class="string">"Initializing code segment."</span>);</div><div class="line">    DEBUG(dbgAddr, noffH.code.virtualAddr &lt;&lt; <span class="string">", "</span> &lt;&lt; noffH.code.size);</div><div class="line">                executable-&gt;ReadAt(</div><div class="line">        &amp;(kernel-&gt;machine-&gt;mainMemory[pageTable[noffH.code.virtualAddr/PageSize].physicalPage * PageSize + (noffH.code.virtualAddr%PageSize)]),</div><div class="line">            noffH.code.size, noffH.code.inFileAddr);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</div><div class="line">        DEBUG(dbgAddr, <span class="string">"Initializing data segment."</span>);</div><div class="line">    DEBUG(dbgAddr, noffH.initData.virtualAddr &lt;&lt; <span class="string">", "</span> &lt;&lt; noffH.initData.size);</div><div class="line">        executable-&gt;ReadAt(</div><div class="line">        &amp;(kernel-&gt;machine-&gt;mainMemory[pageTable[noffH.initData.virtualAddr/PageSize].physicalPage * PageSize + (noffH.code.virtualAddr%PageSize)]),</div><div class="line">            noffH.initData.size, noffH.initData.inFileAddr);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">delete</span> executable;                  <span class="comment">// close file</span></div><div class="line">    <span class="keyword">return</span> TRUE;                        <span class="comment">// success</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="釋放實體頁"><a href="#釋放實體頁" class="headerlink" title="釋放實體頁"></a>釋放實體頁</h3><p>執行結束，釋放掉我們使用的實體頁，後面的程式才能使用。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">AddrSpace::~AddrSpace()</div><div class="line">&#123;</div><div class="line">    <span class="comment">//釋放本程式佔用的實體頁</span></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numPages; i++)&#123;</div><div class="line">        AddrSpace::PhyPageStatus[pageTable[i].physicalPage] = PAGE_FREE;</div><div class="line">        AddrSpace::NumFreePages++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">delete</span> pageTable;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="測試"><a href="#測試" class="headerlink" title="測試"></a>測試</h3><p>修改後執行就正常了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">$ ./nachos  -e ../<span class="built_in">test</span>/test1 -e ../<span class="built_in">test</span>/test2</div><div class="line">Total threads number is 2</div><div class="line">Thread ../<span class="built_in">test</span>/test1 is executing.</div><div class="line">Thread ../<span class="built_in">test</span>/test2 is executing.</div><div class="line">Print <span class="built_in">integer</span>:9</div><div class="line">Print <span class="built_in">integer</span>:8</div><div class="line">Print <span class="built_in">integer</span>:7</div><div class="line">Print <span class="built_in">integer</span>:20</div><div class="line">Print <span class="built_in">integer</span>:21</div><div class="line">Print <span class="built_in">integer</span>:22</div><div class="line">Print <span class="built_in">integer</span>:23</div><div class="line">Print <span class="built_in">integer</span>:24</div><div class="line">Print <span class="built_in">integer</span>:6</div><div class="line"><span class="built_in">return</span> value:0</div><div class="line">Print <span class="built_in">integer</span>:25</div><div class="line"><span class="built_in">return</span> value:0</div><div class="line">No threads ready or runnable, and no pending interrupts.</div><div class="line">Assuming the program completed.</div><div class="line">Machine halting!</div><div class="line"></div><div class="line">Ticks: total 300, idle 8, system 70, user 222</div><div class="line">Disk I/O: reads 0, writes 0</div><div class="line">Console I/O: reads 0, writes 0</div><div class="line">Paging: faults 0</div><div class="line">Network I/O: packets received 0, sent 0</div></pre></td></tr></table></figure></p>
+<h2 id="System-call-Sleep"><a href="#System-call-Sleep" class="headerlink" title="System call : Sleep"></a>System call : Sleep</h2><h3 id="syscall-主要流程"><a href="#syscall-主要流程" class="headerlink" title="syscall 主要流程"></a>syscall 主要流程</h3><p>首先我們要先幫我們的 syscall 編號，然後用組語定義 <code>sleep</code> 的行為，就是讓 c++ 跟 mips 中的 function 互相呼叫，所以在 compile 的時候要讓他們知道 symbol 在哪裡。</p>
+<figure class="highlight cpp"><figcaption><span>code/userprog/syscall.h</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_ThreadFork   9</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_ThreadYield  10</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_PrintInt     11</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_Sleep        12</span></div><div class="line">...</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintInt</span><span class="params">(<span class="keyword">int</span> number)</span></span>;      <span class="comment">//my System Call</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Sleep</span><span class="params">(<span class="keyword">int</span> number)</span></span>;</div></pre></td></tr></table></figure>
+<p>他 lib 放的位置有點詭異，不過這就是自己實作的 c library，自己刻作業系統的話也會碰到（<a href="https://github.com/terrynini/MyLittle-OS/tree/master/lib" target="_blank" rel="external">MyLittle-OS</a>），這裡我們要把 <code>Sleep</code> 這個 symbol 導出，這樣 c++ 寫的部分才能找得到，因此有 <code>.globl  Sleep</code>，而<code>.ent    Sleep</code>是說 Sleep 的 entry 在這裡。</p>
+<blockquote>
+<p>這裡還不算 syscall ，就只是一個系統 API，只是把 syscall 編號放進 <code>$2</code>，然後進行 syscall，這裡還沒有陷入核心。</p>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>code/test/start.s</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* Start.s </span></div><div class="line"> * </div><div class="line"> *      Assembly language assist for user programs running on top of Nachos.</div><div class="line"> * ...</div><div class="line">*/</div><div class="line">...</div><div class="line">        .globl  Sleep</div><div class="line">        .ent    Sleep</div><div class="line">Sleep:</div><div class="line">        addiu   $<span class="number">2</span>,$<span class="number">0</span>,SC_Sleep</div><div class="line">        syscall</div><div class="line">        j       $<span class="number">31</span></div><div class="line">        .end    Sleep</div></pre></td></tr></table></figure>
+<p>在進行完 syscall ，陷入核心後，NachOS 負責處理這塊的是 <code>exception.cc</code>，我們要來定義收到 SC_Sleep 這個 syscall 編號的時候所要做的行為。<br>從其他本來定義好的 <code>case</code> 來看，傳參應該是放在 4，所以我們也照著做，然後這裡要說一下中斷。<br><figure class="highlight cpp"><figcaption><span>code/userprog/exception.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// exception.cc </span></div><div class="line"><span class="comment">//      Entry point into the Nachos kernel from user programs.</span></div><div class="line"><span class="comment">//      There are two kinds of things that can cause control to</span></div><div class="line"><span class="comment">//      transfer back to here from user code:</span></div><div class="line"><span class="comment">//</span></div><div class="line">    <span class="keyword">case</span> SC_PrintInt:</div><div class="line">        val=kernel-&gt;machine-&gt;ReadRegister(<span class="number">4</span>);</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Print integer:"</span> &lt;&lt;val &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">case</span> SC_Sleep:</div><div class="line">        val=kernel-&gt;machine-&gt;ReadRegister(<span class="number">4</span>);</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Sleep Time:"</span> &lt;&lt; val &lt;&lt; <span class="string">"(ms)"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">        kernel-&gt;alarm-&gt;WaitUntil(val);</div><div class="line">        <span class="keyword">return</span>;</div></pre></td></tr></table></figure></p>
+<p>在開發作業系統的時候我們可以透過中斷控制器，例如 <code>Intel 8259A</code>，來遮蔽某些中斷訊號，其中包括時脈，如果我們不遮蔽它的話，處理器就會收到源源不斷的時脈中斷，NachOS有用軟體做類似的事情，而外部這個時脈，就是用軟體模擬的。<br><figure class="highlight cpp"><figcaption><span>code/machine/timer.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// timer.cc </span></div><div class="line"><span class="comment">//      Routines to emulate a hardware timer device.</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//      A hardware timer generates a CPU interrupt every X milliseconds.</span></div><div class="line"><span class="comment">//      This means it can be used for implementing time-slicing.</span></div><div class="line"><span class="comment">//</span></div></pre></td></tr></table></figure></p>
+<h3 id="中斷常式"><a href="#中斷常式" class="headerlink" title="中斷常式"></a>中斷常式</h3><p>中斷的運作是這樣的，發生中斷 -&gt; 作業系統找到中斷向量 -&gt; 執行對應中斷常式，這裡時脈對應的中斷常式在 NachOS 裡面是 <code>Alarm</code>，<code>Alarm</code>中本來就有定義 <code>WaitUntil</code>，我們要利用這個 function 來實作 sleep，也就是每次時脈中斷觸發中斷常式的時候我們進行計數，當計數到達我們指定的 sleep 時間後，就把該 <code>Thread</code> 再次放回 Read Queue 裡面等待執行。</p>
+<p>在執行中斷的時候有分為上半部跟下半部，上半部是較緊急的部分，要馬上處理，所以要在關中斷的狀態下執行（不接受其他中斷），下半部則沒這麼急，可以在開中斷的情況下處理，不過這裡就關中斷就好了。</p>
+<blockquote>
+<p>本來我們應該要在 Scheduler 的地方實作才是正確的，不過這裡先求快速，實作一個塞在 Alarm 裡面的 sleepList 就好。</p>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>code/threads/alarm.h</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// alarm.h </span></div><div class="line"><span class="comment">//      Data structures for a software alarm clock.</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//      We make use of a hardware timer device, that generates</span></div><div class="line"><span class="comment">//      an interrupt every X time ticks (on real systems, X is</span></div><div class="line"><span class="comment">//      usually between 0.25 - 10 milliseconds).</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//      From this, we provide the ability for a thread to be</span></div><div class="line"><span class="comment">//      woken up after a delay; we also provide time-slicing.</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//      <span class="doctag">NOTE:</span> this abstraction is not completely implemented.</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">// Copyright (c) 1992-1996 The Regents of the University of California.</span></div><div class="line"><span class="comment">// All rights reserved.  See copyright.h for copyright notice and limitation </span></div><div class="line"><span class="comment">// of liability and disclaimer of warranty provisions.</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ALARM_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ALARM_H</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"copyright.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"utility.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"callback.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"timer.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"thread.h"</span></span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">sleepList</span> &#123;</span></div><div class="line">    <span class="keyword">public</span>:</div><div class="line">        sleepList():_current_interrupt(<span class="number">0</span>) &#123;&#125;;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">PutToSleep</span><span class="params">(Thread *t, <span class="keyword">int</span> x)</span></span>;</div><div class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">PutToReady</span><span class="params">()</span></span>;</div><div class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEmpty</span><span class="params">()</span></span>;</div><div class="line">    <span class="keyword">private</span>:</div><div class="line">        <span class="class"><span class="keyword">class</span> <span class="title">sleepThread</span> &#123;</span></div><div class="line">            <span class="keyword">public</span>:</div><div class="line">                sleepThread(Thread* t, <span class="keyword">int</span> x):</div><div class="line">                    sleeper(t), when(x) &#123;&#125;;</div><div class="line">                Thread* sleeper;</div><div class="line">                <span class="keyword">int</span> when;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> _current_interrupt;</div><div class="line">    <span class="built_in">std</span>::<span class="built_in">list</span>&lt;sleepThread&gt; _threadlist;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// The following class defines a software alarm clock. </span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Alarm</span> :</span> <span class="keyword">public</span> CallBackObj &#123;</div><div class="line">  <span class="keyword">public</span>:</div><div class="line">    Alarm(<span class="keyword">bool</span> doRandomYield);  <span class="comment">// Initialize the timer, and callback </span></div><div class="line">                <span class="comment">// to "toCall" every time slice.</span></div><div class="line">    ~Alarm() &#123; <span class="keyword">delete</span> timer; &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">WaitUntil</span><span class="params">(<span class="keyword">int</span> x)</span></span>;      <span class="comment">// suspend execution until time &gt; now + x</span></div><div class="line">  <span class="keyword">private</span>:</div><div class="line">    Timer *timer;               <span class="comment">// the hardware timer device</span></div><div class="line">    sleepList _sleepList;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">CallBack</span><span class="params">()</span></span>;            <span class="comment">// called when the hardware</span></div><div class="line">                <span class="comment">// timer generates an interrupt</span></div><div class="line">&#125;;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ALARM_H</span></span></div></pre></td></tr></table></figure>
+<p>然後把 function 填好，相關註釋放在 code 裡面。</p>
+<blockquote>
+<p>這裡其實可以做得更好一點，就是每次在插入時就照順序插入，這樣在檢查要不要喚醒 Thread 的時候，就可以不用檢查到最後，只要發現現在這個 Thread 還不能喚醒，後面的也都不能喚醒</p>
+</blockquote>
+<figure class="highlight cpp"><figcaption><span>code/threads/alarm.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> Alarm::CallBack() &#123;</div><div class="line">    Interrupt *interrupt = kernel-&gt;interrupt;</div><div class="line">    MachineStatus status = interrupt-&gt;getStatus();</div><div class="line">    <span class="keyword">bool</span> woken = _sleepList.PutToReady();</div><div class="line">    <span class="comment">//如果沒有程式需要計數了，就把時脈中斷遮蔽掉</span></div><div class="line">    <span class="keyword">if</span> (status == IdleMode &amp;&amp; !woken &amp;&amp; _sleepList.IsEmpty()) &#123;<span class="comment">// is it time to quit?</span></div><div class="line">        <span class="keyword">if</span> (!interrupt-&gt;AnyFutureInterrupts()) &#123;</div><div class="line">            timer-&gt;Disable();   <span class="comment">// turn off the timer</span></div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;                    <span class="comment">// there's someone to preempt</span></div><div class="line">        interrupt-&gt;YieldOnReturn();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> Alarm::WaitUntil(<span class="keyword">int</span> x) &#123;</div><div class="line">    <span class="comment">//關中斷</span></div><div class="line">    IntStatus oldLevel = kernel-&gt;interrupt-&gt;SetLevel(IntOff);</div><div class="line">    Thread* t = kernel-&gt;currentThread;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Alarm::WaitUntil go sleep"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    _sleepList.PutToSleep(t, x);</div><div class="line">    <span class="comment">//開中斷</span></div><div class="line">    kernel-&gt;interrupt-&gt;SetLevel(oldLevel);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">bool</span> sleepList::IsEmpty() &#123;</div><div class="line">    <span class="keyword">return</span> _threadlist.size() == <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">void</span> sleepList::PutToSleep(Thread*t, <span class="keyword">int</span> x) &#123;</div><div class="line">    ASSERT(kernel-&gt;interrupt-&gt;getLevel() == IntOff);</div><div class="line">    _threadlist.push_back(sleepThread(t, _current_interrupt + x));</div><div class="line">    t-&gt;Sleep(<span class="literal">false</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">bool</span> sleepList::PutToReady() &#123;</div><div class="line">    <span class="keyword">bool</span> woken = <span class="literal">false</span>;</div><div class="line">    _current_interrupt ++;</div><div class="line">    <span class="keyword">for</span>(<span class="built_in">std</span>::<span class="built_in">list</span>&lt;sleepThread&gt;::iterator it = _threadlist.begin();</div><div class="line">        it != _threadlist.end(); ) &#123;</div><div class="line">        <span class="keyword">if</span>(_current_interrupt &gt;= it-&gt;when) &#123;</div><div class="line">            woken = <span class="literal">true</span>;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"sleepList::PutToReady Thread woken"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            kernel-&gt;scheduler-&gt;ReadyToRun(it-&gt;sleeper);</div><div class="line">            it = _threadlist.erase(it);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            it++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> woken;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="測試-1"><a href="#測試-1" class="headerlink" title="測試"></a>測試</h3><p>撰寫兩個有用到 sleep 的程式，檢查正確性，這裡讓 sleep2 的週期是 sleep 的 $\frac{1}{10}$，然後要修改 <code>Makefile</code> 把兩隻程式加入編譯，還要轉成 coff 格式。</p>
+<figure class="highlight cpp"><figcaption><span>code/test/sleep.c</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"syscall.h"</span></span></div><div class="line">main() &#123;</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">        Sleep(<span class="number">1000000</span>);</div><div class="line">        PrintInt(<span class="number">2222</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/test/sleep2.c</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"syscall.h"</span></span></div><div class="line">main() &#123;</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</div><div class="line">        Sleep(<span class="number">100000</span>);</div><div class="line">        PrintInt(<span class="number">10</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight makefile"><figcaption><span>code/test/Makefile</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="section">all: halt shell matmult sort test1 test2 sleep sleep2</span></div><div class="line">...</div><div class="line"><span class="section">sleep: sleep.o start.o</span></div><div class="line">        <span class="variable">$(LD)</span> <span class="variable">$(LDFLAGS)</span> start.o sleep.o -o sleep.coff</div><div class="line">        ../bin/coff2noff sleep.coff sleep</div><div class="line"></div><div class="line"><span class="section">sleep2: sleep2.o start.o</span></div><div class="line">        <span class="variable">$(LD)</span> <span class="variable">$(LDFLAGS)</span> start.o sleep2.o -o sleep2.coff</div><div class="line">        ../bin/coff2noff sleep2.coff sleep2</div></pre></td></tr></table></figure>
+<p><code>make</code> 後執行 <code>./nachos -e ../test/sleep -e ../test/sleep2</code></p>
+<p>正確的話前兩次會參雜 10 次的 <code>PrintInt(10)</code> 才執行一次的 <code>PrintInt(2222)</code><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line">Total threads number is 2</div><div class="line">Thread ../<span class="built_in">test</span>/sleep is executing.</div><div class="line">Thread ../<span class="built_in">test</span>/sleep2 is executing.</div><div class="line">Sleep Time:1000000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">Print <span class="built_in">integer</span>:2222</div><div class="line">Sleep Time:1000000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line">Sleep Time:100000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:10</div><div class="line"><span class="built_in">return</span> value:0</div><div class="line">Print <span class="built_in">integer</span>:2222</div><div class="line">Sleep Time:1000000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:2222</div><div class="line">Sleep Time:1000000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:2222</div><div class="line">Sleep Time:1000000(ms)</div><div class="line">Alarm::WaitUntil go sleep</div><div class="line">sleepList::PutToReady Thread woken</div><div class="line">Print <span class="built_in">integer</span>:2222</div><div class="line"><span class="built_in">return</span> value:0</div><div class="line">No threads ready or runnable, and no pending interrupts.</div><div class="line">Assuming the program completed.</div><div class="line">Machine halting!</div></pre></td></tr></table></figure></p>
+<h3 id="遭遇的困難"><a href="#遭遇的困難" class="headerlink" title="遭遇的困難"></a>遭遇的困難</h3><p>我找不到 code 放在哪裡Ｒ，是沒有 document 還是故意沒有 document，我猜是故意沒有的</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">http://blog.terrynini.tw/tw/OS-NachOS-HW1/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">May 29th 2018, 1:25:15</a>
+            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/en/2018-ASIS-Quals-reverse/" title= 2018::ASIS-Quals::reverse >
+                    <div class="prevTitle">2018::ASIS-Quals::reverse</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/OS-NachOS-HW1/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "OS::NachOS::HW1"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+    <!--PC版-->
+
+    <!--PC版-->
+
+
+    
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.slideshare.net/ssuserf25451" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiprogramming"><span class="toc-number">2.</span> <span class="toc-text">Multiprogramming</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#清除建構式"><span class="toc-number">2.1.</span> <span class="toc-text">清除建構式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分配實體頁"><span class="toc-number">2.2.</span> <span class="toc-text">分配實體頁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改讀取位置"><span class="toc-number">2.3.</span> <span class="toc-text">更改讀取位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#釋放實體頁"><span class="toc-number">2.4.</span> <span class="toc-text">釋放實體頁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#測試"><span class="toc-number">2.5.</span> <span class="toc-text">測試</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-call-Sleep"><span class="toc-number">3.</span> <span class="toc-text">System call : Sleep</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#syscall-主要流程"><span class="toc-number">3.1.</span> <span class="toc-text">syscall 主要流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中斷常式"><span class="toc-number">3.2.</span> <span class="toc-text">中斷常式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#測試-1"><span class="toc-number">3.3.</span> <span class="toc-text">測試</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遭遇的困難"><span class="toc-number">3.4.</span> <span class="toc-text">遭遇的困難</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 15 </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Linux"><span class="iconfont-archer">&#xe606;</span>Linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="note"><span class="iconfont-archer">&#xe606;</span>note</span>
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: '/',
+        author: 'Terrynini'
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- busuanzi  -->
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+
