@@ -400,11 +400,11 @@ height:50vh;
         <p>RealWorld CTF is very interesting and that is the hardest check-in challenge I’ve ever saw.<br><a id="more"></a></p>
 <h1 id="Advertisement"><a href="#Advertisement" class="headerlink" title="Advertisement"></a>Advertisement</h1><p>This challenge gave nothing, but just one line</p>
 <p><code>This platform is under protection. DO NOT hack it.</code></p>
-<p>Trying not to hack the web, but I can’t find anything.<br>I did find something interesting, like this one:<br><img src="/en/2018-RealWorldCTF-pre-exam/console.png" alt="console.png" title=""></p>
+<p>Trying not to hack the web, but I can’t find anything.<br>I did find something interesting, like this one:<br><img src="/en/2018-RealWorldCTF-Qual/console.png" alt="console.png" title=""></p>
 <p>It seems to use WebSocket to get some information then render it on template view.<br>So, let’s change the hash-like string on url.</p>
-<p>When url is <code>https://realworldctf.com/contest/5</code><br><img src="/en/2018-RealWorldCTF-pre-exam/invalid.png" alt="invalid.png" title=""></p>
-<p>When url is <code>https://realworldctf.com/contest/5b5bc8c532a7ca004d2d0f64</code> (Make the length of hash-like string consist with origin)<br><img src="/en/2018-RealWorldCTF-pre-exam/database.png" alt="database.png" title=""></p>
-<p>Did you say <code>Database</code>?<br><code>https://realworldctf.com/contest/&#39; or &#39;1&#39;=&#39;1&#39; --</code><br><img src="/en/2018-RealWorldCTF-pre-exam/flag.png" alt="flag.png" title=""></p>
+<p>When url is <code>https://realworldctf.com/contest/5</code><br><img src="/en/2018-RealWorldCTF-Qual/invalid.png" alt="invalid.png" title=""></p>
+<p>When url is <code>https://realworldctf.com/contest/5b5bc8c532a7ca004d2d0f64</code> (Make the length of hash-like string consist with origin)<br><img src="/en/2018-RealWorldCTF-Qual/database.png" alt="database.png" title=""></p>
+<p>Did you say <code>Database</code>?<br><code>https://realworldctf.com/contest/&#39; or &#39;1&#39;=&#39;1&#39; --</code><br><img src="/en/2018-RealWorldCTF-Qual/flag.png" alt="flag.png" title=""></p>
 <p>My teamate kaibro told me that chaitin has sqlchop product…. ohh…. advertisement… got it<br>It took me half day to find the flag</p>
 <h1 id="Dot-Free"><a href="#Dot-Free" class="headerlink" title="Dot Free"></a>Dot Free</h1><p>There are some js functoin on web page:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lls</span>(<span class="params">src</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> el = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</div><div class="line">    <span class="keyword">if</span> (el) &#123;</div><div class="line">        el.setAttribute(<span class="string">'type'</span>, <span class="string">'text/javascript'</span>);</div><div class="line">        el.src = src;</div><div class="line">        <span class="built_in">document</span>.body.appendChild(el);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">lce</span>(<span class="params">doc, def, parent</span>) </span>&#123;</div><div class="line"><span class="comment">// ...</span></div><div class="line">&#125;;</div><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (e.data.iframe) &#123;</div><div class="line">        <span class="keyword">if</span> (e.data.iframe &amp;&amp; e.data.iframe.value.indexOf(<span class="string">'.'</span>) == <span class="number">-1</span> &amp;&amp; e.data.iframe.value.indexOf(<span class="string">"//"</span>) == <span class="number">-1</span> &amp;&amp; e.data.iframe.value.indexOf(<span class="string">"。"</span>) == <span class="number">-1</span> &amp;&amp; e.data.iframe.value &amp;&amp; <span class="keyword">typeof</span>(e.data.iframe != <span class="string">'object'</span>)) &#123;</div><div class="line">            <span class="keyword">if</span> (e.data.iframe.type == <span class="string">"iframe"</span>) &#123;</div><div class="line">                lce(doc, [<span class="string">'iframe'</span>, <span class="string">'width'</span>, <span class="string">'0'</span>, <span class="string">'height'</span>, <span class="string">'0'</span>, <span class="string">'src'</span>, e.data.iframe.value], parent);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                lls(e.data.iframe.value)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;, <span class="literal">false</span>);</div><div class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params">ev</span>) </span>&#123;</div><div class="line">    postMessage(<span class="built_in">JSON</span>.parse(<span class="built_in">decodeURIComponent</span>(location.search.substr(<span class="number">1</span>))), <span class="string">'*'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>And I found some keyword like <code>login passwd</code>,<code>login account</code> in css, so I think that we can try to XSS.</p>
@@ -417,8 +417,8 @@ height:50vh;
     
         <div class="license-wrapper">
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/en/2018-RealWorldCTF-pre-exam/">http://blog.terrynini.tw/en/2018-RealWorldCTF-pre-exam/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/en/2018-RealWorldCTF-pre-exam/">July 30th 2018, 2:11:03</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/en/2018-RealWorldCTF-Qual/">http://blog.terrynini.tw/en/2018-RealWorldCTF-Qual/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/en/2018-RealWorldCTF-Qual/">July 30th 2018, 2:11:03</a>
             <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
@@ -448,7 +448,7 @@ height:50vh;
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
         
         var disqus_config = function () {
-        this.page.url = "http://blog.terrynini.tw/en/2018-RealWorldCTF-pre-exam/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = "http://blog.terrynini.tw/en/2018-RealWorldCTF-Qual/";  // Replace PAGE_URL with your page's canonical URL variable
         this.page.identifier = "2018::RealWorldCTF pre-exam"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
         };
         
@@ -760,6 +760,22 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-archive"> Total : 17 </div>
     
     <div class="post-archive">
@@ -772,7 +788,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-pre-exam/" >2018::RealWorldCTF pre-exam</a>
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF pre-exam</a>
         </li>
     
     
