@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <!-- title -->
+
+
+
+
+<!-- keywords -->
 
 
 
@@ -11,9 +16,11 @@
     <meta name="author" content="Terrynini">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Terrynini">
-    <meta name="keywords" content="NiNi's den | Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
     <meta name="description" content="">
-    <meta name="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>NiNi&#39;s Den</title>
     <style type="text/css">
@@ -54,7 +61,7 @@
         background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
         background-position: center center;
         transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s 1;
+        animation: gradient-move 2.5s ease-out 0s infinite;
     }
 
     @keyframes gradient-move {
@@ -68,9 +75,11 @@
 
 </style>
 
-    <link rel="preload" href= /css/style.css?v=20180524 as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= /css/mobile.css?v=20180524 media="(max-width: 980px)">
-        
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -179,7 +188,7 @@
 </script>
 
     <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
     <link rel="preload" href="/scripts/main.js" as="script" />
     <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
@@ -207,16 +216,14 @@
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
     <div class="wrapper">
-        <div class="site-intro" style=
+        <div class="site-intro" style="
 
 
 
 
 
 
-
-
->
+">
     
     <!-- 主页  -->
             
@@ -238,17 +245,7 @@
     </div>
 </div>
         <script>
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
-  
+ 
   // get user agent
   var browser = {
     versions: function () {
@@ -314,6 +311,17 @@
     console.warn('script load from CDN failed, will load local script')
   }
 
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
   var asyncLoadWithFallBack = function(arr, success, reject) {
       var currReject = function(){
         reject()
@@ -336,193 +344,221 @@
             <main class="main index-page">
     
     
+
     
-        <article class="index-post">
-            <a class="abstract-title" href = "/tw/Advance-Algorithm-homework7/" >
-                
-                    <span>Advance-Algorithm::homework7</span>
-            </a>
-            <div class="abstract-content">
-                <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><strong><em>感恩彬智讚嘆彬智</em></strong><br></p>
-		        <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework7/">➡read more</a></p>
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework7/" >
+            
+                <span>Advance-Algorithm::homework7</span>
+        </a>
+        <div class="abstract-content">
+            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><strong><em>感恩彬智讚嘆彬智</em></strong><br></p>
+            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework7/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
             </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework6/" >
+            
+                <span>Advance-Algorithm::homework6</span>
+        </a>
+        <div class="abstract-content">
+            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br></p>
+            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework6/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
             </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/tw/Advance-Algorithm-homework6/" >
-                
-                    <span>Advance-Algorithm::homework6</span>
-            </a>
-            <div class="abstract-content">
-                <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br></p>
-		        <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework6/">➡read more</a></p>
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework5/" >
+            
+                <span>Advance-Algorithm::homework5</span>
+        </a>
+        <div class="abstract-content">
+            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
+            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework5/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
             </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/tw/Advance-Algorithm-homework5/" >
-                
-                    <span>Advance-Algorithm::homework5</span>
-            </a>
-            <div class="abstract-content">
-                <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
-		        <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework5/">➡read more</a></p>
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework4/" >
+            
+                <span>Advance-Algorithm::homework4</span>
+        </a>
+        <div class="abstract-content">
+            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
+            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework4/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
             </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/tw/Advance-Algorithm-homework4/" >
-                
-                    <span>Advance-Algorithm::homework4</span>
-            </a>
-            <div class="abstract-content">
-                <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
-		        <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework4/">➡read more</a></p>
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/en/Advance-Algorithm-homework3/" >
+            
+                <span>Advance-Algorithm::homework3</span>
+        </a>
+        <div class="abstract-content">
+            <p>Continue…<br></p>
+            <p><a class="abstract-title " href="/en/Advance-Algorithm-homework3/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/15</span>
             </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/en/Advance-Algorithm-homework3/" >
-                
-                    <span>Advance-Algorithm::homework3</span>
-            </a>
-            <div class="abstract-content">
-                <p>Continue…<br></p>
-		        <p><a class="abstract-title " href="/en/Advance-Algorithm-homework3/">➡read more</a></p>
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/en/Advance-Algorithm-homework2/" >
+            
+                <span>Advance-Algorithm::homework2</span>
+        </a>
+        <div class="abstract-content">
+            <p>Continue…<br></p>
+            <p><a class="abstract-title " href="/en/Advance-Algorithm-homework2/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/15</span>
             </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/en/Advance-Algorithm-homework2/" >
-                
-                    <span>Advance-Algorithm::homework2</span>
-            </a>
-            <div class="abstract-content">
-                <p>Continue…<br></p>
-		        <p><a class="abstract-title " href="/en/Advance-Algorithm-homework2/">➡read more</a></p>
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/15</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/en/Advance-Algorithm-homework1/" >
+            
+                <span>Advance-Algorithm::homework1</span>
+        </a>
+        <div class="abstract-content">
+            <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。<br>Written in English.<br></p>
+            <p><a class="abstract-title " href="/en/Advance-Algorithm-homework1/">➡read more</a></p>
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/13</span>
             </div>
-        </article>
-    
-    
-    
-        <article class="index-post">
-            <a class="abstract-title" href = "/en/Advance-Algorithm-homework1/" >
-                
-                    <span>Advance-Algorithm::homework1</span>
-            </a>
-            <div class="abstract-content">
-                <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。<br>Written in English.<br></p>
-		        <p><a class="abstract-title " href="/en/Advance-Algorithm-homework1/">➡read more</a></p>
-            </div>
-            <div class="abstract-post-meta">
-                <!-- date  -->
-                <div class="abstract-date">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/13</span>
-                </div>
-                <!-- tags  -->
-                
-                <div class= abstract-tags >
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
     
 </div>
-                
-            </div>
-        </article>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
     
@@ -559,6 +595,8 @@
         
     
         
+    
+        
             
                 <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
             
@@ -568,6 +606,10 @@
             
                 <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
             
+        
+    
+        
+    
         
     
         
@@ -825,7 +867,13 @@
     
     
     
-    <div class="total-archive"> Total : 18 </div>
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 18
+        </div>
+        <!-- search  -->
+        
+    </div>
     
     <div class="post-archive">
     
@@ -1012,8 +1060,8 @@ jsonContent:
 </div> 
     <script>
     var siteMeta = {
-        root: '/',
-        author: 'Terrynini'
+        root: "/",
+        author: "Terrynini"
     }
 </script>
     <!-- CDN failover -->
@@ -1026,13 +1074,15 @@ jsonContent:
         }
     </script>
     <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
     <!-- busuanzi  -->
     
     <!-- CNZZ  -->
     
     </div>
     <!-- async load share.js -->
-    
+     
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
