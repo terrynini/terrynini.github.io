@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>NiNi&#39;s Den</title>
+    <title>2019::PragyanCTF · NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -206,12 +206,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2019::PragyanCTF</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -223,24 +234,69 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            2019::PragyanCTF
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">234</span>Reading time: <span class="post-count reading-time">1 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/03/12</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -341,76 +397,80 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Cookie-Monster"><a href="#Cookie-Monster" class="headerlink" title="Cookie Monster"></a>Cookie Monster</h2><p>The value of flag in cookie is the md5 result of flag’s slice</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">bc54f4d60f1cec0f9a6cb70e13f2127a    md5 pc</div><div class="line">114d6a415b3d04db792ca7c0da0c7a55    md5 tf</div><div class="line">b2984e12969ad3a3a2a4d334b8fb385a    md5 &#123;c</div><div class="line">6f570c477ab64d17825ef2d2dfcb6fe4    md5 0o</div><div class="line">988287f7a1eb966ffc4e19bdbdeec7c3    md5 ki</div><div class="line">0d4896d431044c92de2840ed53b6fbbd    md5 3s</div><div class="line">f355d719add62ceea8c150e5fbfae819    md5 _@</div><div class="line">12eccbdd9b32918131341f38907cbbb5    md5 re</div><div class="line">639307d281416ad0642faeaae1f098c4    md5 _y</div><div class="line">96bc320e4d72edda450c7a9abc8a214f    md5 Um</div><div class="line">c716fb29298ad96a3b31757ec9755763    md5 _b</div><div class="line">51de5514f3c808babd19f42217fcba49    md5 Ut</div><div class="line">05cb7dc333ca611d0a8969704e39a9f0    md5 _t</div><div class="line">bc781c76baf5589eef4fb7b9247b89a0    md5 HE</div><div class="line">ff108b961a844f859bd7c203b7366f8e    md5 y_</div><div class="line">2349277280263dff980b0c8a4a10674b    md5 @l</div><div class="line">0b1cdc9fe1f929e469c5a54ffe0b2ed5    md5 s0</div><div class="line">364641d04574146d9f88001e66b4410f    md5 _r</div><div class="line">c758807125330006a4375357104f9a82    md5 3v</div><div class="line">fcfdc12fb4030a8c8a2e19cf7b075926    md5 Ea</div><div class="line">440c5c247c708c6e46783e47e3986889    md5 L_</div><div class="line">97a7bf81a216e803adfed8bd013f4b85    md5 @_</div><div class="line">c1d12de20210d8c1b35c367536e1c255    md5 l0</div><div class="line">a8655da06c5080d3f1eb6af7b514e309    md5 t&#125;</div></pre></td></tr></table></figure>
+<p><code>pctf{c0oki3s_@re_yUm_bUt_tHEy_@ls0_r3vEaL_@_l0t}</code></p>
+<h2 id="Game-of-Faces"><a href="#Game-of-Faces" class="headerlink" title="Game of Faces"></a>Game of Faces</h2><p>A form hidden behind the first color block.</p>
+<h2 id="Mandatory-PHP"><a href="#Mandatory-PHP" class="headerlink" title="Mandatory PHP"></a>Mandatory PHP</h2><h3 id="final-solution"><a href="#final-solution" class="headerlink" title="final solution"></a>final solution</h3><p><a href="http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&amp;val1=rUs&amp;val3=12&amp;val4=16" target="_blank" rel="external">http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&amp;val1=rUs&amp;val3=12&amp;val4=16</a></p>
+<h3 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$a=hash(<span class="string">"sha256"</span>,$a);</div><div class="line">$a=(log10($a**(<span class="number">0.5</span>)))**<span class="number">2</span>;</div></pre></td></tr></table></figure>
+<p>Find a string which’s sha256 result begin with 1e, so that it would be consider as scientific notation in first line.</p>
+<p>When <code>$a=&#39;rUs&#39;</code>, the result of sha256 is <code>1e40afafd2290d3f1e0cbc86cd9bbec0df8627b32730ea72e0dce67fe49a2f30</code>, would be consider as $$ 1*10^40 $$ here and the last result is 400, which is $12^2+16^2$, done.</p>
+<p>next check:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>($i=<span class="number">1</span>;$i&lt;=<span class="number">10</span>;$i++)&#123;</div><div class="line">    <span class="keyword">if</span>($b==urldecode($b))</div><div class="line">        <span class="keyword">die</span>(<span class="string">'duck'</span>);</div><div class="line">    <span class="keyword">else</span></div><div class="line">        $b=urldecode($b);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($b===<span class="string">"WoAHh!"</span>)</div></pre></td></tr></table></figure>
+<p>It apply urldecode 10 times on <code>$b</code>, so we have to encode it 10 times, also.<br>The result should be <code>WoAHh%25252525252525252521</code>.<br>But,the url would be decode once by default, we have to do one more encode, which would be <code>WoAHh%252525252525252525252521</code>.</p>
+<p><code>pctf{b3_c4r3fu1_w1th_pHp_f31145}</code></p>
 
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/2018-Reversing-KR-Record/" >
-            
-                <span>2018::Reversing.KR::Record</span>
-        </a>
-        <div class="abstract-content">
-            <p>趁著 Defcon 前終於把 reversing.kr 全解了<br></p>
-            <p><a class="abstract-title " href="/tw/2018-Reversing-KR-Record/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reversing-kr">Reversing-kr</a>
-    
-</div>
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/Reversing-kr-write-up-1/" >
-            
-                <span>Reversing.kr #1</span>
-        </a>
-        <div class="abstract-content">
-            <p>本來想把9題擠一篇的，但想想還是分一下好了，<br>總之Easy系列完全就是 easy peasy lemon squeezy<br>這篇共4題，還沒解題建議不要先看。<br></p>
-            <p><a class="abstract-title " href="/tw/Reversing-kr-write-up-1/">➡read more</a></p>
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">http://blog.terrynini.tw/en/2019-PragyanCTF/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">March 12th 2019, 2:08:23</a>
+            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/07/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reversing-kr">Reversing-kr</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/2018-Reversing-KR-Record/" title= "2018::Reversing.KR::Record">
+                    <div class="prevTitle">2018::Reversing.KR::Record</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/en/2019-PragyanCTF/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2019::PragyanCTF"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -491,6 +551,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie-Monster"><span class="toc-number">1.1.</span> <span class="toc-text">Cookie Monster</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Game-of-Faces"><span class="toc-number">1.2.</span> <span class="toc-text">Game of Faces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mandatory-PHP"><span class="toc-number">1.3.</span> <span class="toc-text">Mandatory PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#final-solution"><span class="toc-number">1.3.1.</span> <span class="toc-text">final solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#detail"><span class="toc-number">1.3.2.</span> <span class="toc-text">detail</span></a></li></ol></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -958,6 +1036,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
