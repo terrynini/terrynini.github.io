@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>NiNi&#39;s Den</title>
+    <title>TIL::FaceBook_GIF_memory_exposure · NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -206,12 +206,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">TIL::FaceBook_GIF_memory_exposure</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -223,24 +234,71 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            TIL::FaceBook_GIF_memory_exposure
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "FaceBook">FaceBook</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "GIF">GIF</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Words: <span class="post-count word-count">106</span>Reading time: <span class="post-count reading-time">1 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/03/15</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -341,45 +399,76 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p><a href="https://www.vulnano.com/2019/03/facebook-messenger-server-random-memory.html" target="_blank" rel="external">原文</a><br><a href="https://medium.com/@kunal94/imagemagick-gif-coder-vulnerability-leads-to-memory-disclosure-hackerone-e9975a6a560e" target="_blank" rel="external">延伸 1</a><br><a href="https://en.wikipedia.org/wiki/GIF#Palettes" target="_blank" rel="external">GIF Palettes</a><br><a id="more"></a></p>
+<h2 id="CVE-2017–15277"><a href="#CVE-2017–15277" class="headerlink" title="CVE-2017–15277"></a>CVE-2017–15277</h2><p>在 ImageMagick（7.0.6–1）和 Graphicsmagick（1.3.26），在解析時，如果 GIF 中沒有定義任何的 palettes，會因為 palettes 的記憶體沒有進行任何初始化，導致上色的時候使用本來記憶體中殘留的資料造成記憶體洩漏。</p>
+<ul>
+<li><p>原始 POC <a href="https://github.com/neex/gifoeb" target="_blank" rel="external">gifoeb</a></p>
+</li>
+<li><p><a href="https://www.vulnano.com/2019/03/facebook-messenger-server-random-memory.html" target="_blank" rel="external">原文</a> 及 <a href="https://medium.com/@kunal94/imagemagick-gif-coder-vulnerability-leads-to-memory-disclosure-hackerone-e9975a6a560e" target="_blank" rel="external">延伸 1</a> 的作者分別在 Facebook Message 及 HackerOne 上嘗試成功。</p>
+</li>
+</ul>
+
+    </article>
+    <!-- license  -->
     
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/TIL-FaceBook-GIF-memory-exposure/">http://blog.terrynini.tw/tw/TIL-FaceBook-GIF-memory-exposure/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/TIL-FaceBook-GIF-memory-exposure/">March 15th 2019, 12:16:21</a>
+            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+        </div>
     
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/en/2019-PragyanCTF/" title= "2019::PragyanCTF">
+                    <div class="prevTitle">2019::PragyanCTF</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/TIL-FaceBook-GIF-memory-exposure/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "TIL::FaceBook_GIF_memory_exposure"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
 
     
     
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/en/2018-ASIS-Quals-reverse/" >
-            
-                <span>2018::ASIS-Quals::reverse</span>
-        </a>
-        <div class="abstract-content">
-            <p>Another excuse, I had my wisdom tooth extracted, or I could solve them(rev) all.<br></p>
-            <p><a class="abstract-title " href="/en/2018-ASIS-Quals-reverse/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ASIS">ASIS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    <!-- paginator  -->
-    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -460,6 +549,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2017–15277"><span class="toc-number">1.</span> <span class="toc-text">CVE-2017–15277</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -937,6 +1044,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
