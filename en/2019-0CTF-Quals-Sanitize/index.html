@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>NiNi&#39;s Den</title>
+    <title>2019::0CTF::Quals::Sanitize · NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -77,6 +77,8 @@
 
     <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -204,14 +206,23 @@
 </head>
 
     
-        <body class="home-body">
+        <body class="post-body">
     
     
-<header class="header index-header">
+<header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2019::0CTF::Quals::Sanitize</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -230,17 +241,17 @@ height:50vh;
     <!-- 主页  -->
     
     
-    <!-- 文章页  -->
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/IMG_0740.png)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            NiNi's Den
-            <!-- 文章页  -->
+            2019::0CTF::Quals::Sanitize
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
@@ -248,12 +259,48 @@ height:50vh;
             <!-- 主页副标题  -->
             
             
-                恥ずべきは弱い者ではない弱いままの者だ
-            
-            <!-- 文章页  -->
+            <!-- 404 -->
             
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "0CTF">0CTF</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">627</span>Reading time: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/03/27</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -354,222 +401,96 @@ height:50vh;
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>Play with Balsn this time and got 12th place, teamates are really amazing.<br>I just slept late at the weekend…, there was only a reverse challenge left …<br>Though, they release the sixology on the last day,  we almost solve that, but I did not notice that the compare operation in the bubble sort is lexicographically….</p>
+<a id="more"></a>
+<h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><p>binary search</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;&#125;cmp_char_here</div><div class="line">3</div><div class="line">guess_position_here 4 47</div></pre></td></tr></table></figure>
+<p><code>flag{fr0M_C0vEr4ge_To_Fl4G_And_Enj0Y_0cTF_2Ol9!}</code></p>
+<h1 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h1><p>The binary expects us to input a string , and pick some characters from the flag string, then the binary would perform sorting on these characters. At the end of the binary, it prints out the record of it’s code coverage. Which means that we may recover the control flow of binary from these information which sounds difficult. And the key point is what kind of sorting was implemented in the binary.</p>
+<p>The below is the detail of the sorting implemented in the binary, take input as <code>123\n3\n1 2 5\n</code> for example, which means that take the char at <code>flag[1]</code>,<code>flag[2]</code>,<code>flag[5]</code>, and sort these chars with string <code>123</code> together. (Newline would affect the code coverage)</p>
+<p>The user input <code>123</code> would be processed first, then the characters from flag string.</p>
+<p>And the phases of sorting can be summarize as follow : </p>
+<ol>
+<li>Build up a List</li>
+<li>Build a charObject which has <code>sub_list</code>,<code>sub_list_len</code>,<code>char_value</code>,<code>next</code>,<code>parent</code></li>
+<li>Insert the charObject to the List base on the value of <code>sub_list_len</code>,which should initialize as<code>0</code>. If there were already some objects with 0 <code>sub_list_len</code>,the new object would be inserted at the tail of them (it’s actually not the length, just for convenience)</li>
+<li>Compare last two object at row of charObject with same <code>sub_list_len</code> value</li>
+<li>The bigger one would be put into the sublist of the other one</li>
+<li>Go back to 2. if there are still chars remaining.</li>
+</ol>
+<p>So, it look like</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">input :</div><div class="line">123</div><div class="line">3</div><div class="line">1 2 5</div><div class="line">#Assume that the flag at remote is &apos;flag&#123;???????????&#125;&apos;</div><div class="line">List -&gt; null </div><div class="line"></div><div class="line">List -&gt; &apos;1&apos;</div><div class="line"></div><div class="line">List -&gt; &apos;1&apos; -&gt; &apos;2&apos;</div><div class="line"></div><div class="line">List -&gt; &apos;1&apos;</div><div class="line">         |</div><div class="line">        &apos;2&apos;</div><div class="line">        </div><div class="line">List -&gt; &apos;3&apos; -&gt; &apos;1&apos;</div><div class="line">                |</div><div class="line">               &apos;2&apos;</div><div class="line">               </div><div class="line">List -&gt; &apos;l&apos; -&gt; &apos;3&apos; -&gt; &apos;1&apos;</div><div class="line">                       |</div><div class="line">                      &apos;2&apos;</div><div class="line">                      </div><div class="line">List -&gt; &apos;3&apos; -&gt; &apos;1&apos;</div><div class="line">         |      |</div><div class="line">        &apos;l&apos;    &apos;2&apos;</div><div class="line">        </div><div class="line">List -&gt; &apos;a&apos; -&gt; &apos;1&apos;</div><div class="line">                |</div><div class="line">               &apos;2&apos;</div><div class="line">                |</div><div class="line">               &apos;3&apos;</div><div class="line">                |</div><div class="line">               &apos;l&apos;</div><div class="line">               </div><div class="line">List -&gt; &apos;a&apos; -&gt; unknown_char -&gt;  &apos;1&apos;</div><div class="line">                                 |</div><div class="line">                                &apos;2&apos;</div><div class="line">                                 |</div><div class="line">                                &apos;3&apos;</div><div class="line">                                 |</div><div class="line">                                &apos;l&apos;</div></pre></td></tr></table></figure>
+<p>At this point, the last char, which is <code>flag[5]</code> would be compare with char <code>a</code>, according to the result (&gt; or &lt;=), the binary would give us two different code coverage, but the problem here is we can only compare the last char,<code>flag[4]</code> here, with the other char , <code>flag[1] ==&#39;a&#39;</code> here , which was also from flag string.</p>
+<p>If we change the order of the input slightly:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">123</div><div class="line">3</div><div class="line">5 1 2</div></pre></td></tr></table></figure>
+<p>Now we can compare the unknown char from string with our input, but the new problem is the code coverage is implemented by a bunch of counter, the flow after this compare may cause them looks the same. So we have to construct a string which make the binary branch predictable. That is : </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;&#125;A</div><div class="line">3</div><div class="line">5 4 47</div></pre></td></tr></table></figure>
+<p>The <code>flag[4]</code> and <code>flag[47]</code> are <code>{</code> and <code>}</code> respectively, this input make the path of sorting more predictable due to<code>{</code> and <code>}</code> are almost bigeer than all ascii. The fun fact here is the last char of flag is <code>\n</code>.</p>
+<h1 id="exploit"><a href="#exploit" class="headerlink" title="exploit"></a>exploit</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">from pwn import *</div><div class="line">import string</div><div class="line"></div><div class="line">context.log_level =&apos;error&apos;</div><div class="line">charset = sorted(list(string.printable[:-5]))</div><div class="line"></div><div class="line">flag = []</div><div class="line"></div><div class="line">def bsearch(idx,pos):</div><div class="line">    p = remote(&quot;111.186.63.16&quot;,20193)</div><div class="line">    p.sendline(&quot;&#123;&#125;&quot;+charset[idx]) </div><div class="line">    p.send(&quot;3\n&quot;+str(k)+&quot;\n4\n47\n&quot;)</div><div class="line">    ret = p.recv()</div><div class="line">    p.close()</div><div class="line">    return ret</div><div class="line"></div><div class="line">for k in range(5,47):</div><div class="line">    lower = 0</div><div class="line">    upper = len(charset)-1</div><div class="line">    l_st= bsearch(lower, k)</div><div class="line">    u_st = bsearch(upper, k)</div><div class="line"></div><div class="line">    while lower &lt; upper:</div><div class="line">        mid =  (lower+upper)/2 </div><div class="line">        if (bsearch(mid,k) == l_st):</div><div class="line">            lower = mid + 1</div><div class="line">        else:</div><div class="line">            upper = mid</div><div class="line"></div><div class="line">    flag.append(charset[lower-1])</div><div class="line">    print &quot;flag&#123;&quot;+&apos;&apos;.join(flag)+&quot;&#125;&quot;</div></pre></td></tr></table></figure>
 
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/en/2017-HITCON-Quals-Sakura-English/" >
-            
-                <span>2017::HITCON-Quals::Sakura::English</span>
-        </a>
-        <div class="abstract-content">
-            <p>Ask to input 400 chars, then take it as a 20*20 arry<br>Next the binary run a function to verify the array<br>If the verification were success, it would give you the SHA256 hash of you input, which is flag</p>
-<p>Let’s take a look at the function I mentioned<br>There are 150 while loops in this function<br>Before loops, it initialize lots of variables<br>Those loops are all similar to each:<br></p>
-            <p><a class="abstract-title " href="/en/2017-HITCON-Quals-Sakura-English/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/07</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "HITCON">HITCON</a>
-    
-</div>
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/Reversing-kr-write-up-1/" >
-            
-                <span>Reversing.kr #1</span>
-        </a>
-        <div class="abstract-content">
-            <p>本來想把9題擠一篇的，但想想還是分一下好了，<br>總之Easy系列完全就是 easy peasy lemon squeezy<br>這篇共4題，還沒解題建議不要先看。<br></p>
-            <p><a class="abstract-title " href="/tw/Reversing-kr-write-up-1/">➡read more</a></p>
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/">http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/">March 27th 2019, 8:47:48</a>
+            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/07/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reversing-kr">Reversing-kr</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/2017-AIS3-pre-exam-write-up/" >
-            
-                <span>AIS3 pre-exam write up</span>
-        </a>
-        <div class="abstract-content">
-            <p>總之我終於擊敗惰性開始寫writeup了，去年剛開始接觸資安的時候好像還不知道AIS3，所以這是第一次參加AIS3，總之本來想好好解逆向結果解不出來只有12名，培訓時間還跟我要去日本的時間完美的重疊了，慘。<br><br></p>
-            <p><a class="abstract-title " href="/tw/2017-AIS3-pre-exam-write-up/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/07/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "AIS3">AIS3</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
-    
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/page/2/">&#60; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
-    
-</main>
-            <!-- profile -->
+    <ul class="post-paginator">
+        <li class="next">
             
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4 >
-    <div class="profile-name">Terrynini</div>
-    
-    <div class="profile-signature">
-        逆逆逆逆
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
+        </li>
+        <li class="previous">
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" title= "TIL::利用 Chakra JIT 繞過 DEP 和 CFG">
+                    <div class="prevTitle">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</div>
+                </a>
             
-        
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
         
-            
-                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
-            
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2019::0CTF::Quals::Sanitize"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
         
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
     
-        
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
     
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
-            
-        
-    
-        
-            
-                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-            
-                <a href="//www.slideshare.net/ssuserf25451" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
-            
-        
-    
-        
-    
-        
     
 
-    </div>
-    
-    
-        <div class="friends">
-            <div>ORGANIZATION</div>
-            
-                
-                    <span>
-                        <a href= //ctftime.org/team/31003 target="_black">DoubleSigma</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //ctftime.org/team/65722 target="_black">BFS</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //ctftime.org/team/65722 target="_black">BFKinesiS</a>
-                    </span>
-                
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
             
         </div>
         <footer class="footer footer-unloaded">
@@ -648,6 +569,24 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TL-DR"><span class="toc-number">1.</span> <span class="toc-text">TL;DR</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#detail"><span class="toc-number">2.</span> <span class="toc-text">detail</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#exploit"><span class="toc-number">3.</span> <span class="toc-text">exploit</span></a></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1205,6 +1144,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
