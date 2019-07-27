@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>NiNi&#39;s Den</title>
+    <title>TIL::Windows Services Debug · NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -206,12 +206,23 @@
 </head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">TIL::Windows Services Debug</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -223,24 +234,71 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            TIL::Windows Services Debug
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Windows">Windows</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Words: <span class="post-count word-count">275</span>Reading time: <span class="post-count reading-time">1 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/07/01</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -341,340 +399,80 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>trace 了一隻很 G8 的程式，順手記錄一下在 windows 下，怎麼 attach 到一隻服務上面動態 debug。<br><a id="more"></a><br>在 windows 下可以在 <code>HKLM\SYSTEM\CurrentControlSet\Services</code> 註冊服務，之後可以使用指令 <code>net start ServiceName</code> 來啟動該服務。<a href="">Microsoft 官方介紹了很多 Debug 方法</a>，但是在 Vista 的版本之後，因為服務都被放進 session0，所以 Debug 基本上只能透過 remote 或是 kernel 控制的 usermode debugger。</p>
+<p>安裝 Windows 官方 SDK 的 debug tool 後，透過 Global flag 來綁定程式啟動時自動 attach 的 Debugger ，設定成 cdb 讓 service 掛著，就可以從 WinDbg remote debug 該服務。</p>
+<p>有些服務是把 ImagePath 設定成 <code>%SYSTEMROOT%\System32\svchost.exe -k netsvcs -p</code>，透過 svchost 載入 ServiceDll 來啟動服務，這時候我們 attach 到的會是 <code>svchost.exe</code>，要找到正確的入口點可以先在 dll 被載入時中斷：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sxe ld nameofdll.dll</div></pre></td></tr></table></figure>
+<p>同時因為 dll 一定有 Export 一個 ServiceMain 的 Entry 給 svchost 來執行，所以可以在 Entry 上面下斷點，就可以重頭開始 trace：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bm /a nameofdll!*</div></pre></td></tr></table></figure>
+<p>必讀資源：</p>
+<ul>
+<li><a href="http://windbg.info/doc/1-common-cmds.html" target="_blank" rel="external">WinDbg Commands</a></li>
+<li><a href="https://www.ixiacom.com/company/blog/debugging-malware-windbg" target="_blank" rel="external">Debugging Malware with WinDbg</a></li>
+<li><a href="https://musings.konundrum.org/2018/05/03/debugging-windows-services.html" target="_blank" rel="external">Debugging Windows Services</a></li>
+</ul>
 
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/en/2018-RealWorldCTF-Qual/" >
-            
-                <span>2018::RealWorldCTF::Qual</span>
-        </a>
-        <div class="abstract-content">
-            <p>RealWorld CTF is very interesting and that is the hardest check-in challenge I’ve ever saw.<br></p>
-            <p><a class="abstract-title " href="/en/2018-RealWorldCTF-Qual/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/30</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "RealWorldCTF">RealWorldCTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Web">Web</a>
-    
-</div>
-            
-        </div>
     </article>
+    <!-- license  -->
     
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/2018-AIS3-pre-exam/" >
-            
-                <span>2018::AIS3::pre-exam</span>
-        </a>
-        <div class="abstract-content">
-            <p>時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧<br>今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的<br>這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間<br>題目都還滿簡單的，有些題目滿有趣的<br></p>
-            <p><a class="abstract-title " href="/tw/2018-AIS3-pre-exam/">➡read more</a></p>
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/">http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/">July 1st 2019, 2:40:06</a>
+            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/13</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "AIS3">AIS3</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/OS-NachOS-HW1/" >
-            
-                <span>OS::NachOS::HW1</span>
-        </a>
-        <div class="abstract-content">
-            <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>NachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch <code>patch -p1 &lt; nachos-linux-64bit.diff</code></p>
-            <p><a class="abstract-title " href="/tw/OS-NachOS-HW1/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/29</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "OS">OS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/en/2018-ASIS-Quals-reverse/" >
-            
-                <span>2018::ASIS-Quals::reverse</span>
-        </a>
-        <div class="abstract-content">
-            <p>Another excuse, I had my wisdom tooth extracted, or I could solve them(rev) all.<br></p>
-            <p><a class="abstract-title " href="/en/2018-ASIS-Quals-reverse/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/04</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "ASIS">ASIS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/en/2018-0CTF-Quals-g0g0g0/" >
-            
-                <span>2018::0CTF-Quals::g0g0g0</span>
-        </a>
-        <div class="abstract-content">
-            <p>Hadding a headache, I did not spent so much time on 0CTF, which always has some fun problem to solve.</p>
-            <p><a class="abstract-title " href="/en/2018-0CTF-Quals-g0g0g0/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "0CTF">0CTF</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework7/" >
-            
-                <span>Advance-Algorithm::homework7</span>
-        </a>
-        <div class="abstract-content">
-            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><strong><em>感恩彬智讚嘆彬智</em></strong><br></p>
-            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework7/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework6/" >
-            
-                <span>Advance-Algorithm::homework6</span>
-        </a>
-        <div class="abstract-content">
-            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br></p>
-            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework6/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework5/" >
-            
-                <span>Advance-Algorithm::homework5</span>
-        </a>
-        <div class="abstract-content">
-            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
-            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework5/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/tw/Advance-Algorithm-homework4/" >
-            
-                <span>Advance-Algorithm::homework4</span>
-        </a>
-        <div class="abstract-content">
-            <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
-            <p><a class="abstract-title " href="/tw/Advance-Algorithm-homework4/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/15</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/en/2017-SECCON-Write-up/" >
-            
-                <span>2017::SECCON::Write-up</span>
-        </a>
-        <div class="abstract-content">
-            <p>I will add write-up of printf machine in next few day.</p>
-            <p><a class="abstract-title " href="/en/2017-SECCON-Write-up/">➡read more</a></p>
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SECCON">SECCON</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/2019-AIS3-前測官方解/" title= "2019::AIS3::前測官方解">
+                    <div class="prevTitle">2019::AIS3::前測官方解</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/">&#60; PREV</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">NEXT &#62;</a>
-    </nav>
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "TIL::Windows Services Debug"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
     
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -755,6 +553,24 @@
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1410,6 +1226,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
