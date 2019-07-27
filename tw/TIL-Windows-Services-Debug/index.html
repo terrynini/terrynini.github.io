@@ -401,7 +401,7 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>trace 了一隻很 G8 的程式，順手記錄一下在 windows 下，怎麼 attach 到一隻服務上面動態 debug。<br><a id="more"></a><br>在 windows 下可以在 <code>HKLM\SYSTEM\CurrentControlSet\Services</code> 註冊服務，之後可以使用指令 <code>net start ServiceName</code> 來啟動該服務。<a href="">Microsoft 官方介紹了很多 Debug 方法</a>，但是在 Vista 的版本之後，因為服務都被放進 session0，所以 Debug 基本上只能透過 remote 或是 kernel 控制的 usermode debugger。</p>
+        <p>trace 了一隻很 G8 的程式，順手記錄一下在 windows 下，怎麼 attach 到一隻服務上面動態 debug。<br><a id="more"></a><br>在 windows 下可以在 <code>HKLM\SYSTEM\CurrentControlSet\Services</code> 註冊服務，之後可以使用指令 <code>net start ServiceName</code> 來啟動該服務。<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugging-a-service-application" target="_blank" rel="external">Microsoft 官方介紹了很多 Debug 方法</a>，但是在 Vista 的版本之後，因為服務都被放進 session0，所以 Debug 基本上只能透過 remote 或是 kernel 控制的 usermode debugger。</p>
 <p>安裝 Windows 官方 SDK 的 debug tool 後，透過 Global flag 來綁定程式啟動時自動 attach 的 Debugger ，設定成 cdb 讓 service 掛著，就可以從 WinDbg remote debug 該服務。</p>
 <p>有些服務是把 ImagePath 設定成 <code>%SYSTEMROOT%\System32\svchost.exe -k netsvcs -p</code>，透過 svchost 載入 ServiceDll 來啟動服務，這時候我們 attach 到的會是 <code>svchost.exe</code>，要找到正確的入口點可以先在 dll 被載入時中斷：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sxe ld nameofdll.dll</div></pre></td></tr></table></figure>
