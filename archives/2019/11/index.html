@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>2018::0CTF-Quals::g0g0g0 · NiNi&#39;s Den</title>
+    <title>NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -206,23 +206,12 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >NiNi&#39;s Den</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">2018::0CTF-Quals::g0g0g0</a>
-            </div>
-    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -234,73 +223,24 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
-            2018::0CTF-Quals::g0g0g0
-            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "0CTF">0CTF</a>
-    
-</div>
-                
-                
-                    <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">397</span>Reading time: <span class="post-count reading-time">2 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/05/02</span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
         
     </div>
 </div>
@@ -401,88 +341,41 @@ height:50vh;
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>Hadding a headache, I did not spent so much time on 0CTF, which always has some fun problem to solve.</p>
-<a id="more"></a>
-<p>This problem give you a <code>trace.log</code> (<a href="/en/2018-0CTF-Quals-g0g0g0/g0g0g0.tar.gz" title="download file">download file</a>)</p>
-<p>It looks like:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">Entering main.init.</div><div class="line">.0:</div><div class="line">	 t0 = *init$guard</div><div class="line">	 if t0 goto 2 else 1</div><div class="line">.1:</div><div class="line">	 *init$guard = true:bool</div><div class="line">	 t1 = fmt.init()</div><div class="line">Entering fmt.init.</div><div class="line">.0:</div><div class="line">	 t0 = *init$guard</div><div class="line">	 if t0 goto 2 else 1</div><div class="line">.1:</div><div class="line">	 *init$guard = true:bool</div><div class="line">	 t1 = strconv.init()</div><div class="line">Entering strconv.init.</div><div class="line">.0:</div><div class="line">	 t0 = *init$guard</div><div class="line">	 if t0 goto 2 else 1</div><div class="line">.1:</div><div class="line">	 *init$guard = true:bool</div><div class="line">	 t1 = math.init()</div><div class="line">Entering math.init.</div><div class="line">.0:</div><div class="line">	 t0 = *init$guard</div></pre></td></tr></table></figure>
-<p>This is a trace log of a program, which should be written in Golang.But the <code>trace.log</code> looks like some LLVM IR, rather than trace generated by <code>go tool trace</code>. It seems like <code>trace.log</code> is too large to analyze, but actually this is a simple program. You can slim the <code>trace.log</code> by deleting some library function.</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//delete init</span></div><div class="line">Entering main.init.</div><div class="line">    ..<span class="number">.15584</span> lines</div><div class="line">Leaving main.init.</div><div class="line"><span class="comment">//and some input and ouput function</span></div><div class="line">Entering fmt.Println at /usr/local/Cellar/go/<span class="number">1.9</span><span class="number">.2</span>/libexec/src/fmt/print.go:<span class="number">256</span>:<span class="number">6.</span></div><div class="line">Leaving fmt.Println, resuming main.main at /tmp/gogo.go:<span class="number">192</span>:<span class="number">16.</span></div></pre></td></tr></table></figure>
-<p>Now, we can start to analyze the trace of program.<br>The trace is easy to read, but there are some weird IR :<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">t15 = phi [1: t8, 6: t8, 4: t14]</div></pre></td></tr></table></figure></p>
-<p>This is actually call the Phi node, since LLVM uses SSA (Static Single Assignment),which means that every variable can only be assigned once.Then,what if I wrote this program:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">1</span>;</div><div class="line"><span class="keyword">if</span> (v &lt; <span class="number">10</span>)</div><div class="line">    a = <span class="number">2</span>;</div><div class="line">b = a;</div></pre></td></tr></table></figure></p>
-<p>We assign a value to <code>a</code> twice!<br>So, it actually has more than one <code>a</code>.<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a1 = <span class="number">1</span>;     <span class="comment">//block 0</span></div><div class="line"><span class="keyword">if</span> (v &lt; <span class="number">10</span>)</div><div class="line">    a2 = <span class="number">2</span>; <span class="comment">//block 1</span></div><div class="line">b = PHI(a1, a2);    <span class="comment">//block 3</span></div></pre></td></tr></table></figure></p>
-<p>The IR of line 4 is :<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">b = phi [<span class="number">0</span>:a1, <span class="number">1</span>:a2]</div></pre></td></tr></table></figure></p>
-<p>You can understand the <code>trace.log</code> now.<br>The program implement big number by array, and also some function for multipling, adding big num, finally we can derive a equation from it:</p>
-<p>$$(x+y)(x+z)x−10(x+y)(x+z)(y+z)+(x+y)(y+z)y+(x+z)(y+z)z=0$$</p>
-<p>It seems to be simple, but it actually is a elliptic curve…</p>
-<p>PS. The <code>trace.log</code> is actually generated by ssadump</p>
-
-    </article>
-    <!-- license  -->
+            <main class="main index-page">
     
-        <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/en/2018-0CTF-Quals-g0g0g0/">http://blog.terrynini.tw/en/2018-0CTF-Quals-g0g0g0/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/en/2018-0CTF-Quals-g0g0g0/">May 2nd 2018, 12:35:44</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/程式安全-HW3-Write-up/" >
+            
+                <span>程式安全::HW3 Write-up</span>
+        </a>
+        <div class="abstract-content">
+            <p>2019 年交大程式安全 HW3 write-up</p>
+            <p><a class="abstract-title " href="/tw/程式安全-HW3-Write-up/">➡read more</a></p>
         </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/21</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Web">Web</a>
+    
+</div>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/en/2018-ASIS-Quals-reverse/" title= "2018::ASIS-Quals::reverse">
-                    <div class="nextTitle">2018::ASIS-Quals::reverse</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/Advance-Algorithm-homework7/" title= "Advance-Algorithm::homework7">
-                    <div class="prevTitle">Advance-Algorithm::homework7</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
     
-    <div id="disqus_thread"></div>
-    <script>
-        /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-        
-        var disqus_config = function () {
-        this.page.url = "http://blog.terrynini.tw/en/2018-0CTF-Quals-g0g0g0/";  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = "2018::0CTF-Quals::g0g0g0"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        
-        (function () { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://terrynini.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -563,24 +456,6 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1240,8 +1115,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({

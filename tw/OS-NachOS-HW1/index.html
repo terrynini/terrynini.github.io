@@ -408,7 +408,7 @@ height:50vh;
 <figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">AddrSpace::AddrSpace()</div><div class="line">&#123;</div><div class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[NumPhysPages];</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NumPhysPages; i++) &#123;</div><div class="line">        pageTable[i].virtualPage = i;   <span class="comment">// for now, virt page # = phys page #</span></div><div class="line">        pageTable[i].physicalPage = i;</div><div class="line"><span class="comment">//      pageTable[i].physicalPage = 0;</span></div><div class="line">        pageTable[i].valid = TRUE;</div><div class="line"><span class="comment">//      pageTable[i].valid = FALSE;</span></div><div class="line">        pageTable[i].use = FALSE;</div><div class="line">        pageTable[i].dirty = FALSE;</div><div class="line">        pageTable[i].readOnly = FALSE;  </div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 清空記憶體，但是不知道為什麼被註解掉了。</span></div><div class="line"><span class="comment">//    bzero(kernel-&gt;machine-&gt;mainMemory, MemorySize);</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>接下來在 <code>AddrSpace::Load</code> 中我們有這樣一個 <code>ASSERT</code>，<code>numPages</code> 就是程式所需要的 <code>page</code> 數量，用來判斷是否有超過實體記憶體的大小，超過就噴exception，因為等等我們要把記憶體分給多個程式，我們要改成 <code>&lt;= 空閒的 page</code> 才對。</p>
 <figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ASSERT(numPages &lt;= NumPhysPages);</div></pre></td></tr></table></figure>
-<p>在往後一點我們有一段 code 把我們的 <code>code</code> 段跟 <code>data</code> 段 load 進記憶體，但是這裡填的是 <code>virtualAddr</code> ，本來這樣填是因為虛擬記憶體本沒做事，完全跟時體記憶體一樣 —— 還記得建構式裡 <code>pageTable[i].virtualPage = i;   // for now, virt page # = phys page #</code>？但現在我們必須要換算虛擬記憶體對應的實體記憶體位置再讀入這樣才是正確的。</p>
+<p>在往後一點我們有一段 code 把我們的 <code>code</code> 段跟 <code>data</code> 段 load 進記憶體，但是這裡填的是 <code>virtualAddr</code> ，本來這樣填是因為虛擬記憶體本沒做事，完全跟實體記憶體一樣 —— 還記得建構式裡 <code>pageTable[i].virtualPage = i;   // for now, virt page # = phys page #</code>？但現在我們必須要換算虛擬記憶體對應的實體記憶體位置再讀入這樣才是正確的。</p>
 <figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// then, copy in the code and data segments into memory</span></div><div class="line"><span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</div><div class="line">    DEBUG(<span class="string">'a'</span>, <span class="string">"Initializing code segment, at 0x%x, size %d\n"</span>,noffH.code.virtualAddr, noffH.code.size);</div><div class="line">    executable-&gt;ReadAt(&amp;(machine-&gt;mainMemory[noffH.code.virtualAddr]),noffH.code.size, noffH.code.inFileAddr);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</div><div class="line">    DEBUG(<span class="string">'a'</span>, <span class="string">"Initializing data segment, at 0x%x, size %d\n"</span>,noffH.initData.virtualAddr, noffH.initData.size);</div><div class="line">    executable-&gt;ReadAt(&amp;(machine-&gt;mainMemory[noffH.initData.virtualAddr]),noffH.initData.size, noffH.initData.inFileAddr);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>因此先新增兩 <code>static</code> 變數（ <code>static</code> 是這個 <code>class</code> 所共享），用來記錄所有實體頁的使用狀況，以及當前還有多少實體頁是可以使用的，並記得在 <code>addrspace.cc</code> 中對 <code>static</code> 變數做初始化。</p>
 <figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.h</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddrSpace</span> &#123;</span></div><div class="line">    ...</div><div class="line">    <span class="keyword">private</span>:</div><div class="line">        ...</div><div class="line">        <span class="keyword">static</span> <span class="keyword">bool</span> PhyPageStatus[NumPhysPages];</div><div class="line">        <span class="keyword">static</span> <span class="keyword">int</span> NumFreePages;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -975,10 +975,9 @@ top:50vh;
     
     
     
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 27
+        Total : 28
         </div>
         <!-- search  -->
         
@@ -991,6 +990,11 @@ top:50vh;
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1078,17 +1082,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
         </li>
     
     
@@ -1127,12 +1131,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
@@ -1156,43 +1160,43 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
     
         <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
     
         <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
     
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
     
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
     
         <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
     
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
         <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
         <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
         <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1229,9 +1233,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
-    
         <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
         <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
