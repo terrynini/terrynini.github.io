@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">1,002</span>Reading time: <span class="post-count reading-time">4 min</span></span>
+                        <span>Word count: <span class="post-count word-count">1,004</span>Reading time: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -417,7 +417,7 @@ height:50vh;
 <p>然後直接回報 <code>terrynini.tw</code> 給 admin，這樣 <code>window.location</code> 跳轉之後，其實我們 <code>window.name</code> 還是會被保存，如此透過本來頁面的 xss 漏洞來觸發 <code>svg/onload</code> 裡的 <code>eval</code> 去造訪我們的 server，如此可以在自己 server 上的 apache access log 看到 admin bot 造訪了什麼 uri，也就是 <code>document.cookie</code>。</p>
 <h2 id="12-25-補充"><a href="#12-25-補充" class="headerlink" title="12/25 補充"></a>12/25 補充</h2><p>看了大家繳交的 writeup 其實不太確定大家是不是有理解原理….，因為這題較混亂，所以這次作業評分有解釋清楚的人會多一個 <code>+</code> 號，分數之後再討論，總括來說會有兩種 payload ，一種是像上述 writeup 一樣使用 <code>&lt;iframe src=/\PSHTA.ML&gt;</code> 讓 admin 訪問，第二種是直接把 javascript 所在的網址給 admin 去訪問。主要差別在於，如果回報給 admin 的網址必須也得是 <code>https://edu-ctf.kaibro.tw:30678/hackme.php?q=</code> 的話，那我們就必須使用 <code>iframe</code> 的方式不可，但這題其實沒有這個限制，所以不需要多繞一個 <code>iframe</code> 來完成，可以直接傳網址就好了。</p>
 <p>因為不知道大家是不是有發現可以回報外部網域，writeup 的語意可能有誤會，所以這裡不用 <code>A/B</code> 來評分，就讓有解釋清楚的人多點分數這樣子。</p>
-<p>在其他部分，這兩種 payload 其實沒有差別， <code>iframe</code> 跟直接存取網址一樣，都有跨域拿 cookie 的問題，所以我們不能在 <code>iframe</code> 裡面直接拿 cookie，必須把 admin 導回同網域 (<code>edu-ctf.kaibro.tw</code>) 中有 Reflected XSS 漏洞的頁面，這裡利用 <code>window.name</code> 的特性所以可以夾帶我們真實的 payload 來繞過 filter。</p>
+<p>在其他部分，這兩種 payload 其實沒有差別， <code>iframe</code> 跟直接存取網址一樣，都有跨域拿 cookie 的問題，所以我們不能在 <code>iframe</code> 裡面直接拿 cookie，必須把 admin 導回同網域 (<code>edu-ctf.kaibro.tw</code>) 中有 Reflected XSS 漏洞的頁面，這裡利用 <code>window.name</code> 跨域的特性所以可以夾帶我們真實的 payload 來繞過 filter。</p>
 
     </article>
     <!-- license  -->
@@ -1278,7 +1278,22 @@ jsonContent:
     
         <script src="/scripts/share.js" async></script>    
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
 
 
