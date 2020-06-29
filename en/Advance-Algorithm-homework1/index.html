@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">2,210</span>Reading time: <span class="post-count reading-time">14 min</span></span>
+                        <span>Word count: <span class="post-count word-count">2.2k</span>Reading time: <span class="post-count reading-time">13 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -399,32 +399,90 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。<br>Written in English.<br><a id="more"></a></p>
+        <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。<br>Written in English.</p>
+<a id="more"></a>
 <h5 id="problem-1"><a href="#problem-1" class="headerlink" title="problem 1"></a>problem 1</h5><p>Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program.</p>
-<div class="highlight"><br>$$ T(1) = 0$$<br>$$ T(n) = T(n-1) + T(n-2) + 1 $$<br>$$ T(n) &lt; 2T(n-1) + 1 = 4T(n-2) + 2 + 1 = 8T(n-3) + 4 + 2 + 1 $$<br>$$ T(n) &lt; 2^kT(n-k) + \frac{(1-2^k)}{1-2} $$<br>$$ if\;n-k=1,k=n-1$$<br>$$ O(T(n)) = O( 2^{n-1}T(1) + \frac{1-2^{n-1}}{1-2} ) = O(2^n) $$<br></div>
+<div class="highlight">
+$$ T(1) = 0$$
+$$ T(n) = T(n-1) + T(n-2) + 1 $$
+$$ T(n) < 2T(n-1) + 1 = 4T(n-2) + 2 + 1 = 8T(n-3) + 4 + 2 + 1 $$
+$$ T(n) < 2^kT(n-k) + \frac{(1-2^k)}{1-2} $$
+$$ if\;n-k=1,k=n-1$$
+$$ O(T(n)) = O( 2^{n-1}T(1) + \frac{1-2^{n-1}}{1-2} ) = O(2^n) $$
+</div>
 
 <h5 id="problem-2"><a href="#problem-2" class="headerlink" title="problem 2"></a>problem 2</h5><p>Determine the space complexity of the quicksort algorithm.</p>
-<div class="highlight"><br>For in-place quick sort, space complexity is determined by stacks used by recursive call.<br><br>The best case, it needs <code>O(logn)</code> recursive call to sort, the space complexity is <code>O(logn)</code>.<br><br>The worse case, it needs <code>O(n)</code> recursive call to sort, the space complexity is <code>O(n)</code>.<br><br>We know the the average case of quick sort is that it need  <code>O(logn)</code> recursive call, so the space complexity of quicksort is <code>O(logn)</code>.<br></div>
+<div class="highlight">
+For in-place quick sort, space complexity is determined by stacks used by recursive call. 
+
+<p>The best case, it needs <code>O(logn)</code> recursive call to sort, the space complexity is <code>O(logn)</code>.</p>
+<p>The worse case, it needs <code>O(n)</code> recursive call to sort, the space complexity is <code>O(n)</code>.</p>
+<p>We know the the average case of quick sort is that it need  <code>O(logn)</code> recursive call, so the space complexity of quicksort is <code>O(logn)</code>.</p>
+</div>
 
 <h5 id="problem-3"><a href="#problem-3" class="headerlink" title="problem 3"></a>problem 3</h5><p> Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) = 0$ </p>
-<div class="highlight"><br>$$ T(n) = 2T(\frac{n}{2}) + n-1 = 4T(\frac{n}{4}) + n-2 + n-1 = 8T(\frac{n}{8}) + n-4 + n-2 + n-1 $$<br>$$ T(n) = 2^kT(\frac{n}{2^k}) + kn + \frac{1-2^k}{1-2} $$<br>$$ if \frac{n}{2^k} = 1 , k = log_2(n) $$<br>$$ T(n) = nlog_2(n) + \frac{1-n}{1-2}$$<br></div>
+<div class="highlight">
+$$ T(n) = 2T(\frac{n}{2}) + n-1 = 4T(\frac{n}{4}) + n-2 + n-1 = 8T(\frac{n}{8}) + n-4 + n-2 + n-1 $$
+$$ T(n) = 2^kT(\frac{n}{2^k}) + kn + \frac{1-2^k}{1-2} $$
+$$ if \frac{n}{2^k} = 1 , k = log_2(n) $$
+$$ T(n) = nlog_2(n) + \frac{1-n}{1-2}$$
+</div>
 
 <h5 id="problem-4"><a href="#problem-4" class="headerlink" title="problem 4"></a>problem 4</h5><p>Given a set of n+1 numbers out of the first 2n natural numbers 1, 2, …, 2n, prove by mathematic induction that here are two numbers in the set, one of which divides the other. </p>
-<div class="highlight"><br><br><strong><em>Basis</em></strong> : $n = 1, 1|2 $<br>Assume that, for $n = k$, it holds(select k+1 numbers from first 2k natural numbers).<br><br>When $ n = k + 1 $(select k+2 numbers from first 2k+2 natural numbers), there are three situation:<br><br>1. Each number we select is less or equal to 2k, means that we select k+2 numbers from first 2k natural numbers. Under this situation, it holds.<br><br>2. One number we select is greater than 2k, means that we select remaining k+1 numbers from first 2k natural numbers. Under this situation, it holds.<br><br>3. We select both 2k+1 and 2k+2 :<br>    <em> If we select k+1, then $(k+1)|(2k+2)$. It holds.
-    </em> If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$<br></div>
+<div class="highlight">
 
+<p><strong><em>Basis</em></strong> : $n = 1, 1|2 $<br>Assume that, for $n = k$, it holds(select k+1 numbers from first 2k natural numbers).</p>
+<p>When $ n = k + 1 $(select k+2 numbers from first 2k+2 natural numbers), there are three situation:</p>
+<ol>
+<li><p>Each number we select is less or equal to 2k, means that we select k+2 numbers from first 2k natural numbers. Under this situation, it holds.</p>
+</li>
+<li><p>One number we select is greater than 2k, means that we select remaining k+1 numbers from first 2k natural numbers. Under this situation, it holds.</p>
+</li>
+<li><p>We select both 2k+1 and 2k+2 :</p>
+<ul>
+<li>If we select k+1, then $(k+1)|(2k+2)$. It holds.</li>
+<li>If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$</div>
+
+</li>
+</ul>
+</li>
+</ol>
 <h5 id="problem-5"><a href="#problem-5" class="headerlink" title="problem 5"></a>problem 5</h5><p>For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.</p>
-<div class="highlight"><br>We know that if a graph is connected, there is a spanning tree.<br><br>Removing the leaf node of spanning tree still makes graph connected.<br></div>
+<div class="highlight">
+We know that if a graph is connected, there is a spanning tree.
+
+<p>Removing the leaf node of spanning tree still makes graph connected.</p>
+</div>
 
 <h5 id="problem-6"><a href="#problem-6" class="headerlink" title="problem 6"></a>problem 6</h5><p>Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) = \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem: Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value. </p>
-<div class="highlight"><br><br>$$let\;M\;=\;median\;of\;x_i$$<br>$$ x_1 \le x_2 \le … \le x_s \le A \le x_{s+1} \le … \le x_t \le M \le x_{t+1} \le … \le x_n $$<br>1. If n is even and an arbitrary number A is less or equal than M:<br>$$ n = 2t $$<br>$$ f(A) =  {\sum_{i=1}^s(A-x_i) + \sum_{i=s+1}^n(x_i-A)}$$<br>$$ = \sum_{i=1}^t(A-M+M-x_i) - \sum_{i=s+1}^t(A-x_i)+\sum_{i=t+1}^n(x_i-M+M-A) +\sum_{i=s+1}^t(x_i-A)$$<br>$$ = \sum_{i=1}^t(M-x_i)+ t(A-M) + \sum_{i=t+1}^n(x_i-M)+(n-t)(M-A) + 2\sum_{i=s+1}^t(x_i-A)$$<br>$$ = \sum_{i=1}^t(M-x_i) + \sum_{i=t+1}^n(x_i-M) + 2\sum_{i=s+1}^t(x_i-A) +(n-2t)(M-A) $$<br>$$ when\;A\;=\;M,\;2\sum_{i=s+1}^t(x_i-A)\;has\;minimum\;value$$<br>(Proof this when A&gt;=M,and when n is odd, it’s easy)<br><br>Extend this result to  $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $<br><br>$Let\;v_i=|a_i|,w_i=\frac{b_i}{a_i}$<br>$$f(x) = \sum_{1\le i\le n}|a_ix-b_i|$$<br>$$= \sum_{1\le i\le n}|a_i||x-\frac{b_i}{a_i}|$$<br>$$= \sum_{1\le i\le n}v_i|x-w_i|$$<br>$f(x) = \sum_{1\le i\le n}v_i|x-w_i|$ takes its minimum value at the median of the sequence :<br>$$w_1,w_1,…,w_1,…,w_2,w_2,…,w_2,…,w_n,w_n,…,w_n$$<br>$$|———v_1——–||———v_2—-|….|—–v_n——|$$<br></div>
+<div class="highlight">
+
+<p>$$let;M;=;median;of;x_i$$<br>$$ x_1 \le x_2 \le … \le x_s \le A \le x_{s+1} \le … \le x_t \le M \le x_{t+1} \le … \le x_n $$</p>
+<ol>
+<li>If n is even and an arbitrary number A is less or equal than M:<br>$$ n = 2t $$<br>$$ f(A) =  {\sum_{i=1}^s(A-x_i) + \sum_{i=s+1}^n(x_i-A)}$$<br>$$ = \sum_{i=1}^t(A-M+M-x_i) - \sum_{i=s+1}^t(A-x_i)+\sum_{i=t+1}^n(x_i-M+M-A) +\sum_{i=s+1}^t(x_i-A)$$<br>$$ = \sum_{i=1}^t(M-x_i)+ t(A-M) + \sum_{i=t+1}^n(x_i-M)+(n-t)(M-A) + 2\sum_{i=s+1}^t(x_i-A)$$<br>$$ = \sum_{i=1}^t(M-x_i) + \sum_{i=t+1}^n(x_i-M) + 2\sum_{i=s+1}^t(x_i-A) +(n-2t)(M-A) $$<br>$$ when;A;=;M,;2\sum_{i=s+1}^t(x_i-A);has;minimum;value$$<br>(Proof this when A&gt;=M,and when n is odd, it’s easy)</li>
+</ol>
+<p>Extend this result to  $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ </p>
+<p>$Let;v_i=|a_i|,w_i=\frac{b_i}{a_i}$<br>$$f(x) = \sum_{1\le i\le n}|a_ix-b_i|$$<br>$$= \sum_{1\le i\le n}|a_i||x-\frac{b_i}{a_i}|$$<br>$$= \sum_{1\le i\le n}v_i|x-w_i|$$<br>$f(x) = \sum_{1\le i\le n}v_i|x-w_i|$ takes its minimum value at the median of the sequence :<br>$$w_1,w_1,…,w_1,…,w_2,w_2,…,w_2,…,w_n,w_n,…,w_n$$<br>$$|———v_1——–||———v_2—-|….|—–v_n——|$$</p>
+</div>
 
 <h5 id="problem-7"><a href="#problem-7" class="headerlink" title="problem 7"></a>problem 7</h5><p>Prove the Helly Property on Trees: Given a tree T and k subtrees of T such that each pair of subtrees has at least one vertex in common, show that there is at least one vertex in common to all the subtrees.</p>
-<div class="highlight"><br>Definition of Helly Property :<br>A family $ \{A_i: i \in I \} $ of subsets of a set $A$ is said to satisfy the Helly property,if $J \subseteq I$, and $A_i\cap A_j\ne \emptyset$, for every $i, j \in J$, then $\cap_{j\in J}A_j\ne \emptyset$.<br><br>Briefly, a set $J$ of sets $A_i$ has the Helly property if for every subset $T$ of $J$ the following holds: if the elements of $T$ pairwise intersect, then the intersection of all elements of $T$ is also non-empty.<br><br><img src="/en/Advance-Algorithm-homework1/Helly.png" alt="\[\]" title="\[\]"><br>Quoted from <a href="http://compalg.inf.elte.hu/~tony/Oktatas/TDK/FINAL/Chap%204.PDF" target="_blank" rel="external">here</a><br></div>
+<div class="highlight">
+Definition of Helly Property : 
+A family $ \\{A\_i: i \in I \\} $ of subsets of a set $A$ is said to satisfy the Helly property,if $J \subseteq I$, and $A\_i\cap A\_j\ne \emptyset$, for every $i, j \in J$, then $\cap\_{j\in J}A\_j\ne \emptyset$.
+
+<p>Briefly, a set $J$ of sets $A_i$ has the Helly property if for every subset $T$ of $J$ the following holds: if the elements of $T$ pairwise intersect, then the intersection of all elements of $T$ is also non-empty.</p>
+<img src="/en/Advance-Algorithm-homework1/Helly.png" class="" title="\[\]">
+<p>Quoted from <a href="http://compalg.inf.elte.hu/~tony/Oktatas/TDK/FINAL/Chap%204.PDF" target="_blank" rel="noopener">here</a></p>
+</div>
 
 
-<h5 id="problem-8"><a href="#problem-8" class="headerlink" title="problem 8"></a>problem 8</h5><p>Let $d_1, d_2, …, d_n,\;n\le 2$, be positive integers. Prove that if $d_1+ d_2+ …+ d_n = 2n - 2$, then there exists a tree with n vertices of degrees exactly $d_1, d_2, …, d_n$. Based on your proof, design an efficient algorithm to construct such a tree. </p>
-<div class="highlight"><br><br><strong><em>Basis</em></strong> :<br>when $n=1,d_1=0$,it holds.<br>when $n=2,d_1=1,d_2=1$ , it holds.<br><br><strong><em>Induction</em></strong> :<br>$$ Let\;d_1\le d_2\le d_3\le … \le d_n $$<br>$$ d_1=1,otherwise, $$<br>$$ d_1+ d_2+ …+ d_n \ge 2n \ge 2n - 2 $$<br>$$ when\;n\ne 2, d_n\ge 2,otherwise,$$<br>$$ d_1+ d_2+ …+ d_n = n &lt; 2n-2 $$<br><br>Therefor<br>$$ d_1+ d_2+ …+ d_n +d_{n+1} = 2(n+1)-2 = 2n  $$<br>$$ d_1+ d_2+ … + d_n +d_{n+1} - 2 = 2n-2 $$<br>$$ d_1+ d_2+ … + (d_n +d_{n+1} - 2) = 2n-2 $$<br>$ d_1+ d_2+ … + (d_n + d_{n+1} - 2) $ satisfy the induction hypothesis, so there exist a tree with n vertices with these degrees.<br>Remove  $(d_{n+1} - 1)$ neighbours from the vertix whose degree is $(d_n + d_{n+1} - 2)$, connect those neighbours with a new node,and connect the new node with the vertix whose original degree is $(d_n + d_{n+1} - 2)$.<br>Then we get<br>$$ d_1+ d_2+ … + d_n +d_{n+1}  = 2n $$<br>$$QED$$<br><br></div>
+<h5 id="problem-8"><a href="#problem-8" class="headerlink" title="problem 8"></a>problem 8</h5><p>Let $d_1, d_2, …, d_n,;n\le 2$, be positive integers. Prove that if $d_1+ d_2+ …+ d_n = 2n - 2$, then there exists a tree with n vertices of degrees exactly $d_1, d_2, …, d_n$. Based on your proof, design an efficient algorithm to construct such a tree. </p>
+<div class="highlight">
+
+<p><strong><em>Basis</em></strong> :<br>when $n=1,d_1=0$,it holds.<br>when $n=2,d_1=1,d_2=1$ , it holds.</p>
+<p><strong><em>Induction</em></strong> :<br>$$ Let;d_1\le d_2\le d_3\le … \le d_n $$<br>$$ d_1=1,otherwise, $$<br>$$ d_1+ d_2+ …+ d_n \ge 2n \ge 2n - 2 $$<br>$$ when;n\ne 2, d_n\ge 2,otherwise,$$<br>$$ d_1+ d_2+ …+ d_n = n &lt; 2n-2 $$</p>
+<p>Therefor<br>$$ d_1+ d_2+ …+ d_n +d_{n+1} = 2(n+1)-2 = 2n  $$<br>$$ d_1+ d_2+ … + d_n +d_{n+1} - 2 = 2n-2 $$<br>$$ d_1+ d_2+ … + (d_n +d_{n+1} - 2) = 2n-2 $$<br>$ d_1+ d_2+ … + (d_n + d_{n+1} - 2) $ satisfy the induction hypothesis, so there exist a tree with n vertices with these degrees.<br>Remove  $(d_{n+1} - 1)$ neighbours from the vertix whose degree is $(d_n + d_{n+1} - 2)$, connect those neighbours with a new node,and connect the new node with the vertix whose original degree is $(d_n + d_{n+1} - 2)$.<br>Then we get<br>$$ d_1+ d_2+ … + d_n +d_{n+1}  = 2n $$<br>$$QED$$</p>
+</div>
 
 <p>algorithm :</p>
 <ol>
@@ -434,10 +492,16 @@ height:50vh;
 <li>Go back to 2 until there is no more nodes can be added</li>
 </ol>
 <h5 id="problem-9"><a href="#problem-9" class="headerlink" title="problem 9"></a>problem 9</h5><p>Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that $wv \in E$) </p>
-<div class="highlight"><br>You can find it in Morris’s old blog. <a href="http://mypaper.pchome.com.tw/zerojudge/post/1325745839" target="_blank" rel="external">Q8</a><br></div>
+<div class="highlight">
+You can find it in Morris's old blog. [Q8](http://mypaper.pchome.com.tw/zerojudge/post/1325745839)
+</div>
 
 <h5 id="problem-10"><a href="#problem-10" class="headerlink" title="problem 10"></a>problem 10</h5><p>Give a linear-time algorithm that takes as input a tree and determines whether it has a perfect matching: a set of edges that touches each node exactly once. </p>
-<div class="highlight"><br>perfect matching : <a href="http://mathworld.wolfram.com/PerfectMatching.html" target="_blank" rel="external">English</a>, <a href="http://www.csie.ntnu.edu.tw/~u91029/Matching.html" target="_blank" rel="external">Chinese</a><br><br>Because leaf nodes must match with their parent, we can perform a devide and conquer algorithm.<br><br></div>
+<div class="highlight">
+perfect matching : [English](http://mathworld.wolfram.com/PerfectMatching.html), [Chinese](http://www.csie.ntnu.edu.tw/~u91029/Matching.html)
+
+<p>Because leaf nodes must match with their parent, we can perform a devide and conquer algorithm.</p>
+</div>
 
 <table>
 <thead>
@@ -446,35 +510,62 @@ height:50vh;
 <th></th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td><img src="/en/Advance-Algorithm-homework1/1.png" alt="1" title="1"></td>
-<td><img src="/en/Advance-Algorithm-homework1/2.png" alt="2" title="2"></td>
+<tbody><tr>
+<td><img src="/en/Advance-Algorithm-homework1/1.png" class="" width="1"></td>
+<td><img src="/en/Advance-Algorithm-homework1/2.png" class="" width="2"></td>
 </tr>
 <tr>
-<td><img src="/en/Advance-Algorithm-homework1/3.png" alt="3" title="3"></td>
-<td><img src="/en/Advance-Algorithm-homework1/4.png" alt="4" title="4"></td>
+<td><img src="/en/Advance-Algorithm-homework1/3.png" class="" width="3"></td>
+<td><img src="/en/Advance-Algorithm-homework1/4.png" class="" width="4"></td>
 </tr>
 <tr>
-<td><img src="/en/Advance-Algorithm-homework1/5.png" alt="5" title="5"></td>
-<td><img src="/en/Advance-Algorithm-homework1/6.png" alt="6" title="6"></td>
+<td><img src="/en/Advance-Algorithm-homework1/5.png" class="" width="5"></td>
+<td><img src="/en/Advance-Algorithm-homework1/6.png" class="" width="6"></td>
 </tr>
 <tr>
-<td><img src="/en/Advance-Algorithm-homework1/7.png" alt="7" title="7"></td>
-<td><img src="/en/Advance-Algorithm-homework1/8.png" alt="8" title="8"></td>
+<td><img src="/en/Advance-Algorithm-homework1/7.png" class="" width="7"></td>
+<td><img src="/en/Advance-Algorithm-homework1/8.png" class="" width="8"></td>
 </tr>
-</tbody>
-</table>
-<p>pseudo code<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> UNMATCH 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MATCH   1</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL    -1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">PerfectMatching</span> <span class="params">( n )</span></span></div><div class="line">    <span class="keyword">if</span> child of n == <span class="number">0</span>                  <span class="comment">// if this node is leaf                    </span></div><div class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it's parent node that "this child node is unmatch"</span></div><div class="line"></div><div class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></div><div class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node                  </span></div><div class="line">        state &lt;- PerfectMatching( c )   </div><div class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></div><div class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></div><div class="line">                match_flag = MATCH      <span class="comment">// match them.</span></div><div class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></div><div class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won't be perfect matching</span></div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL               </div><div class="line">            <span class="keyword">return</span> FAIL</div><div class="line">    <span class="keyword">return</span> match_flag</div></pre></td></tr></table></figure></p>
+</tbody></table>
+<p>pseudo code</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UNMATCH 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MATCH   1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL    -1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">PerfectMatching</span> <span class="params">( n )</span></span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> child of n </span>== <span class="number">0</span>                  <span class="comment">// if this node is leaf                    </span></span><br><span class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it's parent node that "this child node is unmatch"</span></span><br><span class="line"></span><br><span class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></span><br><span class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node                  </span></span><br><span class="line">        state &lt;- PerfectMatching( c )   </span><br><span class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></span><br><span class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></span><br><span class="line">                match_flag = MATCH      <span class="comment">// match them.</span></span><br><span class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></span><br><span class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won't be perfect matching</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL               </span><br><span class="line">            <span class="keyword">return</span> FAIL</span><br><span class="line">    <span class="keyword">return</span> match_flag</span><br></pre></td></tr></table></figure>
+
 <h5 id="problem-11"><a href="#problem-11" class="headerlink" title="problem 11"></a>problem 11</h5><p>Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?</p>
-<div class="highlight"><br>The solution is similar to original Hanoi problem<br><br>Recursive Solution:<br><tab>1. Find the biggest disk</tab><br><tab>2. If the disk is moveable to goal peg then move and go to 4, otherwise, go to 3.</tab><br><tab>3. Set-up (N−1)-disk tower on non-goal peg.</tab><br><tab>4. Back to 1</tab><br><br></div>
+<div class="highlight">
+The solution is similar to original Hanoi problem
+
+<p>Recursive Solution:<br><tab>1. Find the biggest disk</tab><br><tab>2. If the disk is moveable to goal peg then move and go to 4, otherwise, go to 3.</tab><br><tab>3. Set-up (N−1)-disk tower on non-goal peg.</tab><br><tab>4. Back to 1</tab></p>
+</div>
 
 <h5 id="problem-12"><a href="#problem-12" class="headerlink" title="problem 12"></a>problem 12</h5><p>Let T be an undirected tree. The distance between two vertices in T is the length of the path connecting these two vertices (neighbours have distance 1). The diameter of T is the maximal distance over all pairs of vertices. Design an algorithm to find the diameter of the given tree. </p>
-<div class="highlight"><br>Because the highest two subtree of T determind the diameter of T.<br><br>The algorithm look like this:<br><br>1. Picking an arbitrary node, then find the farthest node $P_f$ from it.<br>2. Next, find the farthest node $P_g$ from $P_f$.<br>3. The distance between $P_g$ and $P_f$ is the diameter of T.<br><br>It’s easy to proof.<br></div>
+<div class="highlight">
+Because the highest two subtree of T determind the diameter of T.
+
+<p>The algorithm look like this:</p>
+<ol>
+<li>Picking an arbitrary node, then find the farthest node $P_f$ from it.</li>
+<li>Next, find the farthest node $P_g$ from $P_f$.</li>
+<li>The distance between $P_g$ and $P_f$ is the diameter of T.</li>
+</ol>
+<p>It’s easy to proof.</p>
+</div>
 
 <h5 id="problem-13"><a href="#problem-13" class="headerlink" title="problem 13"></a>problem 13</h5><p>Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm. </p>
-<p>iterative method<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">    move the smallest disk from its current peg to the next peg in clockwise order;</div><div class="line">    <span class="keyword">if</span>( all disks are correctly piled on someother peg ) <span class="keyword">break</span>;</div><div class="line">    make the only move possible that does notinvolve the smallest disk;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<div class="highlight"><br>We have three peg, $P_0\;P_1\;P_2$ ,and  $K$ disks,$D_1,D_2,D_3,…,D_K$ ,$K \in N$.<br>Assume that all disks are at peg $P_0$ initially.<br>$K$ is odd  : Disks will be moved to the peg $P_{(0+1)mod3}$<br>$K$ is even : Disks will be moved to the peg $P_{(0+2)mod3}$<br><br><strong><em>Basis</em></strong> :<br><tab>$K=1$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>it holds.</tab2><br><br><tab>$K=2$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>Move $D_2$ from $P_0$ to  $P_2$</tab2><br><tab2>Move $D_1$ from $P_1$ to  $P_2$</tab2><br><tab2>It holds</tab2><br><br><strong><em>Induction</em></strong> :<br><tab>Assume that it holds when $K=n$ and n is odd.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_1$)</tab><br><br><tab>$When\;K=n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_1$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_2$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_1$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_2$, it holds</tab2><br>|<br><br><tab>Assume that it holds when $K=n$ and n is even.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_2$)</tab><br><br><tab>$When\;K=n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_2$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_1$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_2$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_1$, it holds</tab2><br>|<br>$$QED$$<br></div>
+<p>iterative method</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">move</span> the smallest disk from its current peg to the next peg in clockwise order;</span><br><span class="line">    <span class="keyword">if</span>( all disks are correctly piled on someother peg ) <span class="keyword">break</span>;</span><br><span class="line">    make the only <span class="built_in">move</span> possible that does notinvolve the smallest disk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<div class="highlight">
+We have three peg, $P\_0\;P\_1\;P\_2$ ,and  $K$ disks,$D\_1,D\_2,D\_3,...,D\_K$ ,$K \in N$.
+Assume that all disks are at peg $P\_0$ initially.
+$K$ is odd  : Disks will be moved to the peg $P\_{(0+1)mod3}$
+$K$ is even : Disks will be moved to the peg $P\_{(0+2)mod3}$
+
+<p><strong><em>Basis</em></strong> :<br><tab>$K=1$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>it holds.</tab2></p>
+<p><tab>$K=2$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>Move $D_2$ from $P_0$ to  $P_2$</tab2><br><tab2>Move $D_1$ from $P_1$ to  $P_2$</tab2><br><tab2>It holds</tab2></p>
+<p><strong><em>Induction</em></strong> :<br><tab>Assume that it holds when $K=n$ and n is odd.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_1$)</tab></p>
+<p><tab>$When;K=n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_1$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_2$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_1$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_2$, it holds</tab2><br>|</p>
+<p><tab>Assume that it holds when $K=n$ and n is even.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_2$)</tab></p>
+<p><tab>$When;K=n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_2$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_1$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_2$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_1$, it holds</tab2><br>|<br>$$QED$$</p>
+</div>
     </article>
     <!-- license  -->
     
@@ -482,7 +573,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">http://blog.terrynini.tw/en/Advance-Algorithm-homework1/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">November 13th 2017, 4:56:41</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -528,7 +619,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -544,6 +635,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -1039,12 +1135,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1074,12 +1167,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1089,7 +1182,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1099,7 +1197,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1109,7 +1207,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1168,17 +1266,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1217,12 +1315,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1246,31 +1344,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1278,7 +1356,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1286,7 +1366,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1323,13 +1421,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

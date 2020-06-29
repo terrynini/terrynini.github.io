@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -277,7 +277,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">275</span>Reading time: <span class="post-count reading-time">1 min</span></span>
+                        <span>Word count: <span class="post-count word-count">274</span>Reading time: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -401,17 +401,21 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>trace 了一隻很 G8 的程式，順手記錄一下在 windows 下，怎麼 attach 到一隻服務上面動態 debug。<br><a id="more"></a><br>在 windows 下可以在 <code>HKLM\SYSTEM\CurrentControlSet\Services</code> 註冊服務，之後可以使用指令 <code>net start ServiceName</code> 來啟動該服務。<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugging-a-service-application" target="_blank" rel="external">Microsoft 官方介紹了很多 Debug 方法</a>，但是在 Vista 的版本之後，因為服務都被放進 session0，所以 Debug 基本上只能透過 remote 或是 kernel 控制的 usermode debugger。</p>
+        <p>trace 了一隻很 G8 的程式，順手記錄一下在 windows 下，怎麼 attach 到一隻服務上面動態 debug。</p>
+<a id="more"></a>
+<p>在 windows 下可以在 <code>HKLM\SYSTEM\CurrentControlSet\Services</code> 註冊服務，之後可以使用指令 <code>net start ServiceName</code> 來啟動該服務。<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugging-a-service-application" target="_blank" rel="noopener">Microsoft 官方介紹了很多 Debug 方法</a>，但是在 Vista 的版本之後，因為服務都被放進 session0，所以 Debug 基本上只能透過 remote 或是 kernel 控制的 usermode debugger。</p>
 <p>安裝 Windows 官方 SDK 的 debug tool 後，透過 Global flag 來綁定程式啟動時自動 attach 的 Debugger ，設定成 cdb 讓 service 掛著，就可以從 WinDbg remote debug 該服務。</p>
 <p>有些服務是把 ImagePath 設定成 <code>%SYSTEMROOT%\System32\svchost.exe -k netsvcs -p</code>，透過 svchost 載入 ServiceDll 來啟動服務，這時候我們 attach 到的會是 <code>svchost.exe</code>，要找到正確的入口點可以先在 dll 被載入時中斷：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sxe ld nameofdll.dll</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sxe ld nameofdll.dll</span><br></pre></td></tr></table></figure>
+
 <p>同時因為 dll 一定有 Export 一個 ServiceMain 的 Entry 給 svchost 來執行，所以可以在 Entry 上面下斷點，就可以重頭開始 trace：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bm /a nameofdll!*</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bm &#x2F;a nameofdll!*</span><br></pre></td></tr></table></figure>
+
 <p>必讀資源：</p>
 <ul>
-<li><a href="http://windbg.info/doc/1-common-cmds.html" target="_blank" rel="external">WinDbg Commands</a></li>
-<li><a href="https://www.ixiacom.com/company/blog/debugging-malware-windbg" target="_blank" rel="external">Debugging Malware with WinDbg</a></li>
-<li><a href="https://musings.konundrum.org/2018/05/03/debugging-windows-services.html" target="_blank" rel="external">Debugging Windows Services</a></li>
+<li><a href="http://windbg.info/doc/1-common-cmds.html" target="_blank" rel="noopener">WinDbg Commands</a></li>
+<li><a href="https://www.ixiacom.com/company/blog/debugging-malware-windbg" target="_blank" rel="noopener">Debugging Malware with WinDbg</a></li>
+<li><a href="https://musings.konundrum.org/2018/05/03/debugging-windows-services.html" target="_blank" rel="noopener">Debugging Windows Services</a></li>
 </ul>
 
     </article>
@@ -421,7 +425,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/">http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/tw/TIL-Windows-Services-Debug/">July 1st 2019, 2:40:06</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -429,7 +433,7 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/程式安全-HW3-Write-up/" title= "程式安全::HW3 Write-up">
+                <a href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" title= "程式安全::HW3 Write-up">
                     <div class="nextTitle">程式安全::HW3 Write-up</div>
                 </a>
             
@@ -437,8 +441,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/2019-AIS3-前測官方解/" title= "2019::AIS3::前測官方解">
-                    <div class="prevTitle">2019::AIS3::前測官方解</div>
+                <a href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" title= "2020::AIS3::前測官方解">
+                    <div class="prevTitle">2020::AIS3::前測官方解</div>
                 </a>
             
         </li>
@@ -467,7 +471,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -483,6 +487,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -978,12 +987,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1013,12 +1019,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1028,7 +1034,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1038,7 +1049,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1048,7 +1059,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1107,17 +1118,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1156,12 +1167,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1185,31 +1196,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1217,7 +1208,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1225,7 +1218,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1262,13 +1273,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

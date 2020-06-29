@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">1,935</span>Reading time: <span class="post-count reading-time">10 min</span></span>
+                        <span>Word count: <span class="post-count word-count">1.9k</span>Reading time: <span class="post-count reading-time">9 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -399,18 +399,21 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><strong><em>感恩彬智讚嘆彬智</em></strong><br><a id="more"></a></p>
+        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><strong><em>感恩彬智讚嘆彬智</em></strong></p>
+<a id="more"></a>
 <h5 id="1-Show-that-the-class-P-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-complement-and-Kleene-star-That-is-if-L1-L2-in-P-then-L1-cup-L2-in-P-etc"><a href="#1-Show-that-the-class-P-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-complement-and-Kleene-star-That-is-if-L1-L2-in-P-then-L1-cup-L2-in-P-etc" class="headerlink" title="1. Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc."></a>1. Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc.</h5><hr>
 <ul>
-<li><a href="https://www.csie.ntu.edu.tw/~hsinmu/courses/_media/ada_11fall/hw6-sol.pdf" target="_blank" rel="external">page 4 - Problem 2-a</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Kleene_star" target="_blank" rel="external">Kleene star</a><h5 id="2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle"><a href="#2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle" class="headerlink" title="2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle."></a>2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle.</h5></li>
+<li><a href="https://www.csie.ntu.edu.tw/~hsinmu/courses/_media/ada_11fall/hw6-sol.pdf" target="_blank" rel="noopener">page 4 - Problem 2-a</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Kleene_star" target="_blank" rel="noopener">Kleene star</a><h5 id="2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle"><a href="#2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle" class="headerlink" title="2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle."></a>2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle.</h5></li>
 </ul>
 <hr>
 <p>題目：if Decision Hamiltonian Cycle(<strong>DHC</strong>) $\in P<br>\rightarrow$ Finding Hamiltonian Cycle(<strong>FHC</strong>) $\in P$</p>
-<p>假設現在有一個演算法<code>HamCycle(G)</code>可以在P時間內解掉<strong>DHC</strong>，<br>則我們可以建構以下演算法在確定性P時間內解掉<strong>FHC</strong><br>(證明：連結裡面有)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">HCVertices(G)</div><div class="line">    H = []</div><div class="line">    next ← 0  // 初始值不重要</div><div class="line">    choose a starting node v</div><div class="line">    while G has unchecked edges do</div><div class="line">        if HamCycle(G) then</div><div class="line">            // 試著一個個拔掉連在v上的邊</div><div class="line">            // 如果有一個邊e被拿掉後，新的圖就不存在HC，那e就是HC的一部分</div><div class="line">            for all edges e = (v,u) on v do</div><div class="line">                G&apos; ← G − e</div><div class="line">                if HamCycle(G&apos;) then</div><div class="line">                    G = G&apos;</div><div class="line">                else</div><div class="line">                    add v to H</div><div class="line">                    mark e as checked</div><div class="line">                    next ← u</div><div class="line">            v ← next</div><div class="line">    return H</div></pre></td></tr></table></figure></p>
-<p><a href="https://hackmd.io/s/SJkREbaQz#13-%E5%95%8F%E9%A1%8C%E8%AE%8A%E8%BD%89problem-reduction" target="_blank" rel="external">問題變轉(Problem Reduction)</a></p>
+<p>假設現在有一個演算法<code>HamCycle(G)</code>可以在P時間內解掉<strong>DHC</strong>，<br>則我們可以建構以下演算法在確定性P時間內解掉<strong>FHC</strong><br>(證明：連結裡面有)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">HCVertices(G)</span><br><span class="line">    H = []</span><br><span class="line">    next ← <span class="number">0</span>  <span class="comment">// 初始值不重要</span></span><br><span class="line">    choose a starting node v</span><br><span class="line">    <span class="keyword">while</span> G has unchecked edges <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> HamCycle(G) then</span><br><span class="line">            <span class="comment">// 試著一個個拔掉連在v上的邊</span></span><br><span class="line">            <span class="comment">// 如果有一個邊e被拿掉後，新的圖就不存在HC，那e就是HC的一部分</span></span><br><span class="line">            <span class="keyword">for</span> all edges e = (v,u) on v <span class="keyword">do</span></span><br><span class="line">                G<span class="number">'</span> ← G − e</span><br><span class="line">                <span class="keyword">if</span> HamCycle(G<span class="number">'</span>) then</span><br><span class="line">                    G = G<span class="number">'</span></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    add v to H</span><br><span class="line">                    mark e as checked</span><br><span class="line">                    next ← u</span><br><span class="line">            v ← next</span><br><span class="line">    <span class="keyword">return</span> H</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://hackmd.io/s/SJkREbaQz#13-%E5%95%8F%E9%A1%8C%E8%AE%8A%E8%BD%89problem-reduction" target="_blank" rel="noopener">問題變轉(Problem Reduction)</a></p>
 <blockquote>
-<p>媽我找到答案了 裡面的problem 1 <a href="http://www.cs.wustl.edu/~pless/441/hw3soln.pdf" target="_blank" rel="external">http://www.cs.wustl.edu/~pless/441/hw3soln.pdf</a></p>
+<p>媽我找到答案了 裡面的problem 1 <a href="http://www.cs.wustl.edu/~pless/441/hw3soln.pdf" target="_blank" rel="noopener">http://www.cs.wustl.edu/~pless/441/hw3soln.pdf</a></p>
 </blockquote>
 <h5 id="3-Show-that-the-class-NP-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-and-Kleene-star"><a href="#3-Show-that-the-class-NP-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-and-Kleene-star" class="headerlink" title="3. Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star."></a>3. Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star.</h5><hr>
 <p>類似1.</p>
@@ -419,7 +422,7 @@ height:50vh;
 <p>$\because P \Rightarrow Q$ 等價於 $\bar Q \Rightarrow \bar P$<br>$\therefore$ if $NP \neq coNP$, then $P \neq NP$</p>
 <h5 id="5-Show-that-2-CNF-SAT-is-polynomial-time-solvable"><a href="#5-Show-that-2-CNF-SAT-is-polynomial-time-solvable" class="headerlink" title="5. Show that 2-CNF-SAT is polynomial time solvable."></a>5. Show that 2-CNF-SAT is polynomial time solvable.</h5><hr>
 <p><strong>CNF</strong> : conjunctive normal form，數位電路中的product of sum，例：$(A \lor B) \land (C \lor D)$</p>
-<p><a href="https://stackoverflow.com/questions/8467676/how-is-2-cnf-sat-is-in-p-while-3-cnf-sat-is-in-npc" target="_blank" rel="external">stackoverflow</a><br><a href="http://www.csie.ntnu.edu.tw/~u91029/Component.html#6" target="_blank" rel="external">演算法筆記</a></p>
+<p><a href="https://stackoverflow.com/questions/8467676/how-is-2-cnf-sat-is-in-p-while-3-cnf-sat-is-in-npc" target="_blank" rel="noopener">stackoverflow</a><br><a href="http://www.csie.ntnu.edu.tw/~u91029/Component.html#6" target="_blank" rel="noopener">演算法筆記</a></p>
 <blockquote>
 <p>↑這個方法太神啦</p>
 <blockquote>
@@ -427,7 +430,7 @@ height:50vh;
 </blockquote>
 </blockquote>
 <h5 id="6-The-subgraph-isomorphism-problem-takes-two-graphs-G1-and-G2-and-asks-whether-G1-is-isomorphic-to-a-subgraph-of-G2-Show-that-this-problem-is-NP-complete"><a href="#6-The-subgraph-isomorphism-problem-takes-two-graphs-G1-and-G2-and-asks-whether-G1-is-isomorphic-to-a-subgraph-of-G2-Show-that-this-problem-is-NP-complete" class="headerlink" title="6. The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete."></a>6. The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete.</h5><hr>
-<p><a href="https://www.chegg.com/homework-help/introduction-to-algorithms-2nd-edition-chapter-34.5-solutions-9780262032933" target="_blank" rel="external">Chegg標準解答</a></p>
+<p><a href="https://www.chegg.com/homework-help/introduction-to-algorithms-2nd-edition-chapter-34.5-solutions-9780262032933" target="_blank" rel="noopener">Chegg標準解答</a></p>
 <ul>
 <li><strong>Subgraph Isomorphism Problem</strong><ul>
 <li><code>Input :</code>graph $G_1$, $G_2$</li>
@@ -462,7 +465,8 @@ height:50vh;
 </ul>
 <p>證明 <strong>SAT</strong> $\propto$ <strong>Integer Programming Problem</strong> (<strong>IPP</strong>)</p>
 <ol>
-<li>已知 <strong>SAT</strong> $\in$ <strong>NPC</strong> <ul>
+<li><p>已知 <strong>SAT</strong> $\in$ <strong>NPC</strong> </p>
+<ul>
 <li><code>Input :</code>CNF布林函式 $E(x) = C_1 \land C_2 \land … \land C_k$ , $x = { x_1,…,x_n}$<br>  如 $C_1 = \lnot x_1 + x_3 + x_7$</li>
 <li><code>Output:</code>是否存在一組輸入當作 $x$ 使得 $E(x) = True$</li>
 </ul>
@@ -473,16 +477,21 @@ height:50vh;
 </li>
 <li><p>如：$C_1$ 對應 $(1-x_1)+x_3+x_7 \geq 1 \\<br>  \rightarrow -x_1+x_3+x_7 \geq 0 \\<br>  \rightarrow x_1-x_3-x_7 \leq 0 \\<br>  \rightarrow a_1 = {1,0,-1,0,0,0,-1,…}, b_1=0$</p>
 </li>
-<li><strong>IPP</strong>的輸出改為：是否存在一 n-vector $x={0,1}$ 使得 $ A_x \leq b$，0 對應 $False$，1 對應 $True$</li>
+<li><p><strong>IPP</strong>的輸出改為：是否存在一 n-vector $x={0,1}$ 使得 $ A_x \leq b$，0 對應 $False$，1 對應 $True$</p>
+</li>
 </ul>
 </li>
-<li>因為<code>SAT(E) = IPP(A,b)</code></li>
-<li>所以 <strong>SAT</strong> $\propto$ <strong>IPP</strong> $\rightarrow$ <strong>IPP</strong> $\in$ <strong>NP-hard</strong></li>
-<li>又 <strong>IPP</strong> $\in$ <strong>NP</strong>（簡單寫個NP演算法就知道了）</li>
-<li><strong>IPP</strong> $\in$ <strong>NPC</strong></li>
+<li><p>因為<code>SAT(E) = IPP(A,b)</code></p>
+</li>
+<li><p>所以 <strong>SAT</strong> $\propto$ <strong>IPP</strong> $\rightarrow$ <strong>IPP</strong> $\in$ <strong>NP-hard</strong></p>
+</li>
+<li><p>又 <strong>IPP</strong> $\in$ <strong>NP</strong>（簡單寫個NP演算法就知道了）</p>
+</li>
+<li><p><strong>IPP</strong> $\in$ <strong>NPC</strong></p>
+</li>
 </ol>
 <h5 id="8-Given-a-set-S-of-integers-determine-whether-there-exists-a-subset-A-subseteq-S-such-that-sum-x-in-A-x-sum-x-in-S-A-x-Show-this-problem-is-NP-complete"><a href="#8-Given-a-set-S-of-integers-determine-whether-there-exists-a-subset-A-subseteq-S-such-that-sum-x-in-A-x-sum-x-in-S-A-x-Show-this-problem-is-NP-complete" class="headerlink" title="8. Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum_{x\in A}x = \sum_{x\in S-A} x$. Show this problem is NP-complete."></a>8. Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum_{x\in A}x = \sum_{x\in S-A} x$. Show this problem is NP-complete.</h5><hr>
-<p><a href="https://web.njit.edu/~marvin/cs341/hw/hwsoln13.pdf" target="_blank" rel="external">Problem 1</a></p>
+<p><a href="https://web.njit.edu/~marvin/cs341/hw/hwsoln13.pdf" target="_blank" rel="noopener">Problem 1</a></p>
 <ul>
 <li><strong>Partition Problem</strong><ul>
 <li><code>Input :</code>set $S$</li>
@@ -544,7 +553,7 @@ height:50vh;
 <li>四色的輸入為：我們只要在三色圖上面新增一個點，並且這個點跟其他所有的點都有邊</li>
 <li>四色的輸出為：是否存在一種著色方法，只用四色就可以畫這張圖<br>假設原圖可以用3色著色，那剛才多加的那個點，<strong><em>一定會需要用到第四色</em></strong>，所以我們可以知道，要變轉到k色著色，只要幫3色圖的輸入加上k-3個點，且這幾個新增的點到每點都要有邊，這樣我們就可以證明 <strong>3著色</strong> $\propto$ <strong>k著色</strong>了。</li>
 </ul>
-<p><a href="https://www.clear.rice.edu/comp487/3sat-to-3col.pdf" target="_blank" rel="external">https://www.clear.rice.edu/comp487/3sat-to-3col.pdf</a><br><a href="https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf" target="_blank" rel="external">https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf</a></p>
+<p><a href="https://www.clear.rice.edu/comp487/3sat-to-3col.pdf" target="_blank" rel="noopener">https://www.clear.rice.edu/comp487/3sat-to-3col.pdf</a><br><a href="https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf" target="_blank" rel="noopener">https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf</a></p>
 <h5 id="10-Show-that-the-path-cover-problem-is-NP-complete"><a href="#10-Show-that-the-path-cover-problem-is-NP-complete" class="headerlink" title="10. Show that the path cover problem is NP-complete."></a>10. Show that the path cover problem is NP-complete.</h5><hr>
 <ul>
 <li><strong>Path Cover Problem</strong><ul>
@@ -573,11 +582,11 @@ height:50vh;
 <blockquote>
 <p>應該不會考吧</p>
 </blockquote>
-<p><div style="color:red"><br>Determine whether each of the following problems is polynomial time solvable or NP-complete.</div></p>
-<p><div></div></p>
-<blockquote>
-<p>隔天要考就沒寫了系列 呵呵</p>
-</blockquote>
+<div style="color:red">
+Determine whether each of the following problems is polynomial time solvable or NP-complete.
+<div>
+> 隔天要考就沒寫了系列 呵呵
+
 <h5 id="12-Given-a-set-S-of-n-real-numbers-another-real-number-M-and-an-integer-k-we-want-to-determine-whether-or-not-there-exist-k-elements-in-S-whose-sum-is-exactly-M"><a href="#12-Given-a-set-S-of-n-real-numbers-another-real-number-M-and-an-integer-k-we-want-to-determine-whether-or-not-there-exist-k-elements-in-S-whose-sum-is-exactly-M" class="headerlink" title="12. Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$."></a>12. Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$.</h5><hr>
 <p>這個好證，跟前面類似</p>
 <h5 id="13-We-are-given-an-integer-k-and-n-objects-which-have-to-be-placed-in-bins-of-equal-capacity-M-Object-i-1-leq-i-leq-n-requires-mi-units-of-capacity-The-objective-is-to-determine-whether-k-bins-are-enough-to-accommodate-all-n-objects-No-object-may-be-placed-partly-in-one-bin-and-partly-in-another"><a href="#13-We-are-given-an-integer-k-and-n-objects-which-have-to-be-placed-in-bins-of-equal-capacity-M-Object-i-1-leq-i-leq-n-requires-mi-units-of-capacity-The-objective-is-to-determine-whether-k-bins-are-enough-to-accommodate-all-n-objects-No-object-may-be-placed-partly-in-one-bin-and-partly-in-another" class="headerlink" title="13. We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another."></a>13. We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another.</h5><hr>
@@ -592,7 +601,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework7/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework7/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework7/">January 15th 2018, 12:23:37</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -638,7 +647,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -654,6 +663,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -745,7 +759,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Show-that-the-class-P-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-complement-and-Kleene-star-That-is-if-L1-L2-in-P-then-L1-cup-L2-in-P-etc"><span class="toc-number">1.</span> <span class="toc-text">1. Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle"><span class="toc-number">2.</span> <span class="toc-text">2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Show-that-the-class-NP-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-and-Kleene-star"><span class="toc-number">3.</span> <span class="toc-text">3. Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Prove-that-P-subseteq-NP-cap-co-NP-and-if-NP-ne-co-NP-then-P-ne-NP"><span class="toc-number">4.</span> <span class="toc-text">4. Prove that P $\subseteq$ NP$\cap$ co-NP and if NP$\ne$ co-NP,then P$\ne $NP.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Show-that-2-CNF-SAT-is-polynomial-time-solvable"><span class="toc-number">5.</span> <span class="toc-text">5. Show that 2-CNF-SAT is polynomial time solvable.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-The-subgraph-isomorphism-problem-takes-two-graphs-G1-and-G2-and-asks-whether-G1-is-isomorphic-to-a-subgraph-of-G2-Show-that-this-problem-is-NP-complete"><span class="toc-number">6.</span> <span class="toc-text">6. The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-an-integer-m-by-n-matrix-A-and-an-integer-m-vector-b-the-integer-programming-problem-asks-whether-there-is-an-integer-n-vector-x-such-that-Ax-leq-b-Prove-that-this-problem-is-NP-complete"><span class="toc-number">7.</span> <span class="toc-text">7. Given an integer m-by-n matrix $A$, and an integer m-vector $b$, the integer programming problem asks whether there is an integer n-vector $x$ such that $Ax \leq b$. Prove that this problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Given-a-set-S-of-integers-determine-whether-there-exists-a-subset-A-subseteq-S-such-that-sum-x-in-A-x-sum-x-in-S-A-x-Show-this-problem-is-NP-complete"><span class="toc-number">8.</span> <span class="toc-text">8. Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum_{x\in A}x = \sum_{x\in S-A} x$. Show this problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-An-undirected-graph-G-is-k-colorable-if-we-can-color-V-G-using-at-most-k-colors-such-that-for-each-edge-xy-in-E-G-its-two-end-vertices-are-x-and-y-are-colored-with-different-colors-Let-k-COLOR-denote-the-problem-of-determine-whether-G-is-k-colorable-Show-that-k-COLOR-is-NP-complete-for-any-constant-k-geq-3"><span class="toc-number">9.</span> <span class="toc-text">9. An undirected graph $G$ is k-colorable, if we can color $V(G)$ using at most $k$ colors such that for each edge $xy$ in $E(G)$, its two end vertices are $x$ and $y$ are colored with different colors. Let k-COLOR denote the problem of determine whether $G$ is k-colorable. Show that k-COLOR is NP-complete for any constant $k \geq 3$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-Show-that-the-path-cover-problem-is-NP-complete"><span class="toc-number">10.</span> <span class="toc-text">10. Show that the path cover problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#11-List-all-NP-complete-problems-and-give-proofs-that-appear-in-Ex-1-6"><span class="toc-number">11.</span> <span class="toc-text">11. List all NP-complete problems (and give proofs) that appear in Ex.1~6.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#12-Given-a-set-S-of-n-real-numbers-another-real-number-M-and-an-integer-k-we-want-to-determine-whether-or-not-there-exist-k-elements-in-S-whose-sum-is-exactly-M"><span class="toc-number">12.</span> <span class="toc-text">12. Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#13-We-are-given-an-integer-k-and-n-objects-which-have-to-be-placed-in-bins-of-equal-capacity-M-Object-i-1-leq-i-leq-n-requires-mi-units-of-capacity-The-objective-is-to-determine-whether-k-bins-are-enough-to-accommodate-all-n-objects-No-object-may-be-placed-partly-in-one-bin-and-partly-in-another"><span class="toc-number">13.</span> <span class="toc-text">13. We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#14-Given-an-undirecter-graph-G-and-a-number-k"><span class="toc-number">14.</span> <span class="toc-text">14. Given an undirecter graph $G$ and a number $k$ :</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a-Is-there-a-cycle-of-length-geq-k"><span class="toc-number">15.</span> <span class="toc-text">a) Is there a cycle of length $\geq$ k?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-Is-there-a-cycle-of-length-leq-k"><span class="toc-number">16.</span> <span class="toc-text">b) Is there a cycle of length $\leq$ k?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#c-Is-there-a-spanning-tree-with-each-node-of-degree-leq-3"><span class="toc-number">17.</span> <span class="toc-text">c) Is there a spanning tree with each node of degree $\leq$ 3?</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Show-that-the-class-P-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-complement-and-Kleene-star-That-is-if-L1-L2-in-P-then-L1-cup-L2-in-P-etc"><span class="toc-number">1.</span> <span class="toc-text">1. Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Show-that-if-the-decision-version-of-the-Hamiltonian-cycle-is-polynomial-time-solvable-then-so-is-the-problem-of-finding-a-Hamiltonian-cycle"><span class="toc-number">2.</span> <span class="toc-text">2. Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Show-that-the-class-NP-viewed-as-a-set-of-languages-is-closed-under-union-intersection-concatenation-and-Kleene-star"><span class="toc-number">3.</span> <span class="toc-text">3. Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Prove-that-P-subseteq-NP-cap-co-NP-and-if-NP-ne-co-NP-then-P-ne-NP"><span class="toc-number">4.</span> <span class="toc-text">4. Prove that P $\subseteq$ NP$\cap$ co-NP and if NP$\ne$ co-NP,then P$\ne $NP.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Show-that-2-CNF-SAT-is-polynomial-time-solvable"><span class="toc-number">5.</span> <span class="toc-text">5. Show that 2-CNF-SAT is polynomial time solvable.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-The-subgraph-isomorphism-problem-takes-two-graphs-G1-and-G2-and-asks-whether-G1-is-isomorphic-to-a-subgraph-of-G2-Show-that-this-problem-is-NP-complete"><span class="toc-number">6.</span> <span class="toc-text">6. The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-an-integer-m-by-n-matrix-A-and-an-integer-m-vector-b-the-integer-programming-problem-asks-whether-there-is-an-integer-n-vector-x-such-that-Ax-leq-b-Prove-that-this-problem-is-NP-complete"><span class="toc-number">7.</span> <span class="toc-text">7. Given an integer m-by-n matrix $A$, and an integer m-vector $b$, the integer programming problem asks whether there is an integer n-vector $x$ such that $Ax \leq b$. Prove that this problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Given-a-set-S-of-integers-determine-whether-there-exists-a-subset-A-subseteq-S-such-that-sum-x-in-A-x-sum-x-in-S-A-x-Show-this-problem-is-NP-complete"><span class="toc-number">8.</span> <span class="toc-text">8. Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum_{x\in A}x &#x3D; \sum_{x\in S-A} x$. Show this problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-An-undirected-graph-G-is-k-colorable-if-we-can-color-V-G-using-at-most-k-colors-such-that-for-each-edge-xy-in-E-G-its-two-end-vertices-are-x-and-y-are-colored-with-different-colors-Let-k-COLOR-denote-the-problem-of-determine-whether-G-is-k-colorable-Show-that-k-COLOR-is-NP-complete-for-any-constant-k-geq-3"><span class="toc-number">9.</span> <span class="toc-text">9. An undirected graph $G$ is k-colorable, if we can color $V(G)$ using at most $k$ colors such that for each edge $xy$ in $E(G)$, its two end vertices are $x$ and $y$ are colored with different colors. Let k-COLOR denote the problem of determine whether $G$ is k-colorable. Show that k-COLOR is NP-complete for any constant $k \geq 3$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-Show-that-the-path-cover-problem-is-NP-complete"><span class="toc-number">10.</span> <span class="toc-text">10. Show that the path cover problem is NP-complete.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#11-List-all-NP-complete-problems-and-give-proofs-that-appear-in-Ex-1-6"><span class="toc-number">11.</span> <span class="toc-text">11. List all NP-complete problems (and give proofs) that appear in Ex.1~6.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#12-Given-a-set-S-of-n-real-numbers-another-real-number-M-and-an-integer-k-we-want-to-determine-whether-or-not-there-exist-k-elements-in-S-whose-sum-is-exactly-M"><span class="toc-number">12.</span> <span class="toc-text">12. Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#13-We-are-given-an-integer-k-and-n-objects-which-have-to-be-placed-in-bins-of-equal-capacity-M-Object-i-1-leq-i-leq-n-requires-mi-units-of-capacity-The-objective-is-to-determine-whether-k-bins-are-enough-to-accommodate-all-n-objects-No-object-may-be-placed-partly-in-one-bin-and-partly-in-another"><span class="toc-number">13.</span> <span class="toc-text">13. We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#14-Given-an-undirecter-graph-G-and-a-number-k"><span class="toc-number">14.</span> <span class="toc-text">14. Given an undirecter graph $G$ and a number $k$ :</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a-Is-there-a-cycle-of-length-geq-k"><span class="toc-number">15.</span> <span class="toc-text">a) Is there a cycle of length $\geq$ k?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-Is-there-a-cycle-of-length-leq-k"><span class="toc-number">16.</span> <span class="toc-text">b) Is there a cycle of length $\leq$ k?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#c-Is-there-a-spanning-tree-with-each-node-of-degree-leq-3"><span class="toc-number">17.</span> <span class="toc-text">c) Is there a spanning tree with each node of degree $\leq$ 3?</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1149,12 +1163,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1184,12 +1195,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1199,7 +1210,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1209,7 +1225,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1219,7 +1235,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1278,17 +1294,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1327,12 +1343,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1356,31 +1372,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1388,7 +1384,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1396,7 +1394,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1433,13 +1449,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -279,7 +279,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">769</span>Reading time: <span class="post-count reading-time">5 min</span></span>
+                        <span>Word count: <span class="post-count word-count">838</span>Reading time: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -404,18 +404,22 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <p>Ask to input 400 chars, then take it as a 20*20 arry<br>Next the binary run a function to verify the array<br>If the verification were success, it would give you the SHA256 hash of you input, which is flag</p>
-<p>Let’s take a look at the function I mentioned<br>There are 150 while loops in this function<br>Before loops, it initialize lots of variables<br>Those loops are all similar to each:<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">V1      &lt;- fetch a local variable</div><div class="line">counter &lt;- call addition function to determine how many time to loop</div><div class="line"></div><div class="line">While</div><div class="line">    fetch a char from UserInput according to V1</div><div class="line">    the int(char) can only be 1~9, or fail</div><div class="line">    the int(char) can not repeat in this while loop, or fail</div><div class="line">    add the int(char) to local variable (sum) of this loop</div><div class="line">END</div><div class="line"></div><div class="line">sum should equal to a certain value, or fail</div></pre></td></tr></table></figure></p>
+<p>Let’s take a look at the function I mentioned<br>There are 150 while loops in this function<br>Before loops, it initialize lots of variables<br>Those loops are all similar to each:</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">V1      &lt;- fetch a local variable</span><br><span class="line">counter &lt;- call addition function to determine how many time to loop</span><br><span class="line"></span><br><span class="line">While</span><br><span class="line">    fetch a char from UserInput according to V1</span><br><span class="line">    the int(char) can only be 1~9, or fail</span><br><span class="line">    the int(char) can not repeat in this while loop, or fail</span><br><span class="line">    add the int(char) to local variable (sum) of this loop</span><br><span class="line">END</span><br><span class="line"></span><br><span class="line">sum should equal to a certain value, or fail</span><br></pre></td></tr></table></figure>
 <p><strong><em>!!Notice that if verification was failed, the binary would not stop immediately, it only set the flag to false</em></strong></p>
 <p>It’s not so hard to find out that you can do some symbolic execution to get the right input<br>But there are so many loops and so many variables<br>This is a ppc problem (っ・Д・)っ</p>
 <p>Because I don’t know how to quickly get the address that I want to put into the <code>avoid</code> of angr’s explorer, I decided to use z3 solver.</p>
 <p>For convenient, let’s name some weird function.<br>Most of them just return the argument directly, so I named them <code>nothing</code><br>Some function would return the argument adding by a <code>number</code>, so I named them <code>plus_(number)</code><br>OK, I dumped psudocode to <code>sakura_de.c</code> and seperate the syntax of initializing local variables to a text file, <code>variable</code></p>
 <p>Now, all I need to do is to write a script to generate a z3 script</p>
 <p><strong>solver.py</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! /usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">f = open(<span class="string">"./sakura_de.c"</span>, <span class="string">"r"</span>).read()</div><div class="line"></div><div class="line"><span class="comment">#get the variable and constraint of every loop</span></div><div class="line">idx     = re.findall(<span class="string">"v[0-9]* = \(__int64 \*\)nothing_[0-9]*\(\(__int64\)\&amp;v([0-9]*)\)"</span>, f)</div><div class="line">loop_n  = re.findall(<span class="string">"v[0-9]* = plus_([0-9]*)"</span>, f)</div><div class="line">con     = re.findall(<span class="string">"\( v[0-9]* \!= ([0-9]*) \)"</span>, f)</div><div class="line"></div><div class="line">f = open(<span class="string">"./variables"</span>, <span class="string">"r"</span>).read()</div><div class="line"></div><div class="line"><span class="comment">#get the local variable on stack</span></div><div class="line">equ   = re.findall(<span class="string">"v([0-9]*) = ([0-9]*);"</span>, f) </div><div class="line">stack = [<span class="number">0</span>]*<span class="number">1944</span></div><div class="line"><span class="keyword">for</span> ( x , y ) <span class="keyword">in</span> equ:</div><div class="line">    stack[int(x)] = int(y)</div><div class="line"></div><div class="line">get_stack = <span class="keyword">lambda</span> a,b: (stack[int(idx[a])+b*<span class="number">2</span>] + (stack[int(idx[a])+<span class="number">1</span>+b*<span class="number">2</span>] &lt;&lt;<span class="number">32</span>))</div><div class="line"></div><div class="line"></div><div class="line">z3_code = <span class="string">"""</span></div><div class="line">#! /usr/bin/env python</div><div class="line"># -*- coding: utf-8 -*-</div><div class="line">from z3 import *</div><div class="line"></div><div class="line">s = Solver()</div><div class="line">"""</div><div class="line"></div><div class="line"><span class="comment">#add constraint to z3</span></div><div class="line"><span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">20</span>):</div><div class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">20</span>):</div><div class="line">        name = chr(ord(<span class="string">'A'</span>)+row) + str(col)</div><div class="line">        z3_code += <span class="string">"&#123;&#125; = Int('&#123;&#125;')\n"</span>.format(name,name)</div><div class="line">        z3_code += <span class="string">"s.add( 0 &lt; &#123;&#125; , &#123;&#125; &lt; 10)\n"</span>.format(name,name)</div><div class="line"></div><div class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">150</span>):</div><div class="line">    loop = int(int(loop_n[j])/<span class="number">8</span>)</div><div class="line">    this_loop = []</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(loop):</div><div class="line">        xx = get_stack(j,i)</div><div class="line">        row =  xx&amp;<span class="number">0xffffffff</span></div><div class="line">        col = xx&gt;&gt;<span class="number">32</span></div><div class="line">        this_loop.append((row, col))</div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(this_loop)<span class="number">-1</span>):</div><div class="line">        (row, col) = this_loop[i]</div><div class="line">        a = chr(ord(<span class="string">'A'</span>)+row) + str(col)</div><div class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(i+<span class="number">1</span>,len(this_loop)):</div><div class="line">            (row, col) = this_loop[k]</div><div class="line">            b = chr(ord(<span class="string">'A'</span>)+row) + str(col)</div><div class="line">            z3_code += <span class="string">"s.add( &#123;&#125; != &#123;&#125;)\n"</span>.format(a, b)</div><div class="line">    z3_code += <span class="string">"s.add("</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(this_loop)):</div><div class="line">        (row, col) = this_loop[i]</div><div class="line">        a = chr(ord(<span class="string">'A'</span>)+row) + str(col)</div><div class="line">        z3_code += <span class="string">" &#123;&#125; + "</span>.format(a)</div><div class="line">    z3_code += <span class="string">" 0 == &#123;&#125;)\n"</span>.format(con[j])</div><div class="line"></div><div class="line">z3_code += <span class="string">"""</span></div><div class="line">s.check()</div><div class="line">m = s.model()</div><div class="line">sakura = [0]*400</div><div class="line"></div><div class="line">for i in m:</div><div class="line">    row = ord(str(i)[0]) - ord('A')</div><div class="line">    col = int(str(i)[1:])</div><div class="line">    sakura[ 20*row + col ] = str(m[i])</div><div class="line"></div><div class="line">print ''.join(sakura)</div><div class="line">"""</div><div class="line"></div><div class="line"><span class="keyword">exec</span> z3_code</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"./sakura_de.c"</span>, <span class="string">"r"</span>).read()</span><br><span class="line"></span><br><span class="line"><span class="comment">#get the variable and constraint of every loop</span></span><br><span class="line">idx     = re.findall(<span class="string">"v[0-9]* = \(__int64 \*\)nothing_[0-9]*\(\(__int64\)\&amp;v([0-9]*)\)"</span>, f)</span><br><span class="line">loop_n  = re.findall(<span class="string">"v[0-9]* = plus_([0-9]*)"</span>, f)</span><br><span class="line">con     = re.findall(<span class="string">"\( v[0-9]* \!= ([0-9]*) \)"</span>, f)</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"./variables"</span>, <span class="string">"r"</span>).read()</span><br><span class="line"></span><br><span class="line"><span class="comment">#get the local variable on stack</span></span><br><span class="line">equ   = re.findall(<span class="string">"v([0-9]*) = ([0-9]*);"</span>, f) </span><br><span class="line">stack = [<span class="number">0</span>]*<span class="number">1944</span></span><br><span class="line"><span class="keyword">for</span> ( x , y ) <span class="keyword">in</span> equ:</span><br><span class="line">    stack[int(x)] = int(y)</span><br><span class="line"></span><br><span class="line">get_stack = <span class="keyword">lambda</span> a,b: (stack[int(idx[a])+b*<span class="number">2</span>] + (stack[int(idx[a])+<span class="number">1</span>+b*<span class="number">2</span>] &lt;&lt;<span class="number">32</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">z3_code = <span class="string">"""</span></span><br><span class="line"><span class="string">#! /usr/bin/env python</span></span><br><span class="line"><span class="string"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="string">from z3 import *</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">s = Solver()</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#add constraint to z3</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">        name = chr(ord(<span class="string">'A'</span>)+row) + str(col)</span><br><span class="line">        z3_code += <span class="string">"&#123;&#125; = Int('&#123;&#125;')\n"</span>.format(name,name)</span><br><span class="line">        z3_code += <span class="string">"s.add( 0 &lt; &#123;&#125; , &#123;&#125; &lt; 10)\n"</span>.format(name,name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">150</span>):</span><br><span class="line">    loop = int(int(loop_n[j])/<span class="number">8</span>)</span><br><span class="line">    this_loop = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(loop):</span><br><span class="line">        xx = get_stack(j,i)</span><br><span class="line">        row =  xx&amp;<span class="number">0xffffffff</span></span><br><span class="line">        col = xx&gt;&gt;<span class="number">32</span></span><br><span class="line">        this_loop.append((row, col))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(this_loop)<span class="number">-1</span>):</span><br><span class="line">        (row, col) = this_loop[i]</span><br><span class="line">        a = chr(ord(<span class="string">'A'</span>)+row) + str(col)</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(i+<span class="number">1</span>,len(this_loop)):</span><br><span class="line">            (row, col) = this_loop[k]</span><br><span class="line">            b = chr(ord(<span class="string">'A'</span>)+row) + str(col)</span><br><span class="line">            z3_code += <span class="string">"s.add( &#123;&#125; != &#123;&#125;)\n"</span>.format(a, b)</span><br><span class="line">    z3_code += <span class="string">"s.add("</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(this_loop)):</span><br><span class="line">        (row, col) = this_loop[i]</span><br><span class="line">        a = chr(ord(<span class="string">'A'</span>)+row) + str(col)</span><br><span class="line">        z3_code += <span class="string">" &#123;&#125; + "</span>.format(a)</span><br><span class="line">    z3_code += <span class="string">" 0 == &#123;&#125;)\n"</span>.format(con[j])</span><br><span class="line"></span><br><span class="line">z3_code += <span class="string">"""</span></span><br><span class="line"><span class="string">s.check()</span></span><br><span class="line"><span class="string">m = s.model()</span></span><br><span class="line"><span class="string">sakura = [0]*400</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">for i in m:</span></span><br><span class="line"><span class="string">    row = ord(str(i)[0]) - ord('A')</span></span><br><span class="line"><span class="string">    col = int(str(i)[1:])</span></span><br><span class="line"><span class="string">    sakura[ 20*row + col ] = str(m[i])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">print ''.join(sakura)</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">exec</span> z3_code</span><br></pre></td></tr></table></figure>
+
 <p><strong>sakura_de.c (partial)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">__int64 __fastcall sub_850(__int64 UserInput)</div><div class="line">&#123;</div><div class="line">  v604 = (__int64 *)nothing_16((__int64)&amp;v904);</div><div class="line">  v754 = plus_16((__int64)&amp;v904);</div><div class="line">  while ( v604 != (__int64 *)v754 )</div><div class="line">  &#123;</div><div class="line">    v1 = *v604;</div><div class="line">    *(&amp;OutPutArray[20 * (signed int)v1] + SHIDWORD(v1)) = *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1));</div><div class="line">    v454 = *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1)) - &apos;0&apos;;</div><div class="line">    if ( v454 &lt;= 0 || v454 &gt; 9 )</div><div class="line">      Success = 0;</div><div class="line">    if ( (v304 &gt;&gt; v454) &amp; 1 )</div><div class="line">      Success = 0;</div><div class="line">    v304 |= 1 &lt;&lt; v454;</div><div class="line">    v154 += v454;</div><div class="line">    ++v604;</div><div class="line">  &#125;</div><div class="line">  if ( v154 != 17 )</div><div class="line">    Success = 0;</div><div class="line">  v155 = 0;</div><div class="line">  v305 = 0;</div><div class="line">  v605 = (__int64 *)nothing_16((__int64)&amp;v908);</div><div class="line">  v755 = plus_16((__int64)&amp;v908);</div><div class="line">  while ( v605 != (__int64 *)v755 )</div><div class="line">  &#123;</div><div class="line">    v2 = *v605;</div><div class="line">    *(&amp;OutPutArray[20 * (signed int)v2] + SHIDWORD(v2)) = *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2));</div><div class="line">    v455 = *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2)) - 48;</div><div class="line">    if ( v455 &lt;= 0 || v455 &gt; 9 )</div><div class="line">      Success = 0;</div><div class="line">    if ( (v305 &gt;&gt; v455) &amp; 1 )</div><div class="line">      Success = 0;</div><div class="line">    v305 |= 1 &lt;&lt; v455;</div><div class="line">    v155 += v455;</div><div class="line">    ++v605;</div><div class="line">  &#125;</div><div class="line">  if ( v155 != 3 )</div><div class="line">    Success = 0;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">__int64 __fastcall sub_850(__int64 UserInput)</span><br><span class="line">&#123;</span><br><span class="line">  v604 &#x3D; (__int64 *)nothing_16((__int64)&amp;v904);</span><br><span class="line">  v754 &#x3D; plus_16((__int64)&amp;v904);</span><br><span class="line">  while ( v604 !&#x3D; (__int64 *)v754 )</span><br><span class="line">  &#123;</span><br><span class="line">    v1 &#x3D; *v604;</span><br><span class="line">    *(&amp;OutPutArray[20 * (signed int)v1] + SHIDWORD(v1)) &#x3D; *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1));</span><br><span class="line">    v454 &#x3D; *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1)) - &#39;0&#39;;</span><br><span class="line">    if ( v454 &lt;&#x3D; 0 || v454 &gt; 9 )</span><br><span class="line">      Success &#x3D; 0;</span><br><span class="line">    if ( (v304 &gt;&gt; v454) &amp; 1 )</span><br><span class="line">      Success &#x3D; 0;</span><br><span class="line">    v304 |&#x3D; 1 &lt;&lt; v454;</span><br><span class="line">    v154 +&#x3D; v454;</span><br><span class="line">    ++v604;</span><br><span class="line">  &#125;</span><br><span class="line">  if ( v154 !&#x3D; 17 )</span><br><span class="line">    Success &#x3D; 0;</span><br><span class="line">  v155 &#x3D; 0;</span><br><span class="line">  v305 &#x3D; 0;</span><br><span class="line">  v605 &#x3D; (__int64 *)nothing_16((__int64)&amp;v908);</span><br><span class="line">  v755 &#x3D; plus_16((__int64)&amp;v908);</span><br><span class="line">  while ( v605 !&#x3D; (__int64 *)v755 )</span><br><span class="line">  &#123;</span><br><span class="line">    v2 &#x3D; *v605;</span><br><span class="line">    *(&amp;OutPutArray[20 * (signed int)v2] + SHIDWORD(v2)) &#x3D; *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2));</span><br><span class="line">    v455 &#x3D; *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2)) - 48;</span><br><span class="line">    if ( v455 &lt;&#x3D; 0 || v455 &gt; 9 )</span><br><span class="line">      Success &#x3D; 0;</span><br><span class="line">    if ( (v305 &gt;&gt; v455) &amp; 1 )</span><br><span class="line">      Success &#x3D; 0;</span><br><span class="line">    v305 |&#x3D; 1 &lt;&lt; v455;</span><br><span class="line">    v155 +&#x3D; v455;</span><br><span class="line">    ++v605;</span><br><span class="line">  &#125;</span><br><span class="line">  if ( v155 !&#x3D; 3 )</span><br><span class="line">    Success &#x3D; 0;</span><br></pre></td></tr></table></figure>
+
 <p><strong>variables (partial)</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">v904 = <span class="number">1</span>;</div><div class="line">v905 = <span class="number">6</span>;</div><div class="line">v906 = <span class="number">2</span>;</div><div class="line">v907 = <span class="number">6</span>;</div><div class="line">v908 = <span class="number">1</span>;</div><div class="line">v909 = <span class="number">7</span>;</div><div class="line">v910 = <span class="number">2</span>;</div><div class="line">v911 = <span class="number">7</span>;</div><div class="line">v912 = <span class="number">2</span>;</div><div class="line">v913 = <span class="number">1</span>;</div><div class="line">v914 = <span class="number">3</span>;</div><div class="line">v915 = <span class="number">1</span>;</div><div class="line">v1312 = <span class="number">2</span>;</div><div class="line">v1313 = <span class="number">2</span>;</div><div class="line">v1314 = <span class="number">3</span>;</div><div class="line">v1315 = <span class="number">2</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">v904 = <span class="number">1</span>;</span><br><span class="line">v905 = <span class="number">6</span>;</span><br><span class="line">v906 = <span class="number">2</span>;</span><br><span class="line">v907 = <span class="number">6</span>;</span><br><span class="line">v908 = <span class="number">1</span>;</span><br><span class="line">v909 = <span class="number">7</span>;</span><br><span class="line">v910 = <span class="number">2</span>;</span><br><span class="line">v911 = <span class="number">7</span>;</span><br><span class="line">v912 = <span class="number">2</span>;</span><br><span class="line">v913 = <span class="number">1</span>;</span><br><span class="line">v914 = <span class="number">3</span>;</span><br><span class="line">v915 = <span class="number">1</span>;</span><br><span class="line">v1312 = <span class="number">2</span>;</span><br><span class="line">v1313 = <span class="number">2</span>;</span><br><span class="line">v1314 = <span class="number">3</span>;</span><br><span class="line">v1315 = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -424,7 +428,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/en/2017-HITCON-Quals-Sakura-English/">http://blog.terrynini.tw/en/2017-HITCON-Quals-Sakura-English/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/en/2017-HITCON-Quals-Sakura-English/">November 7th 2017, 4:39:57</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -470,7 +474,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -486,6 +490,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -981,12 +990,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1016,12 +1022,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1031,7 +1037,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1041,7 +1052,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1051,7 +1062,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1110,17 +1121,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1159,12 +1170,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1188,31 +1199,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1220,7 +1211,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1228,7 +1221,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1265,13 +1276,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

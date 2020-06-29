@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">2,128</span>Reading time: <span class="post-count reading-time">11 min</span></span>
+                        <span>Word count: <span class="post-count word-count">2.1k</span>Reading time: <span class="post-count reading-time">10 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -410,12 +410,13 @@ height:50vh;
 <ul>
 <li><strong>RESET</strong><br>直接整個A[]從頭到尾歸0 $\rightarrow O(n)$</li>
 </ul>
-<p><a href="http://mropengate.blogspot.tw/2015/06/algorithm-amortized-analysis.html" target="_blank" rel="external">CASE STUDY 2 : Incrementing a binary counter</a></p>
+<p><a href="http://mropengate.blogspot.tw/2015/06/algorithm-amortized-analysis.html" target="_blank" rel="noopener">CASE STUDY 2 : Incrementing a binary counter</a></p>
 <h5 id="2-Show-how-to-implement-a-queue-with-two-ordinary-stacks-so-that-the-amortized-cost-of-each-Enqueue-and-Dequeue-operation-is-O-1"><a href="#2-Show-how-to-implement-a-queue-with-two-ordinary-stacks-so-that-the-amortized-cost-of-each-Enqueue-and-Dequeue-operation-is-O-1" class="headerlink" title="2. Show how to implement a queue with two ordinary stacks so that the amortized cost of each Enqueue and Dequeue operation is $O(1)$."></a>2. Show how to implement a queue with two ordinary stacks so that the amortized cost of each Enqueue and Dequeue operation is $O(1)$.</h5><hr>
 <p>在攤銷式分析下，inqueue及dequeue的時間複雜度為$O(1)$</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">instack, outstack</div><div class="line">push(val)</div><div class="line">    instack.push(val)</div><div class="line">pop() &#123;</div><div class="line">    if(outstack.empty)</div><div class="line">        while(!instack.empty)</div><div class="line">            outstack.push(instack.pop())</div><div class="line">    return outstack.pop();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">instack, outstack</span><br><span class="line">push(val)</span><br><span class="line">    instack.push(val)</span><br><span class="line">pop() &#123;</span><br><span class="line">    if(outstack.empty)</span><br><span class="line">        while(!instack.empty)</span><br><span class="line">            outstack.push(instack.pop())</span><br><span class="line">    return outstack.pop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>by Accounting Method (記帳方法)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">實際代價：</div><div class="line">Push: total = 1</div><div class="line">    instack_push: 1</div><div class="line">Pop : total = 2*instack_size + 1</div><div class="line">    instack_pop_to_empty: instack_size</div><div class="line">    outstack_push       : instack_size</div><div class="line">    outstack_pop        : 1</div><div class="line"></div><div class="line">平攤代價(amortized cost):</div><div class="line">Push: 4</div><div class="line">    each element just has at most 4 steps:</div><div class="line">        instack_push : 1</div><div class="line">        instack_pop  : 1</div><div class="line">        outstack_push: 1</div><div class="line">        outstack_pop : 1</div><div class="line">Pop : 0</div><div class="line"></div><div class="line">T(n) &lt;= 4n, T(n)/n &lt;= 4 → O(1)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">實際代價：</span><br><span class="line">Push: total &#x3D; 1</span><br><span class="line">    instack_push: 1</span><br><span class="line">Pop : total &#x3D; 2*instack_size + 1</span><br><span class="line">    instack_pop_to_empty: instack_size</span><br><span class="line">    outstack_push       : instack_size</span><br><span class="line">    outstack_pop        : 1</span><br><span class="line"></span><br><span class="line">平攤代價(amortized cost):</span><br><span class="line">Push: 4</span><br><span class="line">    each element just has at most 4 steps:</span><br><span class="line">        instack_push : 1</span><br><span class="line">        instack_pop  : 1</span><br><span class="line">        outstack_push: 1</span><br><span class="line">        outstack_pop : 1</span><br><span class="line">Pop : 0</span><br><span class="line"></span><br><span class="line">T(n) &lt;&#x3D; 4n, T(n)&#x2F;n &lt;&#x3D; 4 → O(1)</span><br></pre></td></tr></table></figure>
+
 <h5 id="3-Consider-an-ordinary-binary-min-heap-data-structure-with-n-elements-supporting-the-instructions-INSERT-and-EXTRACT-MIN-in-O-lgn-worst-case-time-Give-a-potential-function-Phi-such-that-the-amortized-cost-of-INSERT-is-O-lgn-and-the-amortized-cost-of-EXTRACT-MIN-is-O-1-and-show-that-it-works"><a href="#3-Consider-an-ordinary-binary-min-heap-data-structure-with-n-elements-supporting-the-instructions-INSERT-and-EXTRACT-MIN-in-O-lgn-worst-case-time-Give-a-potential-function-Phi-such-that-the-amortized-cost-of-INSERT-is-O-lgn-and-the-amortized-cost-of-EXTRACT-MIN-is-O-1-and-show-that-it-works" class="headerlink" title="3. Consider an ordinary binary min-heap data structure with n elements supporting the instructions INSERT and EXTRACT-MIN in $O(lgn)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of INSERT is $O(lgn)$ and the amortized cost of EXTRACT-MIN is $O(1)$ and show that it works."></a>3. Consider an ordinary binary min-heap data structure with n elements supporting the instructions INSERT and EXTRACT-MIN in $O(lgn)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of INSERT is $O(lgn)$ and the amortized cost of EXTRACT-MIN is $O(1)$ and show that it works.</h5><hr>
 <p>let $\Phi(H) = \sum\limits_{i \in H} w_i$ , where $H$ is the binary min heap, $w_i$ = depth of element $i \in H$.<br>let $c_i =$ 第 $i$ 個操作的實際成本, $n = H$的元素數 </p>
 <ol>
@@ -428,20 +429,20 @@ height:50vh;
 </ul>
 </li>
 </ol>
-<p><a href="https://cs.stackexchange.com/questions/7894/potential-function-binary-heap-extract-max-o1" target="_blank" rel="external">reference</a></p>
+<p><a href="https://cs.stackexchange.com/questions/7894/potential-function-binary-heap-extract-max-o1" target="_blank" rel="noopener">reference</a></p>
 <h5 id="4-Design-a-data-structure-to-support-the-following-two-operations-for-a-dynamic-multi-set-S-of-integers-which-allows-duplicate-values"><a href="#4-Design-a-data-structure-to-support-the-following-two-operations-for-a-dynamic-multi-set-S-of-integers-which-allows-duplicate-values" class="headerlink" title="4. Design a data structure to support the following two operations for a dynamic multi-set $S$ of integers, which allows duplicate values:"></a>4. Design a data structure to support the following two operations for a dynamic multi-set $S$ of integers, which allows duplicate values:</h5><h5 id="INSERT-S-x-inserts-x-into-S"><a href="#INSERT-S-x-inserts-x-into-S" class="headerlink" title="INSERT(S, x) inserts $x$ into $S$."></a>INSERT(S, x) inserts $x$ into $S$.</h5><h5 id="DELETE-LARGER-HALF-S-deletes-the-largest-lceil-frac-S-2-rceil-elements-from-S"><a href="#DELETE-LARGER-HALF-S-deletes-the-largest-lceil-frac-S-2-rceil-elements-from-S" class="headerlink" title="DELETE-LARGER-HALF(S) deletes the largest $\lceil \frac{|S|}{2}\rceil elements from $S$."></a>DELETE-LARGER-HALF(S) deletes the largest $\lceil \frac{|S|}{2}\rceil elements from $S$.</h5><h5 id="Explain-how-to-implement-this-data-structure-so-that-any-sequence-of-m-INSERT-and-DELETE-LARGER-HALF-operations-runs-in-O-m-time-Your-implementation-should-also-include-a-way-to-output-the-elements-of-S-in-O-S-time"><a href="#Explain-how-to-implement-this-data-structure-so-that-any-sequence-of-m-INSERT-and-DELETE-LARGER-HALF-operations-runs-in-O-m-time-Your-implementation-should-also-include-a-way-to-output-the-elements-of-S-in-O-S-time" class="headerlink" title="Explain how to implement this data structure so that any sequence of m INSERT and DELETE-LARGER-HALF operations runs in $O(m)$ time. Your implementation should also include a way to output the elements of $S$ in $O(|S|)$ time."></a>Explain how to implement this data structure so that any sequence of m INSERT and DELETE-LARGER-HALF operations runs in $O(m)$ time. Your implementation should also include a way to output the elements of $S$ in $O(|S|)$ time.</h5><hr>
 <ul>
 <li>資料結構：課堂上說是dynamic table（就是c++裡面的vector的概念）</li>
 <li>$INSERT(S,x)$：直接放在陣列最後面</li>
 <li>$DELETE-LARGER-HALF(S)$ : 用median-of-medians算法，可以在$O(n)$內找到中位數，然後再花$O(n)$的時間把大的一半刪掉。</li>
 </ul>
-<p><a href="http://tmt514-blog.logdown.com/posts/484313-divide-and-conquer-method-iii-find-the-median" target="_blank" rel="external">中位數演算法</a></p>
+<p><a href="http://tmt514-blog.logdown.com/posts/484313-divide-and-conquer-method-iii-find-the-median" target="_blank" rel="noopener">中位數演算法</a></p>
 <h5 id="5-Suppose-that-in-the-dynamic-table-operations-instead-of-contracting-a-table-by-halving-its-size-when-its-load-factor-drops-below-1-4-we-contract-it-by-multiplying-its-size-by-2-3-when-its-load-factor-drops-below-1-3-What-is-the-amortized-cost-of-a-TABLE-DELETE-that-uses-this-strategy"><a href="#5-Suppose-that-in-the-dynamic-table-operations-instead-of-contracting-a-table-by-halving-its-size-when-its-load-factor-drops-below-1-4-we-contract-it-by-multiplying-its-size-by-2-3-when-its-load-factor-drops-below-1-3-What-is-the-amortized-cost-of-a-TABLE-DELETE-that-uses-this-strategy" class="headerlink" title="5. Suppose that in the dynamic table operations, instead of contracting a table by halving its size when its load factor drops below 1/4, we contract it by multiplying its size by 2/3 when its load factor drops below 1/3. What is the amortized cost of a TABLE-DELETE that uses this strategy?"></a>5. Suppose that in the dynamic table operations, instead of contracting a table by halving its size when its load factor drops below 1/4, we contract it by multiplying its size by 2/3 when its load factor drops below 1/3. What is the amortized cost of a TABLE-DELETE that uses this strategy?</h5><hr>
 <ul>
 <li>基本上potential method中的<strong>實際成本</strong>跟aggregate method中定義的是一樣的東西，只是aggregate用趨近無限的算法來算，potential則是用態勢函數來計算。</li>
 <li>potential function 中的 $|2*num[T] - size[T]|$來自於accounting method，根據第一個reference，前$\frac{n}{2}$個元素存款為0，後面存款為2，刪除操作亦相同，只是存款為1。</li>
 </ul>
-<p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-13-amortized-algorithms-table-doubling-potential-method/lec13.pdf" target="_blank" rel="external">比較好的原始版本(但沒有contract)</a><br><a href="http://www.iiitdm.ac.in/old/Faculty_Teaching/Sadagopan/pdf/ADSA/amortized-analysis-part-2.pdf" target="_blank" rel="external">完整優質版本</a><br><a href="http://www.sharecourse.net/sharecourse/upload/person/3085/files/Algorithm%20HW11%20Ch17-3%20solution.pdf" target="_blank" rel="external">這題的解答</a></p>
+<p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-13-amortized-algorithms-table-doubling-potential-method/lec13.pdf" target="_blank" rel="noopener">比較好的原始版本(但沒有contract)</a><br><a href="http://www.iiitdm.ac.in/old/Faculty_Teaching/Sadagopan/pdf/ADSA/amortized-analysis-part-2.pdf" target="_blank" rel="noopener">完整優質版本</a><br><a href="http://www.sharecourse.net/sharecourse/upload/person/3085/files/Algorithm%20HW11%20Ch17-3%20solution.pdf" target="_blank" rel="noopener">這題的解答</a></p>
 <h5 id="6-Study-the-famous-KMP-algorithm-for-the-string-matching-problem-and-give-an-amortized-analysis-of-the-algorithm"><a href="#6-Study-the-famous-KMP-algorithm-for-the-string-matching-problem-and-give-an-amortized-analysis-of-the-algorithm" class="headerlink" title="6. Study the famous KMP algorithm for the string matching problem and give an amortized analysis of the algorithm."></a>6. Study the famous KMP algorithm for the string matching problem and give an amortized analysis of the algorithm.</h5><hr>
 <p>假設字串$T$, $P$, $|T| &gt; |P|$<br>利用stack來存放已比對到的相同字元</p>
 <ul>
@@ -463,11 +464,13 @@ height:50vh;
 <li>total $\leq O(2|P|)$</li>
 </ul>
 <p>所以總和 = $O(|T|+|P|)$</p>
-<p><a href="http://www.csie.ntnu.edu.tw/~u91029/StringMatching.html" target="_blank" rel="external">演算法筆記</a><br><a href="https://www.ptt.cc/bbs/b99902HW/M.1300796484.A.EE1.html" target="_blank" rel="external">PTT</a><br><a href="https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/" target="_blank" rel="external">莫名其妙找到的Z array算法</a></p>
+<p><a href="http://www.csie.ntnu.edu.tw/~u91029/StringMatching.html" target="_blank" rel="noopener">演算法筆記</a><br><a href="https://www.ptt.cc/bbs/b99902HW/M.1300796484.A.EE1.html" target="_blank" rel="noopener">PTT</a><br><a href="https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/" target="_blank" rel="noopener">莫名其妙找到的Z array算法</a></p>
 <h5 id="7-Given-an-array-a-1-dots-n-for-each-position-in-the-array-search-among-the-previous-positions-for-the-last-position-that-contains-a-smaller-value-That-is-for-each-position-i-1-leq-i-leq-n-find-the-largest-possible-index-pi-such-that-p-i-lt-i-and-a-p-i-lt-a-i-For-convenience-we-attach-a-dummy-element-a-0-infty-Then-each-p-i-1-leq-i-leq-n-is-well-defined-Design-a-linear-time-algorithm-to-solve-this-problem"><a href="#7-Given-an-array-a-1-dots-n-for-each-position-in-the-array-search-among-the-previous-positions-for-the-last-position-that-contains-a-smaller-value-That-is-for-each-position-i-1-leq-i-leq-n-find-the-largest-possible-index-pi-such-that-p-i-lt-i-and-a-p-i-lt-a-i-For-convenience-we-attach-a-dummy-element-a-0-infty-Then-each-p-i-1-leq-i-leq-n-is-well-defined-Design-a-linear-time-algorithm-to-solve-this-problem" class="headerlink" title="7. Given an array $a[1\dots n]$, for each position in the array, search among the previous positions for the last position that contains a smaller value. That is, for each position $i$, $1 \leq i \leq n$, find the largest possible index pi such that $p_i &lt; i$ and $a[p_i] &lt; a[i]$. For convenience, we attach a dummy element $a[0] = -\infty$. Then, each $p_i$, $1 \leq i \leq n$, is well-defined. Design a linear time algorithm to solve this problem."></a>7. Given an array $a[1\dots n]$, for each position in the array, search among the previous positions for the last position that contains a smaller value. That is, for each position $i$, $1 \leq i \leq n$, find the largest possible index pi such that $p_i &lt; i$ and $a[p_i] &lt; a[i]$. For convenience, we attach a dummy element $a[0] = -\infty$. Then, each $p_i$, $1 \leq i \leq n$, is well-defined. Design a linear time algorithm to solve this problem.</h5><hr>
 <p>題目給一個陣列，要求對每一個元素：往陣列前面找一個比現在這個元素還小的元素，然後其index越大越好，並且題目定義array[0]為負無限</p>
-<p>作法：從尾巴開始拜訪，把不知道解答的元素都推進stack裡面，最後就會知道解了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">a[1...n] = 輸入的陣列</div><div class="line">a[0] = -INF</div><div class="line">pl[1...n] = [0...0]</div><div class="line">stack = []</div><div class="line">for i = n to 1</div><div class="line">    while !stack.empty() &amp;&amp; a[i] &lt; a[stack.top()]</div><div class="line">        pl[stack.pop()] = i</div><div class="line">    stack.append(i)</div><div class="line">return pl</div></pre></td></tr></table></figure></p>
-<p><a href="https://stackoverflow.com/questions/9493853/given-an-array-find-out-the-next-smaller-element-for-each-element" target="_blank" rel="external">類似的題目</a></p>
+<p>作法：從尾巴開始拜訪，把不知道解答的元素都推進stack裡面，最後就會知道解了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a[1...n] &#x3D; 輸入的陣列</span><br><span class="line">a[0] &#x3D; -INF</span><br><span class="line">pl[1...n] &#x3D; [0...0]</span><br><span class="line">stack &#x3D; []</span><br><span class="line">for i &#x3D; n to 1</span><br><span class="line">    while !stack.empty() &amp;&amp; a[i] &lt; a[stack.top()]</span><br><span class="line">        pl[stack.pop()] &#x3D; i</span><br><span class="line">    stack.append(i)</span><br><span class="line">return pl</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://stackoverflow.com/questions/9493853/given-an-array-find-out-the-next-smaller-element-for-each-element" target="_blank" rel="noopener">類似的題目</a></p>
 <h5 id="8-Binary-search-of-a-sorted-array-takes-logarithmic-search-time-but-the-time-to-insert-a-new-element-is-linear-in-the-size-of-the-array-We-can-improve-the-time-for-insertion-by-keeping-several-sorted-arrays-Specifically-suppose-that-we-wish-to-support-SEARCH-and-INSERT-on-a-set-of-n-elements-Let-k-lceil-lg-n-1-rceil-and-let-the-binary-representation-of-n-be-lt-n-k-1-n-k-2-dots-n-0-gt-We-have-k-sorted-arrays-A-0-A-1-dots-A-k-1-where-for-i-0-1-dots-k-1-the-length-of-array-A-i-is-2-i-Each-array-is-either-full-or-empty-depending-on-whether-n-i-1-or-n-i-0-respectively-The-total-number-of-elements-held-in-all-k-arrays-is-therefore-exactly-n-Although-each-individual-array-is-sorted-elements-in-different-arrays-bear-no-particular-relationship-to-each-other"><a href="#8-Binary-search-of-a-sorted-array-takes-logarithmic-search-time-but-the-time-to-insert-a-new-element-is-linear-in-the-size-of-the-array-We-can-improve-the-time-for-insertion-by-keeping-several-sorted-arrays-Specifically-suppose-that-we-wish-to-support-SEARCH-and-INSERT-on-a-set-of-n-elements-Let-k-lceil-lg-n-1-rceil-and-let-the-binary-representation-of-n-be-lt-n-k-1-n-k-2-dots-n-0-gt-We-have-k-sorted-arrays-A-0-A-1-dots-A-k-1-where-for-i-0-1-dots-k-1-the-length-of-array-A-i-is-2-i-Each-array-is-either-full-or-empty-depending-on-whether-n-i-1-or-n-i-0-respectively-The-total-number-of-elements-held-in-all-k-arrays-is-therefore-exactly-n-Although-each-individual-array-is-sorted-elements-in-different-arrays-bear-no-particular-relationship-to-each-other" class="headerlink" title="8. Binary search of a sorted array takes logarithmic search time, but the time to insert a new element is linear in the size of the array. We can improve the time for insertion by keeping several sorted arrays. Specifically, suppose that we wish to support SEARCH and INSERT on a set of n elements. Let $k = \lceil lg(n+1)\rceil$, and let the binary representation of $n$ be $&lt; n_{k-1}, n_{k-2}, \dots , n_{0}&gt;$. We have k sorted arrays $A_0, A_1, \dots , A_{k-1}$, where for $i = 0, 1, \dots, k-1$, the length of array $A_i$ is $2^i$. Each array is either full or empty, depending on whether $n_i = 1$ or $n_i = 0$, respectively. The total number of elements held in all k arrays is therefore exactly n. Although each individual array is sorted, elements in different arrays bear no particular relationship to each other."></a>8. Binary search of a sorted array takes logarithmic search time, but the time to insert a new element is linear in the size of the array. We can improve the time for insertion by keeping several sorted arrays. Specifically, suppose that we wish to support SEARCH and INSERT on a set of n elements. Let $k = \lceil lg(n+1)\rceil$, and let the binary representation of $n$ be $&lt; n_{k-1}, n_{k-2}, \dots , n_{0}&gt;$. We have k sorted arrays $A_0, A_1, \dots , A_{k-1}$, where for $i = 0, 1, \dots, k-1$, the length of array $A_i$ is $2^i$. Each array is either full or empty, depending on whether $n_i = 1$ or $n_i = 0$, respectively. The total number of elements held in all k arrays is therefore exactly n. Although each individual array is sorted, elements in different arrays bear no particular relationship to each other.</h5><h5 id="a-Describe-how-to-perform-the-SEARCH-operation-for-this-data-structure-Analyze-its-worst-case-running-time"><a href="#a-Describe-how-to-perform-the-SEARCH-operation-for-this-data-structure-Analyze-its-worst-case-running-time" class="headerlink" title="a) Describe how to perform the SEARCH operation for this data structure. Analyze its worst-case running time."></a>a) Describe how to perform the SEARCH operation for this data structure. Analyze its worst-case running time.</h5><h5 id="b-Describe-how-to-perform-the-INSERT-operation-Analyze-its-worst-case-and-amortized-running-times"><a href="#b-Describe-how-to-perform-the-INSERT-operation-Analyze-its-worst-case-and-amortized-running-times" class="headerlink" title="b)Describe how to perform the INSERT operation. Analyze its worst-case and amortized running times."></a>b)Describe how to perform the INSERT operation. Analyze its worst-case and amortized running times.</h5><h5 id="c-Discuss-how-to-implement-DELETE"><a href="#c-Discuss-how-to-implement-DELETE" class="headerlink" title="c) Discuss how to implement DELETE."></a>c) Discuss how to implement DELETE.</h5><hr>
 <p>假設輸入有$n$個元素，則我們令$k=\lceil log(n+1)\rceil$，表示$n$化為二進位所需要的位元數，並依此宣告多個陣列$A_0,A_1,A_2, \dots ,A_{k-1}$，每個陣列的長度為$2^i$，對應n在二進位時的第i個位元，依照其對應的位元如果是1就裝滿否則不作使用，而且每個陣列內的元素是排列過的，但兩陣列間的元素沒有絕對的關係存在(這裡為方便表示，陣列內的index從1開始)。</p>
 <p><strong>SEARCH :</strong> </p>
@@ -475,13 +478,10 @@ height:50vh;
 <li>找出所有使用中的陣列，對其做二分搜</li>
 <li><strong>複雜度：</strong><ul>
 <li>最差情況我們需要看過每個陣列，且每個陣列成本為$O(log(2^i))=O(i)$</li>
-<li>因此複雜度為$\sum_{i=0}^{k}O(i)=O(k^2)=O(log^2n)$<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Search(A, n, key)</div><div class="line">    i = 0</div><div class="line">    while n &gt; 0 do</div><div class="line">        if n is odd then</div><div class="line">            pos = BSearch(A_i, 2^i , key)</div><div class="line">            if pos != 0 then</div><div class="line">                return (i; pos)</div><div class="line">        n = n/2</div><div class="line">        i = i + 1</div><div class="line">    return &quot;not found&quot;</div></pre></td></tr></table></figure>
-</li>
+<li>因此複雜度為$\sum_{i=0}^{k}O(i)=O(k^2)=O(log^2n)$<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Search(A, n, key)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span> <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> n is odd then</span><br><span class="line">            pos = BSearch(A_i, <span class="number">2</span>^i , key)</span><br><span class="line">            <span class="keyword">if</span> pos != <span class="number">0</span> then</span><br><span class="line">                <span class="keyword">return</span> (i; pos)</span><br><span class="line">        n = n/<span class="number">2</span></span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"not found"</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-</ul>
-<p><strong>INSERT :</strong></p>
-<ul>
+<li><em>INSERT :*</em></li>
 <li>插入元素會使n增加，意味著我們必須搬動陣列，以符合其二進位的變化</li>
 <li>每次插入元素使$n+1$，則從LSB起，連續的1都將進位為0，因此我們要從LSB起找第一個0</li>
 <li>定義 $Merge(A_a,A_b,A_c)$，將陣列$A_a,A_b$合併後放進$A_c$</li>
@@ -489,25 +489,22 @@ height:50vh;
 <li>每個$B_i$陣列產生的成本來自Merge為$O(2^i)$</li>
 <li>假設我們從$n=1$一直INSERT元素直到$n=N$，這中間$B_i$共會被產生$\lfloor\frac{N}{2^i}\rfloor$次</li>
 <li>得$\sum_{i=0}^{k-1}\lfloor\frac{N}{2^i}\rfloor O(2^i)\leq \sum_{i=0}^{k-1}O(2^k)\leq O(2^kk) = O(NlogN)$</li>
-<li>因此本操作的平攤代價為 $\frac{O(NlogN)}{N} = O(logN)$ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Insert(A, n, e)</div><div class="line">    i = 0</div><div class="line">    B_0 = &#123;e&#125;</div><div class="line">    while n is odd do</div><div class="line">        Merge(A_i, B_i, B_i+1)</div><div class="line">        n = n/2</div><div class="line">        i = i + 1</div><div class="line">    A_i = B_i</div></pre></td></tr></table></figure>
-</li>
+<li>因此本操作的平攤代價為 $\frac{O(NlogN)}{N} = O(logN)$ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Insert(A, n, e)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    B_0 = &#123;e&#125;</span><br><span class="line">    <span class="keyword">while</span> n is odd <span class="keyword">do</span></span><br><span class="line">        Merge(A_i, B_i, B_i+<span class="number">1</span>)</span><br><span class="line">        n = n/<span class="number">2</span></span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">    A_i = B_i</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-</ul>
-<p><strong>DELETE :</strong></p>
-<ul>
+<li><em>DELETE :*</em></li>
 <li>由於刪除元素導致n減少，從LSB起，連續的0都將借位得1，因此我們要從LSB起找第一個1，並將其中的元素拆分到較低位的陣列當中</li>
 <li>定義Replace($A_i$, pos, e)可以將原本$A_i[pos]$元素替代為$e$，並且保證使陣列處於排序過的狀態</li>
 <li>這裏pseudo code中的$A_i[j:k]$，表示取$A_i$中第j個到第k個元素(包括k)</li>
 <li>使用陣列中最高的值$A_k[2^k]$來進行取代，在拆分時只取$A_k[1:2^k-1]$</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Delete(A, n, i, pos)</div><div class="line">    k = 0</div><div class="line">    while n is even do</div><div class="line">        n = n/2</div><div class="line">        k = k + 1</div><div class="line">    if i = k then  </div><div class="line">        Replace(A_k[1 : 2^k - 1], pos, A_k[2^k])</div><div class="line">    else</div><div class="line">        Replace(A_i, pos, A_k[2^k])</div><div class="line">    for i = 0 to k do</div><div class="line">        A_i = A_k[2^i : 2^(i+1)-1]</div><div class="line">    A_i = &#123;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Delete(A, n, i, pos)</span><br><span class="line">    k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n is even <span class="keyword">do</span></span><br><span class="line">        n = n/<span class="number">2</span></span><br><span class="line">        k = k + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> i = k then  </span><br><span class="line">        Replace(A_k[<span class="number">1</span> : <span class="number">2</span>^k - <span class="number">1</span>], pos, A_k[<span class="number">2</span>^k])</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Replace(A_i, pos, A_k[<span class="number">2</span>^k])</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">0</span> to k <span class="keyword">do</span></span><br><span class="line">        A_i = A_k[<span class="number">2</span>^i : <span class="number">2</span>^(i+<span class="number">1</span>)<span class="number">-1</span>]</span><br><span class="line">    A_i = &#123;&#125;</span><br></pre></td></tr></table></figure>
 <ol>
 <li>SEARCH: $O(log^2 n)$</li>
 <li>INSERT: $O(logn)$</li>
 <li>DELETE: 題目沒要求</li>
 </ol>
-<p><a href="http://www.cse.fau.edu/~jie/teaching/fall_2003_files/hw4dai.pdf" target="_blank" rel="external">reference</a></p>
+<p><a href="http://www.cse.fau.edu/~jie/teaching/fall_2003_files/hw4dai.pdf" target="_blank" rel="noopener">reference</a></p>
 
     </article>
     <!-- license  -->
@@ -516,7 +513,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/">January 15th 2018, 12:23:27</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -562,7 +559,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -578,6 +575,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -669,7 +671,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Suppose-we-wish-not-only-to-increment-a-counter-but-also-to-reset-it-to-zero-i-e-make-all-bits-in-it-0-Counting-the-time-to-examine-or-modify-a-bit-as-O-1-show-how-to-implement-a-counter-as-an-array-of-bits-so-that-any-sequence-of-n-INCREMENT-and-RESET-operations-takes-time-O-n-on-an-initially-zero-counter-Hint-Keep-a-pointer-to-the-high-order-1"><span class="toc-number">1.</span> <span class="toc-text">1. Suppose we wish not only to increment a counter but also to reset it to zero (i.e., make all bits in it 0). Counting the time to examine or modify a bit as $O(1)$, show how to implement a counter as an array of bits so that any sequence of n INCREMENT and RESET operations takes time $O(n)$ on an initially zero counter. (Hint: Keep a pointer to the high-order 1.)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Show-how-to-implement-a-queue-with-two-ordinary-stacks-so-that-the-amortized-cost-of-each-Enqueue-and-Dequeue-operation-is-O-1"><span class="toc-number">2.</span> <span class="toc-text">2. Show how to implement a queue with two ordinary stacks so that the amortized cost of each Enqueue and Dequeue operation is $O(1)$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Consider-an-ordinary-binary-min-heap-data-structure-with-n-elements-supporting-the-instructions-INSERT-and-EXTRACT-MIN-in-O-lgn-worst-case-time-Give-a-potential-function-Phi-such-that-the-amortized-cost-of-INSERT-is-O-lgn-and-the-amortized-cost-of-EXTRACT-MIN-is-O-1-and-show-that-it-works"><span class="toc-number">3.</span> <span class="toc-text">3. Consider an ordinary binary min-heap data structure with n elements supporting the instructions INSERT and EXTRACT-MIN in $O(lgn)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of INSERT is $O(lgn)$ and the amortized cost of EXTRACT-MIN is $O(1)$ and show that it works.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Design-a-data-structure-to-support-the-following-two-operations-for-a-dynamic-multi-set-S-of-integers-which-allows-duplicate-values"><span class="toc-number">4.</span> <span class="toc-text">4. Design a data structure to support the following two operations for a dynamic multi-set $S$ of integers, which allows duplicate values:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#INSERT-S-x-inserts-x-into-S"><span class="toc-number">5.</span> <span class="toc-text">INSERT(S, x) inserts $x$ into $S$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DELETE-LARGER-HALF-S-deletes-the-largest-lceil-frac-S-2-rceil-elements-from-S"><span class="toc-number">6.</span> <span class="toc-text">DELETE-LARGER-HALF(S) deletes the largest $\lceil \frac{|S|}{2}\rceil elements from $S$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Explain-how-to-implement-this-data-structure-so-that-any-sequence-of-m-INSERT-and-DELETE-LARGER-HALF-operations-runs-in-O-m-time-Your-implementation-should-also-include-a-way-to-output-the-elements-of-S-in-O-S-time"><span class="toc-number">7.</span> <span class="toc-text">Explain how to implement this data structure so that any sequence of m INSERT and DELETE-LARGER-HALF operations runs in $O(m)$ time. Your implementation should also include a way to output the elements of $S$ in $O(|S|)$ time.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Suppose-that-in-the-dynamic-table-operations-instead-of-contracting-a-table-by-halving-its-size-when-its-load-factor-drops-below-1-4-we-contract-it-by-multiplying-its-size-by-2-3-when-its-load-factor-drops-below-1-3-What-is-the-amortized-cost-of-a-TABLE-DELETE-that-uses-this-strategy"><span class="toc-number">8.</span> <span class="toc-text">5. Suppose that in the dynamic table operations, instead of contracting a table by halving its size when its load factor drops below 1/4, we contract it by multiplying its size by 2/3 when its load factor drops below 1/3. What is the amortized cost of a TABLE-DELETE that uses this strategy?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Study-the-famous-KMP-algorithm-for-the-string-matching-problem-and-give-an-amortized-analysis-of-the-algorithm"><span class="toc-number">9.</span> <span class="toc-text">6. Study the famous KMP algorithm for the string matching problem and give an amortized analysis of the algorithm.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-an-array-a-1-dots-n-for-each-position-in-the-array-search-among-the-previous-positions-for-the-last-position-that-contains-a-smaller-value-That-is-for-each-position-i-1-leq-i-leq-n-find-the-largest-possible-index-pi-such-that-p-i-lt-i-and-a-p-i-lt-a-i-For-convenience-we-attach-a-dummy-element-a-0-infty-Then-each-p-i-1-leq-i-leq-n-is-well-defined-Design-a-linear-time-algorithm-to-solve-this-problem"><span class="toc-number">10.</span> <span class="toc-text">7. Given an array $a[1\dots n]$, for each position in the array, search among the previous positions for the last position that contains a smaller value. That is, for each position $i$, $1 \leq i \leq n$, find the largest possible index pi such that $p_i < i$ and $a[p_i] < a[i]$. For convenience, we attach a dummy element $a[0] = -\infty$. Then, each $p_i$, $1 \leq i \leq n$, is well-defined. Design a linear time algorithm to solve this problem.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Binary-search-of-a-sorted-array-takes-logarithmic-search-time-but-the-time-to-insert-a-new-element-is-linear-in-the-size-of-the-array-We-can-improve-the-time-for-insertion-by-keeping-several-sorted-arrays-Specifically-suppose-that-we-wish-to-support-SEARCH-and-INSERT-on-a-set-of-n-elements-Let-k-lceil-lg-n-1-rceil-and-let-the-binary-representation-of-n-be-lt-n-k-1-n-k-2-dots-n-0-gt-We-have-k-sorted-arrays-A-0-A-1-dots-A-k-1-where-for-i-0-1-dots-k-1-the-length-of-array-A-i-is-2-i-Each-array-is-either-full-or-empty-depending-on-whether-n-i-1-or-n-i-0-respectively-The-total-number-of-elements-held-in-all-k-arrays-is-therefore-exactly-n-Although-each-individual-array-is-sorted-elements-in-different-arrays-bear-no-particular-relationship-to-each-other"><span class="toc-number">11.</span> <span class="toc-text">8. Binary search of a sorted array takes logarithmic search time, but the time to insert a new element is linear in the size of the array. We can improve the time for insertion by keeping several sorted arrays. Specifically, suppose that we wish to support SEARCH and INSERT on a set of n elements. Let $k = \lceil lg(n+1)\rceil$, and let the binary representation of $n$ be $< n_{k-1}, n_{k-2}, \dots , n_{0}>$. We have k sorted arrays $A_0, A_1, \dots , A_{k-1}$, where for $i = 0, 1, \dots, k-1$, the length of array $A_i$ is $2^i$. Each array is either full or empty, depending on whether $n_i = 1$ or $n_i = 0$, respectively. The total number of elements held in all k arrays is therefore exactly n. Although each individual array is sorted, elements in different arrays bear no particular relationship to each other.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a-Describe-how-to-perform-the-SEARCH-operation-for-this-data-structure-Analyze-its-worst-case-running-time"><span class="toc-number">12.</span> <span class="toc-text">a) Describe how to perform the SEARCH operation for this data structure. Analyze its worst-case running time.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-Describe-how-to-perform-the-INSERT-operation-Analyze-its-worst-case-and-amortized-running-times"><span class="toc-number">13.</span> <span class="toc-text">b)Describe how to perform the INSERT operation. Analyze its worst-case and amortized running times.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#c-Discuss-how-to-implement-DELETE"><span class="toc-number">14.</span> <span class="toc-text">c) Discuss how to implement DELETE.</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Suppose-we-wish-not-only-to-increment-a-counter-but-also-to-reset-it-to-zero-i-e-make-all-bits-in-it-0-Counting-the-time-to-examine-or-modify-a-bit-as-O-1-show-how-to-implement-a-counter-as-an-array-of-bits-so-that-any-sequence-of-n-INCREMENT-and-RESET-operations-takes-time-O-n-on-an-initially-zero-counter-Hint-Keep-a-pointer-to-the-high-order-1"><span class="toc-number">1.</span> <span class="toc-text">1. Suppose we wish not only to increment a counter but also to reset it to zero (i.e., make all bits in it 0). Counting the time to examine or modify a bit as $O(1)$, show how to implement a counter as an array of bits so that any sequence of n INCREMENT and RESET operations takes time $O(n)$ on an initially zero counter. (Hint: Keep a pointer to the high-order 1.)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Show-how-to-implement-a-queue-with-two-ordinary-stacks-so-that-the-amortized-cost-of-each-Enqueue-and-Dequeue-operation-is-O-1"><span class="toc-number">2.</span> <span class="toc-text">2. Show how to implement a queue with two ordinary stacks so that the amortized cost of each Enqueue and Dequeue operation is $O(1)$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Consider-an-ordinary-binary-min-heap-data-structure-with-n-elements-supporting-the-instructions-INSERT-and-EXTRACT-MIN-in-O-lgn-worst-case-time-Give-a-potential-function-Phi-such-that-the-amortized-cost-of-INSERT-is-O-lgn-and-the-amortized-cost-of-EXTRACT-MIN-is-O-1-and-show-that-it-works"><span class="toc-number">3.</span> <span class="toc-text">3. Consider an ordinary binary min-heap data structure with n elements supporting the instructions INSERT and EXTRACT-MIN in $O(lgn)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of INSERT is $O(lgn)$ and the amortized cost of EXTRACT-MIN is $O(1)$ and show that it works.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Design-a-data-structure-to-support-the-following-two-operations-for-a-dynamic-multi-set-S-of-integers-which-allows-duplicate-values"><span class="toc-number">4.</span> <span class="toc-text">4. Design a data structure to support the following two operations for a dynamic multi-set $S$ of integers, which allows duplicate values:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#INSERT-S-x-inserts-x-into-S"><span class="toc-number">5.</span> <span class="toc-text">INSERT(S, x) inserts $x$ into $S$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DELETE-LARGER-HALF-S-deletes-the-largest-lceil-frac-S-2-rceil-elements-from-S"><span class="toc-number">6.</span> <span class="toc-text">DELETE-LARGER-HALF(S) deletes the largest $\lceil \frac{|S|}{2}\rceil elements from $S$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Explain-how-to-implement-this-data-structure-so-that-any-sequence-of-m-INSERT-and-DELETE-LARGER-HALF-operations-runs-in-O-m-time-Your-implementation-should-also-include-a-way-to-output-the-elements-of-S-in-O-S-time"><span class="toc-number">7.</span> <span class="toc-text">Explain how to implement this data structure so that any sequence of m INSERT and DELETE-LARGER-HALF operations runs in $O(m)$ time. Your implementation should also include a way to output the elements of $S$ in $O(|S|)$ time.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Suppose-that-in-the-dynamic-table-operations-instead-of-contracting-a-table-by-halving-its-size-when-its-load-factor-drops-below-1-4-we-contract-it-by-multiplying-its-size-by-2-3-when-its-load-factor-drops-below-1-3-What-is-the-amortized-cost-of-a-TABLE-DELETE-that-uses-this-strategy"><span class="toc-number">8.</span> <span class="toc-text">5. Suppose that in the dynamic table operations, instead of contracting a table by halving its size when its load factor drops below 1&#x2F;4, we contract it by multiplying its size by 2&#x2F;3 when its load factor drops below 1&#x2F;3. What is the amortized cost of a TABLE-DELETE that uses this strategy?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Study-the-famous-KMP-algorithm-for-the-string-matching-problem-and-give-an-amortized-analysis-of-the-algorithm"><span class="toc-number">9.</span> <span class="toc-text">6. Study the famous KMP algorithm for the string matching problem and give an amortized analysis of the algorithm.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-an-array-a-1-dots-n-for-each-position-in-the-array-search-among-the-previous-positions-for-the-last-position-that-contains-a-smaller-value-That-is-for-each-position-i-1-leq-i-leq-n-find-the-largest-possible-index-pi-such-that-p-i-lt-i-and-a-p-i-lt-a-i-For-convenience-we-attach-a-dummy-element-a-0-infty-Then-each-p-i-1-leq-i-leq-n-is-well-defined-Design-a-linear-time-algorithm-to-solve-this-problem"><span class="toc-number">10.</span> <span class="toc-text">7. Given an array $a[1\dots n]$, for each position in the array, search among the previous positions for the last position that contains a smaller value. That is, for each position $i$, $1 \leq i \leq n$, find the largest possible index pi such that $p_i &lt; i$ and $a[p_i] &lt; a[i]$. For convenience, we attach a dummy element $a[0] &#x3D; -\infty$. Then, each $p_i$, $1 \leq i \leq n$, is well-defined. Design a linear time algorithm to solve this problem.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Binary-search-of-a-sorted-array-takes-logarithmic-search-time-but-the-time-to-insert-a-new-element-is-linear-in-the-size-of-the-array-We-can-improve-the-time-for-insertion-by-keeping-several-sorted-arrays-Specifically-suppose-that-we-wish-to-support-SEARCH-and-INSERT-on-a-set-of-n-elements-Let-k-lceil-lg-n-1-rceil-and-let-the-binary-representation-of-n-be-lt-n-k-1-n-k-2-dots-n-0-gt-We-have-k-sorted-arrays-A-0-A-1-dots-A-k-1-where-for-i-0-1-dots-k-1-the-length-of-array-A-i-is-2-i-Each-array-is-either-full-or-empty-depending-on-whether-n-i-1-or-n-i-0-respectively-The-total-number-of-elements-held-in-all-k-arrays-is-therefore-exactly-n-Although-each-individual-array-is-sorted-elements-in-different-arrays-bear-no-particular-relationship-to-each-other"><span class="toc-number">11.</span> <span class="toc-text">8. Binary search of a sorted array takes logarithmic search time, but the time to insert a new element is linear in the size of the array. We can improve the time for insertion by keeping several sorted arrays. Specifically, suppose that we wish to support SEARCH and INSERT on a set of n elements. Let $k &#x3D; \lceil lg(n+1)\rceil$, and let the binary representation of $n$ be $&lt; n_{k-1}, n_{k-2}, \dots , n_{0}&gt;$. We have k sorted arrays $A_0, A_1, \dots , A_{k-1}$, where for $i &#x3D; 0, 1, \dots, k-1$, the length of array $A_i$ is $2^i$. Each array is either full or empty, depending on whether $n_i &#x3D; 1$ or $n_i &#x3D; 0$, respectively. The total number of elements held in all k arrays is therefore exactly n. Although each individual array is sorted, elements in different arrays bear no particular relationship to each other.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#a-Describe-how-to-perform-the-SEARCH-operation-for-this-data-structure-Analyze-its-worst-case-running-time"><span class="toc-number">12.</span> <span class="toc-text">a) Describe how to perform the SEARCH operation for this data structure. Analyze its worst-case running time.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#b-Describe-how-to-perform-the-INSERT-operation-Analyze-its-worst-case-and-amortized-running-times"><span class="toc-number">13.</span> <span class="toc-text">b)Describe how to perform the INSERT operation. Analyze its worst-case and amortized running times.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#c-Discuss-how-to-implement-DELETE"><span class="toc-number">14.</span> <span class="toc-text">c) Discuss how to implement DELETE.</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1073,12 +1075,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1108,12 +1107,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1123,7 +1122,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1133,7 +1137,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1143,7 +1147,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1202,17 +1206,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1251,12 +1255,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1280,31 +1284,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1312,7 +1296,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1320,7 +1306,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1357,13 +1361,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

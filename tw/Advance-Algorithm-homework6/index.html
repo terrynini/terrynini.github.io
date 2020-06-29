@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -275,7 +275,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">2,821</span>Reading time: <span class="post-count reading-time">13 min</span></span>
+                        <span>Word count: <span class="post-count word-count">2.8k</span>Reading time: <span class="post-count reading-time">12 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -399,7 +399,8 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong><br><a id="more"></a></p>
+        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
+<a id="more"></a>
 <h5 id="1-Show-that-LCD-leq-LIS-and-LCS-leq-LIS-Does-this-result-imply-that-there-exist-O-n-logn-algorithms-for-LCD-and-LCS-Here-n-represents-the-input-length"><a href="#1-Show-that-LCD-leq-LIS-and-LCS-leq-LIS-Does-this-result-imply-that-there-exist-O-n-logn-algorithms-for-LCD-and-LCS-Here-n-represents-the-input-length" class="headerlink" title="1. Show that LCD$\leq$ LIS and LCS$\leq$ LIS. Does this result imply that there exist $O(n logn)$ algorithms for LCD and LCS? (Here $n$ represents the input length.)"></a>1. Show that LCD$\leq$ LIS and LCS$\leq$ LIS. Does this result imply that there exist $O(n logn)$ algorithms for LCD and LCS? (Here $n$ represents the input length.)</h5><hr>
 <p>LCS = Longest Common Subsequence<br>LCD = Longest Chain of Dominations (平面上一串點，a支配b支配c支配d，求這個平面最長的支配鍊是多長)<br>LIS = Longest Increasing Subsequence</p>
 <p>若A支配B，表示$(X_A &gt; X_B) \wedge (Y_A &gt; Y_B)$，表示一個LCD其$x,y$座標必為兩Increasing subsequence，因此可知 LCD $\leq$ LIS。</p>
@@ -408,7 +409,7 @@ height:50vh;
 <p>你媽pass</p>
 </blockquote>
 <ul>
-<li><a href="https://www.slideshare.net/Morris1028/aaex6-group2" target="_blank" rel="external">Morris</a></li>
+<li><a href="https://www.slideshare.net/Morris1028/aaex6-group2" target="_blank" rel="noopener">Morris</a></li>
 <li>參考講義Unit7</li>
 </ul>
 <h5 id="2-Given-a-set-of-points-S-in-the-plane-a-subset-of-S-is-called-an-anti-chain-if-the-points-of-the-subset-can-be-arranged-in-an-order-such-that-the-x-coordinates-of-the-points-in-the-order-are-increasing-and-their-y-coordinates-are-decreasing-Design-an-algorithm-to-find-an-anti-chain-with-maximal-size"><a href="#2-Given-a-set-of-points-S-in-the-plane-a-subset-of-S-is-called-an-anti-chain-if-the-points-of-the-subset-can-be-arranged-in-an-order-such-that-the-x-coordinates-of-the-points-in-the-order-are-increasing-and-their-y-coordinates-are-decreasing-Design-an-algorithm-to-find-an-anti-chain-with-maximal-size" class="headerlink" title="2. Given a set of points S in the plane, a subset of $S$ is called an anti-chain if the points of the subset can be arranged in an order such that the $x$ coordinates of the points in the order are increasing and their $y$ coordinates are decreasing. Design an algorithm to find an anti-chain with maximal size."></a>2. Given a set of points S in the plane, a subset of $S$ is called an anti-chain if the points of the subset can be arranged in an order such that the $x$ coordinates of the points in the order are increasing and their $y$ coordinates are decreasing. Design an algorithm to find an anti-chain with maximal size.</h5><hr>
@@ -418,25 +419,25 @@ height:50vh;
 <ul>
 <li>Euclidean distance：平面上兩點間的直線距離即為這兩點的Euclidean distance</li>
 <li>原題目：在2D平面上給定n個點，建一個距離（權重）總和最小的tree，tree的各頂點即為2D平面上的點，兩頂點間的邊的距離（權重）即為這兩的點在平面上的直線距離。</li>
-<li>直接將問題轉成「最小生成樹」就可以用 <a href="https://zh.wikipedia.org/wiki/%E5%85%8B%E9%B2%81%E6%96%AF%E5%85%8B%E5%B0%94%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="external">Kruskal’s algorithm</a> 解</li>
+<li>直接將問題轉成「最小生成樹」就可以用 <a href="https://zh.wikipedia.org/wiki/%E5%85%8B%E9%B2%81%E6%96%AF%E5%85%8B%E5%B0%94%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">Kruskal’s algorithm</a> 解</li>
 <li>但作業是：Show that any comparison-based algorithm needs $\Omega(nlogn)$ time to solve this problem</li>
 <li>參考wiki吧lol</li>
 <li>利用問題變轉的特性，因為決策版EMST可以變轉為最佳化EMST，求的決策版的下界便可同時知道最佳化EMST的下界</li>
 </ul>
-<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.116.2296&amp;rep=rep1&amp;type=pdf" target="_blank" rel="external">決策版 EMST 下界</a></p>
+<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.116.2296&rep=rep1&type=pdf" target="_blank" rel="noopener">決策版 EMST 下界</a></p>
 <blockquote>
-<p>不管 送他惹QQ<br><a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91#%E6%9B%B4%E5%BF%AB%E7%9A%84%E7%AE%97%E6%B3%95" target="_blank" rel="external">wiki</a><br>這三小<br>快 還要更快<br>摸豆海鴉褲</p>
+<p>不管 送他惹QQ<br><a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91#%E6%9B%B4%E5%BF%AB%E7%9A%84%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">wiki</a><br>這三小<br>快 還要更快<br>摸豆海鴉褲</p>
 </blockquote>
 <h5 id="4-Let-x-1-x-2-dots-x-n-be-n-distinct-points-Give-an-algorithm-to-calculate-the-polynomial-p-x-of-degree-n-in-standard-form-such-that-p-x-i-0-for-every-1-leq-i-leq-n"><a href="#4-Let-x-1-x-2-dots-x-n-be-n-distinct-points-Give-an-algorithm-to-calculate-the-polynomial-p-x-of-degree-n-in-standard-form-such-that-p-x-i-0-for-every-1-leq-i-leq-n" class="headerlink" title="4. Let $x_1, x_2, \dots , x_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x_i) = 0$ for every $1 \leq i \leq n$."></a>4. Let $x_1, x_2, \dots , x_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x_i) = 0$ for every $1 \leq i \leq n$.</h5><hr>
 <p>要求設計一個演算法將$p(x)=(x-x_1)(x-x_2)(x-x_3)\dots(x-x_n)$展開為標準式。</p>
 <p><img src="https://i.imgur.com/JoZHYPm.png" alt="截圖自演算法筆記"><br>這裡的多項式相乘，就是係數做convolution的運算，如果兩多項式各有n項，需要花$O(n^2)$，使用快速傅立葉把時間壓至$O(nlogn)$。</p>
 <p>但如果逐項做FFT複雜度會是$\sum_{i=2}^{n-1}O(ilogi)=O(n^2logn)$，所以用分治的方法，對切下去做FFT。</p>
 <p>複雜度：$T(n) = 2T(n/2) + O(nlogn) → O(nlog^2n)$</p>
-<p><a href="https://ccjou.wordpress.com/2012/05/04/%E6%91%BA%E7%A9%8D%E8%88%87%E9%9B%A2%E6%95%A3%E5%82%85%E7%AB%8B%E8%91%89%E8%BD%89%E6%8F%9B/" target="_blank" rel="external">摺積與離散傅立葉轉換</a><br><a href="https://medium.com/@aiswaryamathur/understanding-fast-fourier-transform-from-scratch-to-solve-polynomial-multiplication-8018d511162f" target="_blank" rel="external">FFT與多項式乘法</a></p>
+<p><a href="https://ccjou.wordpress.com/2012/05/04/%E6%91%BA%E7%A9%8D%E8%88%87%E9%9B%A2%E6%95%A3%E5%82%85%E7%AB%8B%E8%91%89%E8%BD%89%E6%8F%9B/" target="_blank" rel="noopener">摺積與離散傅立葉轉換</a><br><a href="https://medium.com/@aiswaryamathur/understanding-fast-fourier-transform-from-scratch-to-solve-polynomial-multiplication-8018d511162f" target="_blank" rel="noopener">FFT與多項式乘法</a></p>
 <h5 id="5-Let-p-x-be-a-given-polynomial-of-degree-n-in-standard-form-and-let-x-1-x-2-…-x-n-be-n-distinct-numbers-Give-an-algorithm-to-calculate-each-p-x-i-for-1-leq-i-leq-n-Hint-use-the-fact-that-the-division-problem-of-polynomials-can-be-solved-in-O-n-log-n-time-and-the-result-of-the-previous-problem"><a href="#5-Let-p-x-be-a-given-polynomial-of-degree-n-in-standard-form-and-let-x-1-x-2-…-x-n-be-n-distinct-numbers-Give-an-algorithm-to-calculate-each-p-x-i-for-1-leq-i-leq-n-Hint-use-the-fact-that-the-division-problem-of-polynomials-can-be-solved-in-O-n-log-n-time-and-the-result-of-the-previous-problem" class="headerlink" title="5. Let $p(x)$ be a given polynomial of degree n in standard form, and let $x_1, x_2, … , x_n$ be n distinct numbers. Give an algorithm to calculate each $p(x_i)$ for $1 \leq i \leq n$. (Hint: use the fact that the division problem of polynomials can be solved in $O(n log n)$ time and the result of the previous problem.)"></a>5. Let $p(x)$ be a given polynomial of degree n in standard form, and let $x_1, x_2, … , x_n$ be n distinct numbers. Give an algorithm to calculate each $p(x_i)$ for $1 \leq i \leq n$. (Hint: use the fact that the division problem of polynomials can be solved in $O(n log n)$ time and the result of the previous problem.)</h5><hr>
 <p>$p(x) = f(x)g(x) + r(x)$<br>想辦法讓 $f(x)g(x) = 0$，就是使用多項式除法讓式子變成：<br>$p(x) = f(x)(x-x_i) + r(x)$</p>
 <p>多項式除法複雜度為$O(nlogn)$如果對每個$x_i$都分開計算複雜度為$O(n)O(nlogn)=O(n^2logn)$</p>
-<p>但根據第四題，我們能夠先使用我們要查詢的數列 $&lt; x_1,x_2,x_3,\dots , x_n &gt;$做出一個函式$q(x)$，使得$q(x_i)=0, for\;1\leq i\leq n$，做多項式除法可得$p(x) = f(x)q(x) + r(x)$</p>
+<p>但根據第四題，我們能夠先使用我們要查詢的數列 $&lt; x_1,x_2,x_3,\dots , x_n &gt;$做出一個函式$q(x)$，使得$q(x_i)=0, for;1\leq i\leq n$，做多項式除法可得$p(x) = f(x)q(x) + r(x)$</p>
 <p>如此一來便可簡化運算：$p(x_i)=f(x_i)\times 0+r(x_i)=r(x_i)$</p>
 <p>簡化運算的時間複雜度為:$O(nlog^2n) + O(nlogn) = O(nlog^2n)$</p>
 <p>簡化後的式子保證會消去最高次項，本來求出最高項的所需的快速冪時間複雜度為$O(logn)$</p>
@@ -445,19 +446,19 @@ height:50vh;
 </blockquote>
 <h5 id="6-Given-n-pairs-of-points-x-i-y-i-with-x-1-x-2-dots-x-n-being-distinct-Design-an-algorithm-to-find-the-coefficients-of-the-unique-polynomial-of-degree-less-than-n-that-passes-through-these-n-points"><a href="#6-Given-n-pairs-of-points-x-i-y-i-with-x-1-x-2-dots-x-n-being-distinct-Design-an-algorithm-to-find-the-coefficients-of-the-unique-polynomial-of-degree-less-than-n-that-passes-through-these-n-points" class="headerlink" title="6. Given $n$ pairs of points $(x_i, y_i)$ with $x_1, x_2, \dots , x_n$ being distinct. Design an algorithm to find the coefficients of the unique polynomial of degree less than $n$ that passes through these $n$ points."></a>6. Given $n$ pairs of points $(x_i, y_i)$ with $x_1, x_2, \dots , x_n$ being distinct. Design an algorithm to find the coefficients of the unique polynomial of degree less than $n$ that passes through these $n$ points.</h5><hr>
 <p>如果有n個點，我們知道我們可以找到一條線穿過這些點，不過，如果這條線的最高次方$\leq n-1$，這條線是唯一的，也就是說最高次方$\leq n-1$的線只有一條，題目要求你做一個算法把這個多項式的係數都算出來。</p>
-<p><a href="https://en.wikipedia.org/wiki/Lagrange_polynomial" target="_blank" rel="external">拉格朗日插值法</a><br>然後用第4.題的方法得到的結果，用微分求值，組合出拉格朗日多項式的係數。</p>
+<p><a href="https://en.wikipedia.org/wiki/Lagrange_polynomial" target="_blank" rel="noopener">拉格朗日插值法</a><br>然後用第4.題的方法得到的結果，用微分求值，組合出拉格朗日多項式的係數。</p>
 <blockquote>
 <p>這樣展開好像會有問題？還沒求出$x^n$的係數?</p>
 </blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Neville%27s_algorithm" target="_blank" rel="external">Neville’s algorithm</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Neville%27s_algorithm" target="_blank" rel="noopener">Neville’s algorithm</a></p>
 <ul>
 <li>let：$p_{i,j}(x)$ 會穿過 point $i$~$j$ 的多項式</li>
 <li>initial condition：$p_{i,i}(x) = y_i$</li>
 <li>recurrence relation：$p_{i,j}(x) = \frac<br>{(x-x_j)p_{i,j-1}(x) - (x-x_i)p_{i+1,j}(x)}<br>{(x_i-x_j)}$</li>
 </ul>
-<p><a href="http://mathforcollege.com/nm/mws/gen/05inp/mws_gen_inp_bck_introduction.pdf" target="_blank" rel="external">該唯一多項式的證明</a></p>
+<p><a href="http://mathforcollege.com/nm/mws/gen/05inp/mws_gen_inp_bck_introduction.pdf" target="_blank" rel="noopener">該唯一多項式的證明</a></p>
 <h5 id="7-Given-two-images-A-and-B-with-B-being-the-smaller-one-where-would-we-put-B-on-A-so-that-the-overlapping-part-of-A-and-B-has-the-most-likelihood-The-difference-between-A-and-B-is-defined-as-the-sum-of-the-squares-of-the-differences-of-corresponding-elements-in-the-overlapped-parts-of-A-and-B-Note-that-B-must-completely-reside-on-A"><a href="#7-Given-two-images-A-and-B-with-B-being-the-smaller-one-where-would-we-put-B-on-A-so-that-the-overlapping-part-of-A-and-B-has-the-most-likelihood-The-difference-between-A-and-B-is-defined-as-the-sum-of-the-squares-of-the-differences-of-corresponding-elements-in-the-overlapped-parts-of-A-and-B-Note-that-B-must-completely-reside-on-A" class="headerlink" title="7. Given two images $A$ and $B$ with $B$ being the smaller one, where would we put $B$ on $A$, so that the overlapping part of $A$ and $B$ has the most likelihood? The difference between $A$ and $B$ is defined as the sum of the squares of the differences of corresponding elements in the overlapped parts of $A$ and $B$. Note that $B$ must completely reside on $A$."></a>7. Given two images $A$ and $B$ with $B$ being the smaller one, where would we put $B$ on $A$, so that the overlapping part of $A$ and $B$ has the most likelihood? The difference between $A$ and $B$ is defined as the sum of the squares of the differences of corresponding elements in the overlapped parts of $A$ and $B$. Note that $B$ must completely reside on $A$.</h5><hr>
-<p>這題真的太有趣了，這是zoj的題目，他本來就告訴你要用cyclic convolution做加速，但是morris又在其他兩項上面做了手腳，讓他更快。<br><a href="http://mypaper.pchome.com.tw/zerojudge/post/1326705427" target="_blank" rel="external">morris</a></p>
+<p>這題真的太有趣了，這是zoj的題目，他本來就告訴你要用cyclic convolution做加速，但是morris又在其他兩項上面做了手腳，讓他更快。<br><a href="http://mypaper.pchome.com.tw/zerojudge/post/1326705427" target="_blank" rel="noopener">morris</a></p>
 <p>這題假設我們兩張圖片的大小分別是$n\times m,p\times q$，brute force的解法複雜度是$O(n\times m\times p\times q)$</p>
 <p>image A:<br>$$<br> \begin{bmatrix}<br>   a_1 &amp; a_2 &amp; a_3 \\<br>   a_4 &amp; a_5 &amp; a_6 \\<br>   a_7 &amp; a_8 &amp; a_9<br>  \end{bmatrix}<br>$$</p>
 <p>image B:<br>$$<br>   \begin{bmatrix}<br>   b_1 &amp; b_2  \\<br>   b_3 &amp; b_4  \\<br>  \end{bmatrix}<br>$$</p>
@@ -475,7 +476,8 @@ height:50vh;
 <li>$O(pq)$</li>
 </ul>
 </li>
-<li>上式的<strong>第三項</strong>：把兩個圖片的矩陣拉成sequence，然後在sequence後面用0 padding到$ 2^{\lceil log_2n\rceil} $的長度，就會變成$&lt; a_1,a_2,\dots ,a_N&gt;,&lt; b_1,b_2,\dots, b_N&gt;$，兩個sequence做Cyclic Convolution會得到一個長度為Ｎ的sequence $r$，例：$&lt; 1,2,3,4 &gt;,&lt; 1,2,3,4 &gt;$這兩個sequence會產出$&lt; 30,24,22,24 &gt;$<ul>
+<li><p>上式的<strong>第三項</strong>：把兩個圖片的矩陣拉成sequence，然後在sequence後面用0 padding到$ 2^{\lceil log_2n\rceil} $的長度，就會變成$&lt; a_1,a_2,\dots ,a_N&gt;,&lt; b_1,b_2,\dots, b_N&gt;$，兩個sequence做Cyclic Convolution會得到一個長度為Ｎ的sequence $r$，例：$&lt; 1,2,3,4 &gt;,&lt; 1,2,3,4 &gt;$這兩個sequence會產出$&lt; 30,24,22,24 &gt;$</p>
+<ul>
 <li>$O(NlogN)$</li>
 </ul>
 </li>
@@ -483,13 +485,14 @@ height:50vh;
 <p>$$<br>    30 = (1*1 + 2*2 + 3*3 + 4*4) \\<br>    24 = (1*4 + 2*1 + 3*2 + 4*3) \\<br>    22 = (1*3 + 2*4 + 3*1 + 4*2) \\<br>    24 = (1*2 + 2*3 + 3*4 + 4*1) \\<br>$$</p>
 <h5 id="8-Given-a-set-S-of-k-strings-we-want-to-find-every-string-in-S-that-is-a-substring-of-some-other-string-in-S-Assume-that-the-total-length-of-all-the-strings-in-S-is-n-give-an-O-n-time-algorithm-to-solve-this-problem"><a href="#8-Given-a-set-S-of-k-strings-we-want-to-find-every-string-in-S-that-is-a-substring-of-some-other-string-in-S-Assume-that-the-total-length-of-all-the-strings-in-S-is-n-give-an-O-n-time-algorithm-to-solve-this-problem" class="headerlink" title="8. Given a set $S$ of $k$ strings, we want to find every string in $S$ that is a substring of some other string in $S$. Assume that the total length of all the strings in $S$ is $n$, give an $O(n)$ time algorithm to solve this problem."></a>8. Given a set $S$ of $k$ strings, we want to find every string in $S$ that is a substring of some other string in $S$. Assume that the total length of all the strings in $S$ is $n$, give an $O(n)$ time algorithm to solve this problem.</h5><hr>
 <p>把set中全部的字串拿來做<strong>G</strong>eneralized <strong>S</strong>uffix <strong>T</strong>ree，之後拿每個字串在GST中做搜尋，只要能找到兩次，就表示除了自己之外，還是其他字串的子字串。</p>
-<p><strong>*複雜度分析：</strong><br>建構GST : $O(n)$ (n是字串總長度)<br>搜尋時間 : $\sum_{i=1}^{N}O(m_i+n)=O(n)$ (N為字串數，m為關鍵字的長度)<br>總時間複雜度 : $O(n)$<br><a href="http://www.cnblogs.com/gaochundong/p/suffix_tree.html" target="_blank" rel="external">suffix tree及線性時間造樹</a><br><a href="https://www.geeksforgeeks.org/generalized-suffix-tree-1/" target="_blank" rel="external">GST</a></p>
+<p><strong>*複雜度分析：</strong><br>建構GST : $O(n)$ (n是字串總長度)<br>搜尋時間 : $\sum_{i=1}^{N}O(m_i+n)=O(n)$ (N為字串數，m為關鍵字的長度)<br>總時間複雜度 : $O(n)$<br><a href="http://www.cnblogs.com/gaochundong/p/suffix_tree.html" target="_blank" rel="noopener">suffix tree及線性時間造樹</a><br><a href="https://www.geeksforgeeks.org/generalized-suffix-tree-1/" target="_blank" rel="noopener">GST</a></p>
 <h5 id="9-Give-a-linear-time-algorithm-that-takes-in-a-string-and-finds-the-longest-maximal-pair-of-equal-substrings-in-which-the-two-copies-do-not-overlap-That-is-if-the-two-copies-begin-at-positions-p1-lt-p2-and-are-of-length-n’-then-p1-n’-lt-p2"><a href="#9-Give-a-linear-time-algorithm-that-takes-in-a-string-and-finds-the-longest-maximal-pair-of-equal-substrings-in-which-the-two-copies-do-not-overlap-That-is-if-the-two-copies-begin-at-positions-p1-lt-p2-and-are-of-length-n’-then-p1-n’-lt-p2" class="headerlink" title="9. Give a linear-time algorithm that takes in a string and finds the longest maximal pair of equal substrings in which the two copies do not overlap. That is, if the two copies begin at positions $p1 &lt; p2$ and are of length $n’$, then $p1+ n’ &lt; p2$."></a>9. Give a linear-time algorithm that takes in a string and finds the longest maximal pair of equal substrings in which the two copies do not overlap. That is, if the two copies begin at positions $p1 &lt; p2$ and are of length $n’$, then $p1+ n’ &lt; p2$.</h5><hr>
 <p>對每個節點$N_i$，找出其子樹中的的最大及最小索引值之差$\delta$，則可以root到$N_i$的路徑上可以得到一些子字串，而這個子字串的長度必須小於等於$\delta$，這些就是共同子字串。</p>
-<p>參考：morris<br><a href="https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/" target="_blank" rel="external">dp解，複雜度太高</a><br><a href="https://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" target="_blank" rel="external">不考慮overlap的解法</a></p>
+<p>參考：morris<br><a href="https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/" target="_blank" rel="noopener">dp解，複雜度太高</a><br><a href="https://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" target="_blank" rel="noopener">不考慮overlap的解法</a></p>
 <h5 id="10-Show-how-to-count-the-number-of-distinct-substrings-of-a-string-T-in-time-O-n-where-the-length-of-T-is-n-Also-show-how-to-enumerate-one-copy-of-each-distinct-substring-in-time-proportional-to-the-length-of-all-those-strings"><a href="#10-Show-how-to-count-the-number-of-distinct-substrings-of-a-string-T-in-time-O-n-where-the-length-of-T-is-n-Also-show-how-to-enumerate-one-copy-of-each-distinct-substring-in-time-proportional-to-the-length-of-all-those-strings" class="headerlink" title="10. Show how to count the number of distinct substrings of a string $T$ in time $O(n)$, where the length of $T$ is $n$. Also show how to enumerate one copy of each distinct substring in time proportional to the length of all those strings."></a>10. Show how to count the number of distinct substrings of a string $T$ in time $O(n)$, where the length of $T$ is $n$. Also show how to enumerate one copy of each distinct substring in time proportional to the length of all those strings.</h5><hr>
 <p>後綴樹的每個樹枝都是一個後綴，在這後綴上面我們列舉他的前綴就可以得到任意子字串。</p>
-<p><strong><em>Example</em></strong> : xabxac的後綴樹<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">  |---xa---[]--bxac--[]</div><div class="line">  |         |</div><div class="line">  |         |---c----[]</div><div class="line">  |</div><div class="line">[root]--a--[]--bxac--[]</div><div class="line">  |         |</div><div class="line">  |         |---c----[]</div><div class="line">  |</div><div class="line">  |--c--[]</div><div class="line">  |</div><div class="line">  |---bxac---[]</div></pre></td></tr></table></figure></p>
+<p><strong><em>Example</em></strong> : xabxac的後綴樹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  |---xa---[]--bxac--[]</span><br><span class="line">  |         |</span><br><span class="line">  |         |---c----[]</span><br><span class="line">  |</span><br><span class="line">[root]--a--[]--bxac--[]</span><br><span class="line">  |         |</span><br><span class="line">  |         |---c----[]</span><br><span class="line">  |</span><br><span class="line">  |--c--[]</span><br><span class="line">  |</span><br><span class="line">  |---bxac---[]</span><br></pre></td></tr></table></figure>
 <p>拿第一個樹枝來說，我們可以找到以下子字串：x,xa,xab,xabx,xabxa,xabxac,xac，不難發現子字串數就是邊上的字元數。</p>
 <p><strong><em>複雜度分析：</em></strong><br>建構suffix tree : $O(n)$<br>計算字元數：$O(n)$    (suffix tree的大小是$\Theta(n)$)<br>總時間複雜度： $O(n)$</p>
 <h5 id="11-Solve-the-minimum-coloring-problem-on-interval-graphs"><a href="#11-Solve-the-minimum-coloring-problem-on-interval-graphs" class="headerlink" title="11. Solve the minimum coloring problem on interval graphs."></a>11. Solve the minimum coloring problem on interval graphs.</h5><hr>
@@ -498,7 +501,7 @@ height:50vh;
 <blockquote>
 <p>不確定對不對，morris解法(greedy)：<br>bfs著色，填入不跟鄰近點衝突的最小色號。</p>
 </blockquote>
-<p><a href="http://homepages.gac.edu/~sskulrat/Courses/2015F-375/lectures/g2.pdf" target="_blank" rel="external">Interval Graph Coloring Problem</a><br><a href="https://en.wikipedia.org/wiki/Interval_graph" target="_blank" rel="external">Interval graph</a></p>
+<p><a href="http://homepages.gac.edu/~sskulrat/Courses/2015F-375/lectures/g2.pdf" target="_blank" rel="noopener">Interval Graph Coloring Problem</a><br><a href="https://en.wikipedia.org/wiki/Interval_graph" target="_blank" rel="noopener">Interval graph</a></p>
 <h5 id="12-Design-an-algorithm-for-determining-alpha-G-and-k-G-on-a-bipartite-graph-G"><a href="#12-Design-an-algorithm-for-determining-alpha-G-and-k-G-on-a-bipartite-graph-G" class="headerlink" title="12. Design an algorithm for determining $\alpha (G)$ and $k(G)$ on a bipartite graph $G$."></a>12. Design an algorithm for determining $\alpha (G)$ and $k(G)$ on a bipartite graph $G$.</h5><hr>
 <ul>
 <li>$\alpha(G)$: 最大獨立集的大小</li>
@@ -513,7 +516,7 @@ height:50vh;
 <li>最小團覆蓋 = 最大匹配 + 剩下的獨立點<br>= 最大匹配數 + (頂點總數 - 2 * 最大匹配)<br>= 頂點總數 - 最大匹配 = 最大獨立集的大小 !!!</li>
 <li>二分圖的最大匹配：可用「匈牙利演算法」解</li>
 </ul>
-<p><a href="http://blog.csdn.net/u013007900/article/details/41631683" target="_blank" rel="external">各種定義</a><br><a href="http://blog.csdn.net/Flynn_curry/article/details/52966283" target="_blank" rel="external">http://blog.csdn.net/Flynn_curry/article/details/52966283</a><br><a href="https://www.renfei.org/blog/bipartite-matching.html" target="_blank" rel="external">二分圖匹配</a><br><a href="https://read01.com/zh-tw/N5R5BR.html#.Wk_ct1T1VTY" target="_blank" rel="external">二分圖最大獨立集</a><br><a href="https://en.wikipedia.org/wiki/Clique_cover" target="_blank" rel="external">clique cover</a></p>
+<p><a href="http://blog.csdn.net/u013007900/article/details/41631683" target="_blank" rel="noopener">各種定義</a><br><a href="http://blog.csdn.net/Flynn_curry/article/details/52966283" target="_blank" rel="noopener">http://blog.csdn.net/Flynn_curry/article/details/52966283</a><br><a href="https://www.renfei.org/blog/bipartite-matching.html" target="_blank" rel="noopener">二分圖匹配</a><br><a href="https://read01.com/zh-tw/N5R5BR.html#.Wk_ct1T1VTY" target="_blank" rel="noopener">二分圖最大獨立集</a><br><a href="https://en.wikipedia.org/wiki/Clique_cover" target="_blank" rel="noopener">clique cover</a></p>
 <h5 id="13-A-path-cover-of-a-directed-graph-G-V-E-is-a-set-P-of-paths-such-that-every-vertex-in-V-is-included-in-at-least-one-path-in-P-A-minimum-path-cover-of-G-is-a-path-cover-containing-the-fewest-number-of-paths-Give-an-algorithm-to-find-a-minimum-path-cover-of-a-directed-acyclic-graph"><a href="#13-A-path-cover-of-a-directed-graph-G-V-E-is-a-set-P-of-paths-such-that-every-vertex-in-V-is-included-in-at-least-one-path-in-P-A-minimum-path-cover-of-G-is-a-path-cover-containing-the-fewest-number-of-paths-Give-an-algorithm-to-find-a-minimum-path-cover-of-a-directed-acyclic-graph" class="headerlink" title="13. A path cover of a directed graph $G=(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph."></a>13. A path cover of a directed graph $G=(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph.</h5><hr>
 <p>從DAG建構二分圖，二分圖表示的，就是每個節點的路徑關係，因為不可交路徑不可共用頂點，匹配也不可共用，故可以用匹配來找出最小不可交路徑覆蓋。</p>
 <ul>
@@ -522,7 +525,7 @@ height:50vh;
 <li><p>最小相交路徑覆蓋：我們可以先幫圖加邊，如果有路徑1-&gt;2-&gt;3，我們就直接新增一條邊1-&gt;3，然後再用最小不可交路徑覆蓋的方法，就可以求得相交路徑覆蓋。</p>
 </li>
 </ul>
-<p><a href="http://blog.sina.com.cn/s/blog_64e467d60100qqkf.html" target="_blank" rel="external">解法前置</a><br><a href="https://www.cnblogs.com/justPassBy/p/5369930.html" target="_blank" rel="external">解法</a><br><a href="http://www.itdadao.com/articles/c15a1133857p0.html" target="_blank" rel="external">解法</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_64e467d60100qqkf.html" target="_blank" rel="noopener">解法前置</a><br><a href="https://www.cnblogs.com/justPassBy/p/5369930.html" target="_blank" rel="noopener">解法</a><br><a href="http://www.itdadao.com/articles/c15a1133857p0.html" target="_blank" rel="noopener">解法</a></p>
 
     </article>
     <!-- license  -->
@@ -531,7 +534,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">January 15th 2018, 12:23:31</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -577,7 +580,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -593,6 +596,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -684,7 +692,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Show-that-LCD-leq-LIS-and-LCS-leq-LIS-Does-this-result-imply-that-there-exist-O-n-logn-algorithms-for-LCD-and-LCS-Here-n-represents-the-input-length"><span class="toc-number">1.</span> <span class="toc-text">1. Show that LCD$\leq$ LIS and LCS$\leq$ LIS. Does this result imply that there exist $O(n logn)$ algorithms for LCD and LCS? (Here $n$ represents the input length.)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Given-a-set-of-points-S-in-the-plane-a-subset-of-S-is-called-an-anti-chain-if-the-points-of-the-subset-can-be-arranged-in-an-order-such-that-the-x-coordinates-of-the-points-in-the-order-are-increasing-and-their-y-coordinates-are-decreasing-Design-an-algorithm-to-find-an-anti-chain-with-maximal-size"><span class="toc-number">2.</span> <span class="toc-text">2. Given a set of points S in the plane, a subset of $S$ is called an anti-chain if the points of the subset can be arranged in an order such that the $x$ coordinates of the points in the order are increasing and their $y$ coordinates are decreasing. Design an algorithm to find an anti-chain with maximal size.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Show-that-any-comparison-based-algorithm-needs-Omega-n-log-n-time-to-solve-the-following-problem-Given-n-points-in-the-2D-plane-construct-a-tree-of-minimum-total-length-whose-vertices-are-the-given-points-and-the-edge-length-of-an-edge-is-the-Euclidean-distance-between-the-two-end-points-of-the-edge"><span class="toc-number">3.</span> <span class="toc-text">3. Show that any comparison-based algorithm needs $\Omega(n log n)$ time to solve the following problem: Given n points in the 2D plane, construct a tree of minimum total length whose vertices are the given points and the edge length of an edge is the Euclidean distance between the two end points of the edge.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Let-x-1-x-2-dots-x-n-be-n-distinct-points-Give-an-algorithm-to-calculate-the-polynomial-p-x-of-degree-n-in-standard-form-such-that-p-x-i-0-for-every-1-leq-i-leq-n"><span class="toc-number">4.</span> <span class="toc-text">4. Let $x_1, x_2, \dots , x_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x_i) = 0$ for every $1 \leq i \leq n$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Let-p-x-be-a-given-polynomial-of-degree-n-in-standard-form-and-let-x-1-x-2-…-x-n-be-n-distinct-numbers-Give-an-algorithm-to-calculate-each-p-x-i-for-1-leq-i-leq-n-Hint-use-the-fact-that-the-division-problem-of-polynomials-can-be-solved-in-O-n-log-n-time-and-the-result-of-the-previous-problem"><span class="toc-number">5.</span> <span class="toc-text">5. Let $p(x)$ be a given polynomial of degree n in standard form, and let $x_1, x_2, … , x_n$ be n distinct numbers. Give an algorithm to calculate each $p(x_i)$ for $1 \leq i \leq n$. (Hint: use the fact that the division problem of polynomials can be solved in $O(n log n)$ time and the result of the previous problem.)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Given-n-pairs-of-points-x-i-y-i-with-x-1-x-2-dots-x-n-being-distinct-Design-an-algorithm-to-find-the-coefficients-of-the-unique-polynomial-of-degree-less-than-n-that-passes-through-these-n-points"><span class="toc-number">6.</span> <span class="toc-text">6. Given $n$ pairs of points $(x_i, y_i)$ with $x_1, x_2, \dots , x_n$ being distinct. Design an algorithm to find the coefficients of the unique polynomial of degree less than $n$ that passes through these $n$ points.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-two-images-A-and-B-with-B-being-the-smaller-one-where-would-we-put-B-on-A-so-that-the-overlapping-part-of-A-and-B-has-the-most-likelihood-The-difference-between-A-and-B-is-defined-as-the-sum-of-the-squares-of-the-differences-of-corresponding-elements-in-the-overlapped-parts-of-A-and-B-Note-that-B-must-completely-reside-on-A"><span class="toc-number">7.</span> <span class="toc-text">7. Given two images $A$ and $B$ with $B$ being the smaller one, where would we put $B$ on $A$, so that the overlapping part of $A$ and $B$ has the most likelihood? The difference between $A$ and $B$ is defined as the sum of the squares of the differences of corresponding elements in the overlapped parts of $A$ and $B$. Note that $B$ must completely reside on $A$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Given-a-set-S-of-k-strings-we-want-to-find-every-string-in-S-that-is-a-substring-of-some-other-string-in-S-Assume-that-the-total-length-of-all-the-strings-in-S-is-n-give-an-O-n-time-algorithm-to-solve-this-problem"><span class="toc-number">8.</span> <span class="toc-text">8. Given a set $S$ of $k$ strings, we want to find every string in $S$ that is a substring of some other string in $S$. Assume that the total length of all the strings in $S$ is $n$, give an $O(n)$ time algorithm to solve this problem.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-Give-a-linear-time-algorithm-that-takes-in-a-string-and-finds-the-longest-maximal-pair-of-equal-substrings-in-which-the-two-copies-do-not-overlap-That-is-if-the-two-copies-begin-at-positions-p1-lt-p2-and-are-of-length-n’-then-p1-n’-lt-p2"><span class="toc-number">9.</span> <span class="toc-text">9. Give a linear-time algorithm that takes in a string and finds the longest maximal pair of equal substrings in which the two copies do not overlap. That is, if the two copies begin at positions $p1 < p2$ and are of length $n’$, then $p1+ n’ < p2$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-Show-how-to-count-the-number-of-distinct-substrings-of-a-string-T-in-time-O-n-where-the-length-of-T-is-n-Also-show-how-to-enumerate-one-copy-of-each-distinct-substring-in-time-proportional-to-the-length-of-all-those-strings"><span class="toc-number">10.</span> <span class="toc-text">10. Show how to count the number of distinct substrings of a string $T$ in time $O(n)$, where the length of $T$ is $n$. Also show how to enumerate one copy of each distinct substring in time proportional to the length of all those strings.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#11-Solve-the-minimum-coloring-problem-on-interval-graphs"><span class="toc-number">11.</span> <span class="toc-text">11. Solve the minimum coloring problem on interval graphs.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#12-Design-an-algorithm-for-determining-alpha-G-and-k-G-on-a-bipartite-graph-G"><span class="toc-number">12.</span> <span class="toc-text">12. Design an algorithm for determining $\alpha (G)$ and $k(G)$ on a bipartite graph $G$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#13-A-path-cover-of-a-directed-graph-G-V-E-is-a-set-P-of-paths-such-that-every-vertex-in-V-is-included-in-at-least-one-path-in-P-A-minimum-path-cover-of-G-is-a-path-cover-containing-the-fewest-number-of-paths-Give-an-algorithm-to-find-a-minimum-path-cover-of-a-directed-acyclic-graph"><span class="toc-number">13.</span> <span class="toc-text">13. A path cover of a directed graph $G=(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph.</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-Show-that-LCD-leq-LIS-and-LCS-leq-LIS-Does-this-result-imply-that-there-exist-O-n-logn-algorithms-for-LCD-and-LCS-Here-n-represents-the-input-length"><span class="toc-number">1.</span> <span class="toc-text">1. Show that LCD$\leq$ LIS and LCS$\leq$ LIS. Does this result imply that there exist $O(n logn)$ algorithms for LCD and LCS? (Here $n$ represents the input length.)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-Given-a-set-of-points-S-in-the-plane-a-subset-of-S-is-called-an-anti-chain-if-the-points-of-the-subset-can-be-arranged-in-an-order-such-that-the-x-coordinates-of-the-points-in-the-order-are-increasing-and-their-y-coordinates-are-decreasing-Design-an-algorithm-to-find-an-anti-chain-with-maximal-size"><span class="toc-number">2.</span> <span class="toc-text">2. Given a set of points S in the plane, a subset of $S$ is called an anti-chain if the points of the subset can be arranged in an order such that the $x$ coordinates of the points in the order are increasing and their $y$ coordinates are decreasing. Design an algorithm to find an anti-chain with maximal size.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Show-that-any-comparison-based-algorithm-needs-Omega-n-log-n-time-to-solve-the-following-problem-Given-n-points-in-the-2D-plane-construct-a-tree-of-minimum-total-length-whose-vertices-are-the-given-points-and-the-edge-length-of-an-edge-is-the-Euclidean-distance-between-the-two-end-points-of-the-edge"><span class="toc-number">3.</span> <span class="toc-text">3. Show that any comparison-based algorithm needs $\Omega(n log n)$ time to solve the following problem: Given n points in the 2D plane, construct a tree of minimum total length whose vertices are the given points and the edge length of an edge is the Euclidean distance between the two end points of the edge.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Let-x-1-x-2-dots-x-n-be-n-distinct-points-Give-an-algorithm-to-calculate-the-polynomial-p-x-of-degree-n-in-standard-form-such-that-p-x-i-0-for-every-1-leq-i-leq-n"><span class="toc-number">4.</span> <span class="toc-text">4. Let $x_1, x_2, \dots , x_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x_i) &#x3D; 0$ for every $1 \leq i \leq n$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Let-p-x-be-a-given-polynomial-of-degree-n-in-standard-form-and-let-x-1-x-2-…-x-n-be-n-distinct-numbers-Give-an-algorithm-to-calculate-each-p-x-i-for-1-leq-i-leq-n-Hint-use-the-fact-that-the-division-problem-of-polynomials-can-be-solved-in-O-n-log-n-time-and-the-result-of-the-previous-problem"><span class="toc-number">5.</span> <span class="toc-text">5. Let $p(x)$ be a given polynomial of degree n in standard form, and let $x_1, x_2, … , x_n$ be n distinct numbers. Give an algorithm to calculate each $p(x_i)$ for $1 \leq i \leq n$. (Hint: use the fact that the division problem of polynomials can be solved in $O(n log n)$ time and the result of the previous problem.)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Given-n-pairs-of-points-x-i-y-i-with-x-1-x-2-dots-x-n-being-distinct-Design-an-algorithm-to-find-the-coefficients-of-the-unique-polynomial-of-degree-less-than-n-that-passes-through-these-n-points"><span class="toc-number">6.</span> <span class="toc-text">6. Given $n$ pairs of points $(x_i, y_i)$ with $x_1, x_2, \dots , x_n$ being distinct. Design an algorithm to find the coefficients of the unique polynomial of degree less than $n$ that passes through these $n$ points.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-two-images-A-and-B-with-B-being-the-smaller-one-where-would-we-put-B-on-A-so-that-the-overlapping-part-of-A-and-B-has-the-most-likelihood-The-difference-between-A-and-B-is-defined-as-the-sum-of-the-squares-of-the-differences-of-corresponding-elements-in-the-overlapped-parts-of-A-and-B-Note-that-B-must-completely-reside-on-A"><span class="toc-number">7.</span> <span class="toc-text">7. Given two images $A$ and $B$ with $B$ being the smaller one, where would we put $B$ on $A$, so that the overlapping part of $A$ and $B$ has the most likelihood? The difference between $A$ and $B$ is defined as the sum of the squares of the differences of corresponding elements in the overlapped parts of $A$ and $B$. Note that $B$ must completely reside on $A$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Given-a-set-S-of-k-strings-we-want-to-find-every-string-in-S-that-is-a-substring-of-some-other-string-in-S-Assume-that-the-total-length-of-all-the-strings-in-S-is-n-give-an-O-n-time-algorithm-to-solve-this-problem"><span class="toc-number">8.</span> <span class="toc-text">8. Given a set $S$ of $k$ strings, we want to find every string in $S$ that is a substring of some other string in $S$. Assume that the total length of all the strings in $S$ is $n$, give an $O(n)$ time algorithm to solve this problem.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-Give-a-linear-time-algorithm-that-takes-in-a-string-and-finds-the-longest-maximal-pair-of-equal-substrings-in-which-the-two-copies-do-not-overlap-That-is-if-the-two-copies-begin-at-positions-p1-lt-p2-and-are-of-length-n’-then-p1-n’-lt-p2"><span class="toc-number">9.</span> <span class="toc-text">9. Give a linear-time algorithm that takes in a string and finds the longest maximal pair of equal substrings in which the two copies do not overlap. That is, if the two copies begin at positions $p1 &lt; p2$ and are of length $n’$, then $p1+ n’ &lt; p2$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-Show-how-to-count-the-number-of-distinct-substrings-of-a-string-T-in-time-O-n-where-the-length-of-T-is-n-Also-show-how-to-enumerate-one-copy-of-each-distinct-substring-in-time-proportional-to-the-length-of-all-those-strings"><span class="toc-number">10.</span> <span class="toc-text">10. Show how to count the number of distinct substrings of a string $T$ in time $O(n)$, where the length of $T$ is $n$. Also show how to enumerate one copy of each distinct substring in time proportional to the length of all those strings.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#11-Solve-the-minimum-coloring-problem-on-interval-graphs"><span class="toc-number">11.</span> <span class="toc-text">11. Solve the minimum coloring problem on interval graphs.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#12-Design-an-algorithm-for-determining-alpha-G-and-k-G-on-a-bipartite-graph-G"><span class="toc-number">12.</span> <span class="toc-text">12. Design an algorithm for determining $\alpha (G)$ and $k(G)$ on a bipartite graph $G$.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#13-A-path-cover-of-a-directed-graph-G-V-E-is-a-set-P-of-paths-such-that-every-vertex-in-V-is-included-in-at-least-one-path-in-P-A-minimum-path-cover-of-G-is-a-path-cover-containing-the-fewest-number-of-paths-Give-an-algorithm-to-find-a-minimum-path-cover-of-a-directed-acyclic-graph"><span class="toc-number">13.</span> <span class="toc-text">13. A path cover of a directed graph $G&#x3D;(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph.</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1088,12 +1096,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1123,12 +1128,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1138,7 +1143,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1148,7 +1158,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1158,7 +1168,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1217,17 +1227,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1266,12 +1276,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1295,31 +1305,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1327,7 +1317,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1335,7 +1327,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1372,13 +1382,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

