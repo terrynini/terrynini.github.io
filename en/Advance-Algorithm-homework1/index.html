@@ -401,9 +401,13 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。<br>Written in English.</p>
+        <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。</p>
+<p>Written in English.</p>
 <a id="more"></a>
-<h5 id="problem-1"><a href="#problem-1" class="headerlink" title="problem 1"></a>problem 1</h5><p>Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program.</p>
+
+<h2 id="problem-1"><a href="#problem-1" class="headerlink" title="problem 1"></a>problem 1</h2><blockquote>
+<p>Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program.</p>
+</blockquote>
 <div class="highlight">
 $$ T(1) = 0$$
 $$ T(n) = T(n-1) + T(n-2) + 1 $$
@@ -413,16 +417,20 @@ $$ if\;n-k=1,k=n-1$$
 $$ O(T(n)) = O( 2^{n-1}T(1) + \frac{1-2^{n-1}}{1-2} ) = O(2^n) $$
 </div>
 
-<h5 id="problem-2"><a href="#problem-2" class="headerlink" title="problem 2"></a>problem 2</h5><p>Determine the space complexity of the quicksort algorithm.</p>
+<h2 id="problem-2"><a href="#problem-2" class="headerlink" title="problem 2"></a>problem 2</h2><blockquote>
+<p>Determine the space complexity of the quicksort algorithm.</p>
+</blockquote>
 <div class="highlight">
-For in-place quick sort, space complexity is determined by stacks used by recursive call. 
+For in-place quick sort, space complexity is determined by stacks used by recursive call.
 
 <p>The best case, it needs <code>O(logn)</code> recursive call to sort, the space complexity is <code>O(logn)</code>.</p>
 <p>The worse case, it needs <code>O(n)</code> recursive call to sort, the space complexity is <code>O(n)</code>.</p>
 <p>We know the the average case of quick sort is that it need  <code>O(logn)</code> recursive call, so the space complexity of quicksort is <code>O(logn)</code>.</p>
 </div>
 
-<h5 id="problem-3"><a href="#problem-3" class="headerlink" title="problem 3"></a>problem 3</h5><p> Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) = 0$ </p>
+<h2 id="problem-3"><a href="#problem-3" class="headerlink" title="problem 3"></a>problem 3</h2><blockquote>
+<p>Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) = 0$</p>
+</blockquote>
 <div class="highlight">
 $$ T(n) = 2T(\frac{n}{2}) + n-1 = 4T(\frac{n}{4}) + n-2 + n-1 = 8T(\frac{n}{8}) + n-4 + n-2 + n-1 $$
 $$ T(n) = 2^kT(\frac{n}{2^k}) + kn + \frac{1-2^k}{1-2} $$
@@ -430,7 +438,9 @@ $$ if \frac{n}{2^k} = 1 , k = log_2(n) $$
 $$ T(n) = nlog_2(n) + \frac{1-n}{1-2}$$
 </div>
 
-<h5 id="problem-4"><a href="#problem-4" class="headerlink" title="problem 4"></a>problem 4</h5><p>Given a set of n+1 numbers out of the first 2n natural numbers 1, 2, …, 2n, prove by mathematic induction that here are two numbers in the set, one of which divides the other. </p>
+<h2 id="problem-4"><a href="#problem-4" class="headerlink" title="problem 4"></a>problem 4</h2><blockquote>
+<p>Given a set of n+1 numbers out of the first 2n natural numbers 1, 2, …, 2n, prove by mathematic induction that here are two numbers in the set, one of which divides the other. </p>
+</blockquote>
 <div class="highlight">
 
 <p><strong><em>Basis</em></strong> : $n = 1, 1|2 $<br>Assume that, for $n = k$, it holds(select k+1 numbers from first 2k natural numbers).</p>
@@ -443,20 +453,24 @@ $$ T(n) = nlog_2(n) + \frac{1-n}{1-2}$$
 <li><p>We select both 2k+1 and 2k+2 :</p>
 <ul>
 <li>If we select k+1, then $(k+1)|(2k+2)$. It holds.</li>
-<li>If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$</div>
-
-</li>
+<li>If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$</li>
 </ul>
 </li>
 </ol>
-<h5 id="problem-5"><a href="#problem-5" class="headerlink" title="problem 5"></a>problem 5</h5><p>For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.</p>
+</div>
+
+<h2 id="problem-5"><a href="#problem-5" class="headerlink" title="problem 5"></a>problem 5</h2><blockquote>
+<p>For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.</p>
+</blockquote>
 <div class="highlight">
 We know that if a graph is connected, there is a spanning tree.
 
 <p>Removing the leaf node of spanning tree still makes graph connected.</p>
 </div>
 
-<h5 id="problem-6"><a href="#problem-6" class="headerlink" title="problem 6"></a>problem 6</h5><p>Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) = \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem: Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value. </p>
+<h2 id="problem-6"><a href="#problem-6" class="headerlink" title="problem 6"></a>problem 6</h2><blockquote>
+<p>Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) = \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem: Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value.</p>
+</blockquote>
 <div class="highlight">
 
 <p>$$let;M;=;median;of;x_i$$<br>$$ x_1 \le x_2 \le … \le x_s \le A \le x_{s+1} \le … \le x_t \le M \le x_{t+1} \le … \le x_n $$</p>
@@ -467,9 +481,11 @@ We know that if a graph is connected, there is a spanning tree.
 <p>$Let;v_i=|a_i|,w_i=\frac{b_i}{a_i}$<br>$$f(x) = \sum_{1\le i\le n}|a_ix-b_i|$$<br>$$= \sum_{1\le i\le n}|a_i||x-\frac{b_i}{a_i}|$$<br>$$= \sum_{1\le i\le n}v_i|x-w_i|$$<br>$f(x) = \sum_{1\le i\le n}v_i|x-w_i|$ takes its minimum value at the median of the sequence :<br>$$w_1,w_1,…,w_1,…,w_2,w_2,…,w_2,…,w_n,w_n,…,w_n$$<br>$$|———v_1——–||———v_2—-|….|—–v_n——|$$</p>
 </div>
 
-<h5 id="problem-7"><a href="#problem-7" class="headerlink" title="problem 7"></a>problem 7</h5><p>Prove the Helly Property on Trees: Given a tree T and k subtrees of T such that each pair of subtrees has at least one vertex in common, show that there is at least one vertex in common to all the subtrees.</p>
+<h2 id="problem-7"><a href="#problem-7" class="headerlink" title="problem 7"></a>problem 7</h2><blockquote>
+<p>Prove the Helly Property on Trees: Given a tree T and k subtrees of T such that each pair of subtrees has at least one vertex in common, show that there is at least one vertex in<br>common to all the subtrees.</p>
+</blockquote>
 <div class="highlight">
-Definition of Helly Property : 
+Definition of Helly Property :
 A family $ \\{A\_i: i \in I \\} $ of subsets of a set $A$ is said to satisfy the Helly property,if $J \subseteq I$, and $A\_i\cap A\_j\ne \emptyset$, for every $i, j \in J$, then $\cap\_{j\in J}A\_j\ne \emptyset$.
 
 <p>Briefly, a set $J$ of sets $A_i$ has the Helly property if for every subset $T$ of $J$ the following holds: if the elements of $T$ pairwise intersect, then the intersection of all elements of $T$ is also non-empty.</p>
@@ -477,8 +493,9 @@ A family $ \\{A\_i: i \in I \\} $ of subsets of a set $A$ is said to satisfy the
 <p>Quoted from <a href="http://compalg.inf.elte.hu/~tony/Oktatas/TDK/FINAL/Chap%204.PDF" target="_blank" rel="noopener">here</a></p>
 </div>
 
-
-<h5 id="problem-8"><a href="#problem-8" class="headerlink" title="problem 8"></a>problem 8</h5><p>Let $d_1, d_2, …, d_n,;n\le 2$, be positive integers. Prove that if $d_1+ d_2+ …+ d_n = 2n - 2$, then there exists a tree with n vertices of degrees exactly $d_1, d_2, …, d_n$. Based on your proof, design an efficient algorithm to construct such a tree. </p>
+<h2 id="problem-8"><a href="#problem-8" class="headerlink" title="problem 8"></a>problem 8</h2><blockquote>
+<p>Let $d_1, d_2, …, d_n,;n\le 2$, be positive integers. Prove that if $d_1+ d_2+ …+ d_n = 2n - 2$, then there exists a tree with n vertices of degrees exactly $d_1, d_2, …, d_n$. Based on your proof, design an efficient algorithm to construct such a tree. </p>
+</blockquote>
 <div class="highlight">
 
 <p><strong><em>Basis</em></strong> :<br>when $n=1,d_1=0$,it holds.<br>when $n=2,d_1=1,d_2=1$ , it holds.</p>
@@ -493,12 +510,16 @@ A family $ \\{A\_i: i \in I \\} $ of subsets of a set $A$ is said to satisfy the
 <li>Iterating from 1 to n,and add nodes to $P$ until the degree of p become 1.</li>
 <li>Go back to 2 until there is no more nodes can be added</li>
 </ol>
-<h5 id="problem-9"><a href="#problem-9" class="headerlink" title="problem 9"></a>problem 9</h5><p>Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that $wv \in E$) </p>
+<h2 id="problem-9"><a href="#problem-9" class="headerlink" title="problem 9"></a>problem 9</h2><blockquote>
+<p>Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that $wv \in E$)</p>
+</blockquote>
 <div class="highlight">
 You can find it in Morris's old blog. [Q8](http://mypaper.pchome.com.tw/zerojudge/post/1325745839)
 </div>
 
-<h5 id="problem-10"><a href="#problem-10" class="headerlink" title="problem 10"></a>problem 10</h5><p>Give a linear-time algorithm that takes as input a tree and determines whether it has a perfect matching: a set of edges that touches each node exactly once. </p>
+<h2 id="problem-10"><a href="#problem-10" class="headerlink" title="problem 10"></a>problem 10</h2><blockquote>
+<p>Give a linear-time algorithm that takes as input a tree and determines whether it has a perfect matching: a set of edges that touches each node exactly once. </p>
+</blockquote>
 <div class="highlight">
 perfect matching : [English](http://mathworld.wolfram.com/PerfectMatching.html), [Chinese](http://www.csie.ntnu.edu.tw/~u91029/Matching.html)
 
@@ -529,17 +550,20 @@ perfect matching : [English](http://mathworld.wolfram.com/PerfectMatching.html),
 <td><img src="/en/Advance-Algorithm-homework1/8.png" class="" width="8"></td>
 </tr>
 </tbody></table>
-<p>pseudo code</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UNMATCH 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MATCH   1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL    -1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">PerfectMatching</span> <span class="params">( n )</span></span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> child of n </span>== <span class="number">0</span>                  <span class="comment">// if this node is leaf                    </span></span><br><span class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it's parent node that "this child node is unmatch"</span></span><br><span class="line"></span><br><span class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></span><br><span class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node                  </span></span><br><span class="line">        state &lt;- PerfectMatching( c )   </span><br><span class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></span><br><span class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></span><br><span class="line">                match_flag = MATCH      <span class="comment">// match them.</span></span><br><span class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></span><br><span class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won't be perfect matching</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL               </span><br><span class="line">            <span class="keyword">return</span> FAIL</span><br><span class="line">    <span class="keyword">return</span> match_flag</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><figcaption><span>pseudo code</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UNMATCH 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MATCH   1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL    -1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">PerfectMatching</span> <span class="params">( n )</span></span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> child of n </span>== <span class="number">0</span>                  <span class="comment">// if this node is leaf</span></span><br><span class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it's parent node that "this child node is unmatch"</span></span><br><span class="line"></span><br><span class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></span><br><span class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node</span></span><br><span class="line">        state &lt;- PerfectMatching( c )</span><br><span class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></span><br><span class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></span><br><span class="line">                match_flag = MATCH      <span class="comment">// match them.</span></span><br><span class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></span><br><span class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won't be perfect matching</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL</span><br><span class="line">            <span class="keyword">return</span> FAIL</span><br><span class="line">    <span class="keyword">return</span> match_flag</span><br></pre></td></tr></table></figure>
 
-<h5 id="problem-11"><a href="#problem-11" class="headerlink" title="problem 11"></a>problem 11</h5><p>Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?</p>
+<h2 id="problem-11"><a href="#problem-11" class="headerlink" title="problem 11"></a>problem 11</h2><blockquote>
+<p>Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?</p>
+</blockquote>
 <div class="highlight">
 The solution is similar to original Hanoi problem
 
 <p>Recursive Solution:<br><tab>1. Find the biggest disk</tab><br><tab>2. If the disk is moveable to goal peg then move and go to 4, otherwise, go to 3.</tab><br><tab>3. Set-up (N−1)-disk tower on non-goal peg.</tab><br><tab>4. Back to 1</tab></p>
 </div>
 
-<h5 id="problem-12"><a href="#problem-12" class="headerlink" title="problem 12"></a>problem 12</h5><p>Let T be an undirected tree. The distance between two vertices in T is the length of the path connecting these two vertices (neighbours have distance 1). The diameter of T is the maximal distance over all pairs of vertices. Design an algorithm to find the diameter of the given tree. </p>
+<h2 id="problem-12"><a href="#problem-12" class="headerlink" title="problem 12"></a>problem 12</h2><blockquote>
+<p>Let T be an undirected tree. The distance between two vertices in T is the length of the path connecting these two vertices (neighbours have distance 1). The diameter of T is the maximal distance over all pairs of vertices. Design an algorithm to find the diameter of the given tree.</p>
+</blockquote>
 <div class="highlight">
 Because the highest two subtree of T determind the diameter of T.
 
@@ -552,9 +576,11 @@ Because the highest two subtree of T determind the diameter of T.
 <p>It’s easy to proof.</p>
 </div>
 
-<h5 id="problem-13"><a href="#problem-13" class="headerlink" title="problem 13"></a>problem 13</h5><p>Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm. </p>
-<p>iterative method</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">move</span> the smallest disk from its current peg to the next peg in clockwise order;</span><br><span class="line">    <span class="keyword">if</span>( all disks are correctly piled on someother peg ) <span class="keyword">break</span>;</span><br><span class="line">    make the only <span class="built_in">move</span> possible that does notinvolve the smallest disk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="problem-13"><a href="#problem-13" class="headerlink" title="problem 13"></a>problem 13</h2><blockquote>
+<p>Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm. </p>
+</blockquote>
+<figure class="highlight c"><figcaption><span>iterative method</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">move</span> the smallest disk from its current peg to the next peg in clockwise order;</span><br><span class="line">    <span class="keyword">if</span>( all disks are correctly piled on someother peg ) <span class="keyword">break</span>;</span><br><span class="line">    make the only <span class="built_in">move</span> possible that does notinvolve the smallest disk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <div class="highlight">
 We have three peg, $P\_0\;P\_1\;P\_2$ ,and  $K$ disks,$D\_1,D\_2,D\_3,...,D\_K$ ,$K \in N$.
 Assume that all disks are at peg $P\_0$ initially.
@@ -733,7 +759,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-1"><span class="toc-number">1.</span> <span class="toc-text">problem 1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-2"><span class="toc-number">2.</span> <span class="toc-text">problem 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-3"><span class="toc-number">3.</span> <span class="toc-text">problem 3</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-4"><span class="toc-number">4.</span> <span class="toc-text">problem 4</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-5"><span class="toc-number">5.</span> <span class="toc-text">problem 5</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-6"><span class="toc-number">6.</span> <span class="toc-text">problem 6</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-7"><span class="toc-number">7.</span> <span class="toc-text">problem 7</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-8"><span class="toc-number">8.</span> <span class="toc-text">problem 8</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-9"><span class="toc-number">9.</span> <span class="toc-text">problem 9</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-10"><span class="toc-number">10.</span> <span class="toc-text">problem 10</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-11"><span class="toc-number">11.</span> <span class="toc-text">problem 11</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-12"><span class="toc-number">12.</span> <span class="toc-text">problem 12</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#problem-13"><span class="toc-number">13.</span> <span class="toc-text">problem 13</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-1"><span class="toc-number">1.</span> <span class="toc-text">problem 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-2"><span class="toc-number">2.</span> <span class="toc-text">problem 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-3"><span class="toc-number">3.</span> <span class="toc-text">problem 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-4"><span class="toc-number">4.</span> <span class="toc-text">problem 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-5"><span class="toc-number">5.</span> <span class="toc-text">problem 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-6"><span class="toc-number">6.</span> <span class="toc-text">problem 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-7"><span class="toc-number">7.</span> <span class="toc-text">problem 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-8"><span class="toc-number">8.</span> <span class="toc-text">problem 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-9"><span class="toc-number">9.</span> <span class="toc-text">problem 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-10"><span class="toc-number">10.</span> <span class="toc-text">problem 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-11"><span class="toc-number">11.</span> <span class="toc-text">problem 11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-12"><span class="toc-number">12.</span> <span class="toc-text">problem 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-13"><span class="toc-number">13.</span> <span class="toc-text">problem 13</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1462,7 +1488,22 @@ jsonContent:
     
         <script src="/scripts/share.js" async></script>    
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
 
 

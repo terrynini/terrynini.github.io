@@ -277,7 +277,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">443</span>Reading time: <span class="post-count reading-time">2 min</span></span>
+                        <span>Word count: <span class="post-count word-count">419</span>Reading time: <span class="post-count reading-time">2 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -401,43 +401,36 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>Continue…</p>
-<a id="more"></a>
+        <a id="more"></a>
 
-<h5 id="3-Given-an-integer-not-necessary-a-decimal-number-with-n-digits-we-want-to-remove-m-le-n-digits-from-this-number-such-that-the-resulting-number-is-as-large-as-possibe-Design-an-O-n-time-algorithm-to-solve-it"><a href="#3-Given-an-integer-not-necessary-a-decimal-number-with-n-digits-we-want-to-remove-m-le-n-digits-from-this-number-such-that-the-resulting-number-is-as-large-as-possibe-Design-an-O-n-time-algorithm-to-solve-it" class="headerlink" title="3. Given an integer (not necessary a decimal number) with n digits, we want to remove $m (\le n)$ digits from this number such that the resulting number is as large as possibe. Design an $O(n)$ time algorithm to solve it."></a>3. Given an integer (not necessary a decimal number) with n digits, we want to remove $m (\le n)$ digits from this number such that the resulting number is as large as possibe. Design an $O(n)$ time algorithm to solve it.</h5><div class="highlight">
-Example : 
-<tab>n = 5612398752 (decimal)</tab>
-<tab>When m = 2, answer should  62398752</tab>
-<tab>When m = 3, answer should be 6398752</tab>
-<tab>It's easy to find out that we should care about most significant digit.</tab>
+<h2 id="problem-3"><a href="#problem-3" class="headerlink" title="problem 3"></a>problem 3</h2><blockquote>
+<p>Given an integer (not necessary a decimal number) with n digits, we want to remove $m (\le n)$ digits from this number such that the resulting number is as large as possibe. Design an $O(n)$ time algorithm to solve it.</p>
+</blockquote>
+<h2 id="problem-4"><a href="#problem-4" class="headerlink" title="problem 4"></a>problem 4</h2><blockquote>
+<p>Given a 2-dimensional nn array (or matrix) of 0/1 integers, design a linear time algorithm to find a sub-square (a sub-square matrix with consecutive indices in both dimensions) with the largest size such that all the elements in the sub-square are equal to 1.</p>
+</blockquote>
+<h2 id="problem-5"><a href="#problem-5" class="headerlink" title="problem 5"></a>problem 5</h2><blockquote>
+<p>Use the standard divide-and-conquer stratege to solve the max substring sum problem discussed in Unit 4; i.e. divide the given sequence evenly and then solve the two subproblems recursively. Is it still possible to solve the problem in linear time?</p>
+</blockquote>
+<h2 id="problem-6"><a href="#problem-6" class="headerlink" title="problem 6"></a>problem 6</h2><blockquote>
+<p>Let x1, x2, … , xn be a sequence of real numbers (not necessarily positive). Design an algorithm to find a substring xi , xi+1, …, xj such that the product of the numbers in it is maximum over all substrings. The product of the empty substring is defined as 1.</p>
+</blockquote>
+<h2 id="problem-7"><a href="#problem-7" class="headerlink" title="problem 7"></a>problem 7</h2><blockquote>
+<p>Given a sequence of real numbers x1, x2, …, xn (not necessarily positive), n  1, and an integer L, 1  L  n, design an algorithm to find a substring xi, xi+1, …, xj such that its length ji+1 L and the sum of the numbers in it is maximum over all substrings with length not greater than L. Your algorithm should run in O(n) time (note: not O(nL)).</p>
+</blockquote>
+<h2 id="problem-8"><a href="#problem-8" class="headerlink" title="problem 8"></a>problem 8</h2><blockquote>
+<p>Given a sequence of objects where each object is associated with a value and a weight, design an algorithm to find a subsequence such that its corresponding value sequence is increasing and its weights’ sum is maximized.</p>
+</blockquote>
+<h2 id="problem-9"><a href="#problem-9" class="headerlink" title="problem 9"></a>problem 9</h2><blockquote>
+<p>Design an algoritm to solve Problem 10154 “Weights and Measures” in the web site: <a href="http://acm.uva.es/problemset/" target="_blank" rel="noopener">http://acm.uva.es/problemset/</a>.</p>
+</blockquote>
+<h2 id="problem-10"><a href="#problem-10" class="headerlink" title="problem 10"></a>problem 10</h2><blockquote>
+<p>Given a 2-dimensional nn matrix M of real numbers, design an efficient algorithm to find a sub-rectangle such that the sum of the numbers in it is maximal over all sub-rectangles of M. Here, each sub-rectangle is an n1n2 (1 n1, n2  n) matrix with consecutive indices of rows and columns.</p>
+</blockquote>
+<h2 id="problem-11"><a href="#problem-11" class="headerlink" title="problem 11"></a>problem 11</h2><blockquote>
+<p>Given a sequence of integers, and k another integer, design an algorithm to find a substring such that the sum of the numbers in it is exactly k if there does exist such a substring.</p>
+</blockquote>
 
-<p>Algorithm :</p>
-</div>
-
-<h5 id="4-Given-a-2-dimensional-nn-array-or-matrix-of-0-1-integers-design-a-linear-time-algorithm-to-find-a-sub-square-a-sub-square-matrix-with-consecutive-indices-in-both-dimensions-with-the-largest-size-such-that-all-the-elements-in-the-sub-square-are-equal-to-1"><a href="#4-Given-a-2-dimensional-nn-array-or-matrix-of-0-1-integers-design-a-linear-time-algorithm-to-find-a-sub-square-a-sub-square-matrix-with-consecutive-indices-in-both-dimensions-with-the-largest-size-such-that-all-the-elements-in-the-sub-square-are-equal-to-1" class="headerlink" title="4. Given a 2-dimensional nn array (or matrix) of 0/1 integers, design a linear time algorithm to find a sub-square (a sub-square matrix with consecutive indices in both dimensions) with the largest size such that all the elements in the sub-square are equal to 1."></a>4. Given a 2-dimensional nn array (or matrix) of 0/1 integers, design a linear time algorithm to find a sub-square (a sub-square matrix with consecutive indices in both dimensions) with the largest size such that all the elements in the sub-square are equal to 1.</h5><div class="highlight">
-</div>
-
-<h5 id="5-Use-the-standard-divide-and-conquer-stratege-to-solve-the-max-substring-sum-problem-discussed-in-Unit-4-i-e-divide-the-given-sequence-evenly-and-then-solve-the-two-subproblems-recursively-Is-it-still-possible-to-solve-the-problem-in-linear-time"><a href="#5-Use-the-standard-divide-and-conquer-stratege-to-solve-the-max-substring-sum-problem-discussed-in-Unit-4-i-e-divide-the-given-sequence-evenly-and-then-solve-the-two-subproblems-recursively-Is-it-still-possible-to-solve-the-problem-in-linear-time" class="headerlink" title="5. Use the standard divide-and-conquer stratege to solve the max substring sum problem discussed in Unit 4; i.e. divide the given sequence evenly and then solve the two subproblems recursively. Is it still possible to solve the problem in linear time?"></a>5. Use the standard divide-and-conquer stratege to solve the max substring sum problem discussed in Unit 4; i.e. divide the given sequence evenly and then solve the two subproblems recursively. Is it still possible to solve the problem in linear time?</h5><div class="highlight">
-</div>
-
-<h5 id="6-Let-x1-x2-…-xn-be-a-sequence-of-real-numbers-not-necessarily-positive-Design-an-algorithm-to-find-a-substring-xi-xi-1-…-xj-such-that-the-product-of-the-numbers-in-it-is-maximum-over-all-substrings-The-product-of-the-empty-substring-is-defined-as-1"><a href="#6-Let-x1-x2-…-xn-be-a-sequence-of-real-numbers-not-necessarily-positive-Design-an-algorithm-to-find-a-substring-xi-xi-1-…-xj-such-that-the-product-of-the-numbers-in-it-is-maximum-over-all-substrings-The-product-of-the-empty-substring-is-defined-as-1" class="headerlink" title="6. Let x1, x2, … , xn be a sequence of real numbers (not necessarily positive). Design an algorithm to find a substring xi , xi+1, …, xj such that the product of the numbers in it is maximum over all substrings. The product of the empty substring is defined as 1."></a>6. Let x1, x2, … , xn be a sequence of real numbers (not necessarily positive). Design an algorithm to find a substring xi , xi+1, …, xj such that the product of the numbers in it is maximum over all substrings. The product of the empty substring is defined as 1.</h5><div class="highlight">
-</div>
-
-<h5 id="7-Given-a-sequence-of-real-numbers-x1-x2-…-xn-not-necessarily-positive-n--1-and-an-integer-L-1--L--n-design-an-algorithm-to-find-a-substring-xi-xi-1-…-xj-such-that-its-length-ji-1-L-and-the-sum-of-the-numbers-in-it-is-maximum-over-all-substrings-with-length-not-greater-than-L-Your-algorithm-should-run-in-O-n-time-note-not-O-nL"><a href="#7-Given-a-sequence-of-real-numbers-x1-x2-…-xn-not-necessarily-positive-n--1-and-an-integer-L-1--L--n-design-an-algorithm-to-find-a-substring-xi-xi-1-…-xj-such-that-its-length-ji-1-L-and-the-sum-of-the-numbers-in-it-is-maximum-over-all-substrings-with-length-not-greater-than-L-Your-algorithm-should-run-in-O-n-time-note-not-O-nL" class="headerlink" title="7. Given a sequence of real numbers x1, x2, …, xn (not necessarily positive), n  1, and an integer L, 1  L  n, design an algorithm to find a substring xi, xi+1, …, xj such that its length ji+1 L and the sum of the numbers in it is maximum over all substrings with length not greater than L. Your algorithm should run in O(n) time (note: not O(nL))."></a>7. Given a sequence of real numbers x1, x2, …, xn (not necessarily positive), n  1, and an integer L, 1  L  n, design an algorithm to find a substring xi, xi+1, …, xj such that its length ji+1 L and the sum of the numbers in it is maximum over all substrings with length not greater than L. Your algorithm should run in O(n) time (note: not O(nL)).</h5><div class="highlight">
-</div>
-
-<h5 id="8-Given-a-sequence-of-objects-where-each-object-is-associated-with-a-value-and-a-weight-design-an-algorithm-to-find-a-subsequence-such-that-its-corresponding-value-sequence-is-increasing-and-its-weights’-sum-is-maximized"><a href="#8-Given-a-sequence-of-objects-where-each-object-is-associated-with-a-value-and-a-weight-design-an-algorithm-to-find-a-subsequence-such-that-its-corresponding-value-sequence-is-increasing-and-its-weights’-sum-is-maximized" class="headerlink" title="8. Given a sequence of objects where each object is associated with a value and a weight, design an algorithm to find a subsequence such that its corresponding value sequence is increasing and its weights’ sum is maximized."></a>8. Given a sequence of objects where each object is associated with a value and a weight, design an algorithm to find a subsequence such that its corresponding value sequence is increasing and its weights’ sum is maximized.</h5><div class="highlight">
-</div>
-
-<h5 id="9-Design-an-algoritm-to-solve-Problem-10154-“Weights-and-Measures”-in-the-web-site-http-acm-uva-es-problemset"><a href="#9-Design-an-algoritm-to-solve-Problem-10154-“Weights-and-Measures”-in-the-web-site-http-acm-uva-es-problemset" class="headerlink" title="9. Design an algoritm to solve Problem 10154 “Weights and Measures” in the web site: http://acm.uva.es/problemset/."></a>9. Design an algoritm to solve Problem 10154 “Weights and Measures” in the web site: <a href="http://acm.uva.es/problemset/" target="_blank" rel="noopener">http://acm.uva.es/problemset/</a>.</h5><div class="highlight">
-</div>
-
-<h5 id="10-Given-a-2-dimensional-nn-matrix-M-of-real-numbers-design-an-efficient-algorithm-to-find-a-sub-rectangle-such-that-the-sum-of-the-numbers-in-it-is-maximal-over-all-sub-rectangles-of-M-Here-each-sub-rectangle-is-an-n1n2-1-n1-n2--n-matrix-with-consecutive-indices-of-rows-and-columns"><a href="#10-Given-a-2-dimensional-nn-matrix-M-of-real-numbers-design-an-efficient-algorithm-to-find-a-sub-rectangle-such-that-the-sum-of-the-numbers-in-it-is-maximal-over-all-sub-rectangles-of-M-Here-each-sub-rectangle-is-an-n1n2-1-n1-n2--n-matrix-with-consecutive-indices-of-rows-and-columns" class="headerlink" title="10. Given a 2-dimensional nn matrix M of real numbers, design an efficient algorithm to find a sub-rectangle such that the sum of the numbers in it is maximal over all sub-rectangles of M. Here, each sub-rectangle is an n1n2 (1 n1, n2  n) matrix with consecutive indices of rows and columns."></a>10. Given a 2-dimensional nn matrix M of real numbers, design an efficient algorithm to find a sub-rectangle such that the sum of the numbers in it is maximal over all sub-rectangles of M. Here, each sub-rectangle is an n1n2 (1 n1, n2  n) matrix with consecutive indices of rows and columns.</h5><div class="highlight">
-</div>
-
-<p>#####11. Given a sequence of integers, and k another integer, design an algorithm to find a substring such that the sum of the numbers in it is exactly k if there does exist such a substring.</p>
-<div class="highlight">
-</div>
     </article>
     <!-- license  -->
     
@@ -603,7 +596,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-Given-an-integer-not-necessary-a-decimal-number-with-n-digits-we-want-to-remove-m-le-n-digits-from-this-number-such-that-the-resulting-number-is-as-large-as-possibe-Design-an-O-n-time-algorithm-to-solve-it"><span class="toc-number">1.</span> <span class="toc-text">3. Given an integer (not necessary a decimal number) with n digits, we want to remove $m (\le n)$ digits from this number such that the resulting number is as large as possibe. Design an $O(n)$ time algorithm to solve it.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-Given-a-2-dimensional-nn-array-or-matrix-of-0-1-integers-design-a-linear-time-algorithm-to-find-a-sub-square-a-sub-square-matrix-with-consecutive-indices-in-both-dimensions-with-the-largest-size-such-that-all-the-elements-in-the-sub-square-are-equal-to-1"><span class="toc-number">2.</span> <span class="toc-text">4. Given a 2-dimensional nn array (or matrix) of 0&#x2F;1 integers, design a linear time algorithm to find a sub-square (a sub-square matrix with consecutive indices in both dimensions) with the largest size such that all the elements in the sub-square are equal to 1.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-Use-the-standard-divide-and-conquer-stratege-to-solve-the-max-substring-sum-problem-discussed-in-Unit-4-i-e-divide-the-given-sequence-evenly-and-then-solve-the-two-subproblems-recursively-Is-it-still-possible-to-solve-the-problem-in-linear-time"><span class="toc-number">3.</span> <span class="toc-text">5. Use the standard divide-and-conquer stratege to solve the max substring sum problem discussed in Unit 4; i.e. divide the given sequence evenly and then solve the two subproblems recursively. Is it still possible to solve the problem in linear time?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-Let-x1-x2-…-xn-be-a-sequence-of-real-numbers-not-necessarily-positive-Design-an-algorithm-to-find-a-substring-xi-xi-1-…-xj-such-that-the-product-of-the-numbers-in-it-is-maximum-over-all-substrings-The-product-of-the-empty-substring-is-defined-as-1"><span class="toc-number">4.</span> <span class="toc-text">6. Let x1, x2, … , xn be a sequence of real numbers (not necessarily positive). Design an algorithm to find a substring xi , xi+1, …, xj such that the product of the numbers in it is maximum over all substrings. The product of the empty substring is defined as 1.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#7-Given-a-sequence-of-real-numbers-x1-x2-…-xn-not-necessarily-positive-n--1-and-an-integer-L-1--L--n-design-an-algorithm-to-find-a-substring-xi-xi-1-…-xj-such-that-its-length-ji-1-L-and-the-sum-of-the-numbers-in-it-is-maximum-over-all-substrings-with-length-not-greater-than-L-Your-algorithm-should-run-in-O-n-time-note-not-O-nL"><span class="toc-number">5.</span> <span class="toc-text">7. Given a sequence of real numbers x1, x2, …, xn (not necessarily positive), n  1, and an integer L, 1  L  n, design an algorithm to find a substring xi, xi+1, …, xj such that its length ji+1 L and the sum of the numbers in it is maximum over all substrings with length not greater than L. Your algorithm should run in O(n) time (note: not O(nL)).</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-Given-a-sequence-of-objects-where-each-object-is-associated-with-a-value-and-a-weight-design-an-algorithm-to-find-a-subsequence-such-that-its-corresponding-value-sequence-is-increasing-and-its-weights’-sum-is-maximized"><span class="toc-number">6.</span> <span class="toc-text">8. Given a sequence of objects where each object is associated with a value and a weight, design an algorithm to find a subsequence such that its corresponding value sequence is increasing and its weights’ sum is maximized.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#9-Design-an-algoritm-to-solve-Problem-10154-“Weights-and-Measures”-in-the-web-site-http-acm-uva-es-problemset"><span class="toc-number">7.</span> <span class="toc-text">9. Design an algoritm to solve Problem 10154 “Weights and Measures” in the web site: http:&#x2F;&#x2F;acm.uva.es&#x2F;problemset&#x2F;.</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#10-Given-a-2-dimensional-nn-matrix-M-of-real-numbers-design-an-efficient-algorithm-to-find-a-sub-rectangle-such-that-the-sum-of-the-numbers-in-it-is-maximal-over-all-sub-rectangles-of-M-Here-each-sub-rectangle-is-an-n1n2-1-n1-n2--n-matrix-with-consecutive-indices-of-rows-and-columns"><span class="toc-number">8.</span> <span class="toc-text">10. Given a 2-dimensional nn matrix M of real numbers, design an efficient algorithm to find a sub-rectangle such that the sum of the numbers in it is maximal over all sub-rectangles of M. Here, each sub-rectangle is an n1n2 (1 n1, n2  n) matrix with consecutive indices of rows and columns.</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-3"><span class="toc-number">1.</span> <span class="toc-text">problem 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-4"><span class="toc-number">2.</span> <span class="toc-text">problem 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-5"><span class="toc-number">3.</span> <span class="toc-text">problem 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-6"><span class="toc-number">4.</span> <span class="toc-text">problem 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-7"><span class="toc-number">5.</span> <span class="toc-text">problem 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-8"><span class="toc-number">6.</span> <span class="toc-text">problem 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-9"><span class="toc-number">7.</span> <span class="toc-text">problem 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-10"><span class="toc-number">8.</span> <span class="toc-text">problem 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-11"><span class="toc-number">9.</span> <span class="toc-text">problem 11</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1332,7 +1325,22 @@ jsonContent:
     
         <script src="/scripts/share.js" async></script>    
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
 
 
