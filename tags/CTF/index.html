@@ -1192,6 +1192,10 @@
     
     
     
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 32
@@ -1328,7 +1332,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
         </li>
     
     
@@ -1338,7 +1342,7 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
         </li>
     
     
@@ -1402,9 +1406,11 @@
     
         <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
     
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
         <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
     
         <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
     
@@ -1413,8 +1419,6 @@
         <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
     
         <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
     
         <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
     
@@ -1428,15 +1432,11 @@
     
         <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
     
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
         <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
     
         <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
     
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
     
         <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
     
@@ -1445,6 +1445,10 @@
         <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
     
         <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
     
         <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
     
@@ -1522,7 +1526,22 @@ jsonContent:
     </div>
     <!-- async load share.js -->
      
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
 
 
