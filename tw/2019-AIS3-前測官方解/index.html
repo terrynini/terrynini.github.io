@@ -492,7 +492,7 @@ The `<video>` tag is not supported by your browser.
 
 <p>每把 key 的長度是 70byte ，每個驗證 function 會驗證其中的 1~2byte ，不會重複驗證驗證過的 byte，也就是每個 function 只會算出唯一解，不需要複雜的運算，總共只有 5 個驗證 function，去看 source code 吧，基本上是很簡單的運算， fibonacci 或是單純乘法或是單純 xor 而已。</p>
 <p>所以要做的事情就是，復原 struct ，知道他打算驗證什麼，驗證哪幾 byte，對應的驗證函式是什麼。<br>這題就先不公布解法的腳本了，留一題給大家當暑假作業，呵呵，這題難點就是逆向而已，腳本練習一下啊。<br>不過算好的 key.txt 已經放在 github 上了，把 key 餵給 binary 的方法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for i in key.txt ;do cat $i | .&#x2F;BigO1 ;done</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat key.txt | .&#x2F;BigO1 ;done</span><br></pre></td></tr></table></figure>
     </article>
     <!-- license  -->
     
@@ -1096,9 +1096,24 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 33
+        Total : 34
         </div>
         <!-- search  -->
         
@@ -1114,7 +1129,7 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
         </li>
     
     
@@ -1144,6 +1159,11 @@ top:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
         </li>
     
     
