@@ -439,7 +439,7 @@ height:50vh;
 <h3 id="2-基本-Linux-操作"><a href="#2-基本-Linux-操作" class="headerlink" title="2. 基本 Linux 操作"></a>2. 基本 Linux 操作</h3><p>常用 command、pipe 之類的那種很 basic 的東西。</p>
 <h3 id="3-Netcat、Socat、Powershell、Powercat"><a href="#3-Netcat、Socat、Powershell、Powercat" class="headerlink" title="3. Netcat、Socat、Powershell、Powercat"></a>3. Netcat、Socat、Powershell、Powercat</h3><p>總之就是如何利用工具上傳下載檔案，以及如何彈 reverse shell 回來。</p>
 <h3 id="4-Wireshark、Tcpdump"><a href="#4-Wireshark、Tcpdump" class="headerlink" title="4. Wireshark、Tcpdump"></a>4. Wireshark、Tcpdump</h3><p>就如何擷取封包，幫一些現成工具 debug 的時候才會用到。</p>
-<h3 id="5-Bash-scripting"><a href="#5-Bash-scripting" class="headerlink" title="5. Bash scripting"></a>5. Bash scripting</h3><p>就很簡單的 Bash script 用法</p>
+<h3 id="5-Bash-scripting"><a href="#5-Bash-scripting" class="headerlink" title="5. Bash scripting"></a>5. Bash scripting</h3><p>就很簡單的 Bash script 用法。</p>
 <h3 id="6-Passive-Information-Gathering"><a href="#6-Passive-Information-Gathering" class="headerlink" title="6. Passive Information Gathering"></a>6. Passive Information Gathering</h3><p>教材裡對 Passive 的定義基本上就是指不直接跟目標接觸所做的資訊蒐集，諸如 Whois、查 SSL、Google Hacking、OSINT 等。</p>
 <h3 id="7-Active-Information-Gathering"><a href="#7-Active-Information-Gathering" class="headerlink" title="7. Active Information Gathering"></a>7. Active Information Gathering</h3><p>相對於 Passive，Active 指的是與目標直接接觸的資訊蒐集，例如 Port scan、根據 port 掃出來的服務做對應的枚舉，講枚舉可能有點抽象，具體的例子像是如果目標有開啟 SMB 服務，那就試試看能不能得到版本，或是具體上 Share 了什麼項目出來。</p>
 <h3 id="8-弱點掃描"><a href="#8-弱點掃描" class="headerlink" title="8. 弱點掃描"></a>8. 弱點掃描</h3><p>如何使用弱點掃描工具，包含大範圍弱點掃描，值得一提的是考試的時候是禁用大範圍弱掃的。</p>
@@ -452,7 +452,7 @@ height:50vh;
 <h3 id="15-Privilege-Escalation"><a href="#15-Privilege-Escalation" class="headerlink" title="15. Privilege Escalation"></a>15. Privilege Escalation</h3><p>跟 CTF 不同，滲透進一台主機時透過的可能是 apache 上的 web application，那開出來的 shell 有很大機率就是 www-data，不管是獲取機敏資料或是作為滲透測試中的立足點都稍嫌不足，所以這個部分是在講如何提權。</p>
 <h3 id="16-Password-Attacks"><a href="#16-Password-Attacks" class="headerlink" title="16. Password Attacks"></a>16. Password Attacks</h3><p>基本上就是各類暴力枚舉密碼的工具。</p>
 <h3 id="17-Port-Redirection-and-Tunneling"><a href="#17-Port-Redirection-and-Tunneling" class="headerlink" title="17. Port Redirection and Tunneling"></a>17. Port Redirection and Tunneling</h3><p>內網裡面會有不同網段，可能只能透過中間的一台機器做 proxy 來存取內網，這時候連 Port scan 都會有點小問題，主要的問題是 reverse shell <strong>可能</strong>沒辦法直接從裡面彈到最外面來，或是主機的某些具有弱點的服務因為防火牆的關係無法從遠端存取時，可以透過 port forwarding 的方式來解決。</p>
-<h3 id="18-Active-Directory-Attacks"><a href="#18-Active-Directory-Attacks" class="headerlink" title="18. Active Directory Attacks"></a>18. Active Directory Attacks</h3><p>Active Directory 是 Windows Server 上用來集中管理一個組織裡的使用者、群組、電腦等等的一個服務，中樞是一到多台的 Domain Controller，這部分主要是教如何枚舉及利用 NTLM 或 Kerberos 滲透 Domain 中的其他機器，</p>
+<h3 id="18-Active-Directory-Attacks"><a href="#18-Active-Directory-Attacks" class="headerlink" title="18. Active Directory Attacks"></a>18. Active Directory Attacks</h3><p>Active Directory 是 Windows Server 上用來集中管理一個組織裡的使用者、群組、電腦等等的一個服務，中樞是一到多台的 Domain Controller，這部分主要是教如何枚舉及利用 NTLM 或 Kerberos 滲透 Domain 中的其他機器。</p>
 <h3 id="19-The-Metasploit-Framework"><a href="#19-The-Metasploit-Framework" class="headerlink" title="19. The Metasploit Framework"></a>19. The Metasploit Framework</h3><p>如何使用 Metasploit Framework，執得一提的是考試中只能選定一台機器使用，不論成功與否，對其他台機器使用會直接失格。</p>
 <h3 id="20-PowerShell-Empire"><a href="#20-PowerShell-Empire" class="headerlink" title="20. PowerShell Empire"></a>20. PowerShell Empire</h3><p>在 Windows 上面做枚舉或是底層操作非常痛苦，沒有 PowerShell 基本上動不了，Powershell 寫起來基本上就是 C#，寫起來也不是特別輕巧，善用工具可以省下很多時間，PowerShell Empire 就是其中一個。</p>
 <h3 id="21-Lab-範例"><a href="#21-Lab-範例" class="headerlink" title="21. Lab 範例"></a>21. Lab 範例</h3><p>這裡會用 Lab 示範前面提到的全部概念，但這裡的機器並不是那 66 台，所以官方才會說 Lab 有 70 台。</p>
@@ -482,7 +482,7 @@ height:50vh;
 <li>Commercial 版的工具，如 Metasploit Pro、Burp Pro，可以類推 IDA Pro 也是，但也用不到就是了</li>
 <li>自動化 exploit 工具，如 SQLmap 那類的</li>
 <li>大範圍弱掃，如 Nessus 那類的</li>
-<li>禁止從考試環境下載任何檔案</li>
+<li>從考試環境下載任何檔案</li>
 </ol>
 </li>
 <li>Metasploit 的 Auxiliary、Exploit、Post 模組只能對一台自選的機器使用，無論有沒有成功都不能換目標，包含 exploit check，建議要用的時候在聊天室跟監考官說一下</li>
@@ -495,9 +495,9 @@ height:50vh;
 </li>
 </ol>
 <p>考試會有五題共 100 分的題目，配分是 10、20、20、25、25，一定有一題 25 分的 BOF 題，結合禁止事項的第五點，恩，可以想想看會發生什麼事，還有就是題目會塞很多誤導的東西，時間控管很重要。</p>
-<p>考試結束之後，學員有另外 24 個小時可以撰寫報告，這個報告的定位是寫給甲方看的那種報告，包括非技術細節及屁話，這裡是<a href="https://www.offensive-security.com/pwk-online/PWKv1-REPORT.doc" target="_blank" rel="noopener">官方的樣板</a>，我個人是用<a href="https://github.com/noraj/OSCP-Exam-Report-Template-Markdown" target="_blank" rel="noopener">社群的樣板</a></p>
+<p>考試結束之後，學員有另外 24 個小時可以撰寫報告，這個報告的定位是寫給甲方看的那種報告，包括非技術細節及屁話，這裡是<a href="https://www.offensive-security.com/pwk-online/PWKv1-REPORT.doc" target="_blank" rel="noopener">官方的樣板</a>，我個人是用<a href="https://github.com/noraj/OSCP-Exam-Report-Template-Markdown" target="_blank" rel="noopener">社群的樣板</a>，步驟要詳細到可以 copy paste 就重現。</p>
 <p>最有趣的大概就是一直用第三人稱寫報告超級中二的，例如： OS-83952 found that the CMS is prone to LFI 之類的，呵呵。</p>
-<p>還有一個就是 rdesktop 如果是考試的網路環境，我在 MacOS 上面用畫面會撕裂，慢到幾乎不可用，但在 Kali 裡面加上選項 <code>-P- z</code> 速度差超多= =…，總之如果出事就回去用 Kali 就對了。</p>
+<p>還有一個就是 rdesktop 如果是考試的網路環境，我在 MacOS 上面用畫面會撕裂，慢到幾乎不可用，但在 Kali 裡面加上選項 <code>-P -z</code> 速度差超多= =…，總之如果出事就回去用 Kali 就對了。</p>
 <h2 id="免費資源"><a href="#免費資源" class="headerlink" title="免費資源"></a>免費資源</h2><p>這些是之前調查時整理出來的免費資源，雖然不是每個我都用過，但就統一放在這裡吧</p>
 <ul>
 <li><a href="https://kali.training" target="_blank" rel="noopener">Kali Training</a>，官方自己維護的 Kali 線上課程。</li>
