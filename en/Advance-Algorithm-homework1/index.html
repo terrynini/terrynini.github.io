@@ -534,20 +534,20 @@ perfect matching : [English](http://mathworld.wolfram.com/PerfectMatching.html),
 </tr>
 </thead>
 <tbody><tr>
-<td><img src="/en/Advance-Algorithm-homework1/1.png" class="" width="1"></td>
-<td><img src="/en/Advance-Algorithm-homework1/2.png" class="" width="2"></td>
+<td><img src="/en/Advance-Algorithm-homework1/1.png" class=""></td>
+<td><img src="/en/Advance-Algorithm-homework1/2.png" class=""></td>
 </tr>
 <tr>
-<td><img src="/en/Advance-Algorithm-homework1/3.png" class="" width="3"></td>
-<td><img src="/en/Advance-Algorithm-homework1/4.png" class="" width="4"></td>
+<td><img src="/en/Advance-Algorithm-homework1/3.png" class=""></td>
+<td><img src="/en/Advance-Algorithm-homework1/4.png" class=""></td>
 </tr>
 <tr>
-<td><img src="/en/Advance-Algorithm-homework1/5.png" class="" width="5"></td>
-<td><img src="/en/Advance-Algorithm-homework1/6.png" class="" width="6"></td>
+<td><img src="/en/Advance-Algorithm-homework1/5.png" class=""></td>
+<td><img src="/en/Advance-Algorithm-homework1/6.png" class=""></td>
 </tr>
 <tr>
-<td><img src="/en/Advance-Algorithm-homework1/7.png" class="" width="7"></td>
-<td><img src="/en/Advance-Algorithm-homework1/8.png" class="" width="8"></td>
+<td><img src="/en/Advance-Algorithm-homework1/7.png" class=""></td>
+<td><img src="/en/Advance-Algorithm-homework1/8.png" class=""></td>
 </tr>
 </tbody></table>
 <figure class="highlight c"><figcaption><span>pseudo code</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UNMATCH 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MATCH   1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL    -1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">PerfectMatching</span> <span class="params">( n )</span></span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> child of n </span>== <span class="number">0</span>                  <span class="comment">// if this node is leaf</span></span><br><span class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it's parent node that "this child node is unmatch"</span></span><br><span class="line"></span><br><span class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></span><br><span class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node</span></span><br><span class="line">        state &lt;- PerfectMatching( c )</span><br><span class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></span><br><span class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></span><br><span class="line">                match_flag = MATCH      <span class="comment">// match them.</span></span><br><span class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></span><br><span class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won't be perfect matching</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL</span><br><span class="line">            <span class="keyword">return</span> FAIL</span><br><span class="line">    <span class="keyword">return</span> match_flag</span><br></pre></td></tr></table></figure>
