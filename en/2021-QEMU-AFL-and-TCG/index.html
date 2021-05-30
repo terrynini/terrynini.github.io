@@ -20,7 +20,7 @@
 <meta property="og:description" content="Rewriting some of notes in my obsidian into a post seems to be a good idea.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-05-28T21:12:48.000Z">
-<meta property="article:modified_time" content="2021-05-30T00:43:03.453Z">
+<meta property="article:modified_time" content="2021-05-30T00:53:05.876Z">
 <meta property="article:author" content="Terrynini">
 <meta property="article:tag" content="AFL++">
 <meta property="article:tag" content="QEMU">
@@ -428,7 +428,7 @@ height:50vh;
 <figure class="highlight c"><figcaption><span>target/i386/tcg/seg_helper.c </span></figcaption><table><tr><td class="gutter"><pre><span class="line">979</span><br><span class="line">980</span><br><span class="line">981</span><br><span class="line">982</span><br><span class="line">983</span><br><span class="line">984</span><br><span class="line">985</span><br><span class="line">986</span><br><span class="line">987</span><br><span class="line">988</span><br><span class="line">989</span><br><span class="line">990</span><br><span class="line">991</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> TARGET_X86_64</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(CONFIG_USER_ONLY)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">helper_syscall</span><span class="params">(CPUX86State *env, <span class="keyword">int</span> next_eip_addend)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">helper_syscall</span><span class="params">(CPUX86State *env, <span class="keyword">int</span> next_eip_addend)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 
 <p>So, calling a custom helper function from TCG is easy, takes AFL++ for example.</p>
-<h2 id="AFL-and-TCG"><a href="#AFL-and-TCG" class="headerlink" title="AFL++ and TCG"></a>AFL++ and TCG</h2><p>AFL++ is the community version of well-known coverage-based greybox fuzzer AFL, the way it used to track the code coverage during fuzzing process is to insert a call instruction to function <code>afl_maybe_log</code> at the beginning of each basic block at compile time.</p>
+<h2 id="AFL-and-TCG"><a href="#AFL-and-TCG" class="headerlink" title="AFL++ and TCG"></a>AFL++ and TCG</h2><p>AFL++ is the community version of well-known coverage-based greybox fuzzer AFL, the way it used to track the code coverage during fuzzing process is to insert a instruction to call function <code>afl_maybe_log</code> at the beginning of each basic block at compile time.</p>
 <p>The function <code>afl_maybe_log</code> will add the corresponding element by 1 in the bitmap shared with AFL++, and the way to index the bitmap is using the hash value of token of current basic block and previous basic block ( <code>cur_loc</code> and <code>afl_prev_loc</code> ), and the token value was assigned randomly at compile time.</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">cur_loc = <span class="number">0x123</span>;</span><br><span class="line">afl_area_ptr[cur_loc ^ afl_prev_loc]++;</span><br><span class="line">afl_prev_loc = cur_loc &gt;&gt; <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 
@@ -442,7 +442,7 @@ height:50vh;
 <p>The definition of <code>DEF_HELPER_FLAGS_1</code> in <code>exec/helper-proto.h</code> is:</p>
 <figure class="highlight c"><figcaption><span>exec/helper-proto.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEF_HELPER_FLAGS_1(name, flags, ret, t1) \</span></span><br><span class="line">dh_ctype(ret) HELPER(name) (dh_ctype(t1));</span><br></pre></td></tr></table></figure>
 
-<p>But why we need a macro only for declaration? And where it use the <code>flags</code> variable? There is actually a cool macro trick here!</p>
+<p>But why we need a macro only for declaration? And where it use the <code>flags</code> variable? It’s actually a cool macro trick here!</p>
 <p>Actually, the macro <code>DEF_HELPER_FLAGS_1</code> was undefined  at the end of the <code>exec/helper-proto.h</code> :</p>
 <figure class="highlight c"><figcaption><span>exec/helper-proto.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_4</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_7</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* HELPER_PROTO_H */</span></span></span><br></pre></td></tr></table></figure>
 
@@ -463,8 +463,8 @@ height:50vh;
 <p>Let’s inspect the definition of <code>afl_gen_trace</code> and highlight the last three lines:</p>
 <figure class="highlight c"><figcaption><span>accel/tcg/translate-all.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Generates TCG code for AFL's tracing instrumentation. */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">afl_gen_trace</span><span class="params">(target_ulong cur_loc)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  TCGv cur_loc_v = tcg_const_tl(cur_loc);</span><br><span class="line">  gen_helper_afl_maybe_log(cur_loc_v);</span><br><span class="line">  tcg_temp_free(cur_loc_v);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>To use <code>gen_helper_afl_maybe_log</code> to generate a call in TCG code, the parameter have to be converted to TCG variables, <code>tcg_const_tl(cur_loc_v)</code> is used to generate a TCG temporary with value <code>cur_loc_v</code> , and although it’s “const”, it did create a temporary, we have to free it after use to reduce the memory usage.</p>
-<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>And, that’s it, qemuafl inserts a call instruction at the beginning of each basic block’s TCG code, once a basic block is being executed, it must call the custom helper function <code>HELPER(afl_maybe_log)</code> first to record the code coverage. AFL is actually using the same strategy, but I was reviewing the source code of AFL++, I use it as example here.</p>
+<p>To use <code>gen_helper_afl_maybe_log</code> to generate a call in TCG code, the parameter have to be converted to TCG variables, <code>tcg_const_tl(cur_loc_v)</code> is used to generate a TCG temporary with value <code>cur_loc</code> , and although it’s “const”, it did create a temporary, we have to free it after use to reduce the memory usage.</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>And, that’s it, qemuafl inserts a call instruction at the beginning of each basic block’s TCG code, once a basic block is being executed, it must call the custom helper function, <code>HELPER(afl_maybe_log)</code>, to record the code coverage first. AFL is actually using the same strategy, but I was reviewing the source code of AFL++, I use it as example here.</p>
 
     </article>
     <!-- license  -->
@@ -1545,7 +1545,22 @@ jsonContent:
     
         <script src="/scripts/share.js" async></script>
     
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
 
 
