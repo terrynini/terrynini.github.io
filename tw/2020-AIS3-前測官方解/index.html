@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta name="description" content="今年的 AIS3 前測又輪到我出逆向毒害大家，這次每個題種其實都有一題考古題，整體難度也有下修，意思就是解法很多種，沒有全部擋起來，是個主辦那邊希望大家都能學到東西的概念，所以這篇 writeup 的字數可能也會很多，希望沒解開的、或是完全不知道要幹嘛的人都能看懂。 然後 source code 在這裡 github 總之這裡是我預設的解法, gogo：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020::AIS3::前測官方解">
+<meta property="og:image">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="今年的 AIS3 前測又輪到我出逆向毒害大家，這次每個題種其實都有一題考古題，整體難度也有下修，意思就是解法很多種，沒有全部擋起來，是個主辦那邊希望大家都能學到東西的概念，所以這篇 writeup 的字數可能也會很多，希望沒解開的、或是完全不知道要幹嘛的人都能看懂。 然後 source code 在這裡 github 總之這裡是我預設的解法, gogo：">
+<meta property="og:locale" content="tw">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/r2_tsai.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/decompile.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/joke.webp">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/rose.jpg">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/pythondll.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/connie.png">
+<meta property="og:image" content="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/237/dragon_1f409.png">
+<meta property="article:published_time" content="2020-06-29T06:37:00.000Z">
+<meta property="article:modified_time" content="2020-06-29T10:45:47.141Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="AIS3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/r2_tsai.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
+    <meta name="description" content="">
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>2020::AIS3::前測官方解 · NiNi&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2020::AIS3::前測官方解</a>
+            </div>
+    </div>
+    
+    
+    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+    
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2020::AIS3::前測官方解
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AIS3">AIS3</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">7.1k</span>Reading time: <span class="post-count reading-time">35 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/06/29</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>今年的 AIS3 前測又輪到我出逆向毒害大家，這次每個題種其實都有一題考古題，整體難度也有下修，意思就是解法很多種，沒有全部擋起來，是個主辦那邊希望大家都能學到東西的概念，所以這篇 writeup 的字數可能也會很多，希望沒解開的、或是完全不知道要幹嘛的人都能看懂。</p>
+<p>然後 source code 在這裡 <a href="https://github.com/terrynini/MyCTFChallenges" target="_blank" rel="noopener">github</a></p>
+<p>總之這裡是我預設的解法, gogo：</p>
+<a id="more"></a>
+<hr>
+<h1 id="🍍-TsaiBro-考古題"><a href="#🍍-TsaiBro-考古題" class="headerlink" title="🍍 TsaiBro (考古題)"></a>🍍 TsaiBro (考古題)</h1><h2 id="題目敘述"><a href="#題目敘述" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
+<p>很好….你很腦殘嗎….敢這樣講刀劍神域…….我死也不會放過你 我..要..殺死…你..</p>
+
+</blockquote>
+<h2 id="題解"><a href="#題解" class="headerlink" title="題解"></a>題解</h2><p>這題之前在 BambooFox 邀講的社課上也有提到過，是個可以不用逆向也能夠解開的題目，跟去年前測是同一題，連名字也沒換 誒嘿(<a href="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/#TsaiBro">傳送門</a>)，差別只有使用的 table 不同，題目實作了自己的 <a href="https://en.wikipedia.org/wiki/Tap_code" target="_blank" rel="noopener">Tap code</a>，透過 8*8 的 table 來 encode 輸入：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">$1$</th>
+<th align="center">$2$</th>
+<th align="center">$3$</th>
+<th align="center">$4$</th>
+<th align="center">$5$</th>
+<th align="center">$6$</th>
+<th align="center">$7$</th>
+<th align="center">$8$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$1$</td>
+<td align="center">5</td>
+<td align="center">6</td>
+<td align="center">7</td>
+<td align="center">8</td>
+<td align="center">9</td>
+<td align="center">{</td>
+<td align="center">}</td>
+<td align="center">_</td>
+</tr>
+<tr>
+<td align="center">$2$</td>
+<td align="center">W</td>
+<td align="center">X</td>
+<td align="center">Y</td>
+<td align="center">0</td>
+<td align="center">y</td>
+<td align="center">z</td>
+<td align="center">A</td>
+<td align="center">B</td>
+</tr>
+<tr>
+<td align="center">$3$</td>
+<td align="center">a</td>
+<td align="center">b</td>
+<td align="center">c</td>
+<td align="center">d</td>
+<td align="center">m</td>
+<td align="center">n</td>
+<td align="center">o</td>
+<td align="center">p</td>
+</tr>
+<tr>
+<td align="center">$4$</td>
+<td align="center">S</td>
+<td align="center">T</td>
+<td align="center">U</td>
+<td align="center">V</td>
+<td align="center">G</td>
+<td align="center">H</td>
+<td align="center">I</td>
+<td align="center">J</td>
+</tr>
+<tr>
+<td align="center">$5$</td>
+<td align="center">K</td>
+<td align="center">L</td>
+<td align="center">M</td>
+<td align="center">N</td>
+<td align="center">u</td>
+<td align="center">v</td>
+<td align="center">w</td>
+<td align="center">x</td>
+</tr>
+<tr>
+<td align="center">$6$</td>
+<td align="center">e</td>
+<td align="center">f</td>
+<td align="center">g</td>
+<td align="center">h</td>
+<td align="center">q</td>
+<td align="center">r</td>
+<td align="center">s</td>
+<td align="center">t</td>
+</tr>
+<tr>
+<td align="center">$7$</td>
+<td align="center">i</td>
+<td align="center">j</td>
+<td align="center">k</td>
+<td align="center">l</td>
+<td align="center">O</td>
+<td align="center">P</td>
+<td align="center">Q</td>
+<td align="center">R</td>
+</tr>
+<tr>
+<td align="center">$8$</td>
+<td align="center">C</td>
+<td align="center">D</td>
+<td align="center">E</td>
+<td align="center">F</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">4</td>
+</tr>
+</tbody></table>
+<p>舉例，<code>Ｗ</code> 這個字會被轉換成 <code>. ..</code>，以此類推。<br>這個 table 可以透過黑箱測試推理、<code>strings</code>、或是逆向找到，這裡用 radare2 看一下可以找到 table 在 <code>0x201020</code>：</p>
+<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/r2_tsai.png" class="">
+
+<p>寫個 script 把 <code>TsaiBroSaid</code> 解回來就好了。</p>
+<figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">table = [<span class="string">'5'</span>,<span class="string">'6'</span>,<span class="string">'7'</span>,<span class="string">'8'</span>,<span class="string">'9'</span>,<span class="string">'&#123;'</span>,<span class="string">'&#125;'</span>,<span class="string">'_'</span>,</span><br><span class="line"><span class="string">'W'</span>,<span class="string">'X'</span>,<span class="string">'Y'</span>,<span class="string">'0'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>,<span class="string">'A'</span>,<span class="string">'B'</span>,</span><br><span class="line"><span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'m'</span>,<span class="string">'n'</span>,<span class="string">'o'</span>,<span class="string">'p'</span>,</span><br><span class="line"><span class="string">'S'</span>,<span class="string">'T'</span>,<span class="string">'U'</span>,<span class="string">'V'</span>,<span class="string">'G'</span>,<span class="string">'H'</span>,<span class="string">'I'</span>,<span class="string">'J'</span>,</span><br><span class="line"><span class="string">'K'</span>,<span class="string">'L'</span>,<span class="string">'M'</span>,<span class="string">'N'</span>,<span class="string">'u'</span>,<span class="string">'v'</span>,<span class="string">'w'</span>,<span class="string">'x'</span>,</span><br><span class="line"><span class="string">'e'</span>,<span class="string">'f'</span>,<span class="string">'g'</span>,<span class="string">'h'</span>,<span class="string">'q'</span>,<span class="string">'r'</span>,<span class="string">'s'</span>,<span class="string">'t'</span>,</span><br><span class="line"><span class="string">'i'</span>,<span class="string">'j'</span>,<span class="string">'k'</span>,<span class="string">'l'</span>,<span class="string">'O'</span>,<span class="string">'P'</span>,<span class="string">'Q'</span>,<span class="string">'R'</span>,</span><br><span class="line"><span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>,<span class="string">'F'</span>,<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>]</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"./TsaiBroSaid"</span>,<span class="string">"r"</span>).read().split(<span class="string">'\n'</span>)[<span class="number">1</span>]</span><br><span class="line">f = f.split(<span class="string">"發財"</span>)[<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(f),<span class="number">2</span>):</span><br><span class="line">    print(table[(len(f[i])<span class="number">-1</span>)*<span class="number">8</span>+len(f[i+<span class="number">1</span>])<span class="number">-1</span>],end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Flag: <code>AIS3{y3s_y0u_h4ve_s4w_7h1s_ch4ll3ng3_bef0r3_bu7_its_m0r3_looooooooooooooooooong_7h1s_t1m3}</code></p>
+</blockquote>
+<p>吐槽一下 more long 是什麼爛英文</p>
+<hr>
+<h1 id="🎹-Fallen-Beat"><a href="#🎹-Fallen-Beat" class="headerlink" title="🎹 Fallen Beat"></a>🎹 Fallen Beat</h1><h2 id="題目敘述-1"><a href="#題目敘述-1" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
+<p>CTF player,<br>我要挑戰你, I’m gonna challenge you!!<br><a href="https://www.youtube.com/channel/UC5wFI66lU6oqZf-lXiX1lwQ" target="_blank" rel="noopener">ZR</a><br>這是我的室友兼 lab 同學,<br>他已經考過金框暴龍天，他是個旋鈕人,<br>不像你是個敲鍵盤的,<br>所以我要測測你的程度到哪裡,<br>就用 ZR 的大一 project 來決勝負吧！！<br>得到 Full Combo 來讓我刮目相看！！</p>
+</blockquote>
+<p>來自室友大一的 final project，音樂音量沒有 normalize 導致我已經耳聾，題目說只要 full combo 就會給你 flag，避免有人妄想用玩的，所以跟普通音遊規則不同，調整成只有 perfect 才會 combo，如果你還玩出來了，麻煩下面留言，我要跪你。</p>
+<h2 id="題解-1"><a href="#題解-1" class="headerlink" title="題解"></a>題解</h2><p>java 是直譯式語言，compile 只是 compile 成 Java bytecode，幾乎所有的東西都還留著，包括變數名稱，decompile 後可以拿到幾乎跟原始碼一樣的 java code，直接用<a href="http://www.javadecompilers.com/" target="_blank" rel="noopener">線上工具</a>來 decompile，這題難的地方大概只有 code 滿多的，可以直接找一下變數名稱有沒有 flag：</p>
+<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/decompile.png" class="">
+
+<p>在 <code>Visual/PanelEnding.java</code> 79 行附近可以找到一個變數叫做 flag ，內容看起來像是被加密過。</p>
+<figure class="highlight java"><figcaption><span>Visual/PanelEnding.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.lWest = <span class="keyword">new</span> JLabel();</span><br><span class="line"><span class="keyword">this</span>.lEast = <span class="keyword">new</span> JLabel();</span><br><span class="line"><span class="keyword">this</span>.flag = <span class="keyword">new</span> <span class="keyword">byte</span>[] &#123; <span class="number">89</span>, <span class="number">74</span>, <span class="number">75</span>, <span class="number">43</span>, <span class="number">126</span>, <span class="number">69</span>, <span class="number">120</span>, <span class="number">109</span>, <span class="number">68</span>, <span class="number">109</span>, <span class="number">109</span>, <span class="number">97</span>, <span class="number">73</span>, <span class="number">110</span>, <span class="number">45</span>, <span class="number">113</span>, <span class="number">102</span>, <span class="number">64</span>, <span class="number">121</span>, <span class="number">47</span>, <span class="number">111</span>, <span class="number">119</span>, <span class="number">111</span>, <span class="number">71</span>, <span class="number">114</span>, <span class="number">125</span>, <span class="number">68</span>, <span class="number">105</span>, <span class="number">127</span>, <span class="number">124</span>, <span class="number">94</span>, <span class="number">103</span>, <span class="number">46</span>, <span class="number">107</span>, <span class="number">97</span>, <span class="number">104</span> &#125;;        <span class="keyword">this</span>.btnFont = <span class="keyword">new</span> Font(<span class="string">"Dialog"</span>, <span class="number">1</span>, <span class="number">35</span>);</span><br><span class="line"><span class="keyword">this</span>.btnBack = <span class="keyword">new</span> JButton(<span class="string">"Back"</span>);</span><br><span class="line"><span class="keyword">this</span>.setLayout(<span class="keyword">new</span> BorderLayout());</span><br><span class="line"><span class="keyword">this</span>.setBackground(<span class="keyword">this</span>.c.brown);</span><br></pre></td></tr></table></figure>
+
+<p>繼續往下看，在 <code>setValue</code> 中看得出來當 <code>t == mc</code> 的時候，<code>cache</code> 會拿來跟 <code>flag</code> decrypt 然後印出來：</p>
+<figure class="highlight java"><figcaption><span>Visual/PanelEnding.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (t == mc) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; cache.size(); ++i) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">byte</span>[] flag = <span class="keyword">this</span>.flag;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> n = i % <span class="keyword">this</span>.flag.length;</span><br><span class="line">        flag[n] ^= (<span class="keyword">byte</span>)(Object)cache.get(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">final</span> String fff = <span class="keyword">new</span> String(<span class="keyword">this</span>.flag);</span><br><span class="line">    <span class="keyword">this</span>.text[<span class="number">0</span>].setText(String.format(<span class="string">"Flag: %s"</span>, fff));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後追一下 <code>t</code>、<code>mc</code>、<code>cache</code> 分別是什麼，在 <code>Control/GameControl.java</code> 中可以找到 <code>t</code> 就是這個譜面總共有多少的音符， <code>mc</code> 就是遊戲結束時的 combo 數：</p>
+<figure class="highlight java"><figcaption><span>Control/GameControl.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">291</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.pe.setValue(<span class="keyword">this</span>.total, <span class="keyword">this</span>.critical, <span class="keyword">this</span>.early, <span class="keyword">this</span>.late, <span class="keyword">this</span>.miss, <span class="keyword">this</span>.comboMax, <span class="keyword">this</span>.info, <span class="keyword">this</span>.cache);</span><br></pre></td></tr></table></figure>
+
+<p>繼續往下追可以找到 cache 其實就是讀進來的譜面檔案</p>
+<figure class="highlight java"><figcaption><span>Control/GameControl.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (br.ready()) &#123;</span><br><span class="line">    <span class="keyword">final</span> String s = br.readLine();</span><br><span class="line">    <span class="keyword">if</span> (s.charAt(<span class="number">0</span>) != <span class="string">'*'</span>) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> a = Integer.parseInt(s);</span><br><span class="line">        <span class="keyword">this</span>.cache.add(a);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">5</span>; ++k) &#123;</span><br><span class="line">            <span class="keyword">if</span> ((a &gt;&gt; k &amp; <span class="number">0x1</span>) == <span class="number">0x1</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (k != <span class="number">4</span>) &#123;</span><br><span class="line">                    (<span class="keyword">this</span>.note = <span class="keyword">new</span> JLabel(<span class="keyword">this</span>.bt)).setBounds(bounds[k], <span class="keyword">this</span>.y, <span class="number">100</span>, <span class="number">40</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    (<span class="keyword">this</span>.note = <span class="keyword">new</span> JLabel(<span class="keyword">this</span>.fx)).setBounds(bounds[k], <span class="keyword">this</span>.y, <span class="number">350</span>, <span class="number">40</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">this</span>.pFumen.add(<span class="keyword">this</span>.note);</span><br><span class="line">                <span class="keyword">this</span>.check.get(k).add(<span class="keyword">this</span>.y);</span><br><span class="line">                ++<span class="keyword">this</span>.total;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.y += <span class="keyword">this</span>.distance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看到這裡基本上可以想到幾個解法：</p>
+<ul>
+<li>改 <code>if(t == mc)</code> 的 bytecode 讓他直接通過</li>
+<li>找到 <code>cache</code>，模仿 code 自己 decrypt</li>
+<li>改 source code 然後重新編譯</li>
+<li>遊戲修改器</li>
+<li>…</li>
+</ul>
+<p>因為沒做什麼奇怪的事情，所以上面的解法應該都是做得到的，不過還是最推薦第二個做法，因為我 Mac 也會跑版，所以還是寫腳本解實在，當然你要直接抽 code 出來寫一個 java 也行：</p>
+<figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">flag = [<span class="number">89</span>, <span class="number">74</span>, <span class="number">75</span>, <span class="number">43</span>, <span class="number">126</span>, <span class="number">69</span>, <span class="number">120</span>, <span class="number">109</span>, <span class="number">68</span>, <span class="number">109</span>, <span class="number">109</span>, <span class="number">97</span>, <span class="number">73</span>, <span class="number">110</span>, <span class="number">45</span>, <span class="number">113</span>, <span class="number">102</span>, <span class="number">64</span>, <span class="number">121</span>, <span class="number">47</span>, <span class="number">111</span>, <span class="number">119</span>, <span class="number">111</span>, <span class="number">71</span>, <span class="number">114</span>, <span class="number">125</span>, <span class="number">68</span>, <span class="number">105</span>, <span class="number">127</span>, <span class="number">124</span>, <span class="number">94</span>, <span class="number">103</span>, <span class="number">46</span>, <span class="number">107</span>, <span class="number">97</span>, <span class="number">104</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'AIS3_2020_pre/Fallen_Beat/songs/gekkou/hell.txt'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = filter(<span class="keyword">lambda</span> l: <span class="string">'*'</span> <span class="keyword">not</span> <span class="keyword">in</span> l, f.readlines()[<span class="number">1</span>:])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx,line <span class="keyword">in</span> enumerate(lines):</span><br><span class="line">        flag[idx%len(flag)] ^= int(line)</span><br><span class="line"></span><br><span class="line">print(bytes(flag))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Flag: <code>AIS3{Wow_how_m4ny_h4nds_do_you_h4ve}</code></p>
+</blockquote>
+<hr>
+<h1 id="🧠-Stand-up-Brain"><a href="#🧠-Stand-up-Brain" class="headerlink" title="🧠 Stand up!Brain"></a>🧠 Stand up!Brain</h1><h2 id="題目敘述-2"><a href="#題目敘述-2" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
+<p>又到了 Brain tell 咪 ㄜ joke 的時間了<br>這次輪到你說個笑話來聽聽了</p>
+<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/joke.webp" class="">
+</blockquote>
+<h2 id="題解-2"><a href="#題解-2" class="headerlink" title="題解"></a>題解</h2><p>題目給的是一個用 Ｃ 寫的 <a href="https://zh.wikipedia.org/wiki/Brainfuck" target="_blank" rel="noopener">Brainfuck</a> interpreter，老梗，但不知道也沒關係，還是可以透過逆向看懂。</p>
+<p>這裡用 radare2 disassemble，<code>0x7e2</code> 這裡可以看到輸入是 6 個字，推測輸入正確的 6 個字就會拿到 flag：</p>
+<figure class="highlight x86asm"><figcaption><span>scanf</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">lea</span> <span class="built_in">rax</span>, [var_eh]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">rsi</span>, <span class="built_in">rax</span></span><br><span class="line"><span class="comment">; const char *format</span></span><br><span class="line"><span class="comment">; "%6s"</span></span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">rdi</span>, [<span class="number">0x00000a84</span>]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="number">0</span></span><br><span class="line"><span class="comment">; int scanf(const char *format)</span></span><br><span class="line"><span class="keyword">call</span> sym<span class="number">.</span>imp<span class="number">.</span>__isoc99_scanf<span class="comment">;[oc]</span></span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">dword</span> [var_24h], <span class="number">0</span></span><br><span class="line"><span class="keyword">jmp</span> <span class="number">0x853</span></span><br></pre></td></tr></table></figure>
+
+<p>可以嘗試暴搜正確的 6 個字是什麼，但滿久的，繼續往下看，<code>0x853</code> 跟 <code>0x81c</code> 這裡是一個 for 迴圈，每個迴圈做的事情是把 input 拿出來放到 <code>0x00201380</code> 的 array 上並且再補上一個元素 <code>1</code>，所以 array <code>0x00201380</code> 最後會變成 <code>[input[0], 1, input[1], 1, input[2], 1, input[3], 1, input[4], 1, input[5], 1]</code>：</p>
+<figure class="highlight x86asm"><figcaption><span>for_loop</span></figcaption><table><tr><td class="code"><pre><span class="line">[<span class="number">0x81c</span>]</span><br><span class="line">CODE XREF from main @ <span class="number">0x857</span></span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="built_in">dword</span> [var_24h]</span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">edx</span>, [<span class="built_in">rax</span> + <span class="built_in">rax</span>]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="built_in">dword</span> [var_24h]</span><br><span class="line"><span class="keyword">cdqe</span></span><br><span class="line"><span class="keyword">movzx</span> <span class="built_in">ecx</span>, <span class="built_in">byte</span> [<span class="built_in">rbp</span> + <span class="built_in">rax</span> - <span class="number">0xe</span>] <span class="comment">; get char at input[ecx]</span></span><br><span class="line"><span class="keyword">movsxd</span> <span class="built_in">rdx</span>, <span class="built_in">edx</span></span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">rax</span>, [<span class="number">0x00201380</span>]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">byte</span> [<span class="built_in">rdx</span> + <span class="built_in">rax</span>], <span class="built_in">cl</span></span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="built_in">dword</span> [var_24h]</span><br><span class="line"><span class="keyword">add</span> <span class="built_in">eax</span>, <span class="built_in">eax</span></span><br><span class="line"><span class="keyword">add</span> <span class="built_in">eax</span>, <span class="number">1</span></span><br><span class="line"><span class="keyword">movsxd</span> <span class="built_in">rdx</span>, <span class="built_in">eax</span></span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">rax</span>, [<span class="number">0x00201380</span>]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">byte</span> [<span class="built_in">rdx</span> + <span class="built_in">rax</span>], <span class="number">1</span></span><br><span class="line"><span class="keyword">add</span> <span class="built_in">dword</span> [var_24h], <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>再往下看，會看到引用一串 data，這一串就是 Brainfuck 程式碼：</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line">--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span>&gt;&gt;--<span class="literal">-</span><span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;++<span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="literal">+</span><span class="title">[</span>--<span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;++<span class="literal">+</span><span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span>&gt;++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span>++<span class="title">[</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="literal">+</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span>++<span class="title">[</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>++<span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="string">.</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="string">.</span><span class="title">[</span><span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;<span class="literal">+</span><span class="string">.</span><span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>--<span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>++<span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span><span class="literal">-</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span>++<span class="title">[</span>--<span class="literal">-</span>&gt;++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>++<span class="literal">+</span><span class="title">[</span><span class="literal">-</span>&gt;++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;++<span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>--<span class="literal">-</span><span class="title">[</span><span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;++<span class="literal">+</span><span class="string">.</span>++<span class="literal">+</span><span class="string">.</span><span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span><span class="title">]</span><span class="title">]</span><span class="title">]</span><span class="title">]</span><span class="title">]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果不知道 Brainfuck 還是能透過逆向知道這個語言的大概，程式在 <code>0x986</code> 的地方進入一個很大的 for loop，<code>0x869</code> 這裏開始是 switch 的範圍檢查，然後往下一點 <code>0x87f</code> 這裡是 switch 決定去哪個 case，這裡的 radare2 下的註解是錯的，因為最小的 case <code>+(0x2b)</code> 到最大的 case <code>](0x5d)</code> 閉區間長度是 51，但其實只有 7 個 case：</p>
+<figure class="highlight x86asm"><figcaption><span>switch</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="number">0x87f</span> [oi]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="built_in">eax</span></span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">rdx</span>, [<span class="built_in">rax</span>*<span class="number">4</span>]</span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">rax</span>, [<span class="number">0x00000a9c</span>]</span><br><span class="line"><span class="keyword">mov</span> <span class="built_in">eax</span>, <span class="built_in">dword</span> [<span class="built_in">rdx</span> + <span class="built_in">rax</span>]</span><br><span class="line"><span class="keyword">movsxd</span> <span class="built_in">rdx</span>, <span class="built_in">eax</span></span><br><span class="line"><span class="keyword">lea</span> <span class="built_in">rax</span>, [<span class="number">0x00000a9c</span>]</span><br><span class="line"><span class="keyword">add</span> <span class="built_in">rax</span>, <span class="built_in">rdx</span></span><br><span class="line"><span class="comment">; switch table (51 cases) at 0xa9c</span></span><br><span class="line"><span class="comment">;-- switch</span></span><br><span class="line"><span class="keyword">jmp</span> <span class="built_in">rax</span></span><br></pre></td></tr></table></figure>
+
+<p>這幾個 case 是 <code>+</code>、<code>-</code>、<code>&lt;</code>、<code>&gt;</code>、<code>[</code>、<code>]</code>、<code>.</code>，看一下就可以知道每個符號的意義了，打下去太多，略一波<a href="https://zh.wikipedia.org/wiki/Brainfuck" target="_blank" rel="noopener">wiki</a>。<br>所以現在可以回頭看那一串 Brainfuck 在幹嘛了，基本上 <code>-------------------------------------------------------------------[&gt;[-]&lt;[-]]&gt;[..略..]</code> 其實就是 <code>if</code> ，所以全部的 code 就是巢狀的 <code>if</code>，拿個簡略的狀況說明，下面這段 code 的邏輯是 <code>if(var0==1){..略..}</code>：</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line"><span class="comment">#</span> <span class="comment">假設記憶體長這樣</span> <span class="comment">memory</span><span class="title">[</span><span class="comment">4</span><span class="string">,</span><span class="comment">1</span><span class="title">]</span></span><br><span class="line">--<span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span><span class="string">.</span><span class="string">.</span><span class="comment">略</span><span class="string">.</span><span class="string">.</span><span class="title">]</span></span><br></pre></td></tr></table></figure>
+
+<p>一開始 <code>--</code> 會把記憶體上的 <code>memory[0]</code> 扣 2 變成 2，執行到<code>[</code>時如果當前指標指到的記憶體位置不是<code>0</code>就會進入<code>[&gt;[-]&lt;[-]]</code>，<code>[&gt;[-]&lt;[-]]</code>做的事情是把下一個位置（<code>memory[1]</code>）扣成 0 然後再把指標移回來<code>memory[0]</code>，清空 <code>memory[0]</code>，所以當執行到 <code>&gt;[...略...]</code> 時，第一個<code>&gt;</code>移動指標到<code>memory[1]</code>，是 0就不會去執行 <code>[...略...]</code>，那如果重新來過，記憶體上的 4 一開始是 2 的話：</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line"><span class="comment">#</span> <span class="comment">假設記憶體長這樣</span> <span class="comment">memory</span><span class="title">[</span><span class="comment">2</span><span class="string">,</span><span class="comment">1</span><span class="title">]</span></span><br><span class="line">--<span class="title">[</span>&gt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span>&lt;<span class="title">[</span><span class="literal">-</span><span class="title">]</span><span class="title">]</span>&gt;<span class="title">[</span><span class="string">.</span><span class="string">.</span><span class="comment">略</span><span class="string">.</span><span class="string">.</span><span class="title">]</span></span><br></pre></td></tr></table></figure>
+
+<p>一開始 <code>--</code> 會把記憶體上的 <code>memory[0]</code> 扣 2 變成 0，執行到<code>[</code>時因為現在指向的記憶體數值是 0 所以不會進入<code>[&gt;[-]&lt;[-]]</code>，跳到後面執行<code>&gt;[...略...]</code>，第一個<code>&gt;</code>移動指標到<code>memory[1]</code>，是 1，就會執行<code>[...略...]</code>。</p>
+<p>到這裡就很清楚了，輸入的 ascii code 要等於前面有幾個<code>-</code>，這樣才會通過判定，可以知道正確的輸入是<code>[67, 56, 55, 54, 51, 33]</code>就是<code>C8763!</code>，把邏輯換成 C 會像是這樣：</p>
+<figure class="highlight c"><figcaption><span>pseudo_code</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(input[<span class="number">0</span>] == <span class="string">'C'</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(input[<span class="number">1</span>] == <span class="string">'8'</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(input[<span class="number">2</span>] == <span class="string">'7'</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(input[<span class="number">3</span>] == <span class="string">'6'</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(input[<span class="number">4</span>] = <span class="string">'3'</span>)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(input[<span class="number">5</span>] = <span class="string">'!'</span>)&#123;</span><br><span class="line">                        <span class="built_in">print</span> flag</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>當然也可以直接跳過所有的<code>if</code>，只執行最後印 flag 的 code 就好了，可以用<a href="https://www.tutorialspoint.com/execute_brainfk_online.php" target="_blank" rel="noopener">線上工具</a>。</p>
+<figure class="highlight brainfuck"><figcaption><span>print_flag</span></figcaption><table><tr><td class="code"><pre><span class="line">&gt;&gt;--<span class="literal">-</span><span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;++<span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="literal">+</span><span class="title">[</span>--<span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;++<span class="literal">+</span><span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span>&gt;++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span>++<span class="title">[</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="literal">+</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span>++<span class="title">[</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>++<span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="string">.</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="string">.</span><span class="title">[</span><span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;<span class="literal">+</span><span class="string">.</span><span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>--<span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;++<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>++<span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span><span class="literal">-</span><span class="title">[</span>--&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;--<span class="literal">-</span><span class="string">.</span>++<span class="title">[</span>--<span class="literal">-</span>&gt;++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span>++<span class="literal">+</span><span class="title">[</span><span class="literal">-</span>&gt;++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;++<span class="string">.</span>&gt;<span class="literal">-</span><span class="title">[</span>--<span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;<span class="string">.</span>--<span class="literal">-</span><span class="title">[</span><span class="literal">-</span>&gt;++&lt;<span class="title">]</span>&gt;<span class="literal">-</span><span class="string">.</span>++<span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="literal">+</span><span class="string">.</span><span class="title">[</span>--<span class="literal">-</span>&gt;<span class="literal">+</span>&lt;<span class="title">]</span>&gt;++<span class="literal">+</span><span class="string">.</span>++<span class="literal">+</span><span class="string">.</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Flag: <code>AIS3{Th1s_1s_br4iNFUCK_bu7_m0r3_ez}</code></p>
+</blockquote>
+<hr>
+<h1 id="🍹-Long-Island-Iced-Tea"><a href="#🍹-Long-Island-Iced-Tea" class="headerlink" title="🍹 Long Island Iced Tea"></a>🍹 Long Island Iced Tea</h1><h2 id="題目敘述-3"><a href="#題目敘述-3" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
+<p>長·島·冰·茶<br>我·的·最·愛<br>長·島·冰·茶<br>超·爽·口·感<br>咚咚咚ㄎㄧㄤ<br>咚咚咚ㄎㄧㄤ<br>咚咚咚ㄎㄧㄤ<br>我真的好ㄎㄧㄤ</p>
+</blockquote>
+<iframe src="http://player.bilibili.com/player.html?aid=703074&bvid=BV1Bs411f7DA&cid=1031101&page=1" width="100%" height="300" frameborder="0" loading="lazy" allowfullscreen></iframe>
+
+<p>附這個連結害我寫這篇的時候一直重播</p>
+<h2 id="題解-3"><a href="#題解-3" class="headerlink" title="題解"></a>題解</h2><p>這裡就用 decompile 之後的 code 來講解，沒有 IDA 可以用 <a href="https://ghidra-sre.org/" target="_blank" rel="noopener">Ghidra</a>，科普一下，Ghidra 唸作<a href="https://github.com/NationalSecurityAgency/ghidra/wiki/Frequently-asked-questions#how-do-you-pronounce-ghidra" target="_blank" rel="noopener">Gee-druh</a>，或是你可以學我念 Costco。</p>
+<p>基本上 main 做的事情就是 <a href="https://en.wikipedia.org/wiki/Padding_(cryptography)#Zero_padding" target="_blank" rel="noopener">Zero padding</a></p>
+<figure class="highlight c"><figcaption><span>main</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">puts</span>(<span class="string">"My encryptor 0.1"</span>);</span><br><span class="line"><span class="built_in">puts</span>(<span class="string">"I didn't implement the decryptor"</span>);</span><br><span class="line"><span class="built_in">puts</span>(<span class="string">"So,you'll never find out my secret unless I am drunk"</span>);</span><br><span class="line">__isoc99_scanf(<span class="string">"%ms"</span>, &amp;s);</span><br><span class="line">v7 = <span class="built_in">strlen</span>(s);</span><br><span class="line"><span class="comment">//v8 算出比目前輸入長度大的 8 的倍數，例如 7 會得到 8，17 得到 24</span></span><br><span class="line">v8 = <span class="number">8</span> * (v7 / <span class="number">8</span> + <span class="number">1</span>);</span><br><span class="line"><span class="comment">//重新分配一個大小，而且複製本來的輸入上去</span></span><br><span class="line">s = (<span class="keyword">char</span> *)<span class="built_in">realloc</span>(s, v8 + <span class="number">1</span>);</span><br><span class="line"><span class="comment">//多出來的部分都放 0，其實就是在做 0 padding</span></span><br><span class="line"><span class="keyword">for</span> ( i = v8; i &gt;= v7; --i )</span><br><span class="line">  s[i] = <span class="number">0</span>;</span><br><span class="line">qmemcpy(v10, <span class="string">"dloGtroBedaJybuR"</span>, <span class="number">16</span>);</span><br><span class="line"><span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; v8 / <span class="number">8</span> + <span class="number">1</span>; ++j )</span><br><span class="line">  sub_83A(s, v10);</span><br><span class="line"><span class="keyword">for</span> ( k = <span class="number">0</span>; k &lt; v8; ++k )</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%02hhx"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)s[k]);</span><br><span class="line"><span class="built_in">free</span>(s);</span><br></pre></td></tr></table></figure>
+
+<p>沒什麼特別的，可以繼續往下看：</p>
+<figure class="highlight c"><figcaption><span>sub_83A</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">__int64 __fastcall <span class="title">sub_83A</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span> *a1, __int64 a2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> i; <span class="comment">// [rsp+1Ch] [rbp-14h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v4; <span class="comment">// [rsp+20h] [rbp-10h]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v5; <span class="comment">// [rsp+24h] [rbp-Ch]</span></span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v6; <span class="comment">// [rsp+28h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v4 = *a1;</span><br><span class="line">  v5 = a1[<span class="number">1</span>];</span><br><span class="line">  v6 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">0x3F</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    v4 += (((v5 &gt;&gt; <span class="number">5</span>) ^ (<span class="number">16</span> * v5)) + v5) ^ (*(_DWORD *)(<span class="number">4L</span>L * (v6 &amp; <span class="number">3</span>) + a2) + v6);</span><br><span class="line">    v6 -= <span class="number">0x61C88647</span>;</span><br><span class="line">    v5 += (((v4 &gt;&gt; <span class="number">5</span>) ^ (<span class="number">16</span> * v4)) + v4) ^ (*(_DWORD *)(<span class="number">4L</span>L * ((v6 &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>) + a2) + v6);</span><br><span class="line">  &#125;</span><br><span class="line">  *a1 = v4;</span><br><span class="line">  result = v5;</span><br><span class="line">  a1[<span class="number">1</span>] = v5;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看起來是某種加密或是 hash 算法，如果夠敏感的話應該會注意到這個算法裡面有 magic number 存在，<code>0x61C88647</code>，但要注意，這是 IDA 照 variable type 修正產出的 pseudo code，回去看 assembly，會發現其實是：</p>
+<figure class="highlight x86asm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">mov</span>     [<span class="built_in">rbp</span>+var_4], <span class="number">9E3779B9h</span></span><br></pre></td></tr></table></figure>
+
+<p>本來是 <code>v6 += 0x9E3779B9</code>，但 IDA 覺得 <code>v6 -= 0x61C88647</code> 比較好，總之只是 2’s complement，其實不管哪一個都可以找關鍵算法 <a href="https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" target="_blank" rel="noopener">TEA</a>，仔細看一下會發現其實有點不太一樣，但應該足夠模仿寫出 decrypt 的程式了，就反轉操作而已，如果有耐心爬一下 wiki 會發現題目實作的算法是 <a href="https://en.wikipedia.org/wiki/XTEA" target="_blank" rel="noopener">XTEA</a>，直接用 wiki 上的 decrypt 就行了，要注意的是 main 裡面其實只有加密第一塊 block，所以第一塊被加密了 9 次，只要解密第一塊就好了：</p>
+<figure class="highlight c"><figcaption><span>main</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">puts</span>(<span class="string">"My encryptor 0.1"</span>);</span><br><span class="line"><span class="built_in">puts</span>(<span class="string">"I didn't implement the decryptor"</span>);</span><br><span class="line"><span class="built_in">puts</span>(<span class="string">"So,you'll never find out my secret unless I am drunk"</span>);</span><br><span class="line">__isoc99_scanf(<span class="string">"%ms"</span>, &amp;s);</span><br><span class="line">v7 = <span class="built_in">strlen</span>(s);</span><br><span class="line">v8 = <span class="number">8</span> * (v7 / <span class="number">8</span> + <span class="number">1</span>);</span><br><span class="line">s = (<span class="keyword">char</span> *)<span class="built_in">realloc</span>(s, v8 + <span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span> ( i = v8; i &gt;= v7; --i )</span><br><span class="line">  s[i] = <span class="number">0</span>;</span><br><span class="line">qmemcpy(v10, <span class="string">"dloGtroBedaJybuR"</span>, <span class="number">16</span>);</span><br><span class="line"><span class="comment">//---------------這裡永遠只加密第一塊 block----------------</span></span><br><span class="line"><span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; v8 / <span class="number">8</span> + <span class="number">1</span>; ++j )</span><br><span class="line">  sub_83A(s, v10);</span><br><span class="line"><span class="comment">//------------------------------------------------------</span></span><br><span class="line"><span class="keyword">for</span> ( k = <span class="number">0</span>; k &lt; v8; ++k )</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%02hhx"</span>, (<span class="keyword">unsigned</span> <span class="keyword">int</span>)s[k]);</span><br><span class="line"><span class="built_in">free</span>(s);</span><br></pre></td></tr></table></figure>
+
+<p>因為只有第一塊有加密：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#My encryptor 0.1</span></span><br><span class="line"><span class="comment">#I didn't implement the decryptor</span></span><br><span class="line"><span class="comment">#So,you'll never find out my secret unless I am drunk</span></span><br><span class="line"><span class="comment">#850a2a4d3fac148269726c5f673176335f6d335f55725f49475f346e645f746831735f31735f6d316e655f746572727974657272795f5f7d0000000000000000</span></span><br><span class="line">In [<span class="number">1</span>]: bytes.fromhex(<span class="string">"850a2a4d3fac148269726c5f673176335f6d335f55725f49475f346e645f746831735f31735f6d316e655f746572727974657272795f5f7d0000000000000000"</span>)</span><br><span class="line">Out[<span class="number">1</span>]: <span class="string">b'\x85\n*M?\xac\x14\x82irl_g1v3_m3_Ur_IG_4nd_th1s_1s_m1ne_terryterry__&#125;\x00\x00\x00\x00\x00\x00\x00\x00'</span></span><br></pre></td></tr></table></figure>
+
+<p>所以這裡就有第二個解法是爆搜 3 byte 的文字(<code>8 - len(&#39;AIS3{&#39;)</code>)，賽中 @bronson113 跟我說他有非預期解，只要暴搜 2 byte，我還以為又寫爛 code …，雖然是真的 code 寫爛才敢放這題，不然好像有點太難，不知道要查 magic number 的人應該解不出來，本來是想出那種加密寫錯的沒錯，但怎麼出好像都有點太難，之後才知道原來大家暴搜都有猜字 = =，好，恩，總之你猜到那個字是 girl 就可以只暴搜 2 byte，<a href="https://youtu.be/mVN-kdWxmfs?t=39" target="_blank" rel="noopener">聖結石保險起見買三件</a>，保險起見我都搜 3 byte。</p>
+<figure class="highlight python"><figcaption><span>bruteforce.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> subprocess <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> product</span><br><span class="line"></span><br><span class="line">target = open(<span class="string">"./flag"</span>,<span class="string">'rb'</span>).read()</span><br><span class="line"><span class="keyword">for</span> cipher <span class="keyword">in</span> product(printable[:<span class="number">-5</span>],repeat=<span class="number">3</span>):</span><br><span class="line">    plain = <span class="string">f"AIS3&#123;&#123;<span class="subst">&#123;<span class="string">''</span>.join(cipher)&#125;</span>irl_g1v3_m3_Ur_IG_4nd_th1s_1s_m1ne_terryterry__&#125;&#125;"</span>.encode()</span><br><span class="line">    p = check_output(<span class="string">"./Long\ Island\ Iced\ Tea"</span>,input=plain,shell=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> p == target:</span><br><span class="line">        print(plain)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>不過最快的解法還是直接寫 decrypt：</p>
+<figure class="highlight c"><figcaption><span>decrypt.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//copy from wiki</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">decipher</span><span class="params">(<span class="keyword">uint32_t</span> v[<span class="number">2</span>], <span class="keyword">uint32_t</span> <span class="keyword">const</span> key[<span class="number">4</span>])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">uint32_t</span> v0=v[<span class="number">0</span>], v1=v[<span class="number">1</span>], delta=<span class="number">0x9E3779B9</span>, sum=delta*<span class="number">64</span>;</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; <span class="number">64</span>; i++) &#123;</span><br><span class="line">        v1 -= (((v0 &lt;&lt; <span class="number">4</span>) ^ (v0 &gt;&gt; <span class="number">5</span>)) + v0) ^ (sum + key[(sum&gt;&gt;<span class="number">11</span>) &amp; <span class="number">3</span>]);</span><br><span class="line">        sum -= delta;</span><br><span class="line">        v0 -= (((v1 &lt;&lt; <span class="number">4</span>) ^ (v1 &gt;&gt; <span class="number">5</span>)) + v1) ^ (sum + key[sum &amp; <span class="number">3</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    v[<span class="number">0</span>]=v0; v[<span class="number">1</span>]=v1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> key[] = <span class="string">"dloGtroBedaJybuR"</span>;</span><br><span class="line">    <span class="keyword">char</span> input[] = &#123;<span class="number">0x85</span>,<span class="number">0x0a</span>,<span class="number">0x2a</span>,<span class="number">0x4d</span>,<span class="number">0x3f</span>,<span class="number">0xac</span>,<span class="number">0x14</span>,<span class="number">0x82</span>,<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; <span class="number">9</span> ; r++)&#123;</span><br><span class="line">        decipher(input,key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%sirl_g1v3_m3_Ur_IG_4nd_th1s_1s_m1ne_terryterry__&#125;"</span>,input);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Flag: <code>AIS3{A!girl_g1v3_m3_Ur_IG_4nd_th1s_1s_m1ne_terryterry__}</code></p>
+</blockquote>
+<blockquote>
+<p>補：看完 writeup，大概是一半的人用暴搜，一半的人有認出來是 XTEA，出的不錯？<br>打比賽的時候有遇過 rc4 位移故意寫錯要修，或土炮加密寫錯之類的題目，大概有個兩三題，但覺得出在這裡好像不太好<br>最後產了一題大便題🤔️</p>
+</blockquote>
+<hr>
+<h1 id="🌹-La-vie-en-rose"><a href="#🌹-La-vie-en-rose" class="headerlink" title="🌹 La vie en rose"></a>🌹 La vie en rose</h1><h2 id="題目敘述-4"><a href="#題目敘述-4" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
+<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/rose.jpg" class="">
+</blockquote>
+<h2 id="題解-4"><a href="#題解-4" class="headerlink" title="題解"></a>題解</h2><p>稍微逆向看一下會發現 binary 前面一直使用 <code>_MEIPASS2</code> 這個字串，會被拿去 call <code>GetEnvironmentVariableW</code> 之類的 API，查一下就可以發現這個是 PyInstaller 使用的一個環境變數，PyInstaller 是一個可以把 python 包成執行檔的工具（exe以外也可以），原理是把 python compile 成 bytecode 之後，執行檔執行時會把 bytecode 抓出來執行，不難想到應該會有工具可以把東西拉出來，<a href="https://sourceforge.net/projects/pyinstallerextractor/" target="_blank" rel="noopener">PyInstaller Extractor</a>。</p>
+<p>所有的東西會被抽出來放進 <code>La vie en rose.exe_extracted</code> 資料夾，pyinstallerextractor.py 會告訴你 entry point 是啥：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pyinstxtractor.py:86: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses</span><br><span class="line">  import imp</span><br><span class="line">[*] Processing La vie en rose.exe</span><br><span class="line">[*] Pyinstaller version: 2.1+</span><br><span class="line">[*] Python version: 38</span><br><span class="line">[*] Length of package: 9518557 bytes</span><br><span class="line">[*] Found 955 files in CArchive</span><br><span class="line">[*] Beginning extraction...please standby</span><br><span class="line">[+] Possible entry point: pyiboot01_bootstrap</span><br><span class="line">[+] Possible entry point: pyi_rth__tkinter</span><br><span class="line">[+] Possible entry point: pyi_rth_multiprocessing</span><br><span class="line">[+] Possible entry point: rose</span><br><span class="line">[*] Found 258 files in PYZ archive</span><br><span class="line">[*] Successfully extracted pyinstaller archive: La vie en rose.exe</span><br></pre></td></tr></table></figure>
+
+<p>但如果它給錯，也可以用 grep 找到，因為 python bytecode 的字串是 raw data：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> grep outland *</span></span><br><span class="line">grep: PYZ-00.pyz_extracted: Is a directory</span><br><span class="line">Binary file rose matches</span><br></pre></td></tr></table></figure>
+
+<p>所以我們接下來要做的事情是 decompile rose.pyc，這裡可以用 uncompyle6 來做，但是會有錯誤訊息，原因是 pyc 少了版本 magic number，很好理解，因為 PyInstaller 知道自己在這個 binary 用了什麼版本，所以他可以把 magic number 拔掉來節省空間：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">uncompyle6 rose.pyc</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/xdis/load.py"</span>, line <span class="number">168</span>, <span class="keyword">in</span> load_module_from_file_object</span><br><span class="line">    float_version = magic_int2float(magic_int)</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/xdis/magics.py"</span>, line <span class="number">399</span>, <span class="keyword">in</span> magic_int2float</span><br><span class="line">    <span class="keyword">return</span> py_str2float(magicint2version[magic_int])</span><br><span class="line">KeyError: <span class="number">227</span></span><br><span class="line"></span><br><span class="line">During handling of the above exception, another exception occurred:</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/usr/local/bin/uncompyle6"</span>, line <span class="number">8</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    sys.exit(main_bin())</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/uncompyle6/bin/uncompile.py"</span>, line <span class="number">194</span>, <span class="keyword">in</span> main_bin</span><br><span class="line">    **options)</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/uncompyle6/main.py"</span>, line <span class="number">326</span>, <span class="keyword">in</span> main</span><br><span class="line">    do_fragments,</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/uncompyle6/main.py"</span>, line <span class="number">186</span>, <span class="keyword">in</span> decompile_file</span><br><span class="line">    filename, code_objects</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/xdis/load.py"</span>, line <span class="number">141</span>, <span class="keyword">in</span> load_module</span><br><span class="line">    get_code=get_code,</span><br><span class="line">  File <span class="string">"/usr/local/lib/python3.7/site-packages/xdis/load.py"</span>, line <span class="number">176</span>, <span class="keyword">in</span> load_module_from_file_object</span><br><span class="line">    % (ord(magic[<span class="number">0</span>:<span class="number">1</span>]) + <span class="number">256</span> * ord(magic[<span class="number">1</span>:<span class="number">2</span>]), filename)</span><br><span class="line">ImportError: Unknown magic number <span class="number">227</span> <span class="keyword">in</span> rose.pyc</span><br></pre></td></tr></table></figure>
+
+<p>但是其實 python import 東西的時候是會檢查 magic number 的，所以 extract 出來的 library 應該都還留著 magic number：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> xxd importlib.pyc | head</span></span><br><span class="line">00000000: 550d 0d0a 0000 0000 0000 0000 e300 0000  U...............</span><br><span class="line">00000010: 0000 0000 0000 0000 0000 0000 0008 0000  ................</span><br></pre></td></tr></table></figure>
+
+<p>所以其實也不需要知道版本， 可以直接拿到 magic number <code>550d 0d0a</code>。<br>假設不知道這件事情的話，那現在要先知道版本是什麼，要確定版本有幾個方法，執行 binary 去看他載了什麼 dll：</p>
+<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/pythondll.png" class="">
+
+<p>或是像剛剛一樣直接 grep，不然 ls 也行：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> grep python *</span></span><br><span class="line">Include\pyconfig.h:#                               pragma comment(lib,"python38_d.lib")</span><br><span class="line">Include\pyconfig.h:#                               pragma comment(lib,"python3.lib")</span><br><span class="line">Include\pyconfig.h:#                               pragma comment(lib,"python38.lib")</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ls | grep python  </span></span><br><span class="line">python38.dll</span><br></pre></td></tr></table></figure>
+
+<p>知道版本後，可以在 <a href="https://github.com/python/cpython/blob/3.8/Lib/importlib/_bootstrap_external.py#L261" target="_blank" rel="noopener">cpython github</a> 找到 magic number：</p>
+<figure class="highlight c"><figcaption><span>_bootstrap_external.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br></pre></td><td class="code"><pre><span class="line">#     Python <span class="number">3.8</span>a1  <span class="number">3400</span> (<span class="built_in">move</span> frame block handling to compiler #<span class="number">17611</span>)</span><br><span class="line">#     Python <span class="number">3.8</span>a1  <span class="number">3401</span> (add END_ASYNC_FOR #<span class="number">33041</span>)</span><br><span class="line">#     Python <span class="number">3.8</span>a1  <span class="number">3410</span> (PEP570 Python Positional-Only Parameters #<span class="number">36540</span>)</span><br><span class="line">#     Python <span class="number">3.8b</span>2  <span class="number">3411</span> (Reverse evaluation order of key: value in dict</span><br><span class="line">#                         comprehensions #<span class="number">35224</span>)</span><br><span class="line">#     Python <span class="number">3.8b</span>2  <span class="number">3412</span> (Swap the <span class="built_in">position</span> of positional args <span class="keyword">and</span> positional</span><br><span class="line">#                         only args in ast.arguments #<span class="number">37593</span>)</span><br><span class="line">#     Python <span class="number">3.8b</span>4  <span class="number">3413</span> (Fix <span class="string">"break"</span> <span class="keyword">and</span> <span class="string">"continue"</span> in <span class="string">"finally"</span> #<span class="number">37830</span>)</span><br></pre></td></tr></table></figure>
+
+<p>總之這裡可以直接把 importlib.pyc <code>550d 0d0a</code> 補到 rose.pyc 前面就好了，但還要另外補上 12 byte，這樣 marshal 偏移到 0x10 才會對，其中包括 timestamp 跟 source size，不是很重要所以就隨便抓一抓也丟進去就好了：</p>
+<figure class="highlight console"><table><tr><td class="code"><pre><span class="line">head -c 16 PYZ-00.pyz_extracted/importlib.pyc | cat - rose.pyc &gt; rose_ok.pyc</span><br></pre></td></tr></table></figure>
+
+<p>然後試試看 decompile 會遇到 bytecode 錯誤：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> uncompyle6 rose_ok.pyc</span></span><br><span class="line">...</span><br><span class="line">Parse error at or near `JUMP_FORWARD' instruction at offset 222</span><br></pre></td></tr></table></figure>
+
+<p>問題出在 <code>222  JUMP_FORWARD</code> 想要跳去 <code>256  JUMP_BACK  182  &#39;to 182&#39;</code> 但 uncompyle6 出了點問題，我們可以嘗試把 <code>JUMP_FORWARD   256</code> 直接替換成 <code>JUMP_BACK 182</code>：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">L.  <span class="number">35</span>       <span class="number">220</span>  JUMP_BACK           <span class="number">182</span>  <span class="string">'to 182'</span></span><br><span class="line">             <span class="number">222</span>  JUMP_FORWARD        <span class="number">256</span>  <span class="string">'to 256'</span> <span class="comment"># this line</span></span><br><span class="line">           <span class="number">224</span>_0  COME_FROM           <span class="number">218</span>  <span class="string">'218'</span></span><br><span class="line"></span><br><span class="line">L.  <span class="number">37</span>       <span class="number">224</span>  LOAD_NAME                winsound</span><br><span class="line">             <span class="number">226</span>  LOAD_METHOD              Beep</span><br><span class="line">             <span class="number">228</span>  LOAD_NAME                floor</span><br><span class="line">             <span class="number">230</span>  LOAD_NAME                keytone</span><br><span class="line">             <span class="number">232</span>  LOAD_NAME                note</span><br><span class="line">             <span class="number">234</span>  LOAD_CONST               <span class="number">0</span></span><br><span class="line">             <span class="number">236</span>  BINARY_SUBSCR</span><br><span class="line">             <span class="number">238</span>  BINARY_SUBSCR</span><br><span class="line">             <span class="number">240</span>  CALL_FUNCTION_1       <span class="number">1</span>  <span class="string">''</span></span><br><span class="line">             <span class="number">242</span>  LOAD_CONST               <span class="number">200</span></span><br><span class="line">             <span class="number">244</span>  LOAD_NAME                note</span><br><span class="line">             <span class="number">246</span>  LOAD_CONST               <span class="number">1</span></span><br><span class="line">             <span class="number">248</span>  BINARY_SUBSCR</span><br><span class="line">             <span class="number">250</span>  BINARY_MULTIPLY  </span><br><span class="line">             <span class="number">252</span>  CALL_METHOD_2         <span class="number">2</span>  <span class="string">''</span></span><br><span class="line">             <span class="number">254</span>  POP_TOP</span><br><span class="line">           <span class="number">256</span>_0  COME_FROM           <span class="number">222</span>  <span class="string">'222'</span></span><br><span class="line">           <span class="number">256</span>_1  COME_FROM           <span class="number">206</span>  <span class="string">'206'</span></span><br><span class="line">             <span class="number">256</span>  JUMP_BACK           <span class="number">182</span>  <span class="string">'to 182'</span></span><br></pre></td></tr></table></figure>
+
+<p>要修改他我們要先找到<a href="https://docs.python.org/2/library/dis.html#opcode-JUMP_FORWARD" target="_blank" rel="noopener">JUMP_FORWARD</a> 的 opcode 是什麼</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> dis</span><br><span class="line">print(hex(dis.opname.index(<span class="string">'JUMP_FORWARD'</span>)))</span><br><span class="line"><span class="comment">#0x6e</span></span><br></pre></td></tr></table></figure>
+
+<p>marshal opcode 開始的地方在 0x2e，所以精準要修改的位置是 $0x2e + 222 = 0x10c$， 222 的旁邊 <code>220  JUMP_BACK  182  &#39;to 182&#39;</code> 正好是我們要的操作，可以直接複製貼上：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">00000100: 6400 1900 640b 6b02 72e0 71b6 6e20 6500  d...d.k.r.q.n e.</span><br><span class="line">#修改成</span><br><span class="line">00000100: 6400 1900 640b 6b02 72e0 71b6 71b6 6500  d...d.k.r.q.n e.</span><br></pre></td></tr></table></figure>
+
+<p>然後就可以 decompile 了：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">uncompyle6 rose_ok.pyc &gt; rose.py</span><br></pre></td></tr></table></figure>
+
+<p>直接用註解來解釋在幹嘛：</p>
+<figure class="highlight python"><figcaption><span>rose.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uncompyle6 version 3.7.1</span></span><br><span class="line"><span class="comment"># Python bytecode 3.8 (3413)</span></span><br><span class="line"><span class="comment"># Decompiled from: Python 3.8.0 (default, Oct 28 2019, 16:14:01) </span></span><br><span class="line"><span class="comment"># [GCC 8.3.0]</span></span><br><span class="line"><span class="comment"># Embedded file name: rose.py</span></span><br><span class="line"><span class="comment"># Size of source mod 2**32: 227 bytes</span></span><br><span class="line"><span class="keyword">import</span> winsound</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> floor</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 這裡單純在算琴鍵音高 ####</span></span><br><span class="line">keytone = &#123;<span class="string">'a'</span>: <span class="number">261.63</span>&#125;</span><br><span class="line">pt = keytone[<span class="string">'a'</span>]</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> (<span class="string">'w'</span>, <span class="string">'s'</span>, <span class="string">'e'</span>, <span class="string">'d'</span>, <span class="string">'f'</span>, <span class="string">'t'</span>, <span class="string">'g'</span>, <span class="string">'y'</span>, <span class="string">'h'</span>, <span class="string">'u'</span>, <span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'o'</span>, <span class="string">'l'</span>, <span class="string">'p'</span>,</span><br><span class="line">          <span class="string">';'</span>, <span class="string">"'"</span>, <span class="string">'['</span>, <span class="string">']'</span>, <span class="string">' '</span>):</span><br><span class="line">    keytone[k] = pt * pow(<span class="number">2</span>, <span class="number">0.08333333333333333</span>)</span><br><span class="line">    pt = keytone[k]</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Play some music to please me, despicable outlander....'</span>)</span><br><span class="line">print(<span class="string">"\n ________________________________________________________\n|  | | | |  |  | | | | | |  |  | | | |  |  | | | | | |  |\n|  | | | |  |  | | | | | |  |  | | | |  |  | | | | | |  |\n|  |w| |e|  |  |t| |y| |u|  |  |o| |p|  |  |[| | | | |  |\n|  |_| |_|  |  |_| |_| |_|  |  |_| |_|  |  |_| |_| |_|  |\n|   |   |   |   |   |   |   |   |   |   |   |   |   |   |\n| a | s | d | f | g | h | j | k | l | ; | ' | ] |   |   |\n|___|___|___|___|___|___|___|___|___|___|___|___|___|___|\n"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">notes = input()</span><br><span class="line">play = [[<span class="string">'-'</span>, <span class="number">1</span>]]</span><br><span class="line"><span class="keyword">for</span> note <span class="keyword">in</span> notes:</span><br><span class="line">    <span class="keyword">if</span> note == play[(<span class="number">-1</span>)][<span class="number">0</span>]:</span><br><span class="line">        play[(<span class="number">-1</span>)][<span class="number">1</span>] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        play.append([note, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 空白是休止符，- 用來把音符分成兩組 hh-hh 是兩個4分音符 hhhh 是一個2分音符 ####</span></span><br><span class="line"><span class="keyword">for</span> note <span class="keyword">in</span> play:</span><br><span class="line">    <span class="keyword">if</span> note[<span class="number">0</span>] == <span class="string">' '</span>:</span><br><span class="line">        sleep(<span class="number">0.2</span>)</span><br><span class="line">    <span class="keyword">elif</span> note[<span class="number">0</span>] == <span class="string">'-'</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        winsound.Beep(floor(keytone[note[<span class="number">0</span>]]), <span class="number">200</span> * note[<span class="number">1</span>]) <span class="comment"># 發出聲音</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">result = []</span><br><span class="line">notes = list(map(ord, notes))</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 先把兩個相鄰的音符相加的值放進 result ####</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(notes) - <span class="number">1</span>):</span><br><span class="line">    result.append(notes[i] + notes[(i + <span class="number">1</span>)])</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 先把兩個相鄰的音符相減的值放進 result ####</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(notes) - <span class="number">1</span>):</span><br><span class="line">    result.append(notes[i] - notes[(i + <span class="number">1</span>)])</span><br><span class="line"></span><br><span class="line"><span class="comment">#### result 要等於 constraint，表示輸入的 notes 就是 key，來拿 xor secret 會印出 flag，所以沒辦法繞過，必須要知道 notes 是什麼 ####</span></span><br><span class="line">constraint = [..略..]</span><br><span class="line"><span class="keyword">if</span> result == constraint:</span><br><span class="line">    secret = [..略..]</span><br><span class="line">    flag = <span class="string">''</span>.join(map(chr, [secret[i] ^ notes[(i % len(notes))] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(secret))]))</span><br><span class="line">    print(<span class="string">'That sounds good... I like to write the lyric for it'</span>)</span><br><span class="line">    print(flag)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'I said music, that sounds like diarrhea'</span>)</span><br><span class="line">input()</span><br><span class="line"><span class="comment"># okay decompiling rose_ok.pyc</span></span><br></pre></td></tr></table></figure>
+
+<p>看到這裡不難發現其實就是在解聯立方程式，舉例來說，<code>constraint[0]</code> 是 <code>notes[0]+notes[1]</code> 跟 <code>constraint[120]</code> 是 <code>notes[0]-notes[1]</code> 的值，有唯一解，而且我們知道樂譜應該有 121 個 note，因為 <code>len(constraint)=240</code>：</p>
+<figure class="highlight python"><figcaption><span>solve_note.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">constraint = [<span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">202</span>, <span class="number">150</span>, <span class="number">167</span>, <span class="number">219</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">202</span>, <span class="number">150</span>, <span class="number">167</span>, <span class="number">219</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">202</span>, <span class="number">150</span>, <span class="number">167</span>, <span class="number">219</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">217</span>, <span class="number">212</span>, <span class="number">210</span>, <span class="number">208</span>, <span class="number">210</span>, <span class="number">212</span>, <span class="number">210</span>, <span class="number">208</span>, <span class="number">136</span>, <span class="number">140</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">202</span>, <span class="number">150</span>, <span class="number">167</span>, <span class="number">219</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">217</span>, <span class="number">217</span>, <span class="number">219</span>, <span class="number">167</span>, <span class="number">150</span>, <span class="number">182</span>, <span class="number">199</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">212</span>, <span class="number">208</span>, <span class="number">208</span>, <span class="number">208</span>, <span class="number">149</span>, <span class="number">149</span>, <span class="number">210</span>, <span class="number">217</span>, <span class="number">219</span>, <span class="number">167</span>, <span class="number">150</span>, <span class="number">182</span>, <span class="number">199</span>, <span class="number">216</span>, <span class="number">219</span>, <span class="number">222</span>, <span class="number">219</span>, <span class="number">216</span>, <span class="number">211</span>, <span class="number">206</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">20</span>, <span class="number">32</span>, <span class="number">-49</span>, <span class="number">-3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">20</span>, <span class="number">32</span>, <span class="number">-49</span>, <span class="number">-3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">20</span>, <span class="number">32</span>, <span class="number">-49</span>, <span class="number">-3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">-2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">72</span>, <span class="number">-76</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">20</span>, <span class="number">32</span>, <span class="number">-49</span>, <span class="number">-3</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">-5</span>, <span class="number">3</span>, <span class="number">49</span>, <span class="number">-32</span>, <span class="number">0</span>, <span class="number">-17</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">59</span>, <span class="number">-59</span>, <span class="number">-2</span>, <span class="number">-5</span>, <span class="number">3</span>, <span class="number">49</span>, <span class="number">-32</span>, <span class="number">0</span>, <span class="number">-17</span>, <span class="number">0</span>, <span class="number">-3</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">length = len(constraint)//<span class="number">2</span></span><br><span class="line">notes = [ (constraint[i]+constraint[length+i])//<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(length)] + [notes[<span class="number">-1</span>]-constraint[<span class="number">-1</span>]]</span><br><span class="line"><span class="comment"># bytes(notes) = b'lloolloolloo[;lolloolloolloo[;lolloolloolloo[;lolloojjhhjjhh lloolloolloo[;lolloolloolloojol;[[lloollhhhh-hjol;[[lloollg'</span></span><br><span class="line">secret = [<span class="number">62</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">79</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">10</span>, <span class="number">76</span>, <span class="number">30</span>, <span class="number">0</span>, <span class="number">28</span>, <span class="number">62</span>, <span class="number">72</span>, <span class="number">76</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">28</span>, <span class="number">76</span>, <span class="number">1</span>, <span class="number">22</span>, <span class="number">79</span>, <span class="number">8</span>, <span class="number">30</span>, <span class="number">10</span>, <span class="number">14</span>, <span class="number">54</span>, <span class="number">72</span>, <span class="number">102</span>, <span class="number">46</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">79</span>, <span class="number">13</span>, <span class="number">30</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">8</span>, <span class="number">31</span>, <span class="number">76</span>, <span class="number">2</span>, <span class="number">10</span>, <span class="number">123</span>, <span class="number">79</span>, <span class="number">3</span>, <span class="number">79</span>, <span class="number">24</span>, <span class="number">4</span>, <span class="number">10</span>, <span class="number">79</span>, <span class="number">26</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">15</span>, <span class="number">74</span>, <span class="number">17</span>, <span class="number">7</span>, <span class="number">85</span>, <span class="number">76</span>, <span class="number">30</span>, <span class="number">10</span>, <span class="number">28</span>, <span class="number">24</span>, <span class="number">102</span>, <span class="number">56</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">24</span>, <span class="number">10</span>, <span class="number">79</span>, <span class="number">50</span>, <span class="number">72</span>, <span class="number">76</span>, <span class="number">12</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">11</span>, <span class="number">79</span>, <span class="number">13</span>, <span class="number">2</span>, <span class="number">11</span>, <span class="number">79</span>, <span class="number">13</span>, <span class="number">0</span>, <span class="number">24</span>, <span class="number">14</span>, <span class="number">19</span>, <span class="number">28</span>, <span class="number">76</span>, <span class="number">66</span>, <span class="number">62</span>, <span class="number">58</span>, <span class="number">30</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">11</span>, <span class="number">102</span>, <span class="number">42</span>, <span class="number">29</span>, <span class="number">26</span>, <span class="number">12</span>, <span class="number">72</span>, <span class="number">6</span>, <span class="number">15</span>, <span class="number">11</span>, <span class="number">76</span>, <span class="number">89</span>, <span class="number">34</span>, <span class="number">123</span>, <span class="number">13</span>, <span class="number">76</span>, <span class="number">29</span>, <span class="number">0</span>, <span class="number">21</span>, <span class="number">13</span>, <span class="number">11</span>, <span class="number">71</span>, <span class="number">24</span>, <span class="number">9</span>, <span class="number">28</span>, <span class="number">27</span>, <span class="number">102</span>, <span class="number">46</span>, <span class="number">3</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">7</span>, <span class="number">79</span>, <span class="number">27</span>, <span class="number">51</span>, <span class="number">94</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">9</span>, <span class="number">13</span>, <span class="number">28</span>, <span class="number">27</span>, <span class="number">76</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">28</span>, <span class="number">15</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">11</span>, <span class="number">40</span>, <span class="number">27</span>, <span class="number">10</span>, <span class="number">29</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">79</span>, <span class="number">28</span>, <span class="number">4</span>, <span class="number">13</span>, <span class="number">11</span>, <span class="number">0</span>, <span class="number">27</span>, <span class="number">31</span>, <span class="number">101</span>, <span class="number">54</span>, <span class="number">62</span>, <span class="number">87</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">27</span>, <span class="number">76</span>, <span class="number">13</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">31</span>, <span class="number">28</span>, <span class="number">17</span>, <span class="number">74</span>, <span class="number">8</span>, <span class="number">29</span>, <span class="number">26</span>, <span class="number">78</span>, <span class="number">31</span>, <span class="number">102</span>, <span class="number">40</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">8</span>, <span class="number">101</span>, <span class="number">14</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">79</span>, <span class="number">45</span>, <span class="number">15</span>, <span class="number">108</span>, <span class="number">76</span>, <span class="number">9</span>, <span class="number">76</span>, <span class="number">0</span>, <span class="number">79</span>, <span class="number">14</span>, <span class="number">76</span>, <span class="number">11</span>, <span class="number">79</span>, <span class="number">6</span>, <span class="number">76</span>, <span class="number">31</span>, <span class="number">79</span>, <span class="number">46</span>, <span class="number">74</span>, <span class="number">38</span>, <span class="number">76</span>, <span class="number">104</span>, <span class="number">123</span>, <span class="number">104</span>, <span class="number">76</span>, <span class="number">23</span>, <span class="number">27</span>, <span class="number">7</span>, <span class="number">93</span>, <span class="number">31</span>, <span class="number">55</span>, <span class="number">14</span>, <span class="number">4</span>, <span class="number">92</span>, <span class="number">74</span>, <span class="number">55</span>, <span class="number">24</span>, <span class="number">10</span>, <span class="number">8</span>, <span class="number">100</span>, <span class="number">55</span>, <span class="number">50</span>, <span class="number">7</span>, <span class="number">95</span>, <span class="number">48</span>, <span class="number">29</span>, <span class="number">3</span>, <span class="number">31</span>, <span class="number">84</span>, <span class="number">20</span>, <span class="number">51</span>, <span class="number">10</span>, <span class="number">94</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">31</span>, <span class="number">48</span>, <span class="number">27</span>, <span class="number">13</span>, <span class="number">93</span>, <span class="number">24</span>, <span class="number">14</span>, <span class="number">53</span>, <span class="number">70</span>]</span><br><span class="line">flag = <span class="string">''</span>.join(map(chr,[ secret[i]^notes[i%len(notes)]  <span class="keyword">for</span> i <span class="keyword">in</span> range(len(secret))]))</span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#Red like roses fills my dreams</span></span><br><span class="line"><span class="comment">#And brings me to the place you rest</span></span><br><span class="line"><span class="comment">#White is cold and always yearning</span></span><br><span class="line"><span class="comment">#Burdened by a royal test</span></span><br><span class="line"><span class="comment">#Black the beast descends from shadows</span></span><br><span class="line"><span class="comment">#Yellow beauty burns</span></span><br><span class="line"><span class="comment">#Gold</span></span><br><span class="line"><span class="comment">#and BTW f l a g i s A I S 3 &#123;th1s_fl4g_red_lik3_ros3s_f1lls_ta1wan&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Flag: <code>AIS3{th1s_fl4g_red_lik3_ros3s_f1lls_ta1wan}</code></p>
+</blockquote>
+<p>以防萬一你想知道這琴譜是那首：</p>
+<iframe src="https://www.youtube.com/embed/pYW2GmHB5xs" width="100%" height="300" frameborder="0" loading="lazy" allowfullscreen></iframe>
+
+<hr>
+<h1 id="🐉-Uroboros"><a href="#🐉-Uroboros" class="headerlink" title="🐉 Uroboros"></a>🐉 Uroboros</h1><h2 id="題目敘述-5"><a href="#題目敘述-5" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
+<p>你好啊愛德華大哥哥，真的沒想到你可以到第二十五層來呢！<br>不過就到這裡為止了，<br>接下來就由我 反重力三頭鎖鏈康妮·解放·緋紅 來做你的對手!</p>
+<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/connie.png" class="">
+</blockquote>
+<p>出這題才發現，這個 emoji 也太帥了ㄅ，元氣彈？？？</p>
+<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/237/dragon_1f409.png" class="">
+
+<p>然後寫 blog 才發現，我 cout 字串的地方迴圈寫錯了🤔️，少印一個拉，哈哈，不過剛好沒輸入踩到那個點，笑到不行。</p>
+<h2 id="題解-5"><a href="#題解-5" class="headerlink" title="題解"></a>題解</h2><p>有使用 structure 的 C++ 逆向題，仔細看可以發現，一開始做了一個 circular double linked list，整個環的長度是 314，原本的 code 看起來像是這樣：</p>
+<figure class="highlight c"><figcaption><span>source.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">node* ring = <span class="keyword">new</span> node;</span><br><span class="line">ring-&gt;prev = ring;</span><br><span class="line">ring-&gt;next = ring;</span><br><span class="line">ring-&gt;idx = <span class="number">0</span>;</span><br><span class="line">node* work = ring;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">313</span> ; i ++)&#123;</span><br><span class="line">    node* temp = <span class="keyword">new</span> node;</span><br><span class="line">    temp-&gt;idx = <span class="number">0</span>;</span><br><span class="line">    temp-&gt;next = work-&gt;next;</span><br><span class="line">    temp-&gt;prev = work;</span><br><span class="line">    work-&gt;next = temp;</span><br><span class="line">    work = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>畫出來長這樣：</p>
+<pre class="mermaid">stateDiagram
+dot:"..."
+[*] --> node0
+node0 --> node1
+node1 --> node2
+node2 --> dot
+dot --> node313
+node313 --> node0</pre>
+
+<p>decompile 後 C++ 長得比較難看懂一點，大致是這樣：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// cout &lt;&lt; "Only state alchemists are entitled to know the forbidden secret, show me that you are" &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">// 如果你對 c++ 有點認識的話 cout 其實會回傳 ostream，所以 v3 是用來繼續串 endl 用的</span></span><br><span class="line">v3 = <span class="built_in">std</span>::<span class="keyword">operator</span>&lt;&lt;&lt;<span class="built_in">std</span>::char_traits&lt;<span class="keyword">char</span>&gt;&gt;(&amp;<span class="built_in">std</span>::<span class="built_in">cout</span>,<span class="string">"Only state alchemists are entitled to know the forbidden secret, show me that you are"</span>);</span><br><span class="line"><span class="built_in">std</span>::ostream::<span class="keyword">operator</span>&lt;&lt;(v3, &amp;<span class="built_in">std</span>::<span class="built_in">endl</span>&lt;<span class="keyword">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="keyword">char</span>&gt;&gt;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// string v19;</span></span><br><span class="line"><span class="built_in">std</span>::__cxx11::basic_string&lt;<span class="keyword">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="keyword">char</span>&gt;,<span class="built_in">std</span>::allocator&lt;<span class="keyword">char</span>&gt;&gt;::basic_string(v19);</span><br><span class="line"><span class="comment">// cin &gt;&gt; v19;</span></span><br><span class="line"><span class="built_in">std</span>::<span class="keyword">operator</span>&gt;&gt;&lt;<span class="keyword">char</span>&gt;(&amp;<span class="built_in">std</span>::<span class="built_in">cin</span>, v19);</span><br><span class="line"></span><br><span class="line"><span class="comment">// std::string::iterator v13 = v19.begin();</span></span><br><span class="line">v13 = <span class="built_in">std</span>::__cxx11::basic_string&lt;<span class="keyword">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="keyword">char</span>&gt;,<span class="built_in">std</span>::allocator&lt;<span class="keyword">char</span>&gt;&gt;::<span class="built_in">begin</span>(v19);</span><br><span class="line"><span class="comment">// std::string::iterator v14 = v19.end()</span></span><br><span class="line">v14 = <span class="built_in">std</span>::__cxx11::basic_string&lt;<span class="keyword">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="keyword">char</span>&gt;,<span class="built_in">std</span>::allocator&lt;<span class="keyword">char</span>&gt;&gt;::<span class="built_in">end</span>(v19);</span><br><span class="line"><span class="comment">// while v13 != v14 這個迴圈會把輸入的每個字都拿出來</span></span><br><span class="line"><span class="keyword">while</span> ( (<span class="keyword">unsigned</span> __int8)__gnu_cxx::<span class="keyword">operator</span>!=&lt;<span class="keyword">jstmt_t</span> **,<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">jstmt_t</span> *&gt;&gt;(&amp;v13, &amp;v14) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// v12 = *v13; 拿出當前的 char</span></span><br><span class="line">    v12 = *(<span class="keyword">char</span> *)sub_21E6((__int64)&amp;v13);</span><br><span class="line">    v15 = v16;</span><br><span class="line">    <span class="comment">// 在環上找到第 char*7 個 node，</span></span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; <span class="number">7</span> * v12; ++j )</span><br><span class="line">      v15 = v15-&gt;next;</span><br><span class="line">    <span class="comment">// 把自己的值記錄上去，但把原本的值 &lt;&lt; 6 來保留重複的字</span></span><br><span class="line">    v15-&gt;value = v9++ + (v15-&gt;value &lt;&lt; <span class="number">6</span>);</span><br><span class="line">    <span class="comment">// v13++;</span></span><br><span class="line">    sub_21C6(&amp;v13);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="學院派解法"><a href="#學院派解法" class="headerlink" title="學院派解法 (?)"></a>學院派解法 (?)</h2><p>所以 input 的每個字會按照順序被標記在環上，其實就是取模的概念，假設輸入<code>A</code>，就會在環上面走 <code>ord(&#39;A&#39;)*7 = 65*7 = 455</code> 步，但是因為只有 314 個點（0~313）所以我們會走到 141 號 node：</p>
+ $$65*7=455 \\ 455\%314=141$$ 
+<p>又因為 7 跟 314 互質，所以我們可以直接做逆運算得到每一個位置是什麼，例如剛剛的<code>A</code>我們可以從 141 逆推：</p>
+$$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在 mod 314 下的模反元素是 45 可以參考 exgcd)}\\25418\equiv65\mod314$$
+<p>推出原本的字是<code>chr(65)=&#39;A&#39;</code>，照這樣就可以寫腳本了：</p>
+<figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">target = <span class="string">"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 511847092 0 0 0 0 0 0 48 0 0 0 0 0 0 0 40984114273074 0 0 0 0 0 280 0 0 0 0 0 0 26022 26 0 0 0 0 0 0 2035 0 0 0 0 0 0 15 0 0 0 0 0 0 53 0 0 0 0 0 0 47 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42350 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 40 0 0 0 0 0 0 29201 0 0 0 0 0 0 805 0 0 0 0 0 1 939 0 0 0 0 0 0 13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7739889 0 0 0 0 0 0 1251 0 0 0 0 0 0 45 0 0 0 0 0 0 2950300 0 0 0 0 0 2 23 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 54 0 0 0 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 55 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"</span>.split(<span class="string">' '</span>)</span><br><span class="line"></span><br><span class="line">flag = [<span class="string">''</span>]*<span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> number,value <span class="keyword">in</span> enumerate(map(int,target)):</span><br><span class="line">    <span class="keyword">while</span> value :</span><br><span class="line">        idx = value&amp;<span class="number">0b111111</span> <span class="comment">#只拿最低6位，因為 Uroboros 每次加新的值會 &lt;&lt; 6</span></span><br><span class="line">        flag[idx] = chr((number*<span class="number">45</span>)%<span class="number">314</span>)</span><br><span class="line">        value = value &gt;&gt; <span class="number">6</span></span><br><span class="line">print(<span class="string">''</span>.join(flag))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Flag: <code>AIS3{4ll_humonculus_h4v3_a_ur0b0r0s_m4rk_0n_the1r_b0dy}</code></p>
+</blockquote>
+<p>但也可以把每個 printable 都先 <code>*7%314</code> 就可以知道對應的值了拉</p>
+<h2 id="野獸流解法"><a href="#野獸流解法" class="headerlink" title="野獸流解法 (?)"></a>野獸流解法 (?)</h2><p>本來沒有印使用者輸入所產生的環長怎樣，但覺得這樣 debug 難度好像有點躍升，所以最後還是印出來了，所以這裡就有另外一個解法（我好像沒看到有人這樣解），就是可以先黑箱測試知道輸入是怎麼樣呈現在環上面的，之後就可以進行 byte by byte 爆破，拿來跟正解比比看就知道當前這一 byte 對不對了。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">June 29th 2020, 2:37:00</a>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" title= "2020::程式安全::HW0 Write-up">
+                    <div class="nextTitle">2020::程式安全::HW0 Write-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/TIL-AVX-Base64/" title= "TIL::AVX Base64">
+                    <div class="prevTitle">TIL::AVX Base64</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2020::AIS3::前測官方解"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+
+    </style>
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#🍍-TsaiBro-考古題"><span class="toc-number">1.</span> <span class="toc-text">🍍 TsaiBro (考古題)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#題目敘述"><span class="toc-number">1.1.</span> <span class="toc-text">題目敘述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題解"><span class="toc-number">1.2.</span> <span class="toc-text">題解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#🎹-Fallen-Beat"><span class="toc-number">2.</span> <span class="toc-text">🎹 Fallen Beat</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#題目敘述-1"><span class="toc-number">2.1.</span> <span class="toc-text">題目敘述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題解-1"><span class="toc-number">2.2.</span> <span class="toc-text">題解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#🧠-Stand-up-Brain"><span class="toc-number">3.</span> <span class="toc-text">🧠 Stand up!Brain</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#題目敘述-2"><span class="toc-number">3.1.</span> <span class="toc-text">題目敘述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題解-2"><span class="toc-number">3.2.</span> <span class="toc-text">題解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#🍹-Long-Island-Iced-Tea"><span class="toc-number">4.</span> <span class="toc-text">🍹 Long Island Iced Tea</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#題目敘述-3"><span class="toc-number">4.1.</span> <span class="toc-text">題目敘述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題解-3"><span class="toc-number">4.2.</span> <span class="toc-text">題解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#🌹-La-vie-en-rose"><span class="toc-number">5.</span> <span class="toc-text">🌹 La vie en rose</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#題目敘述-4"><span class="toc-number">5.1.</span> <span class="toc-text">題目敘述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題解-4"><span class="toc-number">5.2.</span> <span class="toc-text">題解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#🐉-Uroboros"><span class="toc-number">6.</span> <span class="toc-text">🐉 Uroboros</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#題目敘述-5"><span class="toc-number">6.1.</span> <span class="toc-text">題目敘述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題解-5"><span class="toc-number">6.2.</span> <span class="toc-text">題解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#學院派解法"><span class="toc-number">6.3.</span> <span class="toc-text">學院派解法 (?)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#野獸流解法"><span class="toc-number">6.4.</span> <span class="toc-text">野獸流解法 (?)</span></a></li></ol></li></ol>
+    </div>
+
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
+    
+        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
+    
+        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
+    
+        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
+    
+        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Terrynini"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+

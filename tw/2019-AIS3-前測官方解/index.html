@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta name="description" content="2019 AIS3 pre-exam 由我出題的部分的解題流程。題目的原始碼以及下面提到的解法腳本這裡是解題統計，給大家做個參考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019::AIS3::前測官方解">
+<meta property="og:image">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="2019 AIS3 pre-exam 由我出題的部分的解題流程。題目的原始碼以及下面提到的解法腳本這裡是解題統計，給大家做個參考。">
+<meta property="og:locale" content="tw">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/sta1.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/sta2.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/maze.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/png.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/flaggggg.jpg">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/string.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/flag.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/CE1.png">
+<meta property="article:published_time" content="2019-06-15T18:04:28.000Z">
+<meta property="article:modified_time" content="2020-12-05T08:57:16.583Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="AIS3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/sta1.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
+    <meta name="description" content="">
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>2019::AIS3::前測官方解 · NiNi&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2019::AIS3::前測官方解</a>
+            </div>
+    </div>
+    
+    
+    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+    
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2019::AIS3::前測官方解
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AIS3">AIS3</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">3.3k</span>Reading time: <span class="post-count reading-time">14 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/06/16</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>2019 AIS3 pre-exam 由我出題的部分的解題流程。<br><a href="https://github.com/terrynini/AIS3_2019_challenges" target="_blank" rel="noopener">題目的原始碼以及下面提到的解法腳本</a><br>這裡是解題統計，給大家做個參考。</p>
+<a id="more"></a>
+
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/sta1.png" class="">
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/sta2.png" class="">
+
+<h1 id="WTF"><a href="#WTF" class="headerlink" title="WTF"></a>WTF</h1><p>這題其實沒有打算要考什麼，就是測試一下大家的神通力？<br>題目給了一推 png，簡單地用各種工具應該是測不出什麼 stego 的鬼東西，這時候如果你願意近一點看的話會發現它就是一臉迷宮樣：</p>
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/maze.png" class="">
+
+<p>這時你腦袋裡應該飛出幾個 <code>DFS</code>，<code>BFS</code>之類的演算法，然而你並不知道起點跟終點，不知道要從哪走到哪，事實上如果你真的走出來應該也是一坨屎，這時候題目有個好像沒啥鬼用的提示 <code>תיבת נח</code>，恩，他是諾亞方舟的意思，一個你解完才會知道這是什麼意思的提示。<br>總之這題其實跟 <a href="https://zh.wikipedia.org/wiki/Flood_fill" target="_blank" rel="noopener">FloodFill</a> 有關，你可以考慮雕一個簡單的腳本，或是，更簡單的，用小畫家的填充工具就好了。<br>如果你都很懶，我已經寫好一個放在 github 裡面了拿來跑跑看就知道了，結果大概是像這樣子：</p>
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/png.png" class="">
+
+<h1 id="Trivial"><a href="#Trivial" class="headerlink" title="Trivial"></a>Trivial</h1><h2 id="recon"><a href="#recon" class="headerlink" title="recon"></a>recon</h2><p>binary 只會檢查你的輸入長度是否是 60，如果符合的話，就會把 flag 複製到剛剛用來輸入的 buffer，但是不會列印出來，比較 naive 的方法就是看懂 code 然後把 flag 手動拼回來，直覺又快速的做法是使用 gdb。</p>
+<h2 id="solve"><a href="#solve" class="headerlink" title="solve"></a>solve</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gdb-peda$  b puts</span><br><span class="line">gdb-peda$  run &lt;&lt;&lt; &#96;python -c &#39;print(&quot;a&quot;*60)&#39;&#96;</span><br><span class="line">gdb-peda$  find AIS3</span><br><span class="line"></span><br><span class="line">Searching for &#39;AIS3&#39; in: None ranges</span><br><span class="line">Found 7 results, display max 7 items:</span><br><span class="line">Trivial : 0x555555554798 (rex.B)</span><br><span class="line">[stack] : 0x7fffffffdb90 (&quot;AIS3&#123;This_is_a_rea&quot;, &#39;l&#39; &lt;repeats 11 times&gt;, &quot;y_boariiing_challenge&#125;aaaaaaaaa&quot;)</span><br><span class="line">[stack] : 0x7fffffffe06e (&quot;AIS3_2019_staff&#x2F;Trivial&#x2F;Trivial&quot;)</span><br><span class="line">[stack] : 0x7fffffffe174 (&quot;AIS3_2019_staff&#x2F;Trivial&quot;)</span><br><span class="line">[stack] : 0x7fffffffe82c (&quot;AIS3_2019_staff&#x2F;Trivial&quot;)</span><br><span class="line">[stack] : 0x7fffffffef86 (&quot;AIS3_2019_staff&#x2F;Trivial&#x2F;Trivial&quot;)</span><br><span class="line">[stack] : 0x7fffffffefd8 (&quot;AIS3_2019_staff&#x2F;Trivial&#x2F;Trivial&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><code>AIS3{This_is_a_reallllllllllly_boariing_challenge}</code></p>
+<h1 id="TsaiBro"><a href="#TsaiBro" class="headerlink" title="TsaiBro"></a>TsaiBro</h1><h2 id="recon-1"><a href="#recon-1" class="headerlink" title="recon"></a>recon</h2><p>基本上就是 <a href="https://zh.wikipedia.org/wiki/%E6%95%B2%E6%89%93%E5%AF%86%E7%A2%BC" target="_blank" rel="noopener">Tap code</a>，每個發財後面跟著不同數量的<code>.</code>，每兩個可以對應找出一個單字，例如<code>發財.發財.</code>是<code>a</code>，<code>發財.發財..</code>是<code>b</code>，寫個解碼的腳本就好了。</p>
+<h2 id="solve-1"><a href="#solve-1" class="headerlink" title="solve"></a>solve</h2><figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">table = [<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>,<span class="string">'f'</span>,<span class="string">'g'</span>,<span class="string">'h'</span>,</span><br><span class="line"><span class="string">'i'</span>,<span class="string">'j'</span>,<span class="string">'k'</span>,<span class="string">'l'</span>,<span class="string">'m'</span>,<span class="string">'n'</span>,<span class="string">'o'</span>,<span class="string">'p'</span>,</span><br><span class="line"><span class="string">'q'</span>,<span class="string">'r'</span>,<span class="string">'s'</span>,<span class="string">'t'</span>,<span class="string">'u'</span>,<span class="string">'v'</span>,<span class="string">'w'</span>,<span class="string">'x'</span>,</span><br><span class="line"><span class="string">'y'</span>,<span class="string">'z'</span>,<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>,<span class="string">'E'</span>,<span class="string">'F'</span>,</span><br><span class="line"><span class="string">'G'</span>,<span class="string">'H'</span>,<span class="string">'I'</span>,<span class="string">'J'</span>,<span class="string">'K'</span>,<span class="string">'L'</span>,<span class="string">'M'</span>,<span class="string">'N'</span>,</span><br><span class="line"><span class="string">'O'</span>,<span class="string">'P'</span>,<span class="string">'Q'</span>,<span class="string">'R'</span>,<span class="string">'S'</span>,<span class="string">'T'</span>,<span class="string">'U'</span>,<span class="string">'V'</span>,</span><br><span class="line"><span class="string">'W'</span>,<span class="string">'X'</span>,<span class="string">'Y'</span>,<span class="string">'0'</span>,<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>,</span><br><span class="line"><span class="string">'5'</span>,<span class="string">'6'</span>,<span class="string">'7'</span>,<span class="string">'8'</span>,<span class="string">'9'</span>,<span class="string">'&#123;'</span>,<span class="string">'&#125;'</span>,<span class="string">'_'</span>]</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"./flag.txt"</span>,<span class="string">"r"</span>).read().split(<span class="string">'\n'</span>)[<span class="number">1</span>]</span><br><span class="line">f = f.split(<span class="string">"發財"</span>)[<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(f),<span class="number">2</span>):</span><br><span class="line">    print(table[(len(f[i])<span class="number">-1</span>)*<span class="number">8</span>+len(f[i+<span class="number">1</span>])<span class="number">-1</span>],end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="HolyGrenade"><a href="#HolyGrenade" class="headerlink" title="HolyGrenade"></a>HolyGrenade</h1><h2 id="recon-2"><a href="#recon-2" class="headerlink" title="recon"></a>recon</h2><p>這題給的是一個 <code>pyc</code> 檔案，裡面是 python 的 bytecode，可以用 uncompyle 之類的工具把他弄回 python 的樣子，弄回來之後會是一份被混淆過的 python script</p>
+<h2 id="solve-2"><a href="#solve-2" class="headerlink" title="solve"></a>solve</h2><h3 id="decompile"><a href="#decompile" class="headerlink" title="decompile"></a>decompile</h3><figure class="highlight python"><figcaption><span>HolyGrenade.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="number">64</span> - <span class="number">64</span>: i11iIiiIii</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">OO0o</span> <span class="params">( arg )</span> :</span></span><br><span class="line"> arg = bytearray ( arg , <span class="string">'ascii'</span> )</span><br><span class="line"> <span class="keyword">for</span> Oo0Ooo <span class="keyword">in</span> range ( <span class="number">0</span> , len ( arg ) , <span class="number">4</span> ) :</span><br><span class="line">  O0O0OO0O0O0 = arg [ Oo0Ooo ]</span><br><span class="line">  iiiii = arg [ Oo0Ooo + <span class="number">1</span> ]</span><br><span class="line">  ooo0OO = arg [ Oo0Ooo + <span class="number">2</span> ]</span><br><span class="line">  II1 = arg [ Oo0Ooo + <span class="number">3</span> ]</span><br><span class="line">  arg [ Oo0Ooo + <span class="number">2</span> ] = II1</span><br><span class="line">  arg [ Oo0Ooo + <span class="number">1</span> ] = O0O0OO0O0O0</span><br><span class="line">  arg [ Oo0Ooo + <span class="number">3</span> ] = iiiii</span><br><span class="line">  arg [ Oo0Ooo ] = ooo0OO</span><br><span class="line"> <span class="keyword">return</span> arg . decode ( <span class="string">'ascii'</span> )</span><br><span class="line"> <span class="keyword">if</span> <span class="number">64</span> - <span class="number">64</span>: Oooo % OOO0O / II1Ii / Ooo</span><br><span class="line">flag += <span class="string">b"0"</span> * ( len ( flag ) % <span class="number">4</span> )</span><br><span class="line"><span class="keyword">if</span> <span class="number">63</span> - <span class="number">63</span>: iI11i11IiIiII + oo00oOOo * Oooo000o % OOo . OOO</span><br><span class="line"><span class="keyword">for</span> Oo0Ooo <span class="keyword">in</span> range ( <span class="number">0</span> , len ( flag ) , <span class="number">4</span> ) :</span><br><span class="line"> <span class="keyword">print</span> ( OO0o ( md5 ( bytes ( flag [ Oo0Ooo : Oo0Ooo + <span class="number">4</span> ] ) ) . hexdigest ( ) ) )</span><br><span class="line"> <span class="keyword">if</span> <span class="number">27</span> - <span class="number">27</span>: Iii1IIIiiI + iI - Oo / iII11iiIII111 % iiiIIii1I1Ii . O00oOoOoO0o0O</span><br></pre></td></tr></table></figure>
+
+<h3 id="deobfuscate"><a href="#deobfuscate" class="headerlink" title="deobfuscate"></a>deobfuscate</h3><p>最好的方法就是，手動把它修好 XD，總之修好之後大概長這樣</p>
+<figure class="highlight python"><figcaption><span>source.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rearrange</span><span class="params">( arg )</span>:</span></span><br><span class="line">    arg = bytearray(arg,<span class="string">'ascii'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(arg),<span class="number">4</span>):</span><br><span class="line">        a = arg[i]</span><br><span class="line">        b = arg[i+<span class="number">1</span>]</span><br><span class="line">        c = arg[i+<span class="number">2</span>]</span><br><span class="line">        d = arg[i+<span class="number">3</span>]</span><br><span class="line">        arg[i+<span class="number">2</span>] = d</span><br><span class="line">        arg[i+<span class="number">1</span>] = a</span><br><span class="line">        arg[i+<span class="number">3</span>] = b</span><br><span class="line">        arg[i] = c</span><br><span class="line">    <span class="keyword">return</span> arg.decode(<span class="string">'ascii'</span>)</span><br><span class="line"></span><br><span class="line">flag += <span class="string">b"0"</span>*(len(flag)%<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(flag),<span class="number">4</span>):</span><br><span class="line">    print(rearrange(md5(bytes(flag[i:i+<span class="number">4</span>])).hexdigest()))</span><br></pre></td></tr></table></figure>
+
+<h3 id="decode"><a href="#decode" class="headerlink" title="decode"></a>decode</h3><p>可以看得出來，flag 的每 4 個字元被拿去做 md5 之後又被重新排列了一次，所以把題目給的<code>output.txt</code>修復好之後，送上線上的 md5 網站就可以拿回 flag 了</p>
+<figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">f = open(<span class="string">"output.txt"</span>,<span class="string">'r'</span>).read().split(<span class="string">'\n'</span>)[:<span class="number">-1</span>]</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rearrange</span><span class="params">( arg )</span>:</span></span><br><span class="line">    arg = bytearray(arg,<span class="string">'ascii'</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(arg),<span class="number">4</span>):</span><br><span class="line">        a = arg[i]</span><br><span class="line">        b = arg[i+<span class="number">1</span>]</span><br><span class="line">        c = arg[i+<span class="number">2</span>]</span><br><span class="line">        d = arg[i+<span class="number">3</span>]</span><br><span class="line">        arg[i+<span class="number">1</span>] = d</span><br><span class="line">        arg[i+<span class="number">2</span>] = a</span><br><span class="line">        arg[i] = b</span><br><span class="line">        arg[i+<span class="number">3</span>] = c</span><br><span class="line">    <span class="keyword">return</span> arg.decode(<span class="string">'ascii'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> f:</span><br><span class="line">    print(rearrange(i))</span><br></pre></td></tr></table></figure>
+
+<h3 id="md5-crack"><a href="#md5-crack" class="headerlink" title="md5 crack"></a>md5 crack</h3><p>拿結果去餵 <a href="https://hashkiller.co.uk/Cracker/MD5" target="_blank" rel="noopener">https://hashkiller.co.uk/Cracker/MD5</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">aab3fb739ad2d154fe856818d66b6427 MD5 AIS3 </span><br><span class="line">343e0b500b25058ed52de927ca6bbd87 MD5 &#123;7he </span><br><span class="line">dc719b0b22f0fc5a6dfbfc0ee60c70a8 MD5 re_1 </span><br><span class="line">cd9e8edd75eb88b7873d9eab7dd685fe MD5 5_th </span><br><span class="line">6d740b3c874058ca047ab375ecb662f6 MD5 e_k1 </span><br><span class="line">18fed6fa3fcf748e9530a6e10296c446 MD5 ll3r </span><br><span class="line">73d9c19bea1d91abb5f0f4eb24e9f567 MD5 _ra6 </span><br><span class="line">a05e1b0e95d57c4566877d1b7eb27872 MD5 61t&#125; or osCommerce 61:t&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="0neWay"><a href="#0neWay" class="headerlink" title="0neWay"></a>0neWay</h1><h2 id="recon-3"><a href="#recon-3" class="headerlink" title="recon"></a>recon</h2><p>簡單分析可以發現，這個 binary 會問你三個問題來驗證你的身份，驗證的方法是把你所有的回答串接再一起後丟進一個很像是 hash 的 function 中計算，即 <code>hash(ans1||ans2||ans3) == 8932587927620123215</code>，同時也會計算其長度是否符合 <code>hash(strlen(ans1||ans2||ans3)) ==  177593</code>，而這個很像 hash 的 function，它事實上就是一個功能正常的小巧 <code>djb2</code>  hash function，也就是符合 onewayness，無法直接逆推。</p>
+<p>在對這個 hash function 一無所知的情況下，其實 google 算式就能找到了，再者，透過簡單的實驗應該可以發現，這個 hash 並沒有明顯可以逆運算的特徵，而字串長度也讓暴力破解法時間成本很高，因此這時候應該考慮的事情是，這整個加密的過程，還有哪裡是脆弱的。</p>
+<p>觀察程式流程，可以發現如果通過 hash 的驗證，程式將會以循環 xor 的方式來解碼一個 jpg 檔案，而我們知道 jpg 是有特定 header 的，$jpg\oplus key = cipher$ 所以做逆運算就可以得到 key，$cipher \oplus jpg = key$，但事實上並不需要如此費工。</p>
+<h2 id="key-leak"><a href="#key-leak" class="headerlink" title="key leak"></a>key leak</h2><p>因為 jpeg 有一段 App makers 的標籤，這裡有連續重複的 <code>0x20</code>，所以導致 cipher 中 leak 了 key，</p>
+<p>仔細看 cipher 的 hex 就會發現不遠的地方有一段 data 長這樣 ：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">4550 4554 4e49 4e49 1212 4944 4944 4e4f  EPETNINI..IDIDNO</span><br><span class="line">5448 4156 4550 4554 4e49 4e49 1212 4944  THAVEPETNINI..ID</span><br><span class="line">4944 4e4f 5448 4156 4550 4554 4e49 4e49  IDNOTHAVEPETNINI</span><br><span class="line">1212 4944 4944 4e4f 5448 4156 4550 4554  ..IDIDNOTHAVEPET</span><br><span class="line">4e49 4e49 1212 4944 4944 4e4f 5448 4156  NINI..IDIDNOTHAV</span><br><span class="line">4550 4554 4e49 4e49 1212 4944 4944 4e4f  EPETNINI..IDIDNO</span><br><span class="line">5448 4156 4550 4554 4e49 4e49 1212 4944  THAVEPETNINI..ID</span><br><span class="line">4944 4e4f 5448 4156 4550 4554 4e49 4e49  IDNOTHAVEPETNINI</span><br><span class="line">1212 4944 4944 4e4f 5448 4156 4550 4554  ..IDIDNOTHAVEPET</span><br><span class="line">4e49 4e49 1212 4944 4944 4e4f 5448 4156  NINI..IDIDNOTHAV</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="solve-3"><a href="#solve-3" class="headerlink" title="solve"></a>solve</h2><p>要求驗證的時候有說過全部小寫，所以不難發現這一段 data 有被 <code>xor 0x20</code>，還原後可以知道三段驗證的答案是 <code>nini</code>，<code>22</code>，<code>ididnothavepet</code>，拿回去餵 binary 就可以得到 flag 了。</p>
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/flaggggg.jpg" class="">
+
+<p>更簡單的做法，把 cipher dump 出來做 frequency analysis 可以直接猜出 key。</p>
+<h1 id="MasterPiece"><a href="#MasterPiece" class="headerlink" title="MasterPiece"></a>MasterPiece</h1><p>這題與 Game 基本上就是不希望大家直接看整份 code ，其實有許多明顯的斷點可以讓你直接找到關鍵的 code 部分。</p>
+<h2 id="recon-4"><a href="#recon-4" class="headerlink" title="recon"></a>recon</h2><p>簡單試玩一下可以發現，應該是要畫出 flag 的樣子讓他彈出正確的訊息，否則他就會一直彈出 <code>That is not the flag, that&#39;s your ugly ass</code>的視窗，透過這個特點，我們可以用 ida 的 string 找到關鍵的 code 在 <code>sub_140001220</code>。</p>
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/string.png" class="">
+
+<p>接下來就是看 code</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ( v2 )</span><br><span class="line">&#123;</span><br><span class="line">  v14 = QString::fromAscii_helper(<span class="string">"Yes, that the flag !!"</span>, <span class="number">21</span>i64);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  v13 = QString::fromAscii_helper(<span class="string">"That is not the flag, that's your ugly ass"</span>, <span class="number">42</span>i64);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>往上看還有哪裡修改 <code>v2</code>，上面可能要花一點時間看，不過邊 google Qt 相關 function 邊看懂應該不是問題，source code 是長這樣：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">image</span>.<span class="built_in">fill</span>(qRgb(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>));</span><br><span class="line"><span class="keyword">for</span>( <span class="keyword">int</span> row = <span class="number">0</span> ; row &lt; <span class="built_in">image</span>.<span class="built_in">height</span>() ; row++)&#123;</span><br><span class="line">    <span class="keyword">for</span>( <span class="keyword">int</span> col = <span class="number">0</span> ; col &lt; <span class="built_in">image</span>.<span class="built_in">width</span>() ; col++)&#123;</span><br><span class="line">        <span class="keyword">if</span>( bitmap[row][col] != flag[row*<span class="built_in">image</span>.<span class="built_in">width</span>()+col])&#123;</span><br><span class="line">            pass = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flag 陣列就是 ida 中的 <code>byte_14006B000</code>，其實就是一堆 0 跟 1 而已，一個代表黑色一個代表白色，所以把 <code>byte_14006B000</code> dump 出來就可以了，這裡有個問題就是，我們並不知道 <code>image.height()</code> 跟 <code>image.width()</code> 是什麼，不過這可以用 x64dbg 直接觀察結果，因為圖片的大小並不會改變。</p>
+<h2 id="solve-4"><a href="#solve-4" class="headerlink" title="solve"></a>solve</h2><figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line">f = open(<span class="string">"./flag.dump"</span>,<span class="string">"r"</span>).read().split(<span class="string">','</span>)</span><br><span class="line">w = <span class="number">650</span></span><br><span class="line">h = <span class="number">410</span></span><br><span class="line">arr = np.zeros([h,w])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(h):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(w):</span><br><span class="line">        arr[i][j] = <span class="number">255</span> <span class="keyword">if</span> f[i*w+j] == <span class="string">'1'</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">img = Image.fromarray(np.uint8(arr),<span class="string">"L"</span>)</span><br><span class="line">img.save(<span class="string">"flag.png"</span>)</span><br></pre></td></tr></table></figure>
+
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/flag.png" class="">
+
+<h1 id="Game"><a href="#Game" class="headerlink" title="Game"></a>Game</h1><p>這題與 MasterPiece 基本上就是不希望大家直接看整份 code ，其實有許多明顯的斷點可以讓你直接找到關鍵的 code 部分。</p>
+<h2 id="recon-5"><a href="#recon-5" class="headerlink" title="recon"></a>recon</h2><p>這邊使用 memory scan 的方式來找到關鍵的 code ，簡單遊玩幾次後可以發現，每殺死一個怪，地毯的顏色就會改變（錯過的怪將會直接遺失相關訊息，基本上每隻都應該要打到，不過還是可以用猜的），15*15格的地毯其實就類似跑馬燈，過了4關以後會發現怪的速度開始增加，我們先簡單掃描 score 的變化來找到存 score 的變數記憶體位置在哪：</p>
+<img src="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/CE1.png" class="">
+
+<p>然後接下來找是哪個 instruction 在修改 score：</p>
+
+
+
+<p>最後 show assembly 來觀察其附近的邏輯：</p>
+
+
+<p>這邊有個有趣的方法，因為我們知道我們現在處在的邏輯是 <em>我打死了怪，我要增加 score</em> 的 branch 當中，所以我們可以大膽猜測往前一點應該要有<em>判斷是不是擊中的邏輯</em>，當然也有可能這只是一個 <code>add_score()</code> 的函式，不過前面的code 很多，可以試試看，至於試試看的方法就是，手工 fuzz ，把跳轉的條件 <code>nop</code> 掉或是改成相反的判斷，例如 <code>if(bullet.x &gt; enemy.x){a}else{b}</code> 組合語言可能就會是 <code>jb</code>，如果把 <code>jb</code> 改成 <code>nop</code>，那就永遠都會執行 <code>{a}</code> 部分的 code，重新嘗試幾次可以看到下面這部分的 code 是判斷子彈是否有打到怪：</p>
+
+
+<p>把上圖的 <code>jl</code> 改成 <code>nop</code> 就可以全圖打怪了，不過我沒有打算這樣就給 flag，等到第四關的時候會變速，單純按著 <code>space</code> 來不及打完，會遺失很多的訊息，導致看不知道目前到底拚出了什麼單字，這時候我們要做的就是，去 ida 看我們剛剛找到的這些 code 附近到底還有什麼東西，有很多做法，把怪速度改成0慢慢打，把子彈改更快，把 flag 訊息復原直接畫圖等等，最簡單的就改速度。<br>對應的位置在 ida 中的 <code>sub_1400030F0()</code>，這裡面有一些奇怪的東西，例如 <code>LODWORD(v53) = rand() % 720;</code>，亂改可以發現這個是生成的位置，或是</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> ( (<span class="keyword">signed</span> <span class="keyword">int</span>)result &lt;= <span class="number">3</span> )</span><br><span class="line">  v26 = <span class="number">0.1</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  v26 = <span class="number">1.1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>亂改後可以發現這個是怪的速度，總之這邊就是看 code 的上下文，透過剛剛 recon 階段蒐集到的資訊，去比對每一段 code 大致上會是在處理什麼邏輯。<br>基本上把速度改成 0 慢慢玩就會過了，因為預設還是希望大家把他弄快一點，所以 flag 長度有故意拉長，讓慢慢玩的人晚一點拿到 flag。<br>避免大家覺得我豪洨，根本黑箱不出來，下面是 @segno 錄下來的解法：</p>
+<video width="100%" height="400" src="segno.mp4" controls="controls">
+The `<video>` tag is not supported by your browser.
+</video>
+
+<h1 id="BigO1"><a href="#BigO1" class="headerlink" title="BigO1"></a>BigO1</h1><p>這題看 source code 應該就會恍然大悟了吧？總之這是超級超級超超級弱化版本了，這題來自 flare-on 2018 的其中一題，這題一直沒辦法用 gdb debug 的原因很簡單，我在 main 之前 ptrace 了整支程式，所以 gdb 要 ptrace 的時候就會被我寫的 ptrace 偵測到，這應該很好發現，因為有些被 print 出來的句子並沒有在 main 裡面被 print 出來。</p>
+<p>這個 binary 要求你輸入 999 把 key，每次驗證完一把 key 後，就會把他 xor 一段寫死的 data array ， 999 輪後就把該 data array 印出來，所以可以知道我們要做的事情就是通過每個驗證，然後解出 flag，這裡需要逆向的是 binary 怎麼樣來驗證我們的 key 是不是正確的，然後因為我沒有做 code 段的加密，不然會太難，所以這個 binary 是 static link，不然馬上就可以發現旁邊有一些奇怪的 function 。</p>
+<p>決定要怎麼驗證 flag 的 struct 如下 ：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Check</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">void</span> (*func)() ;</span><br><span class="line">    <span class="keyword">char</span>* input;</span><br><span class="line">    <span class="keyword">int</span> offset;</span><br><span class="line">    <span class="keyword">int</span> chr_idx;</span><br><span class="line">    <span class="keyword">int</span> check_len;</span><br><span class="line">    <span class="keyword">int</span> verify[<span class="number">2</span>];</span><br><span class="line">&#125; checker;</span><br></pre></td></tr></table></figure>
+
+<p>func 是一個指向 <code>verify_[1-5]</code> 其中一個 function 的函式指標，不過這樣會變得太簡單，因為 ida 認得出來，所以我有幫他加上偏移，實際上他是 <code>verify_[1-5]-offset</code>，所以靜態分析得時候是不會被解析的，他會在執行的時候在 <code>check()</code>中重新計算真正的 function 在哪：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">checker.func = data[idx].func+checker.offset;</span><br></pre></td></tr></table></figure>
+
+<p>每把 key 的長度是 70byte ，每個驗證 function 會驗證其中的 1~2byte ，不會重複驗證驗證過的 byte，也就是每個 function 只會算出唯一解，不需要複雜的運算，總共只有 5 個驗證 function，去看 source code 吧，基本上是很簡單的運算， fibonacci 或是單純乘法或是單純 xor 而已。</p>
+<p>所以要做的事情就是，復原 struct ，知道他打算驗證什麼，驗證哪幾 byte，對應的驗證函式是什麼。<br>這題就先不公布解法的腳本了，留一題給大家當暑假作業，呵呵，這題難點就是逆向而已，腳本練習一下啊。<br>不過算好的 key.txt 已經放在 github 上了，把 key 餵給 binary 的方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat key.txt | .&#x2F;BigO1 ;done</span><br></pre></td></tr></table></figure>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">June 16th 2019, 2:04:28</a>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/tw/TIL-Windows-Services-Debug/" title= "TIL::Windows Services Debug">
+                    <div class="nextTitle">TIL::Windows Services Debug</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/en/2019-PlaidCTF/" title= "2019::PlaidCTF">
+                    <div class="prevTitle">2019::PlaidCTF</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2019::AIS3::前測官方解"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+
+    </style>
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WTF"><span class="toc-number">1.</span> <span class="toc-text">WTF</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Trivial"><span class="toc-number">2.</span> <span class="toc-text">Trivial</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#recon"><span class="toc-number">2.1.</span> <span class="toc-text">recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solve"><span class="toc-number">2.2.</span> <span class="toc-text">solve</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TsaiBro"><span class="toc-number">3.</span> <span class="toc-text">TsaiBro</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#recon-1"><span class="toc-number">3.1.</span> <span class="toc-text">recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solve-1"><span class="toc-number">3.2.</span> <span class="toc-text">solve</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HolyGrenade"><span class="toc-number">4.</span> <span class="toc-text">HolyGrenade</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#recon-2"><span class="toc-number">4.1.</span> <span class="toc-text">recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solve-2"><span class="toc-number">4.2.</span> <span class="toc-text">solve</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#decompile"><span class="toc-number">4.2.1.</span> <span class="toc-text">decompile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deobfuscate"><span class="toc-number">4.2.2.</span> <span class="toc-text">deobfuscate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#decode"><span class="toc-number">4.2.3.</span> <span class="toc-text">decode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#md5-crack"><span class="toc-number">4.2.4.</span> <span class="toc-text">md5 crack</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0neWay"><span class="toc-number">5.</span> <span class="toc-text">0neWay</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#recon-3"><span class="toc-number">5.1.</span> <span class="toc-text">recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key-leak"><span class="toc-number">5.2.</span> <span class="toc-text">key leak</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solve-3"><span class="toc-number">5.3.</span> <span class="toc-text">solve</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MasterPiece"><span class="toc-number">6.</span> <span class="toc-text">MasterPiece</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#recon-4"><span class="toc-number">6.1.</span> <span class="toc-text">recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#solve-4"><span class="toc-number">6.2.</span> <span class="toc-text">solve</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Game"><span class="toc-number">7.</span> <span class="toc-text">Game</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#recon-5"><span class="toc-number">7.1.</span> <span class="toc-text">recon</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BigO1"><span class="toc-number">8.</span> <span class="toc-text">BigO1</span></a></li></ol>
+    </div>
+
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
+    
+        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
+    
+        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
+    
+        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
+    
+        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Terrynini"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+

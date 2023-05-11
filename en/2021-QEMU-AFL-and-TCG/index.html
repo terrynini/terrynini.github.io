@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta name="description" content="Rewriting some of notes in my obsidian into a post seems to be a good idea.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021::QEMU::AFL++ and TCG">
+<meta property="og:image">
+<meta property="og:url" content="http://blog.terrynini.tw/en/2021-QEMU-AFL-and-TCG/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="Rewriting some of notes in my obsidian into a post seems to be a good idea.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-28T21:12:48.000Z">
+<meta property="article:modified_time" content="2021-05-30T00:53:05.876Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="AFL++">
+<meta property="article:tag" content="QEMU">
+<meta name="twitter:card" content="summary">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
+    <meta name="description" content="">
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>2021::QEMU::AFL++ and TCG · NiNi&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2021::QEMU::AFL++ and TCG</a>
+            </div>
+    </div>
+    
+    
+    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+    
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2021::QEMU::AFL++ and TCG
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "AFL++">AFL++</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "QEMU">QEMU</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">1.1k</span>Reading time: <span class="post-count reading-time">6 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/05/29</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>Rewriting some of notes in my obsidian into a post seems to be a good idea.</p>
+<a id="more"></a>
+
+<h2 id="TCG"><a href="#TCG" class="headerlink" title="TCG"></a>TCG</h2><p>TCG is abbreviation of Tiny Code Generator, the TCG frontend lifts target instructions into TCG-IR and the TCG backend lowers the TCG-IR into host instructions. The <a href="https://github.com/qemu/qemu/tree/master/tcg#readme" target="_blank" rel="noopener">tcg/README</a> is a good place to start.</p>
+<p>Because TCG-IR is relatively simple, some target instructions are hard to be implemented by pure TCG-IR. Helper functions provides another way to implement these instruction.</p>
+<h2 id="Code-Review"><a href="#Code-Review" class="headerlink" title="Code Review"></a>Code Review</h2><p>Take QEMU-5.0.0-rc4 for example, how QEMU emulating <code>syscall</code> instruction of i386 is at line 7381 of <code>target/i386/tcg/translate.c</code> :</p>
+<figure class="highlight c"><figcaption><span>target/i386/tcg/translate.c </span></figcaption><table><tr><td class="gutter"><pre><span class="line">7381</span><br><span class="line">7382</span><br><span class="line">7383</span><br><span class="line">7384</span><br><span class="line">7385</span><br><span class="line">7386</span><br><span class="line">7387</span><br><span class="line">7388</span><br><span class="line">7389</span><br><span class="line">7390</span><br><span class="line">7391</span><br><span class="line">7392</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> TARGET_X86_64</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="number">0x105</span>: <span class="comment">/* syscall */</span></span><br><span class="line">        <span class="comment">/* <span class="doctag">XXX:</span> is it usable in real mode ? */</span></span><br><span class="line">        gen_update_cc_op(s);</span><br><span class="line">        gen_jmp_im(s, pc_start - s-&gt;cs_base);</span><br><span class="line">        gen_helper_syscall(cpu_env, tcg_const_i32(s-&gt;pc - pc_start));</span><br><span class="line">        <span class="comment">/* TF handling for the syscall insn is different. The TF bit is  checked</span></span><br><span class="line"><span class="comment">           after the syscall insn completes. This allows #DB to not be</span></span><br><span class="line"><span class="comment">           generated after one has entered CPL0 if TF is set in FMASK.  */</span></span><br><span class="line">        gen_eob_worker(s, <span class="literal">false</span>, <span class="literal">true</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+<p>Functions with prefix <code>gen</code> are responsible for generating corresponding <a href="https://wiki.qemu.org/Documentation/TCG/backend-ops" target="_blank" rel="noopener">backend-ops</a>, but <code>get_helper_syscall</code> is more special.</p>
+<p>The function <code>get_helper_syscall</code> will insert a call backend-op into TCG code, and the target of the call instruction is function <code>helper_syscall</code>, which is at line 979 of <code>target/i386/tcg/seg_helper.c</code>. (use <code>CONFIG_USER_ONLY</code> to choose different implementation for user mode emulation and full system emulation)</p>
+<figure class="highlight c"><figcaption><span>target/i386/tcg/seg_helper.c </span></figcaption><table><tr><td class="gutter"><pre><span class="line">979</span><br><span class="line">980</span><br><span class="line">981</span><br><span class="line">982</span><br><span class="line">983</span><br><span class="line">984</span><br><span class="line">985</span><br><span class="line">986</span><br><span class="line">987</span><br><span class="line">988</span><br><span class="line">989</span><br><span class="line">990</span><br><span class="line">991</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> TARGET_X86_64</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> defined(CONFIG_USER_ONLY)</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">helper_syscall</span><span class="params">(CPUX86State *env, <span class="keyword">int</span> next_eip_addend)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">helper_syscall</span><span class="params">(CPUX86State *env, <span class="keyword">int</span> next_eip_addend)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>So, calling a custom helper function from TCG is easy, takes AFL++ for example.</p>
+<h2 id="AFL-and-TCG"><a href="#AFL-and-TCG" class="headerlink" title="AFL++ and TCG"></a>AFL++ and TCG</h2><p>AFL++ is the community version of well-known coverage-based greybox fuzzer AFL, the way it used to track the code coverage during fuzzing process is to insert a instruction to call function <code>afl_maybe_log</code> at the beginning of each basic block at compile time.</p>
+<p>The function <code>afl_maybe_log</code> will add the corresponding element by 1 in the bitmap shared with AFL++, and the way to index the bitmap is using the hash value of token of current basic block and previous basic block ( <code>cur_loc</code> and <code>afl_prev_loc</code> ), and the token value was assigned randomly at compile time.</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">cur_loc = <span class="number">0x123</span>;</span><br><span class="line">afl_area_ptr[cur_loc ^ afl_prev_loc]++;</span><br><span class="line">afl_prev_loc = cur_loc &gt;&gt; <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>In a scenario where the source code is unavailable, which is very common, it’s not possible to insert <code>afl_maybe_log</code> at compile time, so AFL++ has QEMU mode to perform the so-called dynamic instrumentation.</p>
+<p>AFL++ use it’s own forked version of QEMU, <a href="https://github.com/AFLplusplus/qemuafl" target="_blank" rel="noopener">qemuafl</a>, which will insert <code>afl_maybe_log</code> into TCG-IR while generating TCG-IR of each basic block so it can benefit from block chaining.</p>
+<p>To add a new helper, we need to declare the helper function at <code>accel/tcg/tcg-runtime.h</code> , or if the helper only works on specific architecture, it should be declared at <code>target/&lt;arch&gt;/helper.h</code> .</p>
+<figure class="highlight c"><figcaption><span>accel/tcg/tcg-runtime.h</span></figcaption><table><tr><td class="code"><pre><span class="line">DEF_HELPER_FLAGS_1(afl_maybe_log, TCG_CALL_NO_RWG, <span class="keyword">void</span>, tl)</span><br></pre></td></tr></table></figure>
+
+<p>The <code>N</code> of macro <code>DEF_HELPER_FLAGS_N</code> means the number of arguments, this macro will declare a function <code>helper_afl_maybe_log</code> which returns nothing and takes one argument.</p>
+<p>The <code>TCG_CALL_NO_RWG</code> is alias of <code>TCG_CALL_NO_READ_GLOBALS</code>, it means helper does not read globals (either directly or through an exception). It implies <code>TCG_CALL_NO_WRITE_GLOBALS</code>.</p>
+<p>The definition of <code>DEF_HELPER_FLAGS_1</code> in <code>exec/helper-proto.h</code> is:</p>
+<figure class="highlight c"><figcaption><span>exec/helper-proto.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEF_HELPER_FLAGS_1(name, flags, ret, t1) \</span></span><br><span class="line">dh_ctype(ret) HELPER(name) (dh_ctype(t1));</span><br></pre></td></tr></table></figure>
+
+<p>But why we need a macro only for declaration? And where it use the <code>flags</code> variable? It’s actually a cool macro trick here!</p>
+<p>Actually, the macro <code>DEF_HELPER_FLAGS_1</code> was undefined  at the end of the <code>exec/helper-proto.h</code> :</p>
+<figure class="highlight c"><figcaption><span>exec/helper-proto.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_4</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> DEF_HELPER_FLAGS_7</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* HELPER_PROTO_H */</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s take a look at <code>include/tcg/tcg-op.h</code> , which includes two files:</p>
+<figure class="highlight c"><figcaption><span>include/tcg/tcg-op.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"exec/helper-proto.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"exec/helper-gen.h"</span></span></span><br></pre></td></tr></table></figure>
+
+<p>Surprisingly, there is another definition of <code>DEF_HELPER_FLAGS_1</code> in <code>exec/helper-gen.h</code> !</p>
+<figure class="highlight c"><figcaption><span>exec/helper-gen.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEF_HELPER_FLAGS_1(name, flags, ret, t1)                        \</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">glue</span><span class="params">(gen_helper_, name)</span><span class="params">(dh_retvar_decl(ret)          \</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line">    dh_arg_decl(t1, 1))                                                 \</span><br><span class="line"></span><br><span class="line">&#123;                                                                       \</span><br><span class="line">  TCGTemp *args[<span class="number">1</span>] = &#123; dh_arg(t1, <span class="number">1</span>) &#125;; \</span><br><span class="line">  tcg_gen_callN(HELPER(name), dh_retvar(ret), <span class="number">1</span>, args); \</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>As we can see, this is used to define another function <code>gen_helper_afl_maybe_log</code> here. The first argument of <code>tcg_gen_callN</code> is the target of call instruction, which is <code>HELPER(name)</code> here. The macro <code>HELPER</code> is used to insert <code>helper_</code> in front of the given name. What <code>gen_helper_afl_maybe_log</code> do is to generate a call instruction to call <code>helper_afl_maybe_log</code> in TCG code !</p>
+<p>After the declaration, next step is defining it, qemuafl defines the function <code>helper_afl_maybe_log</code> in the <code>accel/tcg/translate-all.c</code> :</p>
+<figure class="highlight c"><figcaption><span>accel/tcg/translate-all.c </span></figcaption><table><tr><td class="gutter"><pre><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">HELPER</span><span class="params">(afl_maybe_log)</span><span class="params">(target_ulong cur_loc)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">register</span> <span class="keyword">uintptr_t</span> afl_idx = cur_loc ^ afl_prev_loc;</span><br><span class="line"></span><br><span class="line">    INC_AFL_AREA(afl_idx);</span><br><span class="line"></span><br><span class="line">    afl_prev_loc = cur_loc &gt;&gt; <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Now, it’s possible to call the custom function from TCG. As mentioned, AFL++ insert <code>afl_may_log</code> at the beginning of each basic block to gather the coverage information during fuzzing. Because QEMU also uses basic block as a unit while translating TCG code into host code, it’s easy to  insert <code>afl_may_log</code> at the beginning of each basic block.</p>
+<p>In the function <code>tb_gen_code</code> , we can observe that qemuafl call function <code>afl_gen_trace(pc)</code> before generating machine code:</p>
+<figure class="highlight c"><figcaption><span>accel/tcg/translate-all.c</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">tcg_ctx-&gt;cpu = env_cpu(env);</span><br><span class="line">afl_gen_trace(pc);</span><br><span class="line">gen_intermediate_code(cpu, tb, max_insns);</span><br><span class="line">tcg_ctx-&gt;cpu = <span class="literal">NULL</span>;</span><br><span class="line">max_insns = tb-&gt;icount;</span><br><span class="line"></span><br><span class="line">trace_translate_block(tb, tb-&gt;pc, tb-&gt;tc.ptr);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* generate machine code */</span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s inspect the definition of <code>afl_gen_trace</code> and highlight the last three lines:</p>
+<figure class="highlight c"><figcaption><span>accel/tcg/translate-all.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Generates TCG code for AFL's tracing instrumentation. */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">afl_gen_trace</span><span class="params">(target_ulong cur_loc)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  TCGv cur_loc_v = tcg_const_tl(cur_loc);</span><br><span class="line">  gen_helper_afl_maybe_log(cur_loc_v);</span><br><span class="line">  tcg_temp_free(cur_loc_v);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>To use <code>gen_helper_afl_maybe_log</code> to generate a call in TCG code, the parameter have to be converted to TCG variables, <code>tcg_const_tl(cur_loc_v)</code> is used to generate a TCG temporary with value <code>cur_loc</code> , and although it’s “const”, it did create a temporary, we have to free it after use to reduce the memory usage.</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>And, that’s it, qemuafl inserts a call instruction at the beginning of each basic block’s TCG code, once a basic block is being executed, it must call the custom helper function, <code>HELPER(afl_maybe_log)</code>, to record the code coverage first. AFL is actually using the same strategy, but I was reviewing the source code of AFL++, I use it as example here.</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/en/2021-QEMU-AFL-and-TCG/">http://blog.terrynini.tw/en/2021-QEMU-AFL-and-TCG/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/en/2021-QEMU-AFL-and-TCG/">May 29th 2021, 5:12:48</a>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/en/2021-Flare-On-8-Write-up/" title= "2021::Flare-On 8::Write-up">
+                    <div class="nextTitle">2021::Flare-On 8::Write-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" title= "2021::OSCP::回顧與分享">
+                    <div class="prevTitle">2021::OSCP::回顧與分享</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/en/2021-QEMU-AFL-and-TCG/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2021::QEMU::AFL++ and TCG"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+
+    </style>
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCG"><span class="toc-number">1.</span> <span class="toc-text">TCG</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-Review"><span class="toc-number">2.</span> <span class="toc-text">Code Review</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFL-and-TCG"><span class="toc-number">3.</span> <span class="toc-text">AFL++ and TCG</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">4.</span> <span class="toc-text">End</span></a></li></ol>
+    </div>
+
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
+    
+        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
+    
+        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
+    
+        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
+    
+        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Terrynini"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+

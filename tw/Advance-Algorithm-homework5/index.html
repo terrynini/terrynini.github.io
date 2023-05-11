@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta name="description" content="建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Advance-Algorithm::homework5">
+<meta property="og:image">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。">
+<meta property="og:locale" content="tw">
+<meta property="article:published_time" content="2018-01-15T04:23:27.000Z">
+<meta property="article:modified_time" content="2020-07-05T12:28:17.059Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
+    <meta name="description" content="">
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>Advance-Algorithm::homework5 · NiNi&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Advance-Algorithm::homework5</a>
+            </div>
+    </div>
+    
+    
+    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+    
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Advance-Algorithm::homework5
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">2.2k</span>Reading time: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2018/01/15</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
+<a id="more"></a>
+<h2 id="題一"><a href="#題一" class="headerlink" title="題一"></a>題一</h2><blockquote>
+<p>Suppose we wish not only to increment a counter but also to reset it to zero (i.e., make all bits in it 0). Counting the time to examine or modify a bit as $O(1)$, show how to implement a counter as an array of bits so that any sequence of n INCREMENT and RESET operations takes time $O(n)$ on an initially zero counter. (Hint: Keep a pointer to the high-order 1.)</p>
+</blockquote>
+<hr>
+<h3 id="聚集分析-n-INCREMENT-aggregate-analysis"><a href="#聚集分析-n-INCREMENT-aggregate-analysis" class="headerlink" title="聚集分析 n-INCREMENT (aggregate analysis)"></a>聚集分析 n-INCREMENT (aggregate analysis)</h3><p>從計數 m 到計數 m+1 並不是每一個位元都會改變，而以前我們鬆散的估計就說有可能每一個位元都會改變 , 例如 01111111 變成 10000000。事實上 仔細觀察：</p>
+<ul>
+<li>A[0] 位元每間隔 $2^0$ 次 計數改變一次</li>
+<li>A[1] 位元每間隔 $2^1$ 次 計數改變一次</li>
+<li>A[2] 位元每間隔 $2^2$ 次 計數改變一次</li>
+<li>…</li>
+<li>A[k] 位元每間隔 $2^k$ 次 計數改變一次</li>
+</ul>
+<p>$\frac{n}{2^0}+\frac{n}{2^1}+\frac{n}{2^2}+…+\frac{n}{2^k}≤2n$<br>因此 $T(n)=O(2n)=O(n)$</p>
+<h3 id="RESET"><a href="#RESET" class="headerlink" title="RESET"></a>RESET</h3><p>直接整個A[]從頭到尾歸0 $\rightarrow O(n)$</p>
+<p><a href="http://mropengate.blogspot.tw/2015/06/algorithm-amortized-analysis.html" target="_blank" rel="noopener">CASE STUDY 2 : Incrementing a binary counter</a></p>
+<h2 id="題二"><a href="#題二" class="headerlink" title="題二"></a>題二</h2><blockquote>
+<p>Show how to implement a queue with two ordinary stacks so that the amortized cost of each Enqueue and Dequeue operation is $O(1)$.</p>
+</blockquote>
+<hr>
+<p>在攤銷式分析下，inqueue及dequeue的時間複雜度為$O(1)$</p>
+<figure class="highlight plain"><figcaption><span>pseudo</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">instack, outstack</span><br><span class="line">push(val)</span><br><span class="line">    instack.push(val)</span><br><span class="line">pop() &#123;</span><br><span class="line">    if(outstack.empty)</span><br><span class="line">        while(!instack.empty)</span><br><span class="line">            outstack.push(instack.pop())</span><br><span class="line">    return outstack.pop();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>by Accounting Method (記帳方法)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">實際代價：</span><br><span class="line">Push: total &#x3D; 1</span><br><span class="line">    instack_push: 1</span><br><span class="line">Pop : total &#x3D; 2*instack_size + 1</span><br><span class="line">    instack_pop_to_empty: instack_size</span><br><span class="line">    outstack_push       : instack_size</span><br><span class="line">    outstack_pop        : 1</span><br><span class="line"></span><br><span class="line">平攤代價(amortized cost):</span><br><span class="line">Push: 4</span><br><span class="line">    each element just has at most 4 steps:</span><br><span class="line">        instack_push : 1</span><br><span class="line">        instack_pop  : 1</span><br><span class="line">        outstack_push: 1</span><br><span class="line">        outstack_pop : 1</span><br><span class="line">Pop : 0</span><br><span class="line"></span><br><span class="line">T(n) &lt;&#x3D; 4n, T(n)&#x2F;n &lt;&#x3D; 4 → O(1)</span><br></pre></td></tr></table></figure>
+
+<h2 id="題三"><a href="#題三" class="headerlink" title="題三"></a>題三</h2><blockquote>
+<p>Consider an ordinary binary min-heap data structure with n elements supporting the instructions INSERT and EXTRACT-MIN in $O(lgn)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of INSERT is $O(lgn)$ and the amortized cost of EXTRACT-MIN is $O(1)$ and show that it works.</p>
+</blockquote>
+<hr>
+<p>let $\Phi(H) = \sum\limits_{i \in H} w_i$ , where $H$ is the binary min heap, $w_i$ = depth of element $i \in H$.<br>let $c_i =$ 第 $i$ 個操作的實際成本, $n = H$的元素數</p>
+<ol>
+<li>INSERT: insert element at most depth $logn$ &amp; bubble up<br> a. insert new element: $c_i + \Phi(H_i) - \Phi(H_{i-1}) \leq O(logn) + O(logn)$<br> b. bubble up: $c_i + \Phi(H_i) - \Phi(H_{i-1}) \leq O(logn) + 0$<ul>
+<li>total = $O(logn)$</li>
+</ul>
+</li>
+<li>EXTRACT-MIN: remove root node &amp; bubble up<br> a. remove root: $c_i + \Phi(H_i) - \Phi(H_{i-1}) \leq O(1) + 0$<br> b. bubble up: $c_i + \Phi(H_i) - \Phi(H_{i-1}) \leq O(logn) + O(-logn)$<ul>
+<li>total = $O(1)$</li>
+</ul>
+</li>
+</ol>
+<p><a href="https://cs.stackexchange.com/questions/7894/potential-function-binary-heap-extract-max-o1" target="_blank" rel="noopener">reference</a></p>
+<h2 id="題四"><a href="#題四" class="headerlink" title="題四"></a>題四</h2><blockquote>
+<p>Design a data structure to support the following two operations for a dynamic multi-set $S$ of integers, which allows duplicate values:<br>INSERT(S, x) inserts $x$ into $S$.<br>DELETE-LARGER-HALF(S) deletes the largest $\lceil \frac{|S|}{2}\rceil$ elements from $S$.<br>Explain how to implement this data structure so that any sequence of m INSERT and DELETE-LARGER-HALF operations runs in $O(m)$ time. Your implementation should also include a way to output the elements of $S$ in $O(|S|)$ time.</p>
+</blockquote>
+<hr>
+<ul>
+<li>資料結構：課堂上說是dynamic table（就是c++裡面的vector的概念）</li>
+<li>$INSERT(S,x)$：直接放在陣列最後面</li>
+<li>$DELETE-LARGER-HALF(S)$ : 用median-of-medians算法，可以在$O(n)$內找到中位數，然後再花$O(n)$的時間把大的一半刪掉。</li>
+</ul>
+<p><a href="http://tmt514-blog.logdown.com/posts/484313-divide-and-conquer-method-iii-find-the-median" target="_blank" rel="noopener">中位數演算法</a></p>
+<h2 id="題五"><a href="#題五" class="headerlink" title="題五"></a>題五</h2><blockquote>
+<p>Suppose that in the dynamic table operations, instead of contracting a table by halving its size when its load factor drops below 1/4, we contract it by multiplying its size by 2/3 when its load factor drops below 1/3. What is the amortized cost of a TABLE-DELETE that uses this strategy?</p>
+</blockquote>
+<hr>
+<ul>
+<li>基本上potential method中的<strong>實際成本</strong>跟aggregate method中定義的是一樣的東西，只是aggregate用趨近無限的算法來算，potential則是用態勢函數來計算。</li>
+<li>potential function 中的 $|2*num[T] - size[T]|$來自於accounting method，根據第一個reference，前$\frac{n}{2}$個元素存款為0，後面存款為2，刪除操作亦相同，只是存款為1。</li>
+</ul>
+<p><a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-13-amortized-algorithms-table-doubling-potential-method/lec13.pdf" target="_blank" rel="noopener">比較好的原始版本(但沒有contract)</a><br><a href="http://www.iiitdm.ac.in/old/Faculty_Teaching/Sadagopan/pdf/ADSA/amortized-analysis-part-2.pdf" target="_blank" rel="noopener">完整優質版本</a><br><a href="http://www.sharecourse.net/sharecourse/upload/person/3085/files/Algorithm%20HW11%20Ch17-3%20solution.pdf" target="_blank" rel="noopener">這題的解答</a></p>
+<h2 id="題六"><a href="#題六" class="headerlink" title="題六"></a>題六</h2><blockquote>
+<p>Study the famous KMP algorithm for the string matching problem and give an amortized analysis of the algorithm.</p>
+</blockquote>
+<hr>
+<p>假設字串$T$, $P$, $|T| &gt; |P|$<br>利用stack來存放已比對到的相同字元</p>
+<ul>
+<li><code>push:</code>比對相同的字元</li>
+<li><code>pop :</code>挪動 $P$ 一格</li>
+<li><code>multi-pop(k):</code>挪動 $P$ <code>k</code>格</li>
+</ul>
+<p>因此對應到stack的攤銷分析：(記帳法)</p>
+<ul>
+<li><code>push = 2</code></li>
+<li><code>pop = 0</code></li>
+<li><code>multi-pop(k) = 0</code><ul>
+<li>total $\leq O(2|T|)$</li>
+</ul>
+</li>
+</ul>
+<p>建立 $F$ 函式時，同理</p>
+<ul>
+<li>total $\leq O(2|P|)$</li>
+</ul>
+<p>所以總和 = $O(|T|+|P|)$</p>
+<p><a href="http://www.csie.ntnu.edu.tw/~u91029/StringMatching.html" target="_blank" rel="noopener">演算法筆記</a><br><a href="https://www.ptt.cc/bbs/b99902HW/M.1300796484.A.EE1.html" target="_blank" rel="noopener">PTT</a><br><a href="https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/" target="_blank" rel="noopener">莫名其妙找到的Z array算法</a></p>
+<h2 id="題七"><a href="#題七" class="headerlink" title="題七"></a>題七</h2><blockquote>
+<p>Given an array $a[1\dots n]$, for each position in the array, search among the previous positions for the last position that contains a smaller value. That is, for each position $i$, $1 \leq i \leq n$, find the largest possible index pi such that $p_i &lt; i$ and $a[p_i] &lt; a[i]$. For convenience, we attach a dummy element $a[0] = -\infty$. Then, each $p_i$, $1 \leq i \leq n$, is well-defined. Design a linear time algorithm to solve this problem.</p>
+</blockquote>
+<hr>
+<p>題目給一個陣列，要求對每一個元素：往陣列前面找一個比現在這個元素還小的元素，然後其index越大越好，並且題目定義array[0]為負無限</p>
+<p>作法：從尾巴開始拜訪，把不知道解答的元素都推進stack裡面，最後就會知道解了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a[1...n] &#x3D; 輸入的陣列</span><br><span class="line">a[0] &#x3D; -INF</span><br><span class="line">pl[1...n] &#x3D; [0...0]</span><br><span class="line">stack &#x3D; []</span><br><span class="line">for i &#x3D; n to 1</span><br><span class="line">    while !stack.empty() &amp;&amp; a[i] &lt; a[stack.top()]</span><br><span class="line">        pl[stack.pop()] &#x3D; i</span><br><span class="line">    stack.append(i)</span><br><span class="line">return pl</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://stackoverflow.com/questions/9493853/given-an-array-find-out-the-next-smaller-element-for-each-element" target="_blank" rel="noopener">類似的題目</a></p>
+<h2 id="題八"><a href="#題八" class="headerlink" title="題八"></a>題八</h2><blockquote>
+<p>Binary search of a sorted array takes logarithmic search time, but the time to insert a new element is linear in the size of the array. We can improve the time for insertion by keeping several sorted arrays. Specifically, suppose that we wish to support SEARCH and INSERT on a set of n elements. Let $k = \lceil lg(n+1)\rceil$, and let the binary representation of $n$ be $&lt; n_{k-1}, n_{k-2}, \dots , n_{0}&gt;$. We have k sorted arrays $A_0, A_1, \dots , A_{k-1}$, where for $i = 0, 1, \dots, k-1$, the length of array $A_i$ is $2^i$. Each array is either full or empty, depending on whether $n_i = 1$ or $n_i = 0$, respectively. The total number of elements held in all k arrays is therefore exactly n. Although each individual array is sorted, elements in different arrays bear no particular relationship to each other.<br>a) Describe how to perform the SEARCH operation for this data structure. Analyze its worst-case running time.<br>b)Describe how to perform the INSERT operation. Analyze its worst-case and amortized running times.<br>c) Discuss how to implement DELETE.</p>
+</blockquote>
+<hr>
+<p>假設輸入有$n$個元素，則我們令$k=\lceil log(n+1)\rceil$，表示$n$化為二進位所需要的位元數，並依此宣告多個陣列$A_0,A_1,A_2, \dots ,A_{k-1}$，每個陣列的長度為$2^i$，對應n在二進位時的第i個位元，依照其對應的位元如果是1就裝滿否則不作使用，而且每個陣列內的元素是排列過的，但兩陣列間的元素沒有絕對的關係存在(這裡為方便表示，陣列內的index從1開始)。</p>
+<p><strong>SEARCH :</strong></p>
+<ul>
+<li>找出所有使用中的陣列，對其做二分搜</li>
+<li><strong>複雜度：</strong><ul>
+<li>最差情況我們需要看過每個陣列，且每個陣列成本為$O(log(2^i))=O(i)$</li>
+<li>因此複雜度為$\sum_{i=0}^{k}O(i)=O(k^2)=O(log^2n)$</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Search(A, n, key)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n &gt; <span class="number">0</span> <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> n is odd then</span><br><span class="line">            pos = BSearch(A_i, <span class="number">2</span>^i , key)</span><br><span class="line">            <span class="keyword">if</span> pos != <span class="number">0</span> then</span><br><span class="line">                <span class="keyword">return</span> (i; pos)</span><br><span class="line">        n = n/<span class="number">2</span></span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"not found"</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>INSERT :</strong></p>
+<ul>
+<li>插入元素會使n增加，意味著我們必須搬動陣列，以符合其二進位的變化</li>
+<li>每次插入元素使$n+1$，則從LSB起，連續的1都將進位為0，因此我們要從LSB起找第一個0</li>
+<li>定義 $Merge(A_a,A_b,A_c)$，將陣列$A_a,A_b$合併後放進$A_c$</li>
+<li><strong>複雜度 (aggregate method):</strong><ul>
+<li>每個$B_i$陣列產生的成本來自Merge為$O(2^i)$</li>
+<li>假設我們從$n=1$一直INSERT元素直到$n=N$，這中間$B_i$共會被產生$\lfloor\frac{N}{2^i}\rfloor$次</li>
+<li>得$\sum_{i=0}^{k-1}\lfloor\frac{N}{2^i}\rfloor O(2^i)\leq \sum_{i=0}^{k-1}O(2^k)\leq O(2^kk) = O(NlogN)$</li>
+<li>因此本操作的平攤代價為 $\frac{O(NlogN)}{N} = O(logN)$</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Insert(A, n, e)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    B_0 = &#123;e&#125;</span><br><span class="line">    <span class="keyword">while</span> n is odd <span class="keyword">do</span></span><br><span class="line">        Merge(A_i, B_i, B_i+<span class="number">1</span>)</span><br><span class="line">        n = n/<span class="number">2</span></span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">    A_i = B_i</span><br></pre></td></tr></table></figure>
+
+<p><strong>DELETE :</strong></p>
+<ul>
+<li>由於刪除元素導致n減少，從LSB起，連續的0都將借位得1，因此我們要從LSB起找第一個1，並將其中的元素拆分到較低位的陣列當中</li>
+<li>定義Replace($A_i$, pos, e)可以將原本$A_i[pos]$元素替代為$e$，並且保證使陣列處於排序過的狀態</li>
+<li>這裏pseudo code中的$A_i[j:k]$，表示取$A_i$中第j個到第k個元素(包括k)</li>
+<li>使用陣列中最高的值$A_k[2^k]$來進行取代，在拆分時只取$A_k[1:2^k-1]$</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Delete(A, n, i, pos)</span><br><span class="line">    k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> n is even <span class="keyword">do</span></span><br><span class="line">        n = n/<span class="number">2</span></span><br><span class="line">        k = k + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> i = k then  </span><br><span class="line">        Replace(A_k[<span class="number">1</span> : <span class="number">2</span>^k - <span class="number">1</span>], pos, A_k[<span class="number">2</span>^k])</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        Replace(A_i, pos, A_k[<span class="number">2</span>^k])</span><br><span class="line">    <span class="keyword">for</span> i = <span class="number">0</span> to k <span class="keyword">do</span></span><br><span class="line">        A_i = A_k[<span class="number">2</span>^i : <span class="number">2</span>^(i+<span class="number">1</span>)<span class="number">-1</span>]</span><br><span class="line">    A_i = &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>SEARCH: $O(log^2 n)$</li>
+<li>INSERT: $O(logn)$</li>
+<li>DELETE: 題目沒要求</li>
+</ol>
+<p><a href="http://www.cse.fau.edu/~jie/teaching/fall_2003_files/hw4dai.pdf" target="_blank" rel="noopener">reference</a></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/">January 15th 2018, 12:23:27</a>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/tw/Advance-Algorithm-homework6/" title= "Advance-Algorithm::homework6">
+                    <div class="nextTitle">Advance-Algorithm::homework6</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/Advance-Algorithm-homework4/" title= "Advance-Algorithm::homework4">
+                    <div class="prevTitle">Advance-Algorithm::homework4</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/Advance-Algorithm-homework5/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "Advance-Algorithm::homework5"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+
+    </style>
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#題一"><span class="toc-number">1.</span> <span class="toc-text">題一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#聚集分析-n-INCREMENT-aggregate-analysis"><span class="toc-number">1.1.</span> <span class="toc-text">聚集分析 n-INCREMENT (aggregate analysis)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RESET"><span class="toc-number">1.2.</span> <span class="toc-text">RESET</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題二"><span class="toc-number">2.</span> <span class="toc-text">題二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題三"><span class="toc-number">3.</span> <span class="toc-text">題三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題四"><span class="toc-number">4.</span> <span class="toc-text">題四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題五"><span class="toc-number">5.</span> <span class="toc-text">題五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題六"><span class="toc-number">6.</span> <span class="toc-text">題六</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題七"><span class="toc-number">7.</span> <span class="toc-text">題七</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題八"><span class="toc-number">8.</span> <span class="toc-text">題八</span></a></li></ol>
+    </div>
+
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
+    
+        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
+    
+        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
+    
+        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
+    
+        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Terrynini"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+

