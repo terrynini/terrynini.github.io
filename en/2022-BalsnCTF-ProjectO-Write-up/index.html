@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en,zh-tw,default">
     <!-- title -->
 
 
@@ -243,9 +243,14 @@
     .article-entry .side aside {
         display: block;
         position: relative;
+        text-align: left;
         font-size: 80%;
-        text-align: right;
-        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+        & pre {
+        font-size: 80%;
+        }
+        & div *:only-child{
+          text-align: center;
+        }
     }
     .article-entry .side{
         display: block;
@@ -253,17 +258,12 @@
         padding: 1px;
         float: left;
         position: relative;
-        font-size: 80%;
         width: 19vw;
         margin-left: -23vw;
         transform: translateY(-50%); 
         overflow: hidden;
     }
 
-}
-
-.article-entry aside  {
-    
 }
 
 .side{
@@ -301,7 +301,7 @@ aside::before, aside::after {
   z-index: -1;
   transition: 1s;
   display: block;
-    text-align: center; 
+  text-align: center; 
   content: '';
 }
 
@@ -321,7 +321,7 @@ aside::before {
 
 aside::after {
   width: 200%;
-  height: 90%;
+  height: 75%;
 }
 
 aside:hover,
@@ -350,34 +350,32 @@ aside.hover::after{
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-  var selection = document.querySelector('.sidenote-mark') !== null;
-  if( selection ){
-    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
-        id = event.target.id.match(/\d+/)[0];
-        const target = document.querySelector(`#note-${id}`);
-        target.classList.add('hover');
-    });
+  var selection = document.querySelectorAll('.sidenote-mark');
+  selection.forEach( ele => ele.addEventListener('mouseover', function(event) {
+      id = event.target.id.match(/\d+/)[0];
+      const target = document.querySelector(`#note-${id}`);
+      target.classList.add('hover');
+  }));
 
-    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
-        id = event.target.id.match(/\d+/)[0];
-        const target = document.querySelector(`#note-${id}`);
-        target.classList.remove('hover');
-    });
-  }
-  selection = document.querySelector('aside') !== null;
-  if(selection){
-    document.querySelector('aside').addEventListener('mouseover', function(event) {
-        id = event.target.closest('aside').id.match(/\d+/)[0];
-        const target = document.querySelector(`#mark-${id}`);
-        target.classList.add('hover');
-    });
+  selection.forEach( ele => ele.addEventListener('mouseout', function(event) {
+      id = event.target.id.match(/\d+/)[0];
+      const target = document.querySelector(`#note-${id}`);
+      target.classList.remove('hover');
+  }));
 
-        document.querySelector('aside').addEventListener('mouseout', function(event) {
-        id = event.target.closest('aside').id.match(/\d+/)[0];
-        const target = document.querySelector(`#mark-${id}`);
-        target.classList.remove('hover');
-    });
-  }
+  selection = document.querySelectorAll('aside');
+  selection.forEach( ele => ele.addEventListener('mouseover', function(event) {
+    id = event.target.closest('aside').id.match(/\d+/)[0];
+    const target = document.querySelector(`#mark-${id}`);
+    target.classList.add('hover');
+  }));
+
+  selection.forEach( ele => ele.addEventListener('mouseout', function(event) {
+      id = event.target.closest('aside').id.match(/\d+/)[0];
+      const target = document.querySelector(`#mark-${id}`);
+      target.classList.remove('hover');
+  }));
+
 });
 </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
@@ -1091,7 +1089,22 @@ document.addEventListener("DOMContentLoaded", function(){
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1410,7 +1423,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 39
+        Total : 40
         </div>
         <!-- search  -->
         
@@ -1420,6 +1433,21 @@ document.addEventListener("DOMContentLoaded", function(){
     
         
             
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span>
+            <a class="archive-post-title" href="/tw/2024-%E5%B9%AB%E9%83%A8%E8%90%BD%E6%A0%BC%E5%A2%9E%E5%8A%A0%E8%A8%BB%E9%87%8B%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%81/">2024::幫部落格增加註釋的功能！</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
             
             <div class="archive-year"> 2023 </div>
             <ul class="year-list">
@@ -1773,11 +1801,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 Plaid
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Pragyan">
-                <span class="iconfont-archer">&#xe606;</span>
-                Pragyan
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="AFL++">
                 <span class="iconfont-archer">&#xe606;</span>
                 AFL++
@@ -1796,6 +1819,11 @@ document.addEventListener("DOMContentLoaded", function(){
             <span class="sidebar-tag-name" data-tags="Algorithm">
                 <span class="iconfont-archer">&#xe606;</span>
                 Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
             </span>
         
             <span class="sidebar-tag-name" data-tags="AIS3">
@@ -1878,6 +1906,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 JIT
             </span>
         
+            <span class="sidebar-tag-name" data-tags="CSS">
+                <span class="iconfont-archer">&#xe606;</span>
+                CSS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Dev">
+                <span class="iconfont-archer">&#xe606;</span>
+                Dev
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1957,5 +1995,20 @@ document.addEventListener("DOMContentLoaded", function(){
         
         <!-- mermaid -->
         
-    </body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
 </html>
