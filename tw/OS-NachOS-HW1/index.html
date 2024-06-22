@@ -3,41 +3,148 @@
     <!-- title -->
 
 
-
+    
 
 <!-- keywords -->
 
 
 
-
 <head>
-    <meta name="description" content="InstallNachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch patch -p1 &lt; nachos-linux-64bit.diff">
-<meta property="og:type" content="article">
-<meta property="og:title" content="OS::NachOS::HW1">
-<meta property="og:image">
-<meta property="og:url" content="http://blog.terrynini.tw/tw/OS-NachOS-HW1/index.html">
-<meta property="og:site_name" content="NiNi&#39;s den">
-<meta property="og:description" content="InstallNachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch patch -p1 &lt; nachos-linux-64bit.diff">
-<meta property="og:locale" content="tw">
-<meta property="article:published_time" content="2018-05-28T17:25:15.000Z">
-<meta property="article:modified_time" content="2022-10-16T06:34:59.661Z">
-<meta property="article:author" content="Terrynini">
-<meta property="article:tag" content="OS">
-<meta name="twitter:card" content="summary">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="author" content="Terrynini">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Terrynini">
     
-    <meta name="keywords" content="NiNi's den,Terrynini">
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
     
     <meta name="description" content="">
-
+    <meta name="description" content="InstallNachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch patch -p1 &lt; nachos-linux-64bit.diff">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS::NachOS::HW1">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/OS-NachOS-HW1/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="InstallNachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch patch -p1 &lt; nachos-linux-64bit.diff">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-05-28T16:25:15.000Z">
+<meta property="article:modified_time" content="2022-10-16T06:34:59.000Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
     <title>OS::NachOS::HW1 · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -87,164 +194,258 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
 </style>
 
-    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
     
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        font-size: 80%;
+        text-align: right;
+        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        font-size: 80%;
+        width: 19vw;
+        margin-left: -23vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+.article-entry aside  {
+    
+}
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+    text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 90%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
 <script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
+document.addEventListener("DOMContentLoaded", function(){
 
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
+  var selection = document.querySelector('.sidenote-mark') !== null;
+  if( selection ){
+    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.add('hover');
+    });
 
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
+    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+  selection = document.querySelector('aside') !== null;
+  if(selection){
+    document.querySelector('aside').addEventListener('mouseover', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.add('hover');
+    });
 
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
+        document.querySelector('aside').addEventListener('mouseout', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-109652024-2');
-</script>
-
-<meta name="generator" content="Hexo 4.2.1"></head>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
         <body class="post-body">
     
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
     
-<header class="header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
             </div>
-            <div class="post-title">
+            <div class="post-title header-element">
                 <a href="#" class="post-name">OS::NachOS::HW1</a>
             </div>
-    </div>
-    
-    
-    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+        </div>
     
 </header>
-    <div class="wrapper">
-        <div class="site-intro" style="
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
 
 
 
@@ -252,12 +453,13 @@
 
 
 
-height:50vh;
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
-    
+        
     <!-- 404页  -->
     
     <div class="site-intro-placeholder"></div>
@@ -267,7 +469,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            OS::NachOS::HW1
+                OS::NachOS::HW1
             <!-- 404 -->
             
         </h1>
@@ -275,34 +477,40 @@ height:50vh;
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
+                
             <!-- 404 -->
             
         </p>
-        <!-- 文章页meta -->
+        <!-- 文章页 meta -->
         
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "OS">OS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OS">OS</a>
     
 </div>
+
                 
+                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">3.5k</span>Reading time: <span class="post-count reading-time">17 min</span></span>
+                        <span>Word count: <span class="post-count word-count">3.6k</span>Reading time: <span class="post-count reading-time">17 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2018/05/29</span>
+                    <!-- busuanzi -->
                     
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
                             <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
                                 <div class="share-qrcode"></div>
                             </li>
@@ -315,146 +523,175 @@ height:50vh;
         
     </div>
 </div>
-        <script>
- 
+
+            <script>
   // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
   }
-  console.log("userAgent:" + browser.versions.userAgent);
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
 
   // callback
   function fontLoaded() {
-    console.log('font loaded');
+    console.log('font loaded')
     if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
       var postIntros = document.getElementsByClassName('post-intros')[0]
       if (postIntros) {
-        postIntros.classList.add('post-fade-in');
+        postIntros.classList.add('post-fade-in')
       }
     }
   }
 
   // UC不支持跨域，所以直接显示
-  function asyncCb(){
+  function asyncCb() {
     if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
+      console.log('UCBrowser')
+      fontLoaded()
     } else {
       WebFont.load({
         custom: {
-          families: ['Oswald-Regular']
+          families: ['Oswald-Regular'],
         },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
         },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
         },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
         },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+        timeout: 5000, // Set the timeout to two seconds
+      })
     }
   }
 
-  function asyncErr(){
+  function asyncErr() {
     console.warn('script load from CDN failed, will load local script')
   }
 
   // load webfont-loader async, and add callback function
   function async(u, cb, err) {
-    var d = document, t = 'script',
+    var d = document,
+      t = 'script',
       o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
   }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
 
-      async(arr[0], success, currReject)
+    async(arr[0], success, currReject)
   }
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
 </script>
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
     <article class="article-entry">
-        <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>NachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch <code>patch -p1 &lt; nachos-linux-64bit.diff</code><a id="more"></a></p>
+        <h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><p>NachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch <code>patch -p1 &lt; nachos-linux-64bit.diff</code><span id="more"></span></p>
 <h2 id="Multiprogramming"><a href="#Multiprogramming" class="headerlink" title="Multiprogramming"></a>Multiprogramming</h2><p>在還未對 NachOS 進行修改的時候，執行 <code>test1</code>、<code>test2</code> 時會發現跟 source code 的行為不一樣。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">./nachos –e ../<span class="built_in">test</span>/test1 –e ../<span class="built_in">test</span>/test2</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">./nachos –e ../test/test1 –e ../test/test2</span><br></pre></td></tr></table></figure>
 <p>因為原本的 NachOS 並沒有為多個程式做記憶體的管理，雖然有開啟虛擬記憶體，但是基本上沒有作為，所以當多份程式同時執行時就會重疊到其他程式正在使用的 page ，然後發生錯誤，為此我們要修改 <code>code/userprog/addrspace.cc</code>、<code>code/userprog/addrspace.h</code>，使程式的虛擬記憶體映射到沒有人使用的實體記憶體，而不是互相糾纏。</p>
 <p>首先從 <code>addrspace.cc</code> 開始，建構式直接弄了一個跟實體記憶體一樣大的 <code>pageTable</code> ， 然後還全數映射，但是其實我們的程式沒這麼大，我們只要分配到跟程式一樣大就好了，不過程式的大小必須要到讀了檔案格式才會知道，所以我們可以把這整段 code 註解掉，把映射記憶體這件事挪到 <code>AddrSpace::Load</code> 中。</p>
 <p>還有一行 <code>bzero(kernel-&gt;machine-&gt;mainMemory, MemorySize);</code> 不曉得為什麼被註解了，不過應該要清空記憶體才對，但將記憶體分給多個程式後就不能這樣暴力的把所有記憶體清零，所以我在後面的程式會每分配一頁就清空一頁的記憶體。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">AddrSpace::AddrSpace()</span><br><span class="line">&#123;</span><br><span class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[NumPhysPages];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; NumPhysPages; i++) &#123;</span><br><span class="line">        pageTable[i].virtualPage = i;   <span class="comment">// for now, virt page # = phys page #</span></span><br><span class="line">        pageTable[i].physicalPage = i;</span><br><span class="line"><span class="comment">//      pageTable[i].physicalPage = 0;</span></span><br><span class="line">        pageTable[i].valid = TRUE;</span><br><span class="line"><span class="comment">//      pageTable[i].valid = FALSE;</span></span><br><span class="line">        pageTable[i].use = FALSE;</span><br><span class="line">        pageTable[i].dirty = FALSE;</span><br><span class="line">        pageTable[i].readOnly = FALSE;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 清空記憶體，但是不知道為什麼被註解掉了。</span></span><br><span class="line"><span class="comment">//    bzero(kernel-&gt;machine-&gt;mainMemory, MemorySize);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">AddrSpace::<span class="built_in">AddrSpace</span>()</span><br><span class="line">&#123;</span><br><span class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[NumPhysPages];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>; i &lt; NumPhysPages; i++) &#123;</span><br><span class="line">        pageTable[i].virtualPage = i;   <span class="comment">// for now, virt page # = phys page #</span></span><br><span class="line">        pageTable[i].physicalPage = i;</span><br><span class="line"><span class="comment">//      pageTable[i].physicalPage = 0;</span></span><br><span class="line">        pageTable[i].valid = TRUE;</span><br><span class="line"><span class="comment">//      pageTable[i].valid = FALSE;</span></span><br><span class="line">        pageTable[i].use = FALSE;</span><br><span class="line">        pageTable[i].dirty = FALSE;</span><br><span class="line">        pageTable[i].readOnly = FALSE;  </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 清空記憶體，但是不知道為什麼被註解掉了。</span></span><br><span class="line"><span class="comment">//    bzero(kernel-&gt;machine-&gt;mainMemory, MemorySize);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>接下來在 <code>AddrSpace::Load</code> 中我們有這樣一個 <code>ASSERT</code>，<code>numPages</code> 就是程式所需要的 <code>page</code> 數量，用來判斷是否有超過實體記憶體的大小，超過就噴exception，因為等等我們要把記憶體分給多個程式，我們要改成 <code>&lt;= 空閒的 page</code> 才對。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">ASSERT(numPages &lt;= NumPhysPages);</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="built_in">ASSERT</span>(numPages &lt;= NumPhysPages);</span><br></pre></td></tr></table></figure>
 
 <p>在往後一點我們有一段 code 把我們的 <code>code</code> 段跟 <code>data</code> 段 load 進記憶體，但是這裡填的是 <code>virtualAddr</code> ，本來這樣填是因為虛擬記憶體本沒做事，完全跟實體記憶體一樣 —— 還記得建構式裡 <code>pageTable[i].virtualPage = i;   // for now, virt page # = phys page #</code>？但現在我們必須要換算虛擬記憶體對應的實體記憶體位置再讀入這樣才是正確的。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// then, copy the code and data segments into memory</span></span><br><span class="line"><span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    DEBUG(<span class="string">'a'</span>, <span class="string">"Initializing code segment, at 0x%x, size %d\n"</span>,noffH.code.virtualAddr, noffH.code.size);</span><br><span class="line">    executable-&gt;ReadAt(&amp;(machine-&gt;mainMemory[noffH.code.virtualAddr]),noffH.code.size, noffH.code.inFileAddr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    DEBUG(<span class="string">'a'</span>, <span class="string">"Initializing data segment, at 0x%x, size %d\n"</span>,noffH.initData.virtualAddr, noffH.initData.size);</span><br><span class="line">    executable-&gt;ReadAt(&amp;(machine-&gt;mainMemory[noffH.initData.virtualAddr]),noffH.initData.size, noffH.initData.inFileAddr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// then, copy the code and data segments into memory</span></span><br><span class="line"><span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">DEBUG</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&quot;Initializing code segment, at 0x%x, size %d\n&quot;</span>,noffH.code.virtualAddr, noffH.code.size);</span><br><span class="line">    executable-&gt;<span class="built_in">ReadAt</span>(&amp;(machine-&gt;mainMemory[noffH.code.virtualAddr]),noffH.code.size, noffH.code.inFileAddr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">DEBUG</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&quot;Initializing data segment, at 0x%x, size %d\n&quot;</span>,noffH.initData.virtualAddr, noffH.initData.size);</span><br><span class="line">    executable-&gt;<span class="built_in">ReadAt</span>(&amp;(machine-&gt;mainMemory[noffH.initData.virtualAddr]),noffH.initData.size, noffH.initData.inFileAddr);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 
 <p>因此先新增兩 <code>static</code> 變數（ <code>static</code> 是這個 <code>class</code> 所共享），用來記錄所有實體頁的使用狀況，以及當前還有多少實體頁是可以使用的，並記得在 <code>addrspace.cc</code> 中對 <code>static</code> 變數做初始化。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddrSpace</span> &#123;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">bool</span> PhyPageStatus[NumPhysPages];</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">int</span> NumFreePages;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AddrSpace</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        ...</span><br><span class="line">        <span class="type">static</span> <span class="type">bool</span> PhyPageStatus[NumPhysPages];</span><br><span class="line">        <span class="type">static</span> <span class="type">int</span> NumFreePages;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PAGE_OCCU true</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PAGE_FREE false</span></span><br><span class="line"><span class="keyword">bool</span> AddrSpace::PhyPageStatus[NumPhysPages] = &#123;PAGE_FREE&#125;;</span><br><span class="line"><span class="keyword">int</span> AddrSpace::NumFreePages = NumPhysPages;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PAGE_OCCU true</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PAGE_FREE false</span></span><br><span class="line"><span class="type">bool</span> AddrSpace::PhyPageStatus[NumPhysPages] = &#123;PAGE_FREE&#125;;</span><br><span class="line"><span class="type">int</span> AddrSpace::NumFreePages = NumPhysPages;</span><br></pre></td></tr></table></figure>
 
 <p>並且根據剛剛提到的每一點對 <code>addrspace.cc</code> 做修改。</p>
 <h3 id="清除建構式"><a href="#清除建構式" class="headerlink" title="清除建構式"></a>清除建構式</h3><p>把沒必要的映射拿掉：</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">AddrSpace::AddrSpace()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">AddrSpace::<span class="built_in">AddrSpace</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="分配實體頁"><a href="#分配實體頁" class="headerlink" title="分配實體頁"></a>分配實體頁</h3><p>這邊可以自己維護一個 <code>pool</code> ，把剛 <code>free</code> 掉的 <code>page</code> 用 <code>linklist</code> 存起來，要用就先去這個地方找，不過沒關係，我們就用最樸素（ naive ）的方法 —— 一個一個看，有可以用的就直接抓來用。</p>
 <p>這邊我用了 <code>bzero(&amp;kernel-&gt;machine-&gt;mainMemory[idx * PageSize], PageSize);</code> 來清零分配到的 <code>page</code>，因為我沒看載入的實作（ ReadAt ），但是正常放入 <code>memory</code> 時，如果程式不滿一個 <code>page</code> ，那應該要有 Null Padding ，先把記憶體清零就能保證剩餘的部分都是零了。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">AddrSpace::Load</span><span class="params">(<span class="keyword">char</span> *fileName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//檢查是否有足夠的空閒實體頁</span></span><br><span class="line">    ASSERT(numPages &lt;= NumFreePages);</span><br><span class="line">    <span class="comment">//進行分配</span></span><br><span class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[numPages];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>; i &lt; numPages; i++) &#123;</span><br><span class="line">        pageTable[i].virtualPage = i;</span><br><span class="line">        <span class="keyword">while</span>(idx &lt; NumPhysPages &amp;&amp; AddrSpace::PhyPageStatus[idx] == PAGE_OCCU) idx++;</span><br><span class="line">        AddrSpace::PhyPageStatus[idx] = PAGE_OCCU;</span><br><span class="line">        AddrSpace::NumFreePages--;</span><br><span class="line">        <span class="comment">//清空即將分配的 page</span></span><br><span class="line">        bzero(&amp;kernel-&gt;machine-&gt;mainMemory[idx * PageSize], PageSize);</span><br><span class="line">        pageTable[i].physicalPage = idx;</span><br><span class="line">        pageTable[i].valid = <span class="literal">true</span>;</span><br><span class="line">        pageTable[i].use = <span class="literal">false</span>;</span><br><span class="line">        pageTable[i].dirty = <span class="literal">false</span>;</span><br><span class="line">        pageTable[i].readOnly = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    DEBUG(dbgAddr, <span class="string">"Initializing address space: "</span> &lt;&lt; numPages &lt;&lt; <span class="string">", "</span> &lt;&lt; size);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">AddrSpace::Load</span><span class="params">(<span class="type">char</span> *fileName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">//檢查是否有足夠的空閒實體頁</span></span><br><span class="line">    <span class="built_in">ASSERT</span>(numPages &lt;= NumFreePages);</span><br><span class="line">    <span class="comment">//進行分配</span></span><br><span class="line">    pageTable = <span class="keyword">new</span> TranslationEntry[numPages];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">unsigned</span> <span class="type">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>; i &lt; numPages; i++) &#123;</span><br><span class="line">        pageTable[i].virtualPage = i;</span><br><span class="line">        <span class="keyword">while</span>(idx &lt; NumPhysPages &amp;&amp; AddrSpace::PhyPageStatus[idx] == PAGE_OCCU) idx++;</span><br><span class="line">        AddrSpace::PhyPageStatus[idx] = PAGE_OCCU;</span><br><span class="line">        AddrSpace::NumFreePages--;</span><br><span class="line">        <span class="comment">//清空即將分配的 page</span></span><br><span class="line">        <span class="built_in">bzero</span>(&amp;kernel-&gt;machine-&gt;mainMemory[idx * PageSize], PageSize);</span><br><span class="line">        pageTable[i].physicalPage = idx;</span><br><span class="line">        pageTable[i].valid = <span class="literal">true</span>;</span><br><span class="line">        pageTable[i].use = <span class="literal">false</span>;</span><br><span class="line">        pageTable[i].dirty = <span class="literal">false</span>;</span><br><span class="line">        pageTable[i].readOnly = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">DEBUG</span>(dbgAddr, <span class="string">&quot;Initializing address space: &quot;</span> &lt;&lt; numPages &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; size);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="更改讀取位置"><a href="#更改讀取位置" class="headerlink" title="更改讀取位置"></a>更改讀取位置</h3><p>本來是直接放入檔案結構裡面紀錄的 <code>virtualAddr</code> ，但是那是因為還沒有設定好，這裡我們要找出映射後的實體位置，所以我們抓 <code>virtualAddr</code>先除 <code>PageSize</code> 求得是第幾個 <code>page</code>，然後索引 <code>pageTable</code> 找到對應的實體頁是第幾頁，接著乘上每個 <code>page</code> 的大小得到該實體頁的實體記憶體，這時我們已經知道在第幾個實體頁了，不過我們不知道在這一頁的哪裡，所以我們拿本來的 <code>virtualAddr mod PageSize</code> 求得在 page 內的偏移，加上剛剛拿到的實體頁，就是對應的實體位址。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">AddrSpace::Load</span><span class="params">(<span class="keyword">char</span> *fileName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    DEBUG(dbgAddr, <span class="string">"Initializing address space: "</span> &lt;&lt; numPages &lt;&lt; <span class="string">", "</span> &lt;&lt; size);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        DEBUG(dbgAddr, <span class="string">"Initializing code segment."</span>);</span><br><span class="line">    DEBUG(dbgAddr, noffH.code.virtualAddr &lt;&lt; <span class="string">", "</span> &lt;&lt; noffH.code.size);</span><br><span class="line">                executable-&gt;ReadAt(</span><br><span class="line">        &amp;(kernel-&gt;machine-&gt;mainMemory[pageTable[noffH.code.virtualAddr/PageSize].physicalPage * PageSize + (noffH.code.virtualAddr%PageSize)]),</span><br><span class="line">            noffH.code.size, noffH.code.inFileAddr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        DEBUG(dbgAddr, <span class="string">"Initializing data segment."</span>);</span><br><span class="line">    DEBUG(dbgAddr, noffH.initData.virtualAddr &lt;&lt; <span class="string">", "</span> &lt;&lt; noffH.initData.size);</span><br><span class="line">        executable-&gt;ReadAt(</span><br><span class="line">        &amp;(kernel-&gt;machine-&gt;mainMemory[pageTable[noffH.initData.virtualAddr/PageSize].physicalPage * PageSize + (noffH.initData.virtualAddr%PageSize)]),</span><br><span class="line">            noffH.initData.size, noffH.initData.inFileAddr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> executable;                  <span class="comment">// close file</span></span><br><span class="line">    <span class="keyword">return</span> TRUE;                        <span class="comment">// success</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">AddrSpace::Load</span><span class="params">(<span class="type">char</span> *fileName)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">DEBUG</span>(dbgAddr, <span class="string">&quot;Initializing address space: &quot;</span> &lt;&lt; numPages &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; size);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (noffH.code.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">DEBUG</span>(dbgAddr, <span class="string">&quot;Initializing code segment.&quot;</span>);</span><br><span class="line">    <span class="built_in">DEBUG</span>(dbgAddr, noffH.code.virtualAddr &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; noffH.code.size);</span><br><span class="line">                executable-&gt;<span class="built_in">ReadAt</span>(</span><br><span class="line">        &amp;(kernel-&gt;machine-&gt;mainMemory[pageTable[noffH.code.virtualAddr/PageSize].physicalPage * PageSize + (noffH.code.virtualAddr%PageSize)]),</span><br><span class="line">            noffH.code.size, noffH.code.inFileAddr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (noffH.initData.size &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">DEBUG</span>(dbgAddr, <span class="string">&quot;Initializing data segment.&quot;</span>);</span><br><span class="line">    <span class="built_in">DEBUG</span>(dbgAddr, noffH.initData.virtualAddr &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; noffH.initData.size);</span><br><span class="line">        executable-&gt;<span class="built_in">ReadAt</span>(</span><br><span class="line">        &amp;(kernel-&gt;machine-&gt;mainMemory[pageTable[noffH.initData.virtualAddr/PageSize].physicalPage * PageSize + (noffH.initData.virtualAddr%PageSize)]),</span><br><span class="line">            noffH.initData.size, noffH.initData.inFileAddr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">delete</span> executable;                  <span class="comment">// close file</span></span><br><span class="line">    <span class="keyword">return</span> TRUE;                        <span class="comment">// success</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="釋放實體頁"><a href="#釋放實體頁" class="headerlink" title="釋放實體頁"></a>釋放實體頁</h3><p>執行結束，釋放掉我們使用的實體頁，後面的程式才能使用。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">AddrSpace::~AddrSpace()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//釋放本程式佔用的實體頁</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numPages; i++)&#123;</span><br><span class="line">        AddrSpace::PhyPageStatus[pageTable[i].physicalPage] = PAGE_FREE;</span><br><span class="line">        AddrSpace::NumFreePages++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> pageTable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/addrspace.cc</span></figcaption><table><tr><td class="code"><pre><span class="line">AddrSpace::~<span class="built_in">AddrSpace</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//釋放本程式佔用的實體頁</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; numPages; i++)&#123;</span><br><span class="line">        AddrSpace::PhyPageStatus[pageTable[i].physicalPage] = PAGE_FREE;</span><br><span class="line">        AddrSpace::NumFreePages++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> pageTable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="測試"><a href="#測試" class="headerlink" title="測試"></a>測試</h3><p>修改後執行就正常了</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ ./nachos  -e ../<span class="built_in">test</span>/test1 -e ../<span class="built_in">test</span>/test2</span><br><span class="line">Total threads number is 2</span><br><span class="line">Thread ../<span class="built_in">test</span>/test1 is executing.</span><br><span class="line">Thread ../<span class="built_in">test</span>/test2 is executing.</span><br><span class="line">Print <span class="built_in">integer</span>:9</span><br><span class="line">Print <span class="built_in">integer</span>:8</span><br><span class="line">Print <span class="built_in">integer</span>:7</span><br><span class="line">Print <span class="built_in">integer</span>:20</span><br><span class="line">Print <span class="built_in">integer</span>:21</span><br><span class="line">Print <span class="built_in">integer</span>:22</span><br><span class="line">Print <span class="built_in">integer</span>:23</span><br><span class="line">Print <span class="built_in">integer</span>:24</span><br><span class="line">Print <span class="built_in">integer</span>:6</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">Print <span class="built_in">integer</span>:25</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">No threads ready or runnable, and no pending interrupts.</span><br><span class="line">Assuming the program completed.</span><br><span class="line">Machine halting!</span><br><span class="line"></span><br><span class="line">Ticks: total 300, idle 8, system 70, user 222</span><br><span class="line">Disk I/O: reads 0, writes 0</span><br><span class="line">Console I/O: reads 0, writes 0</span><br><span class="line">Paging: faults 0</span><br><span class="line">Network I/O: packets received 0, sent 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ ./nachos  -e ../test/test1 -e ../test/test2</span><br><span class="line">Total threads number is 2</span><br><span class="line">Thread ../test/test1 is executing.</span><br><span class="line">Thread ../test/test2 is executing.</span><br><span class="line">Print <span class="built_in">integer</span>:9</span><br><span class="line">Print <span class="built_in">integer</span>:8</span><br><span class="line">Print <span class="built_in">integer</span>:7</span><br><span class="line">Print <span class="built_in">integer</span>:20</span><br><span class="line">Print <span class="built_in">integer</span>:21</span><br><span class="line">Print <span class="built_in">integer</span>:22</span><br><span class="line">Print <span class="built_in">integer</span>:23</span><br><span class="line">Print <span class="built_in">integer</span>:24</span><br><span class="line">Print <span class="built_in">integer</span>:6</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">Print <span class="built_in">integer</span>:25</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">No threads ready or runnable, and no pending interrupts.</span><br><span class="line">Assuming the program completed.</span><br><span class="line">Machine halting!</span><br><span class="line"></span><br><span class="line">Ticks: total 300, idle 8, system 70, user 222</span><br><span class="line">Disk I/O: reads 0, writes 0</span><br><span class="line">Console I/O: reads 0, writes 0</span><br><span class="line">Paging: faults 0</span><br><span class="line">Network I/O: packets received 0, sent 0</span><br></pre></td></tr></table></figure>
 <h2 id="System-call-Sleep"><a href="#System-call-Sleep" class="headerlink" title="System call : Sleep"></a>System call : Sleep</h2><h3 id="syscall-主要流程"><a href="#syscall-主要流程" class="headerlink" title="syscall 主要流程"></a>syscall 主要流程</h3><p>首先我們要先幫我們的 syscall 編號，然後用組語定義 <code>sleep</code> 的行為（因為要用到組語的 <code>syscall</code> ，當然你也可以用 gcc 的內聯組語，但是沒必要），就是讓 c++ 跟 mips 中的 function 互相呼叫，所以在 compile 的時候要讓他們知道 symbol 在哪裡。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/syscall.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_ThreadFork   9</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_ThreadYield  10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_PrintInt     11</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SC_Sleep        12</span></span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintInt</span><span class="params">(<span class="keyword">int</span> number)</span></span>;      <span class="comment">//my System Call</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Sleep</span><span class="params">(<span class="keyword">int</span> number)</span></span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/syscall.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SC_ThreadFork   9</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SC_ThreadYield  10</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SC_PrintInt     11</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SC_Sleep        12</span></span><br><span class="line">...</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">PrintInt</span><span class="params">(<span class="type">int</span> number)</span></span>;      <span class="comment">//my System Call</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Sleep</span><span class="params">(<span class="type">int</span> number)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<p>他 lib 放的位置有點詭異，不過這就是自己實作的 c library，自己刻作業系統的話也會碰到（<a href="https://github.com/terrynini/MyLittle-OS/tree/master/lib" target="_blank" rel="noopener">MyLittle-OS</a>），這裡我們要把 <code>Sleep</code> 這個 symbol 導出，這樣 c++ 寫的部分才能找得到，因此有 <code>.globl  Sleep</code>，而<code>.ent    Sleep</code>是說 Sleep 的 entry 在這裡。</p>
+<p>他 lib 放的位置有點詭異，不過這就是自己實作的 c library，自己刻作業系統的話也會碰到（<a href="https://github.com/terrynini/MyLittle-OS/tree/master/lib">MyLittle-OS</a>），這裡我們要把 <code>Sleep</code> 這個 symbol 導出，這樣 c++ 寫的部分才能找得到，因此有 <code>.globl  Sleep</code>，而<code>.ent    Sleep</code>是說 Sleep 的 entry 在這裡。</p>
 <blockquote>
 <p>這裡還不算 syscall ，就只是一個系統 API，只是把 syscall 編號放進 <code>$2</code>，然後進行 syscall，這裡還沒有陷入核心。</p>
 </blockquote>
 <figure class="highlight cpp"><figcaption><span>code/test/start.s</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Start.s </span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> *      Assembly language assist for user programs running on top of Nachos.</span></span><br><span class="line"><span class="comment"> * ...</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">...</span><br><span class="line">        .globl  Sleep</span><br><span class="line">        .ent    Sleep</span><br><span class="line">Sleep:</span><br><span class="line">        addiu   $<span class="number">2</span>,$<span class="number">0</span>,SC_Sleep</span><br><span class="line">        syscall</span><br><span class="line">        j       $<span class="number">31</span></span><br><span class="line">        .end    Sleep</span><br></pre></td></tr></table></figure>
 <p>在進行完 syscall ，陷入核心後，NachOS 負責處理這塊的是 <code>exception.cc</code>，我們要來定義收到 SC_Sleep 這個 syscall 編號的時候所要做的行為。<br>從其他本來定義好的 <code>case</code> 來看，傳參應該是放在 4，所以我們也照著做，然後這裡要說一下中斷。</p>
-<figure class="highlight cpp"><figcaption><span>code/userprog/exception.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// exception.cc </span></span><br><span class="line"><span class="comment">//      Entry point into the Nachos kernel from user programs.</span></span><br><span class="line"><span class="comment">//      There are two kinds of things that can cause control to</span></span><br><span class="line"><span class="comment">//      transfer back to here from user code:</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">    <span class="keyword">case</span> SC_PrintInt:</span><br><span class="line">        val=kernel-&gt;machine-&gt;ReadRegister(<span class="number">4</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Print integer:"</span> &lt;&lt;val &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">case</span> SC_Sleep:</span><br><span class="line">        val=kernel-&gt;machine-&gt;ReadRegister(<span class="number">4</span>);</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Sleep Time:"</span> &lt;&lt; val &lt;&lt; <span class="string">"(ms)"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        kernel-&gt;alarm-&gt;WaitUntil(val);</span><br><span class="line">        <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/userprog/exception.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// exception.cc </span></span><br><span class="line"><span class="comment">//      Entry point into the Nachos kernel from user programs.</span></span><br><span class="line"><span class="comment">//      There are two kinds of things that can cause control to</span></span><br><span class="line"><span class="comment">//      transfer back to here from user code:</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">    <span class="keyword">case</span> SC_PrintInt:</span><br><span class="line">        val=kernel-&gt;machine-&gt;<span class="built_in">ReadRegister</span>(<span class="number">4</span>);</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Print integer:&quot;</span> &lt;&lt;val &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">case</span> SC_Sleep:</span><br><span class="line">        val=kernel-&gt;machine-&gt;<span class="built_in">ReadRegister</span>(<span class="number">4</span>);</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Sleep Time:&quot;</span> &lt;&lt; val &lt;&lt; <span class="string">&quot;(ms)&quot;</span> &lt;&lt; endl;</span><br><span class="line">        kernel-&gt;alarm-&gt;<span class="built_in">WaitUntil</span>(val);</span><br><span class="line">        <span class="keyword">return</span>;</span><br></pre></td></tr></table></figure>
 
 <h3 id="中斷常式"><a href="#中斷常式" class="headerlink" title="中斷常式"></a>中斷常式</h3><p>在開發作業系統的時候我們可以透過中斷控制器，例如 <code>Intel 8259A</code>，來遮蔽某些中斷訊號，其中包括時脈，如果我們不遮蔽它的話，處理器就會收到源源不斷的時脈中斷，NachOS有用軟體做類似的事情，而外部這個時脈，就是用軟體模擬的。</p>
 <figure class="highlight cpp"><figcaption><span>code/machine/timer.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// timer.cc </span></span><br><span class="line"><span class="comment">//      Routines to emulate a hardware timer device.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      A hardware timer generates a CPU interrupt every X milliseconds.</span></span><br><span class="line"><span class="comment">//      This means it can be used for implementing time-slicing.</span></span><br><span class="line"><span class="comment">//</span></span><br></pre></td></tr></table></figure>
@@ -464,39 +701,40 @@ height:50vh;
 <blockquote>
 <p>本來我們應該要在 Scheduler 的地方實作 sleepList 才是正確的，不過這裡先求快速，實作一個塞在 Alarm 裡面的 sleepList 就好。</p>
 </blockquote>
-<figure class="highlight cpp"><figcaption><span>code/threads/alarm.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// alarm.h </span></span><br><span class="line"><span class="comment">//      Data structures for a software alarm clock.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      We make use of a hardware timer device, that generates</span></span><br><span class="line"><span class="comment">//      an interrupt every X time ticks (on real systems, X is</span></span><br><span class="line"><span class="comment">//      usually between 0.25 - 10 milliseconds).</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      From this, we provide the ability for a thread to be</span></span><br><span class="line"><span class="comment">//      woken up after a delay; we also provide time-slicing.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      <span class="doctag">NOTE:</span> this abstraction is not completely implemented.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Copyright (c) 1992-1996 The Regents of the University of California.</span></span><br><span class="line"><span class="comment">// All rights reserved.  See copyright.h for copyright notice and limitation </span></span><br><span class="line"><span class="comment">// of liability and disclaimer of warranty provisions.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> ALARM_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ALARM_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"copyright.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"utility.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"callback.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"timer.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"thread.h"</span></span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">sleepList</span> &#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        sleepList():_current_interrupt(<span class="number">0</span>) &#123;&#125;;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">PutToSleep</span><span class="params">(Thread *t, <span class="keyword">int</span> x)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">PutToReady</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEmpty</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">sleepThread</span> &#123;</span></span><br><span class="line">            <span class="keyword">public</span>:</span><br><span class="line">                sleepThread(Thread* t, <span class="keyword">int</span> x):</span><br><span class="line">                    sleeper(t), when(x) &#123;&#125;;</span><br><span class="line">                Thread* sleeper;</span><br><span class="line">                <span class="keyword">int</span> when;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> _current_interrupt;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">list</span>&lt;sleepThread&gt; _threadlist;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// The following class defines a software alarm clock. </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Alarm</span> :</span> <span class="keyword">public</span> CallBackObj &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    Alarm(<span class="keyword">bool</span> doRandomYield);  <span class="comment">// Initialize the timer, and callback </span></span><br><span class="line">                <span class="comment">// to "toCall" every time slice.</span></span><br><span class="line">    ~Alarm() &#123; <span class="keyword">delete</span> timer; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">WaitUntil</span><span class="params">(<span class="keyword">int</span> x)</span></span>;      <span class="comment">// suspend execution until time &gt; now + x</span></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    Timer *timer;               <span class="comment">// the hardware timer device</span></span><br><span class="line">    sleepList _sleepList;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">CallBack</span><span class="params">()</span></span>;            <span class="comment">// called when the hardware</span></span><br><span class="line">                <span class="comment">// timer generates an interrupt</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// ALARM_H</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/threads/alarm.h</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// alarm.h </span></span><br><span class="line"><span class="comment">//      Data structures for a software alarm clock.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      We make use of a hardware timer device, that generates</span></span><br><span class="line"><span class="comment">//      an interrupt every X time ticks (on real systems, X is</span></span><br><span class="line"><span class="comment">//      usually between 0.25 - 10 milliseconds).</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      From this, we provide the ability for a thread to be</span></span><br><span class="line"><span class="comment">//      woken up after a delay; we also provide time-slicing.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//      <span class="doctag">NOTE:</span> this abstraction is not completely implemented.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Copyright (c) 1992-1996 The Regents of the University of California.</span></span><br><span class="line"><span class="comment">// All rights reserved.  See copyright.h for copyright notice and limitation </span></span><br><span class="line"><span class="comment">// of liability and disclaimer of warranty provisions.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> ALARM_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ALARM_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;copyright.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;utility.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;callback.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;timer.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;thread.h&quot;</span></span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">sleepList</span> &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">sleepList</span>():_current_interrupt(<span class="number">0</span>) &#123;&#125;;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">PutToSleep</span><span class="params">(Thread *t, <span class="type">int</span> x)</span></span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">PutToReady</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">IsEmpty</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="keyword">class</span> <span class="title class_">sleepThread</span> &#123;</span><br><span class="line">            <span class="keyword">public</span>:</span><br><span class="line">                <span class="built_in">sleepThread</span>(Thread* t, <span class="type">int</span> x):</span><br><span class="line">                    <span class="built_in">sleeper</span>(t), <span class="built_in">when</span>(x) &#123;&#125;;</span><br><span class="line">                Thread* sleeper;</span><br><span class="line">                <span class="type">int</span> when;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _current_interrupt;</span><br><span class="line">    std::list&lt;sleepThread&gt; _threadlist;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// The following class defines a software alarm clock. </span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Alarm</span> : <span class="keyword">public</span> CallBackObj &#123;</span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Alarm</span>(<span class="type">bool</span> doRandomYield);  <span class="comment">// Initialize the timer, and callback </span></span><br><span class="line">                <span class="comment">// to &quot;toCall&quot; every time slice.</span></span><br><span class="line">    ~<span class="built_in">Alarm</span>() &#123; <span class="keyword">delete</span> timer; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">WaitUntil</span><span class="params">(<span class="type">int</span> x)</span></span>;      <span class="comment">// suspend execution until time &gt; now + x</span></span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    Timer *timer;               <span class="comment">// the hardware timer device</span></span><br><span class="line">    sleepList _sleepList;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">CallBack</span><span class="params">()</span></span>;            <span class="comment">// called when the hardware</span></span><br><span class="line">                <span class="comment">// timer generates an interrupt</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// ALARM_H</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>然後把 function 填好，相關註釋放在 code 裡面。</p>
 <blockquote>
 <p>這裡其實可以做得更好一點，就是每次在插入時就照順序插入，這樣在檢查要不要喚醒 Thread 的時候，就可以不用檢查到最後，只要發現現在這個 Thread 還不能喚醒，後面的也都不能喚醒</p>
 </blockquote>
-<figure class="highlight cpp"><figcaption><span>code/threads/alarm.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Alarm::CallBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Interrupt *interrupt = kernel-&gt;interrupt;</span><br><span class="line">    MachineStatus status = interrupt-&gt;getStatus();</span><br><span class="line">    <span class="keyword">bool</span> woken = _sleepList.PutToReady();</span><br><span class="line">    <span class="comment">//如果沒有程式需要計數了，就把時脈中斷遮蔽掉</span></span><br><span class="line">    <span class="keyword">if</span> (status == IdleMode &amp;&amp; !woken &amp;&amp; _sleepList.IsEmpty()) &#123;<span class="comment">// is it time to quit?</span></span><br><span class="line">        <span class="keyword">if</span> (!interrupt-&gt;AnyFutureInterrupts()) &#123;</span><br><span class="line">            timer-&gt;Disable();   <span class="comment">// turn off the timer</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;                    <span class="comment">// there's someone to preempt</span></span><br><span class="line">        interrupt-&gt;YieldOnReturn();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Alarm::WaitUntil</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//關中斷</span></span><br><span class="line">    IntStatus oldLevel = kernel-&gt;interrupt-&gt;SetLevel(IntOff);</span><br><span class="line">    Thread* t = kernel-&gt;currentThread;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Alarm::WaitUntil go sleep"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    _sleepList.PutToSleep(t, x);</span><br><span class="line">    <span class="comment">//開中斷</span></span><br><span class="line">    kernel-&gt;interrupt-&gt;SetLevel(oldLevel);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">sleepList::IsEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _threadlist.size() == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sleepList::PutToSleep</span><span class="params">(Thread*t, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    ASSERT(kernel-&gt;interrupt-&gt;getLevel() == IntOff);</span><br><span class="line">    _threadlist.push_back(sleepThread(t, _current_interrupt + x));</span><br><span class="line">    t-&gt;Sleep(<span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">sleepList::PutToReady</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> woken = <span class="literal">false</span>;</span><br><span class="line">    _current_interrupt ++;</span><br><span class="line">    <span class="keyword">for</span>(<span class="built_in">std</span>::<span class="built_in">list</span>&lt;sleepThread&gt;::iterator it = _threadlist.begin();</span><br><span class="line">        it != _threadlist.end(); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>(_current_interrupt &gt;= it-&gt;when) &#123;</span><br><span class="line">            woken = <span class="literal">true</span>;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"sleepList::PutToReady Thread woken"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            kernel-&gt;scheduler-&gt;ReadyToRun(it-&gt;sleeper);</span><br><span class="line">            it = _threadlist.erase(it);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            it++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> woken;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/threads/alarm.cc</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Alarm::CallBack</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Interrupt *interrupt = kernel-&gt;interrupt;</span><br><span class="line">    MachineStatus status = interrupt-&gt;<span class="built_in">getStatus</span>();</span><br><span class="line">    <span class="type">bool</span> woken = _sleepList.<span class="built_in">PutToReady</span>();</span><br><span class="line">    <span class="comment">//如果沒有程式需要計數了，就把時脈中斷遮蔽掉</span></span><br><span class="line">    <span class="keyword">if</span> (status == IdleMode &amp;&amp; !woken &amp;&amp; _sleepList.<span class="built_in">IsEmpty</span>()) &#123;<span class="comment">// is it time to quit?</span></span><br><span class="line">        <span class="keyword">if</span> (!interrupt-&gt;<span class="built_in">AnyFutureInterrupts</span>()) &#123;</span><br><span class="line">            timer-&gt;<span class="built_in">Disable</span>();   <span class="comment">// turn off the timer</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;                    <span class="comment">// there&#x27;s someone to preempt</span></span><br><span class="line">        interrupt-&gt;<span class="built_in">YieldOnReturn</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Alarm::WaitUntil</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//關中斷</span></span><br><span class="line">    IntStatus oldLevel = kernel-&gt;interrupt-&gt;<span class="built_in">SetLevel</span>(IntOff);</span><br><span class="line">    Thread* t = kernel-&gt;currentThread;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Alarm::WaitUntil go sleep&quot;</span> &lt;&lt; endl;</span><br><span class="line">    _sleepList.<span class="built_in">PutToSleep</span>(t, x);</span><br><span class="line">    <span class="comment">//開中斷</span></span><br><span class="line">    kernel-&gt;interrupt-&gt;<span class="built_in">SetLevel</span>(oldLevel);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">sleepList::IsEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> _threadlist.<span class="built_in">size</span>() == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">sleepList::PutToSleep</span><span class="params">(Thread*t, <span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">ASSERT</span>(kernel-&gt;interrupt-&gt;<span class="built_in">getLevel</span>() == IntOff);</span><br><span class="line">    _threadlist.<span class="built_in">push_back</span>(<span class="built_in">sleepThread</span>(t, _current_interrupt + x));</span><br><span class="line">    t-&gt;<span class="built_in">Sleep</span>(<span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">sleepList::PutToReady</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">bool</span> woken = <span class="literal">false</span>;</span><br><span class="line">    _current_interrupt ++;</span><br><span class="line">    <span class="keyword">for</span>(std::list&lt;sleepThread&gt;::iterator it = _threadlist.<span class="built_in">begin</span>();</span><br><span class="line">        it != _threadlist.<span class="built_in">end</span>(); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>(_current_interrupt &gt;= it-&gt;when) &#123;</span><br><span class="line">            woken = <span class="literal">true</span>;</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;sleepList::PutToReady Thread woken&quot;</span> &lt;&lt; endl;</span><br><span class="line">            kernel-&gt;scheduler-&gt;<span class="built_in">ReadyToRun</span>(it-&gt;sleeper);</span><br><span class="line">            it = _threadlist.<span class="built_in">erase</span>(it);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            it++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> woken;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="測試-1"><a href="#測試-1" class="headerlink" title="測試"></a>測試</h3><p>撰寫兩個有用到 sleep 的程式，檢查正確性，這裡讓 sleep2 的週期是 sleep 的 $\frac{1}{10}$，然後要修改 <code>Makefile</code> 把兩隻程式加入編譯，還要把 coff 轉成 NachOS 自己定義的 noff 格式。</p>
-<figure class="highlight cpp"><figcaption><span>code/test/sleep.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"syscall.h"</span></span></span><br><span class="line">main() &#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">        Sleep(<span class="number">1000000</span>);</span><br><span class="line">        PrintInt(<span class="number">2222</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight cpp"><figcaption><span>code/test/sleep2.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"syscall.h"</span></span></span><br><span class="line">main() &#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">        Sleep(<span class="number">100000</span>);</span><br><span class="line">        PrintInt(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/test/sleep.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;syscall.h&quot;</span></span></span><br><span class="line"><span class="built_in">main</span>() &#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">Sleep</span>(<span class="number">1000000</span>);</span><br><span class="line">        <span class="built_in">PrintInt</span>(<span class="number">2222</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><figcaption><span>code/test/sleep2.c</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;syscall.h&quot;</span></span></span><br><span class="line"><span class="built_in">main</span>() &#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">Sleep</span>(<span class="number">100000</span>);</span><br><span class="line">        <span class="built_in">PrintInt</span>(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight makefile"><figcaption><span>code/test/Makefile</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="section">all: halt shell matmult sort test1 test2 sleep sleep2</span></span><br><span class="line">...</span><br><span class="line"><span class="section">sleep: sleep.o start.o</span></span><br><span class="line">        <span class="variable">$(LD)</span> <span class="variable">$(LDFLAGS)</span> start.o sleep.o -o sleep.coff</span><br><span class="line">        ../bin/coff2noff sleep.coff sleep</span><br><span class="line"></span><br><span class="line"><span class="section">sleep2: sleep2.o start.o</span></span><br><span class="line">        <span class="variable">$(LD)</span> <span class="variable">$(LDFLAGS)</span> start.o sleep2.o -o sleep2.coff</span><br><span class="line">        ../bin/coff2noff sleep2.coff sleep2</span><br></pre></td></tr></table></figure>
 <p><code>make</code> 後執行 <code>./nachos -e ../test/sleep -e ../test/sleep2</code></p>
 <p>正確的話前兩次會參雜 10 次的 <code>PrintInt(10)</code> 才執行一次的 <code>PrintInt(2222)</code></p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">Total threads number is 2</span><br><span class="line">Thread ../<span class="built_in">test</span>/sleep is executing.</span><br><span class="line">Thread ../<span class="built_in">test</span>/sleep2 is executing.</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go sleep</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">No threads ready or runnable, and no pending interrupts.</span><br><span class="line">Assuming the program completed.</span><br><span class="line">Machine halting!</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">Total threads number is 2</span><br><span class="line">Thread ../test/sleep is executing.</span><br><span class="line">Thread ../test/sleep2 is executing.</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line">Sleep Time:100000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:10</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line">Sleep Time:1000000(ms)</span><br><span class="line">Alarm::WaitUntil go <span class="built_in">sleep</span></span><br><span class="line">sleepList::PutToReady Thread woken</span><br><span class="line">Print <span class="built_in">integer</span>:2222</span><br><span class="line"><span class="built_in">return</span> value:0</span><br><span class="line">No threads ready or runnable, and no pending interrupts.</span><br><span class="line">Assuming the program completed.</span><br><span class="line">Machine halting!</span><br></pre></td></tr></table></figure>
 
 <h2 id="遭遇的困難"><a href="#遭遇的困難" class="headerlink" title="遭遇的困難"></a>遭遇的困難</h2><p>我找不到 code 放在哪裡Ｒ，是沒有 document 還是故意沒有 document，我猜是故意沒有的</p>
 
     </article>
-    <!-- license  -->
+    <!-- license -->
     
         <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">http://blog.terrynini.tw/tw/OS-NachOS-HW1/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">May 29th 2018, 1:25:15</a>
-            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">http://blog.terrynini.tw/tw/OS-NachOS-HW1/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">May 29th 2018, 1:25:15 am</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/OS-NachOS-HW1/">October 16th 2022, 3:34:59 pm</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
-    <!-- paginator  -->
+    <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/2018-AIS3-pre-exam/" title= "2018::AIS3::pre-exam">
+                <a href="/tw/2018-AIS3-pre-exam/" title="2018::AIS3::pre-exam">
                     <div class="nextTitle">2018::AIS3::pre-exam</div>
                 </a>
             
@@ -504,14 +742,19 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/en/2018-ASIS-Quals-reverse/" title= "2018::ASIS-Quals::reverse">
+                <a href="/en/2018-ASIS-Quals-reverse/" title="2018::ASIS-Quals::reverse">
                     <div class="prevTitle">2018::ASIS-Quals::reverse</div>
                 </a>
             
         </li>
     </ul>
-    <!-- 评论插件 -->
+    <!-- comment -->
     
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
     <div id="disqus_thread"></div>
     <script>
         /**
@@ -529,30 +772,47 @@ height:50vh;
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
-
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-    </style>
-</main>
-            <!-- profile -->
             
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
         </div>
-        <footer class="footer footer-unloaded">
-    <!-- mermaid-->
     
-      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
-      <script>mermaid.initialize({startOnLoad:true});</script>
-      
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
     <!-- social  -->
     
-    <div class="social">
-        
+        <div class="social">
+            
     
         
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -599,6 +859,8 @@ height:50vh;
         
     
         
+    
+        
             
                 <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
             
@@ -613,544 +875,576 @@ height:50vh;
         
     
 
-    </div>
+
+        </div>
     
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
+    <!-- website approve for Chinese user -->
+    
     <!-- 不蒜子  -->
-    
+    	
 </footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
 
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiprogramming"><span class="toc-number">2.</span> <span class="toc-text">Multiprogramming</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#清除建構式"><span class="toc-number">2.1.</span> <span class="toc-text">清除建構式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分配實體頁"><span class="toc-number">2.2.</span> <span class="toc-text">分配實體頁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更改讀取位置"><span class="toc-number">2.3.</span> <span class="toc-text">更改讀取位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#釋放實體頁"><span class="toc-number">2.4.</span> <span class="toc-text">釋放實體頁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#測試"><span class="toc-number">2.5.</span> <span class="toc-text">測試</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-call-Sleep"><span class="toc-number">3.</span> <span class="toc-text">System call : Sleep</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#syscall-主要流程"><span class="toc-number">3.1.</span> <span class="toc-text">syscall 主要流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中斷常式"><span class="toc-number">3.2.</span> <span class="toc-text">中斷常式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#測試-1"><span class="toc-number">3.3.</span> <span class="toc-text">測試</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遭遇的困難"><span class="toc-number">4.</span> <span class="toc-text">遭遇的困難</span></a></li></ol>
-    </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
 
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
     
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiprogramming"><span class="toc-number">2.</span> <span class="toc-text">Multiprogramming</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E5%BB%BA%E6%A7%8B%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">清除建構式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%85%8D%E5%AF%A6%E9%AB%94%E9%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">分配實體頁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E8%AE%80%E5%8F%96%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">更改讀取位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8B%E6%94%BE%E5%AF%A6%E9%AB%94%E9%A0%81"><span class="toc-number">2.4.</span> <span class="toc-text">釋放實體頁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6"><span class="toc-number">2.5.</span> <span class="toc-text">測試</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System-call-Sleep"><span class="toc-number">3.</span> <span class="toc-text">System call : Sleep</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#syscall-%E4%B8%BB%E8%A6%81%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">syscall 主要流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%B7%E5%B8%B8%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">中斷常式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6-1"><span class="toc-number">3.3.</span> <span class="toc-text">測試</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%AD%E9%81%87%E7%9A%84%E5%9B%B0%E9%9B%A3"><span class="toc-number">4.</span> <span class="toc-text">遭遇的困難</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
         <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
         <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
         <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
     </ul>
     <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1158,384 +1452,544 @@ top:50vh;
     
     <div class="post-archive">
     
-    
-    
-    
-    <div class="archive-year"> 2022 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
         </li>
     
     </div>
-  </div>
+</div>
+
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
-    
-        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
-    
-        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
-    
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
-    
-        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
-    
-        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
-    
-        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
     </div> 
     <div class="sidebar-tags-list"></div>
 </div>
+
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
     
-        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
 </div>
+
     </div>
-</div> 
-    <script>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
         author: "Terrynini"
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
-    
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
     </body>
 </html>
-
-

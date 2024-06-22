@@ -3,43 +3,150 @@
     <!-- title -->
 
 
-
+    
 
 <!-- keywords -->
 
 
 
-
 <head>
-    <meta name="description" content="建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Advance-Algorithm::homework6">
-<meta property="og:image">
-<meta property="og:url" content="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/index.html">
-<meta property="og:site_name" content="NiNi&#39;s den">
-<meta property="og:description" content="建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。">
-<meta property="og:locale" content="tw">
-<meta property="og:image" content="https://i.imgur.com/JoZHYPm.png">
-<meta property="article:published_time" content="2018-01-15T04:23:31.000Z">
-<meta property="article:modified_time" content="2020-07-05T12:36:32.027Z">
-<meta property="article:author" content="Terrynini">
-<meta property="article:tag" content="Algorithm">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/JoZHYPm.png">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="author" content="Terrynini">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="Terrynini">
     
-    <meta name="keywords" content="NiNi's den,Terrynini">
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
     
     <meta name="description" content="">
-
+    <meta name="description" content="建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Advance-Algorithm::homework6">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.imgur.com/JoZHYPm.png">
+<meta property="article:published_time" content="2018-01-15T03:23:31.000Z">
+<meta property="article:modified_time" content="2020-07-05T12:36:32.000Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/JoZHYPm.png">
     <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
     <title>Advance-Algorithm::homework6 · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -89,164 +196,258 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
 </style>
 
-    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
     
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        font-size: 80%;
+        text-align: right;
+        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        font-size: 80%;
+        width: 19vw;
+        margin-left: -23vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+.article-entry aside  {
+    
+}
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+    text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 90%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
 <script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
+document.addEventListener("DOMContentLoaded", function(){
 
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
+  var selection = document.querySelector('.sidenote-mark') !== null;
+  if( selection ){
+    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.add('hover');
+    });
 
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
+    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+  selection = document.querySelector('aside') !== null;
+  if(selection){
+    document.querySelector('aside').addEventListener('mouseover', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.add('hover');
+    });
 
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
+        document.querySelector('aside').addEventListener('mouseout', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-109652024-2');
-</script>
-
-<meta name="generator" content="Hexo 4.2.1"></head>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
         <body class="post-body">
     
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
     
-<header class="header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
             </div>
-            <div class="post-title">
+            <div class="post-title header-element">
                 <a href="#" class="post-name">Advance-Algorithm::homework6</a>
             </div>
-    </div>
-    
-    
-    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+        </div>
     
 </header>
-    <div class="wrapper">
-        <div class="site-intro" style="
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
 
 
 
@@ -254,12 +455,13 @@
 
 
 
-height:50vh;
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
-    
+        
     <!-- 404页  -->
     
     <div class="site-intro-placeholder"></div>
@@ -269,7 +471,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Advance-Algorithm::homework6
+                Advance-Algorithm::homework6
             <!-- 404 -->
             
         </h1>
@@ -277,34 +479,40 @@ height:50vh;
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
+                
             <!-- 404 -->
             
         </p>
-        <!-- 文章页meta -->
+        <!-- 文章页 meta -->
         
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Algorithm">Algorithm</a>
     
 </div>
+
                 
+                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">2.9k</span>Reading time: <span class="post-count reading-time">12 min</span></span>
+                        <span>Word count: <span class="post-count word-count">2.9k</span>Reading time: <span class="post-count reading-time">13 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2018/01/15</span>
+                    <!-- busuanzi -->
                     
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
                             <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
                                 <div class="share-qrcode"></div>
                             </li>
@@ -317,120 +525,149 @@ height:50vh;
         
     </div>
 </div>
-        <script>
- 
+
+            <script>
   // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
   }
-  console.log("userAgent:" + browser.versions.userAgent);
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
 
   // callback
   function fontLoaded() {
-    console.log('font loaded');
+    console.log('font loaded')
     if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
       var postIntros = document.getElementsByClassName('post-intros')[0]
       if (postIntros) {
-        postIntros.classList.add('post-fade-in');
+        postIntros.classList.add('post-fade-in')
       }
     }
   }
 
   // UC不支持跨域，所以直接显示
-  function asyncCb(){
+  function asyncCb() {
     if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
+      console.log('UCBrowser')
+      fontLoaded()
     } else {
       WebFont.load({
         custom: {
-          families: ['Oswald-Regular']
+          families: ['Oswald-Regular'],
         },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
         },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
         },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
         },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+        timeout: 5000, // Set the timeout to two seconds
+      })
     }
   }
 
-  function asyncErr(){
+  function asyncErr() {
     console.warn('script load from CDN failed, will load local script')
   }
 
   // load webfont-loader async, and add callback function
   function async(u, cb, err) {
-    var d = document, t = 'script',
+    var d = document,
+      t = 'script',
       o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
   }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
 
-      async(arr[0], success, currReject)
+    async(arr[0], success, currReject)
   }
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
 </script>
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
     <article class="article-entry">
-        <p><strong><em>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</em></strong></p>
-<a id="more"></a>
+        <p><em><strong>建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。</strong></em></p>
+<span id="more"></span>
 
 <h2 id="題一"><a href="#題一" class="headerlink" title="題一"></a>題一</h2><blockquote>
 <p>Show that LCD$\leq$ LIS and LCS$\leq$ LIS. Does this result imply that there exist $O(n logn)$ algorithms for LCD and LCS? (Here $n$ represents the input length.)</p>
 </blockquote>
 <hr>
-<p>LCS = Longest Common Subsequence<br>LCD = Longest Chain of Dominations (平面上一串點，a支配b支配c支配d，求這個平面最長的支配鍊是多長)<br>LIS = Longest Increasing Subsequence</p>
+<p>LCS &#x3D; Longest Common Subsequence<br>LCD &#x3D; Longest Chain of Dominations (平面上一串點，a支配b支配c支配d，求這個平面最長的支配鍊是多長)<br>LIS &#x3D; Longest Increasing Subsequence</p>
 <p>若A支配B，表示$(X_A &gt; X_B) \wedge (Y_A &gt; Y_B)$，表示一個LCD其$x,y$座標必為兩Increasing subsequence，因此可知 LCD $\leq$ LIS。</p>
 <p>好 這題定義有點詭異，所以我們最後筆記的結語是</p>
 <blockquote>
 <p>你媽pass</p>
 </blockquote>
 <ul>
-<li><a href="https://www.slideshare.net/Morris1028/aaex6-group2" target="_blank" rel="noopener">Morris</a></li>
+<li><a href="https://www.slideshare.net/Morris1028/aaex6-group2">Morris</a></li>
 <li>參考講義Unit7</li>
 </ul>
 <h2 id="題二"><a href="#題二" class="headerlink" title="題二"></a>題二</h2><blockquote>
@@ -446,34 +683,34 @@ height:50vh;
 <ul>
 <li>Euclidean distance：平面上兩點間的直線距離即為這兩點的Euclidean distance</li>
 <li>原題目：在2D平面上給定n個點，建一個距離（權重）總和最小的tree，tree的各頂點即為2D平面上的點，兩頂點間的邊的距離（權重）即為這兩的點在平面上的直線距離。</li>
-<li>直接將問題轉成「最小生成樹」就可以用 <a href="https://zh.wikipedia.org/wiki/%E5%85%8B%E9%B2%81%E6%96%AF%E5%85%8B%E5%B0%94%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">Kruskal’s algorithm</a> 解</li>
+<li>直接將問題轉成「最小生成樹」就可以用 <a href="https://zh.wikipedia.org/wiki/%E5%85%8B%E9%B2%81%E6%96%AF%E5%85%8B%E5%B0%94%E6%BC%94%E7%AE%97%E6%B3%95">Kruskal’s algorithm</a> 解</li>
 <li>但作業是：Show that any comparison-based algorithm needs $\Omega(nlogn)$ time to solve this problem</li>
 <li>參考wiki吧lol</li>
 <li>利用問題變轉的特性，因為決策版EMST可以變轉為最佳化EMST，求的決策版的下界便可同時知道最佳化EMST的下界</li>
 </ul>
-<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.116.2296&rep=rep1&type=pdf" target="_blank" rel="noopener">決策版 EMST 下界</a></p>
+<p><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.116.2296&rep=rep1&type=pdf">決策版 EMST 下界</a></p>
 <blockquote>
 <p>不管 送他惹QQ</p>
 </blockquote>
-<p><a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91#%E6%9B%B4%E5%BF%AB%E7%9A%84%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">wiki</a><br>這三小<br>快 還要更快<br>摸豆海鴉褲</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91#%E6%9B%B4%E5%BF%AB%E7%9A%84%E7%AE%97%E6%B3%95">wiki</a><br>這三小<br>快 還要更快<br>摸豆海鴉褲</p>
 <h2 id="題四"><a href="#題四" class="headerlink" title="題四"></a>題四</h2><blockquote>
-<p>Let $x_1, x_2, \dots , x_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x_i) = 0$ for every $1 \leq i \leq n$.</p>
+<p>Let $x_1, x_2, \dots , x_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x_i) &#x3D; 0$ for every $1 \leq i \leq n$.</p>
 </blockquote>
 <hr>
-<p>要求設計一個演算法將$p(x)=(x-x_1)(x-x_2)(x-x_3)\dots(x-x_n)$展開為標準式。</p>
+<p>要求設計一個演算法將$p(x)&#x3D;(x-x_1)(x-x_2)(x-x_3)\dots(x-x_n)$展開為標準式。</p>
 <p><img src="https://i.imgur.com/JoZHYPm.png" alt="截圖自演算法筆記"><br>這裡的多項式相乘，就是係數做convolution的運算，如果兩多項式各有n項，需要花$O(n^2)$，使用快速傅立葉把時間壓至$O(nlogn)$。</p>
-<p>但如果逐項做FFT複雜度會是$\sum_{i=2}^{n-1}O(ilogi)=O(n^2logn)$，所以用分治的方法，對切下去做FFT。</p>
-<p>複雜度：$T(n) = 2T(n/2) + O(nlogn) → O(nlog^2n)$</p>
-<p><a href="https://ccjou.wordpress.com/2012/05/04/%E6%91%BA%E7%A9%8D%E8%88%87%E9%9B%A2%E6%95%A3%E5%82%85%E7%AB%8B%E8%91%89%E8%BD%89%E6%8F%9B/" target="_blank" rel="noopener">摺積與離散傅立葉轉換</a><br><a href="https://medium.com/@aiswaryamathur/understanding-fast-fourier-transform-from-scratch-to-solve-polynomial-multiplication-8018d511162f" target="_blank" rel="noopener">FFT與多項式乘法</a></p>
+<p>但如果逐項做FFT複雜度會是$\sum_{i&#x3D;2}^{n-1}O(ilogi)&#x3D;O(n^2logn)$，所以用分治的方法，對切下去做FFT。</p>
+<p>複雜度：$T(n) &#x3D; 2T(n&#x2F;2) + O(nlogn) → O(nlog^2n)$</p>
+<p><a href="https://ccjou.wordpress.com/2012/05/04/%E6%91%BA%E7%A9%8D%E8%88%87%E9%9B%A2%E6%95%A3%E5%82%85%E7%AB%8B%E8%91%89%E8%BD%89%E6%8F%9B/">摺積與離散傅立葉轉換</a><br><a href="https://medium.com/@aiswaryamathur/understanding-fast-fourier-transform-from-scratch-to-solve-polynomial-multiplication-8018d511162f">FFT與多項式乘法</a></p>
 <h2 id="題五"><a href="#題五" class="headerlink" title="題五"></a>題五</h2><blockquote>
 <p>Let $p(x)$ be a given polynomial of degree n in standard form, and let $x_1, x_2, … , x_n$ be n distinct numbers. Give an algorithm to calculate each $p(x_i)$ for $1 \leq i \leq n$. (Hint: use the fact that the division problem of polynomials can be solved in $O(n log n)$ time and the result of the previous problem.)</p>
 </blockquote>
 <hr>
-<p>$p(x) = f(x)g(x) + r(x)$<br>想辦法讓 $f(x)g(x) = 0$，就是使用多項式除法讓式子變成：<br>$p(x) = f(x)(x-x_i) + r(x)$</p>
-<p>多項式除法複雜度為$O(nlogn)$如果對每個$x_i$都分開計算複雜度為$O(n)O(nlogn)=O(n^2logn)$</p>
-<p>但根據第四題，我們能夠先使用我們要查詢的數列 $&lt; x_1,x_2,x_3,\dots , x_n &gt;$做出一個函式$q(x)$，使得$q(x_i)=0, for;1\leq i\leq n$，做多項式除法可得$p(x) = f(x)q(x) + r(x)$</p>
-<p>如此一來便可簡化運算：$p(x_i)=f(x_i)\times 0+r(x_i)=r(x_i)$</p>
-<p>簡化運算的時間複雜度為:$O(nlog^2n) + O(nlogn) = O(nlog^2n)$</p>
+<p>$p(x) &#x3D; f(x)g(x) + r(x)$<br>想辦法讓 $f(x)g(x) &#x3D; 0$，就是使用多項式除法讓式子變成：<br>$p(x) &#x3D; f(x)(x-x_i) + r(x)$</p>
+<p>多項式除法複雜度為$O(nlogn)$如果對每個$x_i$都分開計算複雜度為$O(n)O(nlogn)&#x3D;O(n^2logn)$</p>
+<p>但根據第四題，我們能夠先使用我們要查詢的數列 $&lt; x_1,x_2,x_3,\dots , x_n &gt;$做出一個函式$q(x)$，使得$q(x_i)&#x3D;0, for;1\leq i\leq n$，做多項式除法可得$p(x) &#x3D; f(x)q(x) + r(x)$</p>
+<p>如此一來便可簡化運算：$p(x_i)&#x3D;f(x_i)\times 0+r(x_i)&#x3D;r(x_i)$</p>
+<p>簡化運算的時間複雜度為:$O(nlog^2n) + O(nlogn) &#x3D; O(nlog^2n)$</p>
 <p>簡化後的式子保證會消去最高次項，本來求出最高項的所需的快速冪時間複雜度為$O(logn)$</p>
 <blockquote>
 <p>乾 所以這樣到底會不會比較快<br>錦文別搞我Ｒ</p>
@@ -483,28 +720,28 @@ height:50vh;
 </blockquote>
 <hr>
 <p>如果有n個點，我們知道我們可以找到一條線穿過這些點，不過，如果這條線的最高次方$\leq n-1$，這條線是唯一的，也就是說最高次方$\leq n-1$的線只有一條，題目要求你做一個算法把這個多項式的係數都算出來。</p>
-<p><a href="https://en.wikipedia.org/wiki/Lagrange_polynomial" target="_blank" rel="noopener">拉格朗日插值法</a><br>然後用第4.題的方法得到的結果，用微分求值，組合出拉格朗日多項式的係數。</p>
+<p><a href="https://en.wikipedia.org/wiki/Lagrange_polynomial">拉格朗日插值法</a><br>然後用第4.題的方法得到的結果，用微分求值，組合出拉格朗日多項式的係數。</p>
 <blockquote>
 <p>這樣展開好像會有問題？還沒求出$x^n$的係數?</p>
 </blockquote>
-<p><a href="https://en.wikipedia.org/wiki/Neville%27s_algorithm" target="_blank" rel="noopener">Neville’s algorithm</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Neville%27s_algorithm">Neville’s algorithm</a></p>
 <ul>
 <li>let：$p_{i,j}(x)$ 會穿過 point $i$~$j$ 的多項式</li>
-<li>initial condition：$p_{i,i}(x) = y_i$</li>
-<li>recurrence relation：$p_{i,j}(x) = \frac<br>{(x-x_j)p_{i,j-1}(x) - (x-x_i)p_{i+1,j}(x)}<br>{(x_i-x_j)}$</li>
+<li>initial condition：$p_{i,i}(x) &#x3D; y_i$</li>
+<li>recurrence relation：$p_{i,j}(x) &#x3D; \frac<br>{(x-x_j)p_{i,j-1}(x) - (x-x_i)p_{i+1,j}(x)}<br>{(x_i-x_j)}$</li>
 </ul>
-<p><a href="http://mathforcollege.com/nm/mws/gen/05inp/mws_gen_inp_bck_introduction.pdf" target="_blank" rel="noopener">該唯一多項式的證明</a></p>
+<p><a href="http://mathforcollege.com/nm/mws/gen/05inp/mws_gen_inp_bck_introduction.pdf">該唯一多項式的證明</a></p>
 <h2 id="題七"><a href="#題七" class="headerlink" title="題七"></a>題七</h2><blockquote>
 <p>Given two images $A$ and $B$ with $B$ being the smaller one, where would we put $B$ on $A$, so that the overlapping part of $A$ and $B$ has the most likelihood? The difference between $A$ and $B$ is defined as the sum of the squares of the differences of corresponding elements in the overlapped parts of $A$ and $B$. Note that $B$ must completely reside on $A$.</p>
 </blockquote>
 <hr>
-<p>這題真的太有趣了，這是zoj的題目，他本來就告訴你要用cyclic convolution做加速，但是morris又在其他兩項上面做了手腳，讓他更快。<br><a href="http://mypaper.pchome.com.tw/zerojudge/post/1326705427" target="_blank" rel="noopener">morris</a></p>
+<p>這題真的太有趣了，這是zoj的題目，他本來就告訴你要用cyclic convolution做加速，但是morris又在其他兩項上面做了手腳，讓他更快。<br><a href="http://mypaper.pchome.com.tw/zerojudge/post/1326705427">morris</a></p>
 <p>這題假設我們兩張圖片的大小分別是$n\times m,p\times q$，brute force的解法複雜度是$O(n\times m\times p\times q)$</p>
 <p>image A:<br>$$<br> \begin{bmatrix}<br>   a_1 &amp; a_2 &amp; a_3 \\<br>   a_4 &amp; a_5 &amp; a_6 \\<br>   a_7 &amp; a_8 &amp; a_9<br>  \end{bmatrix}<br>$$</p>
 <p>image B:<br>$$<br>   \begin{bmatrix}<br>   b_1 &amp; b_2  \\<br>   b_3 &amp; b_4  \\<br>  \end{bmatrix}<br>$$</p>
-<p>若先把兩張圖片的第一個元素對齊，算式應該為各相應元素的平方差的總和，$(x-y)^2=x^2-2xy+y^2$，其中每個元素的$xy$項和，可以使用Cyclic Convolution(講義7-32)直接求出，複雜度為$O(nmlog(nm))$，下面會做說明。</p>
+<p>若先把兩張圖片的第一個元素對齊，算式應該為各相應元素的平方差的總和，$(x-y)^2&#x3D;x^2-2xy+y^2$，其中每個元素的$xy$項和，可以使用Cyclic Convolution(講義7-32)直接求出，複雜度為$O(nmlog(nm))$，下面會做說明。</p>
 <p>如：$b_1$對齊$a_5$，結果應為:</p>
-<p>$(b_1-a_5)^2 + (b_2-a_6)^2 + (b_3-a_8)^2 + (b_4-a_9)^2 \\ = \sum_{i=1…4}(b_i)^2 + {(a_5)^2 + (a_6)^2 + (a_8)^2 + (a_9)^2} - 2(b_1a_5 + b_2a_6 + b_3a_8 + b_4a_9)$</p>
+<p>$(b_1-a_5)^2 + (b_2-a_6)^2 + (b_3-a_8)^2 + (b_4-a_9)^2 \\ &#x3D; \sum_{i&#x3D;1…4}(b_i)^2 + {(a_5)^2 + (a_6)^2 + (a_8)^2 + (a_9)^2} - 2(b_1a_5 + b_2a_6 + b_3a_8 + b_4a_9)$</p>
 <ul>
 <li>上式的<strong>第二項</strong>：我們可以邊輸入邊做出另外一個陣列 A’來加快計算:<ul>
 <li>$O(nm)$</li>
@@ -522,41 +759,41 @@ height:50vh;
 </ul>
 </li>
 </ul>
-<p>$$<br>  30 = (1*1 + 2*2 + 3*3 + 4*4) \\<br>  24 = (1*4 + 2*1 + 3*2 + 4*3) \\<br>  22 = (1*3 + 2*4 + 3*1 + 4*2) \\<br>  24 = (1*2 + 2*3 + 3*4 + 4*1) \\<br>$$</p>
+<p>$$<br>  30 &#x3D; (1*1 + 2*2 + 3*3 + 4*4) \\<br>  24 &#x3D; (1*4 + 2*1 + 3*2 + 4*3) \\<br>  22 &#x3D; (1*3 + 2*4 + 3*1 + 4*2) \\<br>  24 &#x3D; (1*2 + 2*3 + 3*4 + 4*1) \\<br>$$</p>
 <h2 id="題八"><a href="#題八" class="headerlink" title="題八"></a>題八</h2><blockquote>
 <p>Given a set $S$ of $k$ strings, we want to find every string in $S$ that is a substring of some other string in $S$. Assume that the total length of all the strings in $S$ is $n$, give an $O(n)$ time algorithm to solve this problem.</p>
 </blockquote>
 <hr>
 <p>把set中全部的字串拿來做<strong>G</strong>eneralized <strong>S</strong>uffix <strong>T</strong>ree，之後拿每個字串在GST中做搜尋，只要能找到兩次，就表示除了自己之外，還是其他字串的子字串。</p>
 <ul>
-<li><strong>複雜度分析：</strong><br>建構GST : $O(n)$ (n是字串總長度)<br>搜尋時間 : $\sum_{i=1}^{N}O(m_i+n)=O(n)$ (N為字串數，m為關鍵字的長度)<br>總時間複雜度 : $O(n)$<br><a href="http://www.cnblogs.com/gaochundong/p/suffix_tree.html" target="_blank" rel="noopener">suffix tree及線性時間造樹</a><br><a href="https://www.geeksforgeeks.org/generalized-suffix-tree-1/" target="_blank" rel="noopener">GST</a></li>
+<li><strong>複雜度分析：</strong><br>建構GST : $O(n)$ (n是字串總長度)<br>搜尋時間 : $\sum_{i&#x3D;1}^{N}O(m_i+n)&#x3D;O(n)$ (N為字串數，m為關鍵字的長度)<br>總時間複雜度 : $O(n)$<br><a href="http://www.cnblogs.com/gaochundong/p/suffix_tree.html">suffix tree及線性時間造樹</a><br><a href="https://www.geeksforgeeks.org/generalized-suffix-tree-1/">GST</a></li>
 </ul>
 <h2 id="題九"><a href="#題九" class="headerlink" title="題九"></a>題九</h2><blockquote>
 <p>Give a linear-time algorithm that takes in a string and finds the longest maximal pair of equal substrings in which the two copies do not overlap. That is, if the two copies begin at positions $p1 &lt; p2$ and are of length $n’$, then $p1+ n’ &lt; p2$.</p>
 </blockquote>
 <hr>
 <p>對每個節點$N_i$，找出其子樹中的的最大及最小索引值之差$\delta$，則可以root到$N_i$的路徑上可以得到一些子字串，而這個子字串的長度必須小於等於$\delta$，這些就是共同子字串。</p>
-<p>參考：morris<br><a href="https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/" target="_blank" rel="noopener">dp解，複雜度太高</a><br><a href="https://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/" target="_blank" rel="noopener">不考慮overlap的解法</a></p>
+<p>參考：morris<br><a href="https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/">dp解，複雜度太高</a><br><a href="https://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/">不考慮overlap的解法</a></p>
 <h2 id="題十"><a href="#題十" class="headerlink" title="題十"></a>題十</h2><blockquote>
 <p>Show how to count the number of distinct substrings of a string $T$ in time $O(n)$, where the length of $T$ is $n$. Also show how to enumerate one copy of each distinct substring in time proportional to the length of all those strings.</p>
 </blockquote>
 <hr>
 <p>後綴樹的每個樹枝都是一個後綴，在這後綴上面我們列舉他的前綴就可以得到任意子字串。</p>
-<p><strong><em>Example</em></strong> : xabxac的後綴樹</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">  |---xa---[]--bxac--[]</span><br><span class="line">  |         |</span><br><span class="line">  |         |---c----[]</span><br><span class="line">  |</span><br><span class="line">[root]--a--[]--bxac--[]</span><br><span class="line">  |         |</span><br><span class="line">  |         |---c----[]</span><br><span class="line">  |</span><br><span class="line">  |--c--[]</span><br><span class="line">  |</span><br><span class="line">  |---bxac---[]</span><br></pre></td></tr></table></figure>
+<p><em><strong>Example</strong></em> : xabxac的後綴樹</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  |---xa---[]--bxac--[]</span><br><span class="line">  |         |</span><br><span class="line">  |         |---c----[]</span><br><span class="line">  |</span><br><span class="line">[root]--a--[]--bxac--[]</span><br><span class="line">  |         |</span><br><span class="line">  |         |---c----[]</span><br><span class="line">  |</span><br><span class="line">  |--c--[]</span><br><span class="line">  |</span><br><span class="line">  |---bxac---[]</span><br></pre></td></tr></table></figure>
 
 <p>拿第一個樹枝來說，我們可以找到以下子字串：x,xa,xab,xabx,xabxa,xabxac,xac，不難發現子字串數就是邊上的字元數。</p>
-<p><strong><em>複雜度分析：</em></strong><br>建構suffix tree : $O(n)$<br>計算字元數：$O(n)$    (suffix tree的大小是$\Theta(n)$)<br>總時間複雜度： $O(n)$</p>
+<p><em><strong>複雜度分析：</strong></em><br>建構suffix tree : $O(n)$<br>計算字元數：$O(n)$    (suffix tree的大小是$\Theta(n)$)<br>總時間複雜度： $O(n)$</p>
 <h2 id="題十一"><a href="#題十一" class="headerlink" title="題十一"></a>題十一</h2><blockquote>
 <p>Solve the minimum coloring problem on interval graphs.</p>
 </blockquote>
 <hr>
-<p><strong><em>Interval graph:</em></strong> 用前面活動規劃的問題來舉例，就是把活動轉為graph表示，每個活動為圖上的點，如果兩活動時間有重疊就在兩點間加上邊。</p>
+<p><em><strong>Interval graph:</strong></em> 用前面活動規劃的問題來舉例，就是把活動轉為graph表示，每個活動為圖上的點，如果兩活動時間有重疊就在兩點間加上邊。</p>
 <p>著色的意思表示根據顏色使用某個資源，所以顏色越少所佔用的資源越少，這種概念，不過這不是重點，因為這題就是要著色沒給活動。</p>
 <blockquote>
 <p>不確定對不對，morris解法(greedy)：<br>bfs著色，填入不跟鄰近點衝突的最小色號。</p>
 </blockquote>
-<p><a href="http://homepages.gac.edu/~sskulrat/Courses/2015F-375/lectures/g2.pdf" target="_blank" rel="noopener">Interval Graph Coloring Problem</a><br><a href="https://en.wikipedia.org/wiki/Interval_graph" target="_blank" rel="noopener">Interval graph</a></p>
+<p><a href="http://homepages.gac.edu/~sskulrat/Courses/2015F-375/lectures/g2.pdf">Interval Graph Coloring Problem</a><br><a href="https://en.wikipedia.org/wiki/Interval_graph">Interval graph</a></p>
 <h2 id="題十二"><a href="#題十二" class="headerlink" title="題十二"></a>題十二</h2><blockquote>
 <p>Design an algorithm for determining $\alpha (G)$ and $k(G)$ on a bipartite graph $G$.</p>
 </blockquote>
@@ -564,46 +801,47 @@ height:50vh;
 <ul>
 <li>$\alpha(G)$: 最大獨立集的大小</li>
 <li>$k(G)$: 最小團覆蓋的數量</li>
-<li><strong><em>團</em></strong>：每個點都是相鄰的，則可以稱為團，即這個團切下來可以看成是一個完全圖</li>
-<li><strong><em>最小團覆蓋</em></strong>：使用最少數量的團，來包含這整張圖的頂點</li>
-<li><strong><em>在 <code>二分圖</code> 裡面你只能找到一些由兩個點構成的團。</em></strong></li>
+<li><em><strong>團</strong></em>：每個點都是相鄰的，則可以稱為團，即這個團切下來可以看成是一個完全圖</li>
+<li><em><strong>最小團覆蓋</strong></em>：使用最少數量的團，來包含這整張圖的頂點</li>
+<li><em><strong>在 <code>二分圖</code> 裡面你只能找到一些由兩個點構成的團。</strong></em></li>
 </ul>
 <p><strong>二分圖中：</strong></p>
 <ul>
-<li>最大獨立集的大小 = 頂點總數($|V|$) - 最大匹配</li>
-<li>最小團覆蓋 = 最大匹配 + 剩下的獨立點<br>   = 最大匹配數 + (頂點總數 - 2 * 最大匹配)<br>   = 頂點總數 - 最大匹配 = 最大獨立集的大小 !!!</li>
+<li>最大獨立集的大小 &#x3D; 頂點總數($|V|$) - 最大匹配</li>
+<li>最小團覆蓋 &#x3D; 最大匹配 + 剩下的獨立點<br>   &#x3D; 最大匹配數 + (頂點總數 - 2 * 最大匹配)<br>   &#x3D; 頂點總數 - 最大匹配 &#x3D; 最大獨立集的大小 !!!</li>
 <li>二分圖的最大匹配：可用「匈牙利演算法」解</li>
 </ul>
-<p><a href="http://blog.csdn.net/u013007900/article/details/41631683" target="_blank" rel="noopener">各種定義</a><br><a href="http://blog.csdn.net/Flynn_curry/article/details/52966283" target="_blank" rel="noopener">http://blog.csdn.net/Flynn_curry/article/details/52966283</a><br><a href="https://www.renfei.org/blog/bipartite-matching.html" target="_blank" rel="noopener">二分圖匹配</a><br><a href="https://read01.com/zh-tw/N5R5BR.html#.Wk_ct1T1VTY" target="_blank" rel="noopener">二分圖最大獨立集</a><br><a href="https://en.wikipedia.org/wiki/Clique_cover" target="_blank" rel="noopener">clique cover</a></p>
+<p><a href="http://blog.csdn.net/u013007900/article/details/41631683">各種定義</a><br><a href="http://blog.csdn.net/Flynn_curry/article/details/52966283">http://blog.csdn.net/Flynn_curry/article/details/52966283</a><br><a href="https://www.renfei.org/blog/bipartite-matching.html">二分圖匹配</a><br><a href="https://read01.com/zh-tw/N5R5BR.html#.Wk_ct1T1VTY">二分圖最大獨立集</a><br><a href="https://en.wikipedia.org/wiki/Clique_cover">clique cover</a></p>
 <h2 id="題十三"><a href="#題十三" class="headerlink" title="題十三"></a>題十三</h2><blockquote>
-<p>A path cover of a directed graph $G=(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph.</p>
+<p>A path cover of a directed graph $G&#x3D;(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph.</p>
 </blockquote>
 <hr>
 <p>從DAG建構二分圖，二分圖表示的，就是每個節點的路徑關係，因為不可交路徑不可共用頂點，匹配也不可共用，故可以用匹配來找出最小不可交路徑覆蓋。</p>
 <ul>
-<li><p>最小不可交路徑覆蓋 = 原圖節點數 - 對應的二分圖的<code>最大匹配數</code></p>
+<li><p>最小不可交路徑覆蓋 &#x3D; 原圖節點數 - 對應的二分圖的<code>最大匹配數</code></p>
 </li>
 <li><p>最小相交路徑覆蓋：我們可以先幫圖加邊，如果有路徑1-&gt;2-&gt;3，我們就直接新增一條邊1-&gt;3，然後再用最小不可交路徑覆蓋的方法，就可以求得相交路徑覆蓋。</p>
 </li>
 </ul>
-<p><a href="http://blog.sina.com.cn/s/blog_64e467d60100qqkf.html" target="_blank" rel="noopener">解法前置</a><br><a href="https://www.cnblogs.com/justPassBy/p/5369930.html" target="_blank" rel="noopener">解法</a><br><a href="http://www.itdadao.com/articles/c15a1133857p0.html" target="_blank" rel="noopener">解法</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_64e467d60100qqkf.html">解法前置</a><br><a href="https://www.cnblogs.com/justPassBy/p/5369930.html">解法</a><br><a href="http://www.itdadao.com/articles/c15a1133857p0.html">解法</a></p>
 
     </article>
-    <!-- license  -->
+    <!-- license -->
     
         <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">January 15th 2018, 12:23:31</a>
-            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">January 15th 2018, 12:23:31 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/Advance-Algorithm-homework6/">July 5th 2020, 9:36:32 pm</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
-    <!-- paginator  -->
+    <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/Advance-Algorithm-homework7/" title= "Advance-Algorithm::homework7">
+                <a href="/tw/Advance-Algorithm-homework7/" title="Advance-Algorithm::homework7">
                     <div class="nextTitle">Advance-Algorithm::homework7</div>
                 </a>
             
@@ -611,14 +849,19 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/Advance-Algorithm-homework5/" title= "Advance-Algorithm::homework5">
+                <a href="/tw/Advance-Algorithm-homework5/" title="Advance-Algorithm::homework5">
                     <div class="prevTitle">Advance-Algorithm::homework5</div>
                 </a>
             
         </li>
     </ul>
-    <!-- 评论插件 -->
+    <!-- comment -->
     
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
     <div id="disqus_thread"></div>
     <script>
         /**
@@ -636,30 +879,47 @@ height:50vh;
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
-
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-    </style>
-</main>
-            <!-- profile -->
             
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
         </div>
-        <footer class="footer footer-unloaded">
-    <!-- mermaid-->
     
-      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
-      <script>mermaid.initialize({startOnLoad:true});</script>
-      
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
     <!-- social  -->
     
-    <div class="social">
-        
+        <div class="social">
+            
     
         
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -706,6 +966,8 @@ height:50vh;
         
     
         
+    
+        
             
                 <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
             
@@ -720,544 +982,576 @@ height:50vh;
         
     
 
-    </div>
+
+        </div>
     
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
+    <!-- website approve for Chinese user -->
+    
     <!-- 不蒜子  -->
-    
+    	
 </footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
 
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#題一"><span class="toc-number">1.</span> <span class="toc-text">題一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題二"><span class="toc-number">2.</span> <span class="toc-text">題二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題三"><span class="toc-number">3.</span> <span class="toc-text">題三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題四"><span class="toc-number">4.</span> <span class="toc-text">題四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題五"><span class="toc-number">5.</span> <span class="toc-text">題五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題六"><span class="toc-number">6.</span> <span class="toc-text">題六</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題七"><span class="toc-number">7.</span> <span class="toc-text">題七</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題八"><span class="toc-number">8.</span> <span class="toc-text">題八</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題九"><span class="toc-number">9.</span> <span class="toc-text">題九</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題十"><span class="toc-number">10.</span> <span class="toc-text">題十</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題十一"><span class="toc-number">11.</span> <span class="toc-text">題十一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題十二"><span class="toc-number">12.</span> <span class="toc-text">題十二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#題十三"><span class="toc-number">13.</span> <span class="toc-text">題十三</span></a></li></ol>
-    </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
 
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
     
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E4%B8%80"><span class="toc-number">1.</span> <span class="toc-text">題一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E4%BA%8C"><span class="toc-number">2.</span> <span class="toc-text">題二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E4%B8%89"><span class="toc-number">3.</span> <span class="toc-text">題三</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%9B%9B"><span class="toc-number">4.</span> <span class="toc-text">題四</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E4%BA%94"><span class="toc-number">5.</span> <span class="toc-text">題五</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%85%AD"><span class="toc-number">6.</span> <span class="toc-text">題六</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E4%B8%83"><span class="toc-number">7.</span> <span class="toc-text">題七</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%85%AB"><span class="toc-number">8.</span> <span class="toc-text">題八</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E4%B9%9D"><span class="toc-number">9.</span> <span class="toc-text">題九</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%8D%81"><span class="toc-number">10.</span> <span class="toc-text">題十</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%8D%81%E4%B8%80"><span class="toc-number">11.</span> <span class="toc-text">題十一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%8D%81%E4%BA%8C"><span class="toc-number">12.</span> <span class="toc-text">題十二</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%8C%E5%8D%81%E4%B8%89"><span class="toc-number">13.</span> <span class="toc-text">題十三</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
         <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
         <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
         <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
     </ul>
     <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1265,384 +1559,544 @@ top:50vh;
     
     <div class="post-archive">
     
-    
-    
-    
-    <div class="archive-year"> 2022 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
         </li>
     
     </div>
-  </div>
+</div>
+
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
-    
-        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
-    
-        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
-    
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
-    
-        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
-    
-        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
-    
-        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
     </div> 
     <div class="sidebar-tags-list"></div>
 </div>
+
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
     
-        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
 </div>
+
     </div>
-</div> 
-    <script>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
         author: "Terrynini"
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
-    
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
     </body>
 </html>
-
-
