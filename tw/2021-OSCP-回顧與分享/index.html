@@ -3,49 +3,155 @@
     <!-- title -->
 
 
-
+    
 
 <!-- keywords -->
 
 
 
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
+    
+    <meta name="description" content="">
     <meta name="description" content="趁著期末考之後過年之前把 OSCP 考過了，為了讓每一分美金都發揮最大效用，趁著記憶猶新來寫一篇分享文好了，反正 Balsn meetup 也是這個主題ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，這篇文章將會包含 OSCP 課程大綱、lab 環境介紹跟一些考試注意事項，在不違規的前提下把整個報名到考試的流程走一遍，讓整個 OSCP 的輪廓鮮明一點，應該能幫到未來有需要的人。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2021::OSCP::回顧與分享">
-<meta property="og:image">
 <meta property="og:url" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/index.html">
 <meta property="og:site_name" content="NiNi&#39;s den">
 <meta property="og:description" content="趁著期末考之後過年之前把 OSCP 考過了，為了讓每一分美金都發揮最大效用，趁著記憶猶新來寫一篇分享文好了，反正 Balsn meetup 也是這個主題ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，這篇文章將會包含 OSCP 課程大綱、lab 環境介紹跟一些考試注意事項，在不違規的前提下把整個報名到考試的流程走一遍，讓整個 OSCP 的輪廓鮮明一點，應該能幫到未來有需要的人。">
-<meta property="og:locale" content="tw">
+<meta property="og:locale">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/oscp.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/pen-200.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/cds.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/price.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/pwk-stats.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/pwk-labs.png">
-<meta property="og:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/cert.jpg">
-<meta property="article:published_time" content="2021-02-16T18:44:00.000Z">
-<meta property="article:modified_time" content="2021-04-06T07:23:30.006Z">
+<meta property="article:published_time" content="2021-02-16T17:44:00.000Z">
+<meta property="article:modified_time" content="2021-04-06T07:23:30.000Z">
 <meta property="article:author" content="Terrynini">
 <meta property="article:tag" content="OSCP">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/oscp.png">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <meta name="author" content="Terrynini">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="Terrynini">
-    
-    <meta name="keywords" content="NiNi's den,Terrynini">
-    
-    <meta name="description" content="">
-
     <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
     <title>2021::OSCP::回顧與分享 · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -95,164 +201,258 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
 </style>
 
-    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
     
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        font-size: 80%;
+        text-align: right;
+        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        font-size: 80%;
+        width: 19vw;
+        margin-left: -23vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+.article-entry aside  {
+    
+}
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+    text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 90%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
 <script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
+document.addEventListener("DOMContentLoaded", function(){
 
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
+  var selection = document.querySelector('.sidenote-mark') !== null;
+  if( selection ){
+    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.add('hover');
+    });
 
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
+    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+  selection = document.querySelector('aside') !== null;
+  if(selection){
+    document.querySelector('aside').addEventListener('mouseover', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.add('hover');
+    });
 
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
+        document.querySelector('aside').addEventListener('mouseout', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-109652024-2');
-</script>
-
-<meta name="generator" content="Hexo 4.2.1"></head>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
         <body class="post-body">
     
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
     
-<header class="header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
             </div>
-            <div class="post-title">
+            <div class="post-title header-element">
                 <a href="#" class="post-name">2021::OSCP::回顧與分享</a>
             </div>
-    </div>
-    
-    
-    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+        </div>
     
 </header>
-    <div class="wrapper">
-        <div class="site-intro" style="
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
 
 
 
@@ -260,12 +460,13 @@
 
 
 
-height:50vh;
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
-    
+        
     <!-- 404页  -->
     
     <div class="site-intro-placeholder"></div>
@@ -275,7 +476,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            2021::OSCP::回顧與分享
+                2021::OSCP::回顧與分享
             <!-- 404 -->
             
         </h1>
@@ -283,34 +484,40 @@ height:50vh;
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
+                
             <!-- 404 -->
             
         </p>
-        <!-- 文章页meta -->
+        <!-- 文章页 meta -->
         
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "OSCP">OSCP</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OSCP">OSCP</a>
     
 </div>
+
                 
+                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
                         <span>Word count: <span class="post-count word-count">5.3k</span>Reading time: <span class="post-count reading-time">19 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2021/02/17</span>
+                    <!-- busuanzi -->
                     
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
                             <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
                                 <div class="share-qrcode"></div>
                             </li>
@@ -323,107 +530,136 @@ height:50vh;
         
     </div>
 </div>
-        <script>
- 
+
+            <script>
   // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
   }
-  console.log("userAgent:" + browser.versions.userAgent);
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
 
   // callback
   function fontLoaded() {
-    console.log('font loaded');
+    console.log('font loaded')
     if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
       var postIntros = document.getElementsByClassName('post-intros')[0]
       if (postIntros) {
-        postIntros.classList.add('post-fade-in');
+        postIntros.classList.add('post-fade-in')
       }
     }
   }
 
   // UC不支持跨域，所以直接显示
-  function asyncCb(){
+  function asyncCb() {
     if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
+      console.log('UCBrowser')
+      fontLoaded()
     } else {
       WebFont.load({
         custom: {
-          families: ['Oswald-Regular']
+          families: ['Oswald-Regular'],
         },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
         },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
         },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
         },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+        timeout: 5000, // Set the timeout to two seconds
+      })
     }
   }
 
-  function asyncErr(){
+  function asyncErr() {
     console.warn('script load from CDN failed, will load local script')
   }
 
   // load webfont-loader async, and add callback function
   function async(u, cb, err) {
-    var d = document, t = 'script',
+    var d = document,
+      t = 'script',
       o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
   }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
 
-      async(arr[0], success, currReject)
+    async(arr[0], success, currReject)
   }
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
 </script>
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
     <article class="article-entry">
-        <p>趁著期末考之後過年之前把 OSCP 考過了，為了讓每一分美金都發揮最大效用，趁著記憶猶新來寫一篇分享文好了，反正 Balsn meetup 也是這個主題ฅ(=ˇωˇ=)ฅ，這篇文章將會包含 OSCP 課程大綱、lab 環境介紹跟一些考試注意事項，在不違規的前提下把整個報名到考試的流程走一遍，讓整個 OSCP 的輪廓鮮明一點，應該能幫到未來有需要的人。</p>
-<a id="more"></a>
+        <p>趁著期末考之後過年之前把 OSCP 考過了，為了讓每一分美金都發揮最大效用，趁著記憶猶新來寫一篇分享文好了，反正 Balsn meetup 也是這個主題ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，這篇文章將會包含 OSCP 課程大綱、lab 環境介紹跟一些考試注意事項，在不違規的前提下把整個報名到考試的流程走一遍，讓整個 OSCP 的輪廓鮮明一點，應該能幫到未來有需要的人。</p>
+<span id="more"></span>
 
 <h2 id="報考動機"><a href="#報考動機" class="headerlink" title="報考動機"></a>報考動機</h2><p>除了被國網中心的破爛題目激到以外，就只是單純覺得好玩，當作另外一個 CTF 或是 Flare-On 的感覺，其實這張證照具體用途是什麼我也不是很確定，大致上就是 Offensive Security 這間公司的公信力夠高與 OSCP 不是筆試的關係，使得這張證照比較有說服力，我知道台灣有幾間公司有看這張，reddit 上也滿多人提到自己面試時遇到的公司很多會要求 OSCP 的資格，就算不要求，擁有 OSCP 的資格多少也會加點分，我是考完了才在查能幹嘛🤔️，知道哪裡用得上這張收據的人麻煩告訴我…</p>
 <p>但我現在可以很篤定的說，就算是以 Penetration Testing 為主軸來設計比賽，國網中心的那場比賽也真的是爛到有剩，裡面滿是路上撿來的靶機甚至還有 OSCP 教材裡面的範例題。</p>
@@ -433,17 +669,17 @@ height:50vh;
 <p>OSCP 對應的是 Penetration Testing with Kali Linux 這門課程，縮寫成 PWK，課程目標是教會學員怎麼用 Kali Linux 和裡面的資源來做滲透測試，課程最後有個 24 小時的考試，要合格的話得要在測驗中拿下至少 70 分，並且要在接下去的 24 小時裡提交滲透測試報告，如果細節不全或是沒達到某些要求會被倒扣甚至是該題拿零分，最後通過考試就可以拿到 OSCP 的資格及證照，所以這篇心得應該要叫做 PWK 回顧才對🤔️。</p>
 <img src="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/pen-200.png" class="">
 
-<p>官方自己是將 Penetration Testing with Kali Linux 縮寫成 PWK，更早以前叫做 PWB，因為那個時候的教材是 BackTrack，PWK 在 2020 年的時候有一次更新，教材內容跟 Lab 都有更新過，在 2021 的時候名字也統一更新了，現在用了統一的<a href="https://www.offensive-security.com/courses-and-certifications/#course-track-system" target="_blank" rel="noopener">數字編號</a> 來稱呼每個課程，PWK 就是現在的 PEN-200，從名字的 2 可以知道，官方把這個課程當作滲透測試裡最初階的課程（目前沒有 1 開頭的課程）。</p>
+<p>官方自己是將 Penetration Testing with Kali Linux 縮寫成 PWK，更早以前叫做 PWB，因為那個時候的教材是 BackTrack，PWK 在 2020 年的時候有一次更新，教材內容跟 Lab 都有更新過，在 2021 的時候名字也統一更新了，現在用了統一的<a href="https://www.offensive-security.com/courses-and-certifications/#course-track-system">數字編號</a> 來稱呼每個課程，PWK 就是現在的 PEN-200，從名字的 2 可以知道，官方把這個課程當作滲透測試裡最初階的課程（目前沒有 1 開頭的課程）。</p>
 <img src="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/cds.png" class="">
 
 <h2 id="價格"><a href="#價格" class="headerlink" title="價格"></a>價格</h2>還沒更新之前 30 天的價格是 \$799，2020 更新之後 30 天是 \$999，貴到哭...
-<p>重考跟中途延長的費用在<a href="https://www.offensive-security.com/pwk-oscp/" target="_blank" rel="noopener">官方課程介紹</a> 的最下面有寫到，這裡就只列出基本費用。</p>
+<p>重考跟中途延長的費用在<a href="https://www.offensive-security.com/pwk-oscp/">官方課程介紹</a> 的最下面有寫到，這裡就只列出基本費用。</p>
 <img src="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/price.png" class="">
 
 <p>在我打 lab 的期間，Public network + IT department + Develop department + Admin department 的機器總數是 66 台，基本上沒有滲透經驗的話，30 天應該是沒有辦法活得健康又完成全部的 lab，尤其我是挑學期結束後的那一個月，所以如果有其他事情要忙應該會滿慘的。</p>
-<p>那這裡給出我的詳細狀況給大家做參考，我是跟室友<a href="https://twitter.com/NEO_ZR" target="_blank" rel="noopener">@NEO_ZR</a> 同時報名的，我平常主要都是投資在 binary 類型的題目，Web Application 跟滲透測試的概念跟戰隊裡其他人比起來薄弱很多，<a href="https://twitter.com/NEO_ZR" target="_blank" rel="noopener">@NEO_ZR</a> 的話，我們是 2019 年時用 <code>curl kaibro.tw | sh</code> 的隊名在金盾獎拿下冠軍的隊友，事前也沒有涉足滲透測試，大致上是這樣。</p>
-<p>實際上花在 lab 的時間是 19 天，前面 12 天在看 PWK 的教材還有忙學校的期末成績結算，我們的策略是分頭打不重複的機器，邊打邊寫 writeup，這樣不會過分劇透又可以留下參考避開雷點，應該是最有效率的方式，最後一週的時候我們都打到瓶頸（這個故事放在<a href="#Lab-的注意事項">Lab 的注意事項</a>），就慢慢回頭做有 writeup 的題目，這個時候我完成 36 台、<a href="https://twitter.com/NEO_ZR" target="_blank" rel="noopener">@NEO_ZR</a> 完成 27 台，結束時，我總計是完成 36+27 減去重複的 5 台，就是 58 台，<a href="https://twitter.com/NEO_ZR" target="_blank" rel="noopener">@NEO_ZR</a> 最後幾台我就不確定了。</p>
-<p>下表是官方自己統計的數據，縱軸指的是考試的通過率，橫軸指的是完成多少台 lab，而且報名花的錢應該大部分都是砸在 lab 上，好好完成應該還是比較划算的，當然還是有替代方案的，統整在<a href="#練習平台">練習平台</a> 的地方：</p>
+<p>那這裡給出我的詳細狀況給大家做參考，我是跟室友<a href="https://twitter.com/NEO_ZR">@NEO_ZR</a> 同時報名的，我平常主要都是投資在 binary 類型的題目，Web Application 跟滲透測試的概念跟戰隊裡其他人比起來薄弱很多，<a href="https://twitter.com/NEO_ZR">@NEO_ZR</a> 的話，我們是 2019 年時用 <code>curl kaibro.tw | sh</code> 的隊名在金盾獎拿下冠軍的隊友，事前也沒有涉足滲透測試，大致上是這樣。</p>
+<p>實際上花在 lab 的時間是 19 天，前面 12 天在看 PWK 的教材還有忙學校的期末成績結算，我們的策略是分頭打不重複的機器，邊打邊寫 writeup，這樣不會過分劇透又可以留下參考避開雷點，應該是最有效率的方式，最後一週的時候我們都打到瓶頸（這個故事放在<a href="#Lab-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85">Lab 的注意事項</a>），就慢慢回頭做有 writeup 的題目，這個時候我完成 36 台、<a href="https://twitter.com/NEO_ZR">@NEO_ZR</a> 完成 27 台，結束時，我總計是完成 36+27 減去重複的 5 台，就是 58 台，<a href="https://twitter.com/NEO_ZR">@NEO_ZR</a> 最後幾台我就不確定了。</p>
+<p>下表是官方自己統計的數據，縱軸指的是考試的通過率，橫軸指的是完成多少台 lab，而且報名花的錢應該大部分都是砸在 lab 上，好好完成應該還是比較划算的，當然還是有替代方案的，統整在<a href="#%E7%B7%B4%E7%BF%92%E5%B9%B3%E5%8F%B0">練習平台</a> 的地方：</p>
 <img src="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/pwk-stats.png" class="">
 
 <h2 id="報名及教材"><a href="#報名及教材" class="headerlink" title="報名及教材"></a>報名及教材</h2><p>報名時可以在十天的範圍內選擇什麼時候開始課程，報名時要注意的是如果官方沒辦法從 Email Address 直接確認身份和登記的機構，那官方會要求掃描英文的 ID 上傳，這個情況下就是傳護照過去，報名程序完成後官方會給幾樣東西：</p>
@@ -454,7 +690,7 @@ height:50vh;
 <li>登入官方論壇的帳號密碼（不用 vpn 也能連上）</li>
 </ol>
 <p>比起影片的內容，pdf 會比較完整一點，然後還有一點就是，教材上面都有浮水印，不管是刻意或是不小心，只要流出的話證照就會被撤銷，當然也包含洩漏考試內容及有關這堂課的 tips。</p>
-<h2 id="課程大綱"><a href="#課程大綱" class="headerlink" title="課程大綱"></a>課程大綱</h2><p>事實上官方的<a href="https://www.offensive-security.com/documentation/penetration-testing-with-kali.pdf" target="_blank" rel="noopener">課程大綱</a> 就是那 853 頁 pdf 教材的大綱，直接看是最詳細了，各章的內容都不難，就是開始做 Lab 的時候要熟悉一下枚舉順序跟記得有什麼工具可以用。</p>
+<h2 id="課程大綱"><a href="#課程大綱" class="headerlink" title="課程大綱"></a>課程大綱</h2><p>事實上官方的<a href="https://www.offensive-security.com/documentation/penetration-testing-with-kali.pdf">課程大綱</a> 就是那 853 頁 pdf 教材的大綱，直接看是最詳細了，各章的內容都不難，就是開始做 Lab 的時候要熟悉一下枚舉順序跟記得有什麼工具可以用。</p>
 <p>這裡是我的總結，數字的部分並沒有對上 pdf 的章節，大致上包含了：</p>
 <h3 id="1-基本-Kali-Linux"><a href="#1-基本-Kali-Linux" class="headerlink" title="1. 基本 Kali Linux"></a>1. 基本 Kali Linux</h3><p>就一些基本的設定，Kali Linux 已經把很多常用工具整合進去，例如 wordlist 或是常用的 webshell 等，直接用 Kali 會省去很多麻煩，但我個人還是另外把工具跟 wordlist 都裝在 MacOS 或是 docker 裡面。</p>
 <h3 id="2-基本-Linux-操作"><a href="#2-基本-Linux-操作" class="headerlink" title="2. 基本 Linux 操作"></a>2. 基本 Linux 操作</h3><p>常用 command、pipe 之類的那種很 basic 的東西。</p>
@@ -467,7 +703,7 @@ height:50vh;
 <h3 id="9-Web-Application-攻擊"><a href="#9-Web-Application-攻擊" class="headerlink" title="9. Web Application 攻擊"></a>9. Web Application 攻擊</h3><p>就那些 CTF 會遇到的各種套路。</p>
 <h3 id="10-Buffer-Overflow"><a href="#10-Buffer-Overflow" class="headerlink" title="10. Buffer Overflow"></a>10. Buffer Overflow</h3><p>Windows 跟 Linux 的 BOF，但超簡單，連 stack 都不會細講，用最簡單的方式直接 exploit，蓋 return、找 gadget、跳 shellcode。</p>
 <h3 id="11-Client-Side-Attacks"><a href="#11-Client-Side-Attacks" class="headerlink" title="11. Client-Side Attacks"></a>11. Client-Side Attacks</h3><p>前面提到的東西基本上都是往一個 Server 打，假設有台主機作為 Client 去訪問已經被佔領的主機或是可控的有漏洞服務，那就有機會可以藉此打進去，例如 Microsoft Office 的巨集病毒或是 HTA Attack 等。</p>
-<h3 id="12-Public-Exploitation-amp-Fixing-Exploits"><a href="#12-Public-Exploitation-amp-Fixing-Exploits" class="headerlink" title="12. Public Exploitation &amp; Fixing Exploits"></a>12. Public Exploitation &amp; Fixing Exploits</h3><p>如何尋找和使用公開的 Exploit，此外在某些情況下，因為防火牆或是情境些微不同，使用前可能需要調整 Exploit，在這部分也會提到。</p>
+<h3 id="12-Public-Exploitation-Fixing-Exploits"><a href="#12-Public-Exploitation-Fixing-Exploits" class="headerlink" title="12. Public Exploitation &amp; Fixing Exploits"></a>12. Public Exploitation &amp; Fixing Exploits</h3><p>如何尋找和使用公開的 Exploit，此外在某些情況下，因為防火牆或是情境些微不同，使用前可能需要調整 Exploit，在這部分也會提到。</p>
 <h3 id="13-File-Transfers"><a href="#13-File-Transfers" class="headerlink" title="13. File Transfers"></a>13. File Transfers</h3><p>這個他特別拉出來講應該是因為 Windows 環境有很多小技巧，因為 Linux 上常用的傳檔案方式，在 Windows 上明顯不可用，這裡有會講如何利用 Windows 上的相關工具來達到上傳的目的。</p>
 <h3 id="14-Antivirus-Evasion"><a href="#14-Antivirus-Evasion" class="headerlink" title="14. Antivirus Evasion"></a>14. Antivirus Evasion</h3><p>在有防毒軟體的情況下如何逃逸。</p>
 <h3 id="15-Privilege-Escalation"><a href="#15-Privilege-Escalation" class="headerlink" title="15. Privilege Escalation"></a>15. Privilege Escalation</h3><p>跟 CTF 不同，滲透進一台主機時透過的可能是 apache 上的 web application，那開出來的 shell 有很大機率就是 www-data，不管是獲取機敏資料或是作為滲透測試中的立足點都稍嫌不足，所以這個部分是在講如何提權。</p>
@@ -477,20 +713,20 @@ height:50vh;
 <h3 id="19-The-Metasploit-Framework"><a href="#19-The-Metasploit-Framework" class="headerlink" title="19. The Metasploit Framework"></a>19. The Metasploit Framework</h3><p>如何使用 Metasploit Framework，執得一提的是考試中只能選定一台機器使用，不論成功與否，對其他台機器使用會直接失格。</p>
 <h3 id="20-PowerShell-Empire"><a href="#20-PowerShell-Empire" class="headerlink" title="20. PowerShell Empire"></a>20. PowerShell Empire</h3><p>在 Windows 上面做枚舉或是底層操作非常痛苦，沒有 PowerShell 基本上動不了，Powershell 寫起來基本上就是 C#，寫起來也不是特別輕巧，善用工具可以省下很多時間，PowerShell Empire 就是其中一個。</p>
 <h3 id="21-Lab-範例"><a href="#21-Lab-範例" class="headerlink" title="21. Lab 範例"></a>21. Lab 範例</h3><p>這裡會用 Lab 示範前面提到的全部概念，但這裡的機器並不是那 66 台，所以官方才會說 Lab 有 70 台。</p>
-<h2 id="Lab-環境"><a href="#Lab-環境" class="headerlink" title="Lab 環境"></a>Lab 環境</h2><p>架構的示意圖取自<a href="https://www.offensive-security.com/offsec/pwk-labs-success/" target="_blank" rel="noopener">官網</a>，Lab 環境需透過 VPN 才能連上，下面的 Private Student Segment 是給學員使用的 Windows 機器可以任意 revert，不是共用的，裡面包含一些範例使用的工具等等，除此之外的機器都是跟別人共用，所以記得在開打之前先 revert，打完也要記得 revert，我做 Lab 時有一題明明就有防毒軟體，一堆人在論壇上講一些看起來就是用防毒軟體已經被關掉的打法在打…</p>
-<p>往上看到 Sandbox 裡面有四台機器，其實就是<a href="#課程大綱">課程大綱</a> 裡面 Lab 示範的四台，除了這四台之外另外還有 66 台 Lab，Lab 的主要目標是拿到 <code>/root/proof.txt</code> 或是 <code>C:\Users\Administrator\proof.txt</code> 這種高權限的檔案，一開始滲透只能接觸到 Public Network 的機器，打下某些機器後會發現該機器有另外一個網段的 IP 同時也會發現<code>network-secret.txt</code>，這個檔案是用來開啟 Control Panel 跟論壇的對應區塊用的。</p>
+<h2 id="Lab-環境"><a href="#Lab-環境" class="headerlink" title="Lab 環境"></a>Lab 環境</h2><p>架構的示意圖取自<a href="https://www.offensive-security.com/offsec/pwk-labs-success/">官網</a>，Lab 環境需透過 VPN 才能連上，下面的 Private Student Segment 是給學員使用的 Windows 機器可以任意 revert，不是共用的，裡面包含一些範例使用的工具等等，除此之外的機器都是跟別人共用，所以記得在開打之前先 revert，打完也要記得 revert，我做 Lab 時有一題明明就有防毒軟體，一堆人在論壇上講一些看起來就是用防毒軟體已經被關掉的打法在打…</p>
+<p>往上看到 Sandbox 裡面有四台機器，其實就是<a href="#%E8%AA%B2%E7%A8%8B%E5%A4%A7%E7%B6%B1">課程大綱</a> 裡面 Lab 示範的四台，除了這四台之外另外還有 66 台 Lab，Lab 的主要目標是拿到 <code>/root/proof.txt</code> 或是 <code>C:\Users\Administrator\proof.txt</code> 這種高權限的檔案，一開始滲透只能接觸到 Public Network 的機器，打下某些機器後會發現該機器有另外一個網段的 IP 同時也會發現<code>network-secret.txt</code>，這個檔案是用來開啟 Control Panel 跟論壇的對應區塊用的。</p>
 <img src="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/pwk-labs.png" class="">
 
-<h2 id="Lab-的-Learning-Path"><a href="#Lab-的-Learning-Path" class="headerlink" title="Lab 的 Learning Path"></a>Lab 的 Learning Path</h2><p>官方其實有給出一條 <a href="https://help.offensive-security.com/hc/en-us/articles/360050473812-PWK-Labs-Learning-Path" target="_blank" rel="noopener">Learning Path</a> 給還沒進入狀況的人走，總共 11 台機器，不過我在玩的時候是 12 台，其中一台 JOE 一直是壞的…，看來現在是被拿下來了。</p>
+<h2 id="Lab-的-Learning-Path"><a href="#Lab-的-Learning-Path" class="headerlink" title="Lab 的 Learning Path"></a>Lab 的 Learning Path</h2><p>官方其實有給出一條 <a href="https://help.offensive-security.com/hc/en-us/articles/360050473812-PWK-Labs-Learning-Path">Learning Path</a> 給還沒進入狀況的人走，總共 11 台機器，不過我在玩的時候是 12 台，其中一台 JOE 一直是壞的…，看來現在是被拿下來了。</p>
 <p>Path 上雖然有標 easy、medium、hard 的難度，但我個人的感覺都是 easy，就是用來掌握一下整個 OSCP 的感覺。</p>
 <h2 id="Lab-的御三家"><a href="#Lab-的御三家" class="headerlink" title="Lab 的御三家"></a>Lab 的御三家</h2><blockquote>
 <p>With Pain comes Sufferance and you get Humble</p>
 </blockquote>
-<p>這個超讚的標題是<a href="https://medium.com/@vishnu0002/with-pain-comes-sufferance-and-you-get-humble-3cc10ab47be9" target="_blank" rel="noopener">vishnuraj</a> 一篇介紹 OSCP 的文章所用的標題，這三台機器的 hostname 就叫做 Pain、Sufferance、Humble，據說是最難的三台，我解第二台就遇到 Pain，解完真的超氣= =，但也順便檢討為什麼基本的枚舉自己沒做完全，<del>我是推薦去把這三台做完再去考試</del>，把 Pain 做掉就好了，後面兩台應該是超過考試範圍了。</p>
+<p>這個超讚的標題是<a href="https://medium.com/@vishnu0002/with-pain-comes-sufferance-and-you-get-humble-3cc10ab47be9">vishnuraj</a> 一篇介紹 OSCP 的文章所用的標題，這三台機器的 hostname 就叫做 Pain、Sufferance、Humble，據說是最難的三台，我解第二台就遇到 Pain，解完真的超氣&#x3D; &#x3D;，但也順便檢討為什麼基本的枚舉自己沒做完全，<del>我是推薦去把這三台做完再去考試</del>，把 Pain 做掉就好了，後面兩台應該是超過考試範圍了。</p>
 <h2 id="Lab-的注意事項"><a href="#Lab-的注意事項" class="headerlink" title="Lab 的注意事項"></a>Lab 的注意事項</h2><p>因為 Lab 就是模擬一次真正的滲透測試，所以這整個假想的組織裡面的使用者跟電腦也都是息息相關的，包含他們的帳號密碼，所以每打完一台機器都要記得搜刮所有的 credential，在 Learning Path 裡面就已經有機器是相依的，如果沒有 credential 基本上做不出來。</p>
 <p>這也就是為什麼我們只有完成 58 台機器，因為剩下的好幾台機器都需要用到上一台機器搜刮出來的 credential 才能登入，接下來才是提權，最後的這整組機器的相依性是從 Develop department 的兩台機器串到 Public Network 的三台機器，然後再串回 IT 部門，我們是卡在那邊看論壇才知道…，不過 IT 裡面有一台 nina 就真的是單純來不及打。</p>
 <h2 id="加分項目"><a href="#加分項目" class="headerlink" title="加分項目"></a>加分項目</h2><p>更前面有提到通過考試要 70 分，但如果提交 Lab 的 writeup 是有機會加五分的，writeup 的詳細程度要跟考試提交的報告一樣詳細，聽起來極度麻煩，所以我沒做，此外 Alpha、Beta 兩台機器因為教材裡面有教學所以不需要交。</p>
-<h2 id="考試準備及注意事項"><a href="#考試準備及注意事項" class="headerlink" title="考試準備及注意事項"></a>考試準備及注意事項</h2><p>Lab 結束之後在 120 天之內可以預約考試，建議早一點選時間，不然會剩下很爛的時間，例如什麼半夜兩點開始，我是選 2/5 早上九點，所以考試就是持續到 2/6 早上九點，考試的時候基本上是 24 小時被監控的狀態，webcam 是必備設備，只要清晰到可以看得到護照上的資料就沒問題了，考試時考生前 15 分鐘連進一個有聊天室功能的監考網頁，這段時間監考官會要求讓他看一下環境，然後提醒不能使用手機等，所以實際考試時間是 <strong>23 小時 45 分鐘</strong>，接下來的時間裡監考官會輪班盯著你的傻臉跟螢幕看。</p>
+<h2 id="考試準備及注意事項"><a href="#考試準備及注意事項" class="headerlink" title="考試準備及注意事項"></a>考試準備及注意事項</h2><p>Lab 結束之後在 120 天之內可以預約考試，建議早一點選時間，不然會剩下很爛的時間，例如什麼半夜兩點開始，我是選 2&#x2F;5 早上九點，所以考試就是持續到 2&#x2F;6 早上九點，考試的時候基本上是 24 小時被監控的狀態，webcam 是必備設備，只要清晰到可以看得到護照上的資料就沒問題了，考試時考生前 15 分鐘連進一個有聊天室功能的監考網頁，這段時間監考官會要求讓他看一下環境，然後提醒不能使用手機等，所以實際考試時間是 <strong>23 小時 45 分鐘</strong>，接下來的時間裡監考官會輪班盯著你的傻臉跟螢幕看。</p>
 <p>有一點要注意的是設定好 VPN 之後會需要跑 script 紀錄網路設定然後貼給監考官看，因為這門課就叫做 PWK 所以所有東西在 Kali 下運行一定是沒問題的，包括這個 script 本來就是針對 Linux 寫的，如果考試不想出包直接用 Kali 最保險，其他考試需要注意的東西大概如下：</p>
 <ol>
 <li>Writeup 需要截圖，24 小時一到 vpn 就會斷掉，沒有機會補圖，記得一直截圖，但是不行錄影</li>
@@ -508,7 +744,7 @@ height:50vh;
 </li>
 <li>Metasploit 的 Auxiliary、Exploit、Post 模組只能對一台自選的機器使用，無論有沒有成功都不能換目標，包含 exploit check，建議要用的時候在聊天室跟監考官說一下</li>
 <li>下面四個工具不受限於 Metasploit 只能對一台使用的限制<ol>
-<li>exploit/multi/handler</li>
+<li>exploit&#x2F;multi&#x2F;handler</li>
 <li>msfvenom</li>
 <li>pattern_create.rb</li>
 <li>pattern_offset.rb</li>
@@ -516,43 +752,43 @@ height:50vh;
 </li>
 </ol>
 <p>考試會有五題共 100 分的題目，配分是 10、20、20、25、25，一定有一題 25 分的 BOF 題，結合禁止事項的第五點，恩，可以想想看會發生什麼事，還有就是題目會塞很多誤導的東西，時間控管很重要。</p>
-<p>考試結束之後，學員有另外 24 個小時可以撰寫報告，這個報告的定位是寫給甲方看的那種報告，包括非技術細節及屁話，這裡是<a href="https://www.offensive-security.com/pwk-online/PWKv1-REPORT.doc" target="_blank" rel="noopener">官方的樣板</a>，我個人是用<a href="https://github.com/noraj/OSCP-Exam-Report-Template-Markdown" target="_blank" rel="noopener">社群的樣板</a>，步驟要詳細到可以 copy paste 就重現。</p>
+<p>考試結束之後，學員有另外 24 個小時可以撰寫報告，這個報告的定位是寫給甲方看的那種報告，包括非技術細節及屁話，這裡是<a href="https://www.offensive-security.com/pwk-online/PWKv1-REPORT.doc">官方的樣板</a>，我個人是用<a href="https://github.com/noraj/OSCP-Exam-Report-Template-Markdown">社群的樣板</a>，步驟要詳細到可以 copy paste 就重現。</p>
 <p>最有趣的大概就是一直用第三人稱寫報告超級中二的，例如： OS-83952 found that the CMS is prone to LFI 之類的，呵呵。</p>
-<p>還有一個就是 rdesktop 如果是考試的網路環境，我在 MacOS 上面用畫面會撕裂，慢到幾乎不可用，但在 Kali 裡面加上選項 <code>-P -z</code> 速度差超多= =…，總之如果出事就回去用 Kali 就對了。</p>
+<p>還有一個就是 rdesktop 如果是考試的網路環境，我在 MacOS 上面用畫面會撕裂，慢到幾乎不可用，但在 Kali 裡面加上選項 <code>-P -z</code> 速度差超多&#x3D; &#x3D;…，總之如果出事就回去用 Kali 就對了。</p>
 <h2 id="免費資源"><a href="#免費資源" class="headerlink" title="免費資源"></a>免費資源</h2><p>這些是之前調查時整理出來的免費資源，雖然不是每個我都用過，但就統一放在這裡吧</p>
 <ul>
-<li><a href="https://kali.training" target="_blank" rel="noopener">Kali Training</a>，官方自己維護的 Kali 線上課程。</li>
-<li><a href="https://www.offensive-security.com/metasploit-unleashed/" target="_blank" rel="noopener">Metasploit Unleashed</a>，官方自己維護的 Metasploit 教學。</li>
-<li><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/" target="_blank" rel="noopener">Basic Linux Privilege Escalation</a>，很多人在論壇裡面也推薦，根據論壇紀錄，作者 g0tmi1k 也是 OffSec 的員工。</li>
-<li><a href="https://falconspy.medium.com/oscp-developing-a-methodology-32f4ab471fd6" target="_blank" rel="noopener">OSCP: Developing a Methodology</a>，我在整理這篇文章的時候才查到，滿完整的工具整理。</li>
-<li><a href="https://falconspy.medium.com/unofficial-oscp-approved-tools-b2b4e889e707" target="_blank" rel="noopener">Unofficial OSCP Approved Tools</a>，同上。</li>
+<li><a href="https://kali.training/">Kali Training</a>，官方自己維護的 Kali 線上課程。</li>
+<li><a href="https://www.offensive-security.com/metasploit-unleashed/">Metasploit Unleashed</a>，官方自己維護的 Metasploit 教學。</li>
+<li><a href="https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/">Basic Linux Privilege Escalation</a>，很多人在論壇裡面也推薦，根據論壇紀錄，作者 g0tmi1k 也是 OffSec 的員工。</li>
+<li><a href="https://falconspy.medium.com/oscp-developing-a-methodology-32f4ab471fd6">OSCP: Developing a Methodology</a>，我在整理這篇文章的時候才查到，滿完整的工具整理。</li>
+<li><a href="https://falconspy.medium.com/unofficial-oscp-approved-tools-b2b4e889e707">Unofficial OSCP Approved Tools</a>，同上。</li>
 <li>自動枚舉腳本 (建議一開始做 Lab 先不要用，自己熟悉一下提權的枚舉流程，也不要只用單一腳本，記得交叉檢查)<ul>
 <li>Linux<ul>
-<li><a href="https://github.com/rebootuser/LinEnum" target="_blank" rel="noopener">LinEnum</a></li>
-<li><a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite" target="_blank" rel="noopener">LinPEAS</a></li>
-<li><a href="https://github.com/diego-treitos/linux-smart-enumeration" target="_blank" rel="noopener">Linux Smart Enumeration</a></li>
+<li><a href="https://github.com/rebootuser/LinEnum">LinEnum</a></li>
+<li><a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite">LinPEAS</a></li>
+<li><a href="https://github.com/diego-treitos/linux-smart-enumeration">Linux Smart Enumeration</a></li>
 </ul>
 </li>
 <li>Windows<ul>
-<li><a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite" target="_blank" rel="noopener">WinPEAS</a></li>
-<li><a href="https://github.com/itm4n/PrivescCheck" target="_blank" rel="noopener">PrivescCheck</a></li>
+<li><a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite">WinPEAS</a></li>
+<li><a href="https://github.com/itm4n/PrivescCheck">PrivescCheck</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li>CheatSheets<ul>
-<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" rel="noopener">PayloadAllTheThings</a></li>
-<li><a href="https://github.com/emilyanncr/Windows-Post-Exploitation" target="_blank" rel="noopener">Windows-Post-Exploitation</a></li>
-<li><a href="https://www.ired.team" target="_blank" rel="noopener">Red Teaming Experiments</a></li>
-<li><a href="https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet" target="_blank" rel="noopener">Active Directory Exploitation Cheat Sheet</a></li>
+<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings">PayloadAllTheThings</a></li>
+<li><a href="https://github.com/emilyanncr/Windows-Post-Exploitation">Windows-Post-Exploitation</a></li>
+<li><a href="https://www.ired.team/">Red Teaming Experiments</a></li>
+<li><a href="https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet">Active Directory Exploitation Cheat Sheet</a></li>
 </ul>
 </li>
 </ul>
 <h2 id="練習平台"><a href="#練習平台" class="headerlink" title="練習平台"></a>練習平台</h2><p>因為官方的 Lab 滿貴的，所以很多人會選擇比較便宜或是免費的替代方案，我自己是把官方的 Lab 做完就半死不活了。</p>
 <ul>
-<li><a href="https://www.hackthebox.eu" target="_blank" rel="noopener">HackTheBox</a></li>
-<li><a href="https://www.vulnhub.com" target="_blank" rel="noopener">VulnHub</a></li>
-<li><a href="https://www.root-me.org/" target="_blank" rel="noopener">RootMe</a></li>
+<li><a href="https://www.hackthebox.eu/">HackTheBox</a></li>
+<li><a href="https://www.vulnhub.com/">VulnHub</a></li>
+<li><a href="https://www.root-me.org/">RootMe</a></li>
 </ul>
 <h2 id="我完成的機器（照解題序"><a href="#我完成的機器（照解題序" class="headerlink" title="我完成的機器（照解題序)"></a>我完成的機器（照解題序)</h2><table>
 <thead>
@@ -858,24 +1094,25 @@ height:50vh;
 <p>另外一個收穫大概是看了一堆英文的屁話跟藏頭…因為論壇發言會被審查，具體的工具或是服務會被 <code>&lt;spoiler&gt;</code> 替換，或者是 SMB 變成 S*** 之類的，所以有些人會用更有創意一點的方式來自我審查？例如 <code>.ps1</code> 就會變成 PlayStation1、Metasploit 變成 The Forbidden Tool、Powershell Empire 變成 Darth Vader 等等，還有更多第一眼看到不知道在寫什麼鬼，但是解完看到會笑出來的英文詩，挺有收穫的…?</p>
 <p>接下來就是等我那張在疫情風暴下不知道什麼時候才會來的證照…</p>
 <hr>
-<p>結果比我想的還要有效率，他們用 DHL 從菲律賓寄過來，東西 3/3 就已經躺在我家了，只是清明連假我才回家把它打開，酷…</p>
-<img src="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/cert.jpg" class="">
+<p>結果比我想的還要有效率，他們用 DHL 從菲律賓寄過來，東西 3&#x2F;3 就已經躺在我家了，只是清明連假我才回家把它打開，酷…</p>
+
     </article>
-    <!-- license  -->
+    <!-- license -->
     
         <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">February 17th 2021, 2:44:00</a>
-            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">February 17th 2021, 2:44:00 am</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">April 6th 2021, 4:23:30 pm</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
-    <!-- paginator  -->
+    <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/en/2021-QEMU-AFL-and-TCG/" title= "2021::QEMU::AFL++ and TCG">
+                <a href="/en/2021-QEMU-AFL-and-TCG/" title="2021::QEMU::AFL++ and TCG">
                     <div class="nextTitle">2021::QEMU::AFL++ and TCG</div>
                 </a>
             
@@ -883,14 +1120,19 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/2020-Flare-On-7-Write-up/" title= "2020::Flare-On 7::Write-up">
+                <a href="/tw/2020-Flare-On-7-Write-up/" title="2020::Flare-On 7::Write-up">
                     <div class="prevTitle">2020::Flare-On 7::Write-up</div>
                 </a>
             
         </li>
     </ul>
-    <!-- 评论插件 -->
+    <!-- comment -->
     
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
     <div id="disqus_thread"></div>
     <script>
         /**
@@ -908,30 +1150,47 @@ height:50vh;
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
-
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-    </style>
-</main>
-            <!-- profile -->
             
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
         </div>
-        <footer class="footer footer-unloaded">
-    <!-- mermaid-->
     
-      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
-      <script>mermaid.initialize({startOnLoad:true});</script>
-      
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
     <!-- social  -->
     
-    <div class="social">
-        
+        <div class="social">
+            
     
         
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -978,6 +1237,8 @@ height:50vh;
         
     
         
+    
+        
             
                 <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
             
@@ -992,544 +1253,576 @@ height:50vh;
         
     
 
-    </div>
+
+        </div>
     
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
+    <!-- website approve for Chinese user -->
+    
     <!-- 不蒜子  -->
-    
+    	
 </footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
 
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#報考動機"><span class="toc-number">1.</span> <span class="toc-text">報考動機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSCP-簡介"><span class="toc-number">2.</span> <span class="toc-text">OSCP 簡介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#價格"><span class="toc-number">3.</span> <span class="toc-text">價格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#報名及教材"><span class="toc-number">4.</span> <span class="toc-text">報名及教材</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#課程大綱"><span class="toc-number">5.</span> <span class="toc-text">課程大綱</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基本-Kali-Linux"><span class="toc-number">5.1.</span> <span class="toc-text">1. 基本 Kali Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-基本-Linux-操作"><span class="toc-number">5.2.</span> <span class="toc-text">2. 基本 Linux 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Netcat、Socat、Powershell、Powercat"><span class="toc-number">5.3.</span> <span class="toc-text">3. Netcat、Socat、Powershell、Powercat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Wireshark、Tcpdump"><span class="toc-number">5.4.</span> <span class="toc-text">4. Wireshark、Tcpdump</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Bash-scripting"><span class="toc-number">5.5.</span> <span class="toc-text">5. Bash scripting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Passive-Information-Gathering"><span class="toc-number">5.6.</span> <span class="toc-text">6. Passive Information Gathering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Active-Information-Gathering"><span class="toc-number">5.7.</span> <span class="toc-text">7. Active Information Gathering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-弱點掃描"><span class="toc-number">5.8.</span> <span class="toc-text">8. 弱點掃描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Web-Application-攻擊"><span class="toc-number">5.9.</span> <span class="toc-text">9. Web Application 攻擊</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-Buffer-Overflow"><span class="toc-number">5.10.</span> <span class="toc-text">10. Buffer Overflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-Client-Side-Attacks"><span class="toc-number">5.11.</span> <span class="toc-text">11. Client-Side Attacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-Public-Exploitation-amp-Fixing-Exploits"><span class="toc-number">5.12.</span> <span class="toc-text">12. Public Exploitation &amp; Fixing Exploits</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-File-Transfers"><span class="toc-number">5.13.</span> <span class="toc-text">13. File Transfers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-Antivirus-Evasion"><span class="toc-number">5.14.</span> <span class="toc-text">14. Antivirus Evasion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-Privilege-Escalation"><span class="toc-number">5.15.</span> <span class="toc-text">15. Privilege Escalation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-Password-Attacks"><span class="toc-number">5.16.</span> <span class="toc-text">16. Password Attacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-Port-Redirection-and-Tunneling"><span class="toc-number">5.17.</span> <span class="toc-text">17. Port Redirection and Tunneling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-Active-Directory-Attacks"><span class="toc-number">5.18.</span> <span class="toc-text">18. Active Directory Attacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-The-Metasploit-Framework"><span class="toc-number">5.19.</span> <span class="toc-text">19. The Metasploit Framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-PowerShell-Empire"><span class="toc-number">5.20.</span> <span class="toc-text">20. PowerShell Empire</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-Lab-範例"><span class="toc-number">5.21.</span> <span class="toc-text">21. Lab 範例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-環境"><span class="toc-number">6.</span> <span class="toc-text">Lab 環境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-的-Learning-Path"><span class="toc-number">7.</span> <span class="toc-text">Lab 的 Learning Path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-的御三家"><span class="toc-number">8.</span> <span class="toc-text">Lab 的御三家</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-的注意事項"><span class="toc-number">9.</span> <span class="toc-text">Lab 的注意事項</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加分項目"><span class="toc-number">10.</span> <span class="toc-text">加分項目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#考試準備及注意事項"><span class="toc-number">11.</span> <span class="toc-text">考試準備及注意事項</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#免費資源"><span class="toc-number">12.</span> <span class="toc-text">免費資源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#練習平台"><span class="toc-number">13.</span> <span class="toc-text">練習平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我完成的機器（照解題序"><span class="toc-number">14.</span> <span class="toc-text">我完成的機器（照解題序)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#心得跟一些雜七雜八的東西"><span class="toc-number">15.</span> <span class="toc-text">心得跟一些雜七雜八的東西</span></a></li></ol>
-    </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
 
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
     
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%B1%E8%80%83%E5%8B%95%E6%A9%9F"><span class="toc-number">1.</span> <span class="toc-text">報考動機</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSCP-%E7%B0%A1%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">OSCP 簡介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%83%B9%E6%A0%BC"><span class="toc-number">3.</span> <span class="toc-text">價格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%B1%E5%90%8D%E5%8F%8A%E6%95%99%E6%9D%90"><span class="toc-number">4.</span> <span class="toc-text">報名及教材</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AA%B2%E7%A8%8B%E5%A4%A7%E7%B6%B1"><span class="toc-number">5.</span> <span class="toc-text">課程大綱</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC-Kali-Linux"><span class="toc-number">5.1.</span> <span class="toc-text">1. 基本 Kali Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E6%9C%AC-Linux-%E6%93%8D%E4%BD%9C"><span class="toc-number">5.2.</span> <span class="toc-text">2. 基本 Linux 操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Netcat%E3%80%81Socat%E3%80%81Powershell%E3%80%81Powercat"><span class="toc-number">5.3.</span> <span class="toc-text">3. Netcat、Socat、Powershell、Powercat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Wireshark%E3%80%81Tcpdump"><span class="toc-number">5.4.</span> <span class="toc-text">4. Wireshark、Tcpdump</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Bash-scripting"><span class="toc-number">5.5.</span> <span class="toc-text">5. Bash scripting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Passive-Information-Gathering"><span class="toc-number">5.6.</span> <span class="toc-text">6. Passive Information Gathering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Active-Information-Gathering"><span class="toc-number">5.7.</span> <span class="toc-text">7. Active Information Gathering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E5%BC%B1%E9%BB%9E%E6%8E%83%E6%8F%8F"><span class="toc-number">5.8.</span> <span class="toc-text">8. 弱點掃描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-Web-Application-%E6%94%BB%E6%93%8A"><span class="toc-number">5.9.</span> <span class="toc-text">9. Web Application 攻擊</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-Buffer-Overflow"><span class="toc-number">5.10.</span> <span class="toc-text">10. Buffer Overflow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-Client-Side-Attacks"><span class="toc-number">5.11.</span> <span class="toc-text">11. Client-Side Attacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-Public-Exploitation-Fixing-Exploits"><span class="toc-number">5.12.</span> <span class="toc-text">12. Public Exploitation &amp; Fixing Exploits</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-File-Transfers"><span class="toc-number">5.13.</span> <span class="toc-text">13. File Transfers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-Antivirus-Evasion"><span class="toc-number">5.14.</span> <span class="toc-text">14. Antivirus Evasion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-Privilege-Escalation"><span class="toc-number">5.15.</span> <span class="toc-text">15. Privilege Escalation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-Password-Attacks"><span class="toc-number">5.16.</span> <span class="toc-text">16. Password Attacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-Port-Redirection-and-Tunneling"><span class="toc-number">5.17.</span> <span class="toc-text">17. Port Redirection and Tunneling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#18-Active-Directory-Attacks"><span class="toc-number">5.18.</span> <span class="toc-text">18. Active Directory Attacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#19-The-Metasploit-Framework"><span class="toc-number">5.19.</span> <span class="toc-text">19. The Metasploit Framework</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#20-PowerShell-Empire"><span class="toc-number">5.20.</span> <span class="toc-text">20. PowerShell Empire</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#21-Lab-%E7%AF%84%E4%BE%8B"><span class="toc-number">5.21.</span> <span class="toc-text">21. Lab 範例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-%E7%92%B0%E5%A2%83"><span class="toc-number">6.</span> <span class="toc-text">Lab 環境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-%E7%9A%84-Learning-Path"><span class="toc-number">7.</span> <span class="toc-text">Lab 的 Learning Path</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-%E7%9A%84%E5%BE%A1%E4%B8%89%E5%AE%B6"><span class="toc-number">8.</span> <span class="toc-text">Lab 的御三家</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lab-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="toc-number">9.</span> <span class="toc-text">Lab 的注意事項</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%88%86%E9%A0%85%E7%9B%AE"><span class="toc-number">10.</span> <span class="toc-text">加分項目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%83%E8%A9%A6%E6%BA%96%E5%82%99%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="toc-number">11.</span> <span class="toc-text">考試準備及注意事項</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%8D%E8%B2%BB%E8%B3%87%E6%BA%90"><span class="toc-number">12.</span> <span class="toc-text">免費資源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B7%B4%E7%BF%92%E5%B9%B3%E5%8F%B0"><span class="toc-number">13.</span> <span class="toc-text">練習平台</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E5%AE%8C%E6%88%90%E7%9A%84%E6%A9%9F%E5%99%A8%EF%BC%88%E7%85%A7%E8%A7%A3%E9%A1%8C%E5%BA%8F"><span class="toc-number">14.</span> <span class="toc-text">我完成的機器（照解題序)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%83%E5%BE%97%E8%B7%9F%E4%B8%80%E4%BA%9B%E9%9B%9C%E4%B8%83%E9%9B%9C%E5%85%AB%E7%9A%84%E6%9D%B1%E8%A5%BF"><span class="toc-number">15.</span> <span class="toc-text">心得跟一些雜七雜八的東西</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
         <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
         <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
         <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
     </ul>
     <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1537,384 +1830,544 @@ top:50vh;
     
     <div class="post-archive">
     
-    
-    
-    
-    <div class="archive-year"> 2022 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
         </li>
     
     </div>
-  </div>
+</div>
+
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
-    
-        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
-    
-        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
-    
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
-    
-        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
-    
-        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
-    
-        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
     </div> 
     <div class="sidebar-tags-list"></div>
 </div>
+
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
     
-        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
 </div>
+
     </div>
-</div> 
-    <script>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
         author: "Terrynini"
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
-    
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
     </body>
 </html>
-
-

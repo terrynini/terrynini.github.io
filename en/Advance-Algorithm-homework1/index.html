@@ -3,18 +3,25 @@
     <!-- title -->
 
 
-
+    
 
 <!-- keywords -->
 
 
 
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
+    
+    <meta name="description" content="">
     <meta name="description" content="整理一下何錦文教授高等演算法課上的作業。作業題目好像都不太會變的樣子？所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥有什麼問題都可以在下面留言討論，私訊我也可以。 Written in English.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Advance-Algorithm::homework1">
-<meta property="og:image">
 <meta property="og:url" content="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/index.html">
 <meta property="og:site_name" content="NiNi&#39;s den">
 <meta property="og:description" content="整理一下何錦文教授高等演算法課上的作業。作業題目好像都不太會變的樣子？所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥有什麼問題都可以在下面留言討論，私訊我也可以。 Written in English.">
@@ -28,26 +35,126 @@
 <meta property="og:image" content="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/6.png">
 <meta property="og:image" content="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/7.png">
 <meta property="og:image" content="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/8.png">
-<meta property="article:published_time" content="2017-11-12T20:56:41.000Z">
-<meta property="article:modified_time" content="2021-03-22T19:01:47.806Z">
+<meta property="article:published_time" content="2017-11-12T19:56:41.000Z">
+<meta property="article:modified_time" content="2024-06-20T16:45:59.592Z">
 <meta property="article:author" content="Terrynini">
 <meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/Helly.png">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <meta name="author" content="Terrynini">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="Terrynini">
-    
-    <meta name="keywords" content="NiNi's den,Terrynini">
-    
-    <meta name="description" content="">
-
     <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
     <title>Advance-Algorithm::homework1 · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -97,164 +204,258 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
 </style>
 
-    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
     
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        font-size: 80%;
+        text-align: right;
+        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        font-size: 80%;
+        width: 19vw;
+        margin-left: -23vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+.article-entry aside  {
+    
+}
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+    text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 90%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
 <script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
+document.addEventListener("DOMContentLoaded", function(){
 
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
+  var selection = document.querySelector('.sidenote-mark') !== null;
+  if( selection ){
+    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.add('hover');
+    });
 
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
+    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+  selection = document.querySelector('aside') !== null;
+  if(selection){
+    document.querySelector('aside').addEventListener('mouseover', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.add('hover');
+    });
 
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
+        document.querySelector('aside').addEventListener('mouseout', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-109652024-2');
-</script>
-
-<meta name="generator" content="Hexo 4.2.1"></head>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
         <body class="post-body">
     
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
     
-<header class="header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
             </div>
-            <div class="post-title">
+            <div class="post-title header-element">
                 <a href="#" class="post-name">Advance-Algorithm::homework1</a>
             </div>
-    </div>
-    
-    
-    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+        </div>
     
 </header>
-    <div class="wrapper">
-        <div class="site-intro" style="
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
 
 
 
@@ -262,12 +463,13 @@
 
 
 
-height:50vh;
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
-    
+        
     <!-- 404页  -->
     
     <div class="site-intro-placeholder"></div>
@@ -277,7 +479,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Advance-Algorithm::homework1
+                Advance-Algorithm::homework1
             <!-- 404 -->
             
         </h1>
@@ -285,34 +487,40 @@ height:50vh;
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
+                
             <!-- 404 -->
             
         </p>
-        <!-- 文章页meta -->
+        <!-- 文章页 meta -->
         
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Algorithm">Algorithm</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Algorithm">Algorithm</a>
     
 </div>
+
                 
+                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">2.2k</span>Reading time: <span class="post-count reading-time">13 min</span></span>
+                        <span>Word count: <span class="post-count word-count">2.3k</span>Reading time: <span class="post-count reading-time">14 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2017/11/13</span>
+                    <!-- busuanzi -->
                     
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
                             <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
                                 <div class="share-qrcode"></div>
                             </li>
@@ -325,108 +533,137 @@ height:50vh;
         
     </div>
 </div>
-        <script>
- 
+
+            <script>
   // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
   }
-  console.log("userAgent:" + browser.versions.userAgent);
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
 
   // callback
   function fontLoaded() {
-    console.log('font loaded');
+    console.log('font loaded')
     if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
       var postIntros = document.getElementsByClassName('post-intros')[0]
       if (postIntros) {
-        postIntros.classList.add('post-fade-in');
+        postIntros.classList.add('post-fade-in')
       }
     }
   }
 
   // UC不支持跨域，所以直接显示
-  function asyncCb(){
+  function asyncCb() {
     if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
+      console.log('UCBrowser')
+      fontLoaded()
     } else {
       WebFont.load({
         custom: {
-          families: ['Oswald-Regular']
+          families: ['Oswald-Regular'],
         },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
         },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
         },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
         },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+        timeout: 5000, // Set the timeout to two seconds
+      })
     }
   }
 
-  function asyncErr(){
+  function asyncErr() {
     console.warn('script load from CDN failed, will load local script')
   }
 
   // load webfont-loader async, and add callback function
   function async(u, cb, err) {
-    var d = document, t = 'script',
+    var d = document,
+      t = 'script',
       o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
   }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
 
-      async(arr[0], success, currReject)
+    async(arr[0], success, currReject)
   }
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
 </script>
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
     <article class="article-entry">
         <p>整理一下何錦文教授高等演算法課上的作業。<br>作業題目好像都不太會變的樣子？<br>所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥<br>有什麼問題都可以在下面留言討論，私訊我也可以。</p>
 <p>Written in English.</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="problem-1"><a href="#problem-1" class="headerlink" title="problem 1"></a>problem 1</h2><blockquote>
 <p>Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program.</p>
@@ -452,7 +689,7 @@ For in-place quick sort, space complexity is determined by stacks used by recurs
 </div>
 
 <h2 id="problem-3"><a href="#problem-3" class="headerlink" title="problem 3"></a>problem 3</h2><blockquote>
-<p>Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) = 0$</p>
+<p>Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) &#x3D; T(\lfloor \frac{n}{2} \rfloor) + T(\lceil \frac{n}{2} \rceil) + n-1, T(1) &#x3D; 0$</p>
 </blockquote>
 <div class="highlight">
 $$ T(n) = 2T(\frac{n}{2}) + n-1 = 4T(\frac{n}{4}) + n-2 + n-1 = 8T(\frac{n}{8}) + n-4 + n-2 + n-1 $$
@@ -466,24 +703,24 @@ $$ T(n) = nlog_2(n) + \frac{1-n}{1-2}$$
 </blockquote>
 <div class="highlight">
 
-<p><strong><em>Basis</em></strong> : $n = 1, 1|2 $<br>Assume that, for $n = k$, it holds(select k+1 numbers from first 2k natural numbers).</p>
-<p>When $ n = k + 1 $(select k+2 numbers from first 2k+2 natural numbers), there are three situation:</p>
+<p><em><strong>Basis</strong></em> : $n &#x3D; 1, 1|2 $<br>Assume that, for $n &#x3D; k$, it holds(select k+1 numbers from first 2k natural numbers).</p>
+<p>When $ n &#x3D; k + 1 $(select k+2 numbers from first 2k+2 natural numbers), there are three situation:</p>
 <ol>
 <li><p>Each number we select is less or equal to 2k, means that we select k+2 numbers from first 2k natural numbers. Under this situation, it holds.</p>
 </li>
 <li><p>One number we select is greater than 2k, means that we select remaining k+1 numbers from first 2k natural numbers. Under this situation, it holds.</p>
 </li>
 <li><p>We select both 2k+1 and 2k+2 :</p>
-<ul>
-<li>If we select k+1, then $(k+1)|(2k+2)$. It holds.</li>
-<li>If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$</li>
-</ul>
 </li>
 </ol>
+<ul>
+<li>If we select k+1, then $(k+1)|(2k+2)$. It holds.</li>
+<li>If not, then it’s similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y&#x3D;k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.<br>$$ QED $$</li>
+</ul>
 </div>
 
 <h2 id="problem-5"><a href="#problem-5" class="headerlink" title="problem 5"></a>problem 5</h2><blockquote>
-<p>For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.</p>
+<p>For an undirected graph $G&#x3D;(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.</p>
 </blockquote>
 <div class="highlight">
 We know that if a graph is connected, there is a spanning tree.
@@ -492,16 +729,16 @@ We know that if a graph is connected, there is a spanning tree.
 </div>
 
 <h2 id="problem-6"><a href="#problem-6" class="headerlink" title="problem 6"></a>problem 6</h2><blockquote>
-<p>Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) = \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem: Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value.</p>
+<p>Given $n \geq 1$ numbers x1, x2, …, xn, show that the function $f(x) &#x3D; \sum_{1\le i\le n}|x-x_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem: Given n pairs of numbers (a1, b1), …, (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) &#x3D; \sum_{1\le i\le n}|a_ix-b_i| $ takes its minimum value.</p>
 </blockquote>
 <div class="highlight">
 
-<p>$$let;M;=;median;of;x_i$$<br>$$ x_1 \le x_2 \le … \le x_s \le A \le x_{s+1} \le … \le x_t \le M \le x_{t+1} \le … \le x_n $$</p>
+<p>$$let;M;&#x3D;;median;of;x_i$$<br>$$ x_1 \le x_2 \le … \le x_s \le A \le x_{s+1} \le … \le x_t \le M \le x_{t+1} \le … \le x_n $$</p>
 <ol>
-<li>If n is even and an arbitrary number A is less or equal than M:<br>$$ n = 2t $$<br>$$ f(A) =  {\sum_{i=1}^s(A-x_i) + \sum_{i=s+1}^n(x_i-A)}$$<br>$$ = \sum_{i=1}^t(A-M+M-x_i) - \sum_{i=s+1}^t(A-x_i)+\sum_{i=t+1}^n(x_i-M+M-A) +\sum_{i=s+1}^t(x_i-A)$$<br>$$ = \sum_{i=1}^t(M-x_i)+ t(A-M) + \sum_{i=t+1}^n(x_i-M)+(n-t)(M-A) + 2\sum_{i=s+1}^t(x_i-A)$$<br>$$ = \sum_{i=1}^t(M-x_i) + \sum_{i=t+1}^n(x_i-M) + 2\sum_{i=s+1}^t(x_i-A) +(n-2t)(M-A) $$<br>$$ when;A;=;M,;2\sum_{i=s+1}^t(x_i-A);has;minimum;value$$<br>(Proof this when A&gt;=M,and when n is odd, it’s easy)</li>
+<li>If n is even and an arbitrary number A is less or equal than M:<br>$$ n &#x3D; 2t $$<br>$$ f(A) &#x3D;  {\sum_{i&#x3D;1}^s(A-x_i) + \sum_{i&#x3D;s+1}^n(x_i-A)}$$<br>$$ &#x3D; \sum_{i&#x3D;1}^t(A-M+M-x_i) - \sum_{i&#x3D;s+1}^t(A-x_i)+\sum_{i&#x3D;t+1}^n(x_i-M+M-A) +\sum_{i&#x3D;s+1}^t(x_i-A)$$<br>$$ &#x3D; \sum_{i&#x3D;1}^t(M-x_i)+ t(A-M) + \sum_{i&#x3D;t+1}^n(x_i-M)+(n-t)(M-A) + 2\sum_{i&#x3D;s+1}^t(x_i-A)$$<br>$$ &#x3D; \sum_{i&#x3D;1}^t(M-x_i) + \sum_{i&#x3D;t+1}^n(x_i-M) + 2\sum_{i&#x3D;s+1}^t(x_i-A) +(n-2t)(M-A) $$<br>$$ when;A;&#x3D;;M,;2\sum_{i&#x3D;s+1}^t(x_i-A);has;minimum;value$$<br>(Proof this when A&gt;&#x3D;M,and when n is odd, it’s easy)</li>
 </ol>
-<p>Extend this result to  $ f(x) = \sum_{1\le i\le n}|a_ix-b_i| $ </p>
-<p>$Let;v_i=|a_i|,w_i=\frac{b_i}{a_i}$<br>$$f(x) = \sum_{1\le i\le n}|a_ix-b_i|$$<br>$$= \sum_{1\le i\le n}|a_i||x-\frac{b_i}{a_i}|$$<br>$$= \sum_{1\le i\le n}v_i|x-w_i|$$<br>$f(x) = \sum_{1\le i\le n}v_i|x-w_i|$ takes its minimum value at the median of the sequence :<br>$$w_1,w_1,…,w_1,…,w_2,w_2,…,w_2,…,w_n,w_n,…,w_n$$<br>$$|———v_1——–||———v_2—-|….|—–v_n——|$$</p>
+<p>Extend this result to  $ f(x) &#x3D; \sum_{1\le i\le n}|a_ix-b_i| $ </p>
+<p>$Let;v_i&#x3D;|a_i|,w_i&#x3D;\frac{b_i}{a_i}$<br>$$f(x) &#x3D; \sum_{1\le i\le n}|a_ix-b_i|$$<br>$$&#x3D; \sum_{1\le i\le n}|a_i||x-\frac{b_i}{a_i}|$$<br>$$&#x3D; \sum_{1\le i\le n}v_i|x-w_i|$$<br>$f(x) &#x3D; \sum_{1\le i\le n}v_i|x-w_i|$ takes its minimum value at the median of the sequence :<br>$$w_1,w_1,…,w_1,…,w_2,w_2,…,w_2,…,w_n,w_n,…,w_n$$<br>$$|———v_1——–||———v_2—-|….|—–v_n——|$$</p>
 </div>
 
 <h2 id="problem-7"><a href="#problem-7" class="headerlink" title="problem 7"></a>problem 7</h2><blockquote>
@@ -513,17 +750,17 @@ A family $ \\{A\_i: i \in I \\} $ of subsets of a set $A$ is said to satisfy the
 
 <p>Briefly, a set $J$ of sets $A_i$ has the Helly property if for every subset $T$ of $J$ the following holds: if the elements of $T$ pairwise intersect, then the intersection of all elements of $T$ is also non-empty.</p>
 <img src="/en/Advance-Algorithm-homework1/Helly.png" class="" title="\[\]">
-<p>Quoted from <a href="http://compalg.inf.elte.hu/~tony/Oktatas/TDK/FINAL/Chap%204.PDF" target="_blank" rel="noopener">here</a></p>
+<p>Quoted from <a href="http://compalg.inf.elte.hu/~tony/Oktatas/TDK/FINAL/Chap%204.PDF">here</a></p>
 </div>
 
 <h2 id="problem-8"><a href="#problem-8" class="headerlink" title="problem 8"></a>problem 8</h2><blockquote>
-<p>Let $d_1, d_2, …, d_n,;n\le 2$, be positive integers. Prove that if $d_1+ d_2+ …+ d_n = 2n - 2$, then there exists a tree with n vertices of degrees exactly $d_1, d_2, …, d_n$. Based on your proof, design an efficient algorithm to construct such a tree. </p>
+<p>Let $d_1, d_2, …, d_n,;n\le 2$, be positive integers. Prove that if $d_1+ d_2+ …+ d_n &#x3D; 2n - 2$, then there exists a tree with n vertices of degrees exactly $d_1, d_2, …, d_n$. Based on your proof, design an efficient algorithm to construct such a tree. </p>
 </blockquote>
 <div class="highlight">
 
-<p><strong><em>Basis</em></strong> :<br>when $n=1,d_1=0$,it holds.<br>when $n=2,d_1=1,d_2=1$ , it holds.</p>
-<p><strong><em>Induction</em></strong> :<br>$$ Let;d_1\le d_2\le d_3\le … \le d_n $$<br>$$ d_1=1,otherwise, $$<br>$$ d_1+ d_2+ …+ d_n \ge 2n \ge 2n - 2 $$<br>$$ when;n\ne 2, d_n\ge 2,otherwise,$$<br>$$ d_1+ d_2+ …+ d_n = n &lt; 2n-2 $$</p>
-<p>Therefor<br>$$ d_1+ d_2+ …+ d_n +d_{n+1} = 2(n+1)-2 = 2n  $$<br>$$ d_1+ d_2+ … + d_n +d_{n+1} - 2 = 2n-2 $$<br>$$ d_1+ d_2+ … + (d_n +d_{n+1} - 2) = 2n-2 $$<br>$ d_1+ d_2+ … + (d_n + d_{n+1} - 2) $ satisfy the induction hypothesis, so there exist a tree with n vertices with these degrees.<br>Remove  $(d_{n+1} - 1)$ neighbours from the vertix whose degree is $(d_n + d_{n+1} - 2)$, connect those neighbours with a new node,and connect the new node with the vertix whose original degree is $(d_n + d_{n+1} - 2)$.<br>Then we get<br>$$ d_1+ d_2+ … + d_n +d_{n+1}  = 2n $$<br>$$QED$$</p>
+<p><em><strong>Basis</strong></em> :<br>when $n&#x3D;1,d_1&#x3D;0$,it holds.<br>when $n&#x3D;2,d_1&#x3D;1,d_2&#x3D;1$ , it holds.</p>
+<p><em><strong>Induction</strong></em> :<br>$$ Let;d_1\le d_2\le d_3\le … \le d_n $$<br>$$ d_1&#x3D;1,otherwise, $$<br>$$ d_1+ d_2+ …+ d_n \ge 2n \ge 2n - 2 $$<br>$$ when;n\ne 2, d_n\ge 2,otherwise,$$<br>$$ d_1+ d_2+ …+ d_n &#x3D; n &lt; 2n-2 $$</p>
+<p>Therefor<br>$$ d_1+ d_2+ …+ d_n +d_{n+1} &#x3D; 2(n+1)-2 &#x3D; 2n  $$<br>$$ d_1+ d_2+ … + d_n +d_{n+1} - 2 &#x3D; 2n-2 $$<br>$$ d_1+ d_2+ … + (d_n +d_{n+1} - 2) &#x3D; 2n-2 $$<br>$ d_1+ d_2+ … + (d_n + d_{n+1} - 2) $ satisfy the induction hypothesis, so there exist a tree with n vertices with these degrees.<br>Remove  $(d_{n+1} - 1)$ neighbours from the vertix whose degree is $(d_n + d_{n+1} - 2)$, connect those neighbours with a new node,and connect the new node with the vertix whose original degree is $(d_n + d_{n+1} - 2)$.<br>Then we get<br>$$ d_1+ d_2+ … + d_n +d_{n+1}  &#x3D; 2n $$<br>$$QED$$</p>
 </div>
 
 <p>algorithm :</p>
@@ -534,7 +771,7 @@ A family $ \\{A\_i: i \in I \\} $ of subsets of a set $A$ is said to satisfy the
 <li>Go back to 2 until there is no more nodes can be added</li>
 </ol>
 <h2 id="problem-9"><a href="#problem-9" class="headerlink" title="problem 9"></a>problem 9</h2><blockquote>
-<p>Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that $wv \in E$)</p>
+<p>Let G&#x3D;(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that $wv \in E$)</p>
 </blockquote>
 <div class="highlight">
 You can find it in Morris's old blog. [Q8](http://mypaper.pchome.com.tw/zerojudge/post/1325745839)
@@ -573,7 +810,7 @@ perfect matching : [English](http://mathworld.wolfram.com/PerfectMatching.html),
 <td><img src="/en/Advance-Algorithm-homework1/8.png" class=""></td>
 </tr>
 </tbody></table>
-<figure class="highlight c"><figcaption><span>pseudo code</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UNMATCH 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MATCH   1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL    -1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">PerfectMatching</span> <span class="params">( n )</span></span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> child of n </span>== <span class="number">0</span>                  <span class="comment">// if this node is leaf</span></span><br><span class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it's parent node that "this child node is unmatch"</span></span><br><span class="line"></span><br><span class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></span><br><span class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node</span></span><br><span class="line">        state &lt;- PerfectMatching( c )</span><br><span class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></span><br><span class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></span><br><span class="line">                match_flag = MATCH      <span class="comment">// match them.</span></span><br><span class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></span><br><span class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won't be perfect matching</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL</span><br><span class="line">            <span class="keyword">return</span> FAIL</span><br><span class="line">    <span class="keyword">return</span> match_flag</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><figcaption><span>pseudo code</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> UNMATCH 0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MATCH   1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FAIL    -1</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">PerfectMatching</span> <span class="params">( n )</span></span><br><span class="line">    <span class="keyword">if</span> child of n == <span class="number">0</span>                  <span class="comment">// if this node is leaf</span></span><br><span class="line">        <span class="keyword">return</span> UNMATCH                  <span class="comment">// told it&#x27;s parent node that &quot;this child node is unmatch&quot;</span></span><br><span class="line"></span><br><span class="line">    match_flag &lt;- UNMATCH               <span class="comment">//state of current node</span></span><br><span class="line">    foreach child c of n                <span class="comment">//loop to check the state of every child node of current node</span></span><br><span class="line">        state &lt;- PerfectMatching( c )</span><br><span class="line">        <span class="keyword">if</span> state == UNMATCH             <span class="comment">//if child node is UNMATCH,</span></span><br><span class="line">            <span class="keyword">if</span> match_flag == UNMATCH    <span class="comment">//and current node is UNMATCH, too</span></span><br><span class="line">                match_flag = MATCH      <span class="comment">// match them.</span></span><br><span class="line">            <span class="keyword">else</span>                        <span class="comment">// But if the state of current node is MATCH,</span></span><br><span class="line">                <span class="keyword">return</span> FAIL             <span class="comment">//means this tree won&#x27;t be perfect matching</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> state == FAIL</span><br><span class="line">            <span class="keyword">return</span> FAIL</span><br><span class="line">    <span class="keyword">return</span> match_flag</span><br></pre></td></tr></table></figure>
 
 <h2 id="problem-11"><a href="#problem-11" class="headerlink" title="problem 11"></a>problem 11</h2><blockquote>
 <p>Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?</p>
@@ -602,7 +839,7 @@ Because the highest two subtree of T determind the diameter of T.
 <h2 id="problem-13"><a href="#problem-13" class="headerlink" title="problem 13"></a>problem 13</h2><blockquote>
 <p>Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm. </p>
 </blockquote>
-<figure class="highlight c"><figcaption><span>iterative method</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">move</span> the smallest disk from its current peg to the next peg in clockwise order;</span><br><span class="line">    <span class="keyword">if</span>( all disks are correctly piled on someother peg ) <span class="keyword">break</span>;</span><br><span class="line">    make the only <span class="built_in">move</span> possible that does notinvolve the smallest disk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><figcaption><span>iterative method</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    move the smallest disk from its current peg to the next peg in clockwise order;</span><br><span class="line">    <span class="keyword">if</span>( all disks are correctly piled on someother peg ) <span class="keyword">break</span>;</span><br><span class="line">    make the only move possible that does notinvolve the smallest disk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <div class="highlight">
 We have three peg, $P\_0\;P\_1\;P\_2$ ,and  $K$ disks,$D\_1,D\_2,D\_3,...,D\_K$ ,$K \in N$.
@@ -610,29 +847,30 @@ Assume that all disks are at peg $P\_0$ initially.
 $K$ is odd  : Disks will be moved to the peg $P\_{(0+1)mod3}$
 $K$ is even : Disks will be moved to the peg $P\_{(0+2)mod3}$
 
-<p><strong><em>Basis</em></strong> :<br><tab>$K=1$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>it holds.</tab2></p>
-<p><tab>$K=2$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>Move $D_2$ from $P_0$ to  $P_2$</tab2><br><tab2>Move $D_1$ from $P_1$ to  $P_2$</tab2><br><tab2>It holds</tab2></p>
-<p><strong><em>Induction</em></strong> :<br><tab>Assume that it holds when $K=n$ and n is odd.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_1$)</tab></p>
-<p><tab>$When;K=n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_1$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_2$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_1$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_2$, it holds</tab2><br>|</p>
-<p><tab>Assume that it holds when $K=n$ and n is even.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_2$)</tab></p>
-<p><tab>$When;K=n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_2$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_1$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_2$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_1$, it holds</tab2><br>|<br>$$QED$$</p>
+<p><em><strong>Basis</strong></em> :<br><tab>$K&#x3D;1$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>it holds.</tab2></p>
+<p><tab>$K&#x3D;2$:</tab><br><tab2>Move $D_1$ from $P_0$ to  $P_1$</tab2><br><tab2>Move $D_2$ from $P_0$ to  $P_2$</tab2><br><tab2>Move $D_1$ from $P_1$ to  $P_2$</tab2><br><tab2>It holds</tab2></p>
+<p><em><strong>Induction</strong></em> :<br><tab>Assume that it holds when $K&#x3D;n$ and n is odd.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_1$)</tab></p>
+<p><tab>$When;K&#x3D;n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_1$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_2$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_1$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_2$, it holds</tab2><br>|</p>
+<p><tab>Assume that it holds when $K&#x3D;n$ and n is even.</tab><br><tab>($D_1,…,D_K $ would be moved from $P_0$ to $P_2$)</tab></p>
+<p><tab>$When;K&#x3D;n+1$</tab>:<br>|<br>|<tab2>Step1. Move top n disk from $P_0$ to $P_2$ (Induction hypothesis)</tab2><br>|<br>|<tab2>Step2. Last move of previous step is moving smallest disk from $P_0$ to $P_2$, </tab2><br>|<tab2><tab2>so the next move is moving $D_{n+1} from $P_0$ to $P_1$</tab2></tab2><br>|<br>|<tab2>Step3. Move n disk from $P_2$ to $P_1$ (Induction hypothesis)</tab2><br>|<br>|<tab2>All disks are being moved from $P_0$ to $P_1$, it holds</tab2><br>|<br>$$QED$$</p>
 </div>
     </article>
-    <!-- license  -->
+    <!-- license -->
     
         <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">http://blog.terrynini.tw/en/Advance-Algorithm-homework1/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">November 13th 2017, 4:56:41</a>
-            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">http://blog.terrynini.tw/en/Advance-Algorithm-homework1/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">November 13th 2017, 4:56:41 am</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/en/Advance-Algorithm-homework1/">June 21st 2024, 1:45:59 am</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
-    <!-- paginator  -->
+    <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/en/Advance-Algorithm-homework2/" title= "Advance-Algorithm::homework2">
+                <a href="/en/Advance-Algorithm-homework2/" title="Advance-Algorithm::homework2">
                     <div class="nextTitle">Advance-Algorithm::homework2</div>
                 </a>
             
@@ -640,14 +878,19 @@ $K$ is even : Disks will be moved to the peg $P\_{(0+2)mod3}$
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/en/2017-HITCON-Quals-Sakura-English/" title= "2017::HITCON-Quals::Sakura::English">
+                <a href="/en/2017-HITCON-Quals-Sakura-English/" title="2017::HITCON-Quals::Sakura::English">
                     <div class="prevTitle">2017::HITCON-Quals::Sakura::English</div>
                 </a>
             
         </li>
     </ul>
-    <!-- 评论插件 -->
+    <!-- comment -->
     
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
     <div id="disqus_thread"></div>
     <script>
         /**
@@ -665,30 +908,47 @@ $K$ is even : Disks will be moved to the peg $P\_{(0+2)mod3}$
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
-
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-    </style>
-</main>
-            <!-- profile -->
             
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
         </div>
-        <footer class="footer footer-unloaded">
-    <!-- mermaid-->
     
-      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
-      <script>mermaid.initialize({startOnLoad:true});</script>
-      
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
     <!-- social  -->
     
-    <div class="social">
-        
+        <div class="social">
+            
     
         
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -735,6 +995,8 @@ $K$ is even : Disks will be moved to the peg $P\_{(0+2)mod3}$
         
     
         
+    
+        
             
                 <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
             
@@ -749,544 +1011,576 @@ $K$ is even : Disks will be moved to the peg $P\_{(0+2)mod3}$
         
     
 
-    </div>
+
+        </div>
     
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
+    <!-- website approve for Chinese user -->
+    
     <!-- 不蒜子  -->
-    
+    	
 </footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
 
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-1"><span class="toc-number">1.</span> <span class="toc-text">problem 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-2"><span class="toc-number">2.</span> <span class="toc-text">problem 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-3"><span class="toc-number">3.</span> <span class="toc-text">problem 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-4"><span class="toc-number">4.</span> <span class="toc-text">problem 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-5"><span class="toc-number">5.</span> <span class="toc-text">problem 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-6"><span class="toc-number">6.</span> <span class="toc-text">problem 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-7"><span class="toc-number">7.</span> <span class="toc-text">problem 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-8"><span class="toc-number">8.</span> <span class="toc-text">problem 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-9"><span class="toc-number">9.</span> <span class="toc-text">problem 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-10"><span class="toc-number">10.</span> <span class="toc-text">problem 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-11"><span class="toc-number">11.</span> <span class="toc-text">problem 11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-12"><span class="toc-number">12.</span> <span class="toc-text">problem 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-13"><span class="toc-number">13.</span> <span class="toc-text">problem 13</span></a></li></ol>
-    </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
 
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
     
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-1"><span class="toc-number">1.</span> <span class="toc-text">problem 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-2"><span class="toc-number">2.</span> <span class="toc-text">problem 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-3"><span class="toc-number">3.</span> <span class="toc-text">problem 3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-4"><span class="toc-number">4.</span> <span class="toc-text">problem 4</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-5"><span class="toc-number">5.</span> <span class="toc-text">problem 5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-6"><span class="toc-number">6.</span> <span class="toc-text">problem 6</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-7"><span class="toc-number">7.</span> <span class="toc-text">problem 7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-8"><span class="toc-number">8.</span> <span class="toc-text">problem 8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-9"><span class="toc-number">9.</span> <span class="toc-text">problem 9</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-10"><span class="toc-number">10.</span> <span class="toc-text">problem 10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-11"><span class="toc-number">11.</span> <span class="toc-text">problem 11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-12"><span class="toc-number">12.</span> <span class="toc-text">problem 12</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#problem-13"><span class="toc-number">13.</span> <span class="toc-text">problem 13</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
         <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
         <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
         <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
     </ul>
     <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1294,384 +1588,544 @@ top:50vh;
     
     <div class="post-archive">
     
-    
-    
-    
-    <div class="archive-year"> 2022 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
         </li>
     
     </div>
-  </div>
+</div>
+
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
-    
-        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
-    
-        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
-    
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
-    
-        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
-    
-        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
-    
-        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
     </div> 
     <div class="sidebar-tags-list"></div>
 </div>
+
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
     
-        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
 </div>
+
     </div>
-</div> 
-    <script>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
         author: "Terrynini"
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
-    
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
     </body>
 </html>
-
-

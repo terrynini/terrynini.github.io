@@ -3,22 +3,29 @@
     <!-- title -->
 
 
-
+    
 
 <!-- keywords -->
 
 
 
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
+    
+    <meta name="description" content="">
     <meta name="description" content="喔耶，雖然名次沒有很讚，但還是破台了，又看了一堆奇技淫巧🤔️今年前面打的太悠閒，導致 11 題差點解不掉，哭啊…這次解題邊解邊把 writeup 捏的差不多了，順手來發一篇">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2020::Flare-On 7::Write-up">
-<meta property="og:image">
 <meta property="og:url" content="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/index.html">
 <meta property="og:site_name" content="NiNi&#39;s den">
 <meta property="og:description" content="喔耶，雖然名次沒有很讚，但還是破台了，又看了一堆奇技淫巧🤔️今年前面打的太悠閒，導致 11 題差點解不掉，哭啊…這次解題邊解邊把 writeup 捏的差不多了，順手來發一篇">
-<meta property="og:locale" content="tw">
+<meta property="og:locale">
 <meta property="og:image" content="https://www.fireeye.com/content/dam/fireeye-www/blog/images/flareon7-solutions/picture3.png">
 <meta property="og:image" content="https://www.fireeye.com/content/dam/fireeye-www/blog/images/flareon7-solutions/picture4.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/IMG_6580.png">
@@ -34,27 +41,127 @@
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/TKApp.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/codeit.png">
 <meta property="og:image" content="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/codeit_QR.png">
-<meta property="article:published_time" content="2020-10-22T07:57:07.000Z">
-<meta property="article:modified_time" content="2021-12-02T12:36:05.702Z">
+<meta property="article:published_time" content="2020-10-22T06:57:07.000Z">
+<meta property="article:modified_time" content="2024-06-20T16:45:57.876Z">
 <meta property="article:author" content="Terrynini">
 <meta property="article:tag" content="Reverse">
 <meta property="article:tag" content="Flare-On">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.fireeye.com/content/dam/fireeye-www/blog/images/flareon7-solutions/picture3.png">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <meta name="author" content="Terrynini">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="Terrynini">
-    
-    <meta name="keywords" content="NiNi's den,Terrynini">
-    
-    <meta name="description" content="">
-
     <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
     <title>2020::Flare-On 7::Write-up · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -104,164 +211,258 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
 </style>
 
-    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
     
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        font-size: 80%;
+        text-align: right;
+        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        font-size: 80%;
+        width: 19vw;
+        margin-left: -23vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+.article-entry aside  {
+    
+}
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+    text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 90%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
 <script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
+document.addEventListener("DOMContentLoaded", function(){
 
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
+  var selection = document.querySelector('.sidenote-mark') !== null;
+  if( selection ){
+    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.add('hover');
+    });
 
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
+    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+  selection = document.querySelector('aside') !== null;
+  if(selection){
+    document.querySelector('aside').addEventListener('mouseover', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.add('hover');
+    });
 
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
+        document.querySelector('aside').addEventListener('mouseout', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-109652024-2');
-</script>
-
-<meta name="generator" content="Hexo 4.2.1"></head>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
         <body class="post-body">
     
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
     
-<header class="header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
             </div>
-            <div class="post-title">
+            <div class="post-title header-element">
                 <a href="#" class="post-name">2020::Flare-On 7::Write-up</a>
             </div>
-    </div>
-    
-    
-    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+        </div>
     
 </header>
-    <div class="wrapper">
-        <div class="site-intro" style="
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
 
 
 
@@ -269,12 +470,13 @@
 
 
 
-height:50vh;
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
-    
+        
     <!-- 404页  -->
     
     <div class="site-intro-placeholder"></div>
@@ -284,7 +486,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            2020::Flare-On 7::Write-up
+                2020::Flare-On 7::Write-up
             <!-- 404 -->
             
         </h1>
@@ -292,36 +494,42 @@ height:50vh;
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
+                
             <!-- 404 -->
             
         </p>
-        <!-- 文章页meta -->
+        <!-- 文章页 meta -->
         
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Reverse">Reverse</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Flare-On">Flare-On</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="Reverse">Reverse</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Flare-On">Flare-On</a>
     
 </div>
+
                 
+                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">3.3k</span>Reading time: <span class="post-count reading-time">14 min</span></span>
+                        <span>Word count: <span class="post-count word-count">3.4k</span>Reading time: <span class="post-count reading-time">15 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2020/10/22</span>
+                    <!-- busuanzi -->
                     
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
                             <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
                                 <div class="share-qrcode"></div>
                             </li>
@@ -334,109 +542,138 @@ height:50vh;
         
     </div>
 </div>
-        <script>
- 
+
+            <script>
   // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
   }
-  console.log("userAgent:" + browser.versions.userAgent);
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
 
   // callback
   function fontLoaded() {
-    console.log('font loaded');
+    console.log('font loaded')
     if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
       var postIntros = document.getElementsByClassName('post-intros')[0]
       if (postIntros) {
-        postIntros.classList.add('post-fade-in');
+        postIntros.classList.add('post-fade-in')
       }
     }
   }
 
   // UC不支持跨域，所以直接显示
-  function asyncCb(){
+  function asyncCb() {
     if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
+      console.log('UCBrowser')
+      fontLoaded()
     } else {
       WebFont.load({
         custom: {
-          families: ['Oswald-Regular']
+          families: ['Oswald-Regular'],
         },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
         },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
         },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
         },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+        timeout: 5000, // Set the timeout to two seconds
+      })
     }
   }
 
-  function asyncErr(){
+  function asyncErr() {
     console.warn('script load from CDN failed, will load local script')
   }
 
   // load webfont-loader async, and add callback function
   function async(u, cb, err) {
-    var d = document, t = 'script',
+    var d = document,
+      t = 'script',
       o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
   }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
 
-      async(arr[0], success, currReject)
+    async(arr[0], success, currReject)
   }
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
 </script>
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
     <article class="article-entry">
         <p>喔耶，雖然名次沒有很讚，但還是破台了，又看了一堆奇技淫巧🤔️<br>今年前面打的太悠閒，導致 11 題差點解不掉，哭啊…<br>這次解題邊解邊把 writeup 捏的差不多了，順手來發一篇</p>
-<a id="more"></a>
+<span id="more"></span>
 
-<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>根據<a href="https://www.fireeye.com/blog/threat-research/2020/10/flare-on-7-challenge-solutions.html" target="_blank" rel="noopener">官方的統計數據</a>，今年度台灣總共有 4 個人破台，但這個數據有點失真，因為就我所知至少還有兩個人破台但是沒掛台灣國籍，但也看得出來大家越來越忙，2019 年的時候還有 8 個人。</p>
+<h1 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h1><p>根據<a href="https://www.fireeye.com/blog/threat-research/2020/10/flare-on-7-challenge-solutions.html">官方的統計數據</a>，今年度台灣總共有 4 個人破台，但這個數據有點失真，因為就我所知至少還有兩個人破台但是沒掛台灣國籍，但也看得出來大家越來越忙，2019 年的時候還有 8 個人。</p>
 <p><img src="https://www.fireeye.com/content/dam/fireeye-www/blog/images/flareon7-solutions/picture3.png" alt="完賽人數"></p>
 <p>就看得到的結果來說，我是第 2 個破台的台灣人，不過跟第一名的 Lays 實在是差有點遠🤔️，這次官方還很有趣的統計了國家的人均破台率，我個人是覺得看完笑笑就好了，但新加坡的數字還真是可怕。</p>
 <p><img src="https://www.fireeye.com/content/dam/fireeye-www/blog/images/flareon7-solutions/picture4.png" alt="人均完賽率"></p>
@@ -447,20 +684,20 @@ height:50vh;
 <h1 id="1-fidler"><a href="#1-fidler" class="headerlink" title="1 - fidler"></a>1 - fidler</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><blockquote>
 <p>Welcome to the Seventh Flare-On Challenge!<br>This is a simple game. Win it by any means necessary and the victory screen will reveal the flag. Enter the flag here on this site to score and move on to the next level.<br>This challenge is written in Python and is distributed as a runnable EXE and matching source code for your convenience.<br>You can run the source code directly on any Python platform with PyGame if you would prefer.<br>*7zip password: flare</p>
 </blockquote>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>從圖片上看得出來是使用 PyInstaller 打包過的程式，直接找用工具把 python bytecode 抽出來，<a href="https://github.com/extremecoders-re/pyinstxtractor" target="_blank" rel="noopener">PyInstaller Extractor</a>：</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>從圖片上看得出來是使用 PyInstaller 打包過的程式，直接找用工具把 python bytecode 抽出來，<a href="https://github.com/extremecoders-re/pyinstxtractor">PyInstaller Extractor</a>：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/fidler00.png" class="">
 
 <p>同時運行程式看一下有什麼目標，看起來是要先找密碼：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/fidler01.png" class="">
 
 <p>從剛剛 decompile 來的 python code 可以知道密碼是「ghost」：</p>
-<figure class="highlight py"><figcaption><span>fidler.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">password_check</span><span class="params">(input)</span>:</span></span><br><span class="line">    altered_key = <span class="string">'hiptu'</span></span><br><span class="line">    key = <span class="string">''</span>.join([chr(ord(x) - <span class="number">1</span>) <span class="keyword">for</span> x <span class="keyword">in</span> altered_key])</span><br><span class="line">    <span class="keyword">return</span> input == key</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><figcaption><span>fidler.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">password_check</span>(<span class="params"><span class="built_in">input</span></span>):</span><br><span class="line">    altered_key = <span class="string">&#x27;hiptu&#x27;</span></span><br><span class="line">    key = <span class="string">&#x27;&#x27;</span>.join([<span class="built_in">chr</span>(<span class="built_in">ord</span>(x) - <span class="number">1</span>) <span class="keyword">for</span> x <span class="keyword">in</span> altered_key])</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">input</span> == key</span><br></pre></td></tr></table></figure>
 
 <p>看起來是 pygame，遊戲模式類似 Cookie Clicker</p>
 <img src="/tw/2020-Flare-On-7-Write-up/fidler02.png" class="">
 
 <p>直接 call 解密 flag 的地方：</p>
-<figure class="highlight py"><figcaption><span>fidler.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    target_amount = <span class="number">103079215104</span></span><br><span class="line">    print(decode_flag(int(target_amount / <span class="number">100000000</span>)))</span><br><span class="line"><span class="comment">#idle_with_kitty@flare-on.com</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><figcaption><span>fidler.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    target_amount = <span class="number">103079215104</span></span><br><span class="line">    <span class="built_in">print</span>(decode_flag(<span class="built_in">int</span>(target_amount / <span class="number">100000000</span>)))</span><br><span class="line"><span class="comment">#idle_with_kitty@flare-on.com</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="2-garbage"><a href="#2-garbage" class="headerlink" title="2 - garbage"></a>2 - garbage</h1><h2 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h2><blockquote>
 <p>One of our team members developed a Flare-On challenge but accidentally deleted it.<br>We recovered it using extreme digital forensic techniques but it seems to be corrupted.<br>We would fix it but we are too busy solving today’s most important information security threats affecting our global economy.<br>You should be able to get it working again, reverse engineer it, and acquire the flag.<br>*7zip password: flare</p>
@@ -468,21 +705,21 @@ height:50vh;
 <h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>直接執行題目給的 garbage.exe ， windows 直接跳錯誤在臉上：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/garbage00.png" class="">
 
-<p>檢查 PE Header 的各種欄位看起來沒什麼問題，但檢查 Section header 會發現，這是一隻由 UPX 壓縮過的程式，同時最後一個 <code>.rsrc</code> 的 size 不對，根據題目敘述，這裡可以合理推斷該地方的數據遺失，直接 <code>xxd garbage.exe</code> 可以看到尾端的 xml 被截斷了所以沒有閉合：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">00009e40: 0904 0000 4800 0000 5c90 0100 7d01 0000  ....H...\...&#125;...</span><br><span class="line">00009e50: 0000 0000 0000 0000 6050 0100 3c3f 786d  ........&#96;P..&lt;?xm</span><br><span class="line">00009e60: 6c20 7665 7273 696f 6e3d 2731 2e30 2720  l version&#x3D;&#39;1.0&#39;</span><br><span class="line">00009e70: 656e 636f 6469 6e67 3d27 5554 462d 3827  encoding&#x3D;&#39;UTF-8&#39;</span><br><span class="line">00009e80: 2073 7461 6e64 616c 6f6e 653d 2779 6573   standalone&#x3D;&#39;yes</span><br><span class="line">00009e90: 273f 3e0d 0a3c 6173 7365 6d62 6c79 2078  &#39;?&gt;..&lt;assembly x</span><br><span class="line">00009ea0: 6d6c 6e73 3d27 7572 6e3a 7363 6865 6d61  mlns&#x3D;&#39;urn:schema</span><br><span class="line">00009eb0: 732d 6d69 6372 6f73 6f66 742d 636f 6d3a  s-microsoft-com:</span><br><span class="line">00009ec0: 6173 6d2e 7631 2720 6d61 6e69 6665 7374  asm.v1&#39; manifest</span><br><span class="line">00009ed0: 5665 7273 696f 6e3d 2731 2e30 273e 0d0a  Version&#x3D;&#39;1.0&#39;&gt;..</span><br><span class="line">00009ee0: 2020 3c74 7275 7374 496e 666f 2078 6d6c    &lt;trustInfo xml</span><br><span class="line">00009ef0: 6e73 3d22 7572 6e3a 7363 6865 6d61 732d  ns&#x3D;&quot;urn:schemas-</span><br><span class="line">00009f00: 6d69 6372 6f73 6f66 742d 636f 6d3a 6173  microsoft-com:as</span><br><span class="line">00009f10: 6d2e 7633 223e 0d0a 2020 2020 3c73 6563  m.v3&quot;&gt;..    &lt;sec</span><br><span class="line">00009f20: 7572 6974 0a                             urit.</span><br></pre></td></tr></table></figure>
+<p>檢查 PE Header 的各種欄位看起來沒什麼問題，但檢查 Section header 會發現，這是一隻由 UPX 壓縮過的程式，同時最後一個 <code>.rsrc</code> 的 size 不對，根據題目敘述，這裡可以合理推斷該地方的數據遺失，直接 <code>xxd garbage.exe</code> 可以看到尾端的 xml 被截斷了所以沒有閉合：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">00009e40: 0904 0000 4800 0000 5c90 0100 7d01 0000  ....H...\...&#125;...</span><br><span class="line">00009e50: 0000 0000 0000 0000 6050 0100 3c3f 786d  ........`P..&lt;?xm</span><br><span class="line">00009e60: 6c20 7665 7273 696f 6e3d 2731 2e30 2720  l version=&#x27;1.0&#x27;</span><br><span class="line">00009e70: 656e 636f 6469 6e67 3d27 5554 462d 3827  encoding=&#x27;UTF-8&#x27;</span><br><span class="line">00009e80: 2073 7461 6e64 616c 6f6e 653d 2779 6573   standalone=&#x27;yes</span><br><span class="line">00009e90: 273f 3e0d 0a3c 6173 7365 6d62 6c79 2078  &#x27;?&gt;..&lt;assembly x</span><br><span class="line">00009ea0: 6d6c 6e73 3d27 7572 6e3a 7363 6865 6d61  mlns=&#x27;urn:schema</span><br><span class="line">00009eb0: 732d 6d69 6372 6f73 6f66 742d 636f 6d3a  s-microsoft-com:</span><br><span class="line">00009ec0: 6173 6d2e 7631 2720 6d61 6e69 6665 7374  asm.v1&#x27; manifest</span><br><span class="line">00009ed0: 5665 7273 696f 6e3d 2731 2e30 273e 0d0a  Version=&#x27;1.0&#x27;&gt;..</span><br><span class="line">00009ee0: 2020 3c74 7275 7374 496e 666f 2078 6d6c    &lt;trustInfo xml</span><br><span class="line">00009ef0: 6e73 3d22 7572 6e3a 7363 6865 6d61 732d  ns=&quot;urn:schemas-</span><br><span class="line">00009f00: 6d69 6372 6f73 6f66 742d 636f 6d3a 6173  microsoft-com:as</span><br><span class="line">00009f10: 6d2e 7633 223e 0d0a 2020 2020 3c73 6563  m.v3&quot;&gt;..    &lt;sec</span><br><span class="line">00009f20: 7572 6974 0a                             urit.</span><br></pre></td></tr></table></figure>
 
-<p>總之就是把 IAT 修好，讓 UPX 找得到需要用的 Dll 跟對應的 function，因為是執行檔所以 relocation 可以不管，修好的 binary 我放在<a href="https://github.com/terrynini/CTF-writeup/blob/master/Flareon_2020/2_-_garbage/repair.exe" target="_blank" rel="noopener">這裏</a>，直接執行就會生成名為 <code>sink_the_tanker.vbs</code> 的腳本負責把 flag 直接印出來：</p>
+<p>總之就是把 IAT 修好，讓 UPX 找得到需要用的 Dll 跟對應的 function，因為是執行檔所以 relocation 可以不管，修好的 binary 我放在<a href="https://github.com/terrynini/CTF-writeup/blob/master/Flareon_2020/2_-_garbage/repair.exe">這裏</a>，直接執行就會生成名為 <code>sink_the_tanker.vbs</code> 的腳本負責把 flag 直接印出來：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/garbage01.png" class="">
 
 <h1 id="3-wednesday"><a href="#3-wednesday" class="headerlink" title="3 - wednesday"></a>3 - wednesday</h1><h2 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h2><blockquote>
 <p>Be the wednesday. Unlike challenge 1, you probably won’t be able to beat this game the old fashioned way. Read the README.txt file, it is very important.</p>
 </blockquote>
-<figure class="highlight plain"><figcaption><span>README.txt </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">██╗    ██╗███████╗██████╗ ███╗   ██╗███████╗███████╗██████╗  █████╗ ██╗   ██╗</span><br><span class="line">██║    ██║██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝</span><br><span class="line">██║ █╗ ██║█████╗  ██║  ██║██╔██╗ ██║█████╗  ███████╗██║  ██║███████║ ╚████╔╝</span><br><span class="line">██║███╗██║██╔══╝  ██║  ██║██║╚██╗██║██╔══╝  ╚════██║██║  ██║██╔══██║  ╚██╔╝</span><br><span class="line">╚███╔███╔╝███████╗██████╔╝██║ ╚████║███████╗███████║██████╔╝██║  ██║   ██║</span><br><span class="line"> ╚══╝╚══╝ ╚══════╝╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═╝   ╚═╝</span><br><span class="line"></span><br><span class="line">                        --- BE THE WEDNESDAY ---</span><br><span class="line"></span><br><span class="line">                                   S</span><br><span class="line">                                   M</span><br><span class="line">                                   T</span><br><span class="line">                                  DUDE</span><br><span class="line">                                   T</span><br><span class="line">                                   F</span><br><span class="line">                                   S</span><br><span class="line"></span><br><span class="line">                --- Enable accelerated graphics in VM ---</span><br><span class="line">                  --- Attach sound card device to VM ---</span><br><span class="line">                    --- Only reverse mydude.exe ---</span><br><span class="line">                       --- Enjoy it my dudes ---%</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><figcaption><span>README.txt </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">██╗    ██╗███████╗██████╗ ███╗   ██╗███████╗███████╗██████╗  █████╗ ██╗   ██╗</span><br><span class="line">██║    ██║██╔════╝██╔══██╗████╗  ██║██╔════╝██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝</span><br><span class="line">██║ █╗ ██║█████╗  ██║  ██║██╔██╗ ██║█████╗  ███████╗██║  ██║███████║ ╚████╔╝</span><br><span class="line">██║███╗██║██╔══╝  ██║  ██║██║╚██╗██║██╔══╝  ╚════██║██║  ██║██╔══██║  ╚██╔╝</span><br><span class="line">╚███╔███╔╝███████╗██████╔╝██║ ╚████║███████╗███████║██████╔╝██║  ██║   ██║</span><br><span class="line"> ╚══╝╚══╝ ╚══════╝╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝╚═════╝ ╚═╝  ╚═╝   ╚═╝</span><br><span class="line"></span><br><span class="line">                        --- BE THE WEDNESDAY ---</span><br><span class="line"></span><br><span class="line">                                   S</span><br><span class="line">                                   M</span><br><span class="line">                                   T</span><br><span class="line">                                  DUDE</span><br><span class="line">                                   T</span><br><span class="line">                                   F</span><br><span class="line">                                   S</span><br><span class="line"></span><br><span class="line">                --- Enable accelerated graphics in VM ---</span><br><span class="line">                  --- Attach sound card device to VM ---</span><br><span class="line">                    --- Only reverse mydude.exe ---</span><br><span class="line">                       --- Enjoy it my dudes ---%</span><br></pre></td></tr></table></figure>
 
 <h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h2><p>從 dll 可以知道是用 SDL 捏出來的遊戲，打開個五分鐘大概就能抓到規則，只要有 M 這個箱子就必須從箱子的下面通過，否則就一定要從上面跳過去：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/wednesday00.png" class="">
 
-<p>稍微看一下 binary 可以發現這個程式是用 <a href="https://nim-lang.org/" target="_blank" rel="noopener">nim</a> 撰寫的，他的特色是會被編譯成等價的 C 或是 C++ 等語言，總之不同於 bytecode，nim 造出來的檔案是無法直接 decompile 的，不過 function 的 symbol 倒是沒有全部都拔除，可以粗略的猜得出相關功能：</p>
+<p>稍微看一下 binary 可以發現這個程式是用 <a href="https://nim-lang.org/">nim</a> 撰寫的，他的特色是會被編譯成等價的 C 或是 C++ 等語言，總之不同於 bytecode，nim 造出來的檔案是無法直接 decompile 的，不過 function 的 symbol 倒是沒有全部都拔除，可以粗略的猜得出相關功能：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/wednesday01.png" class="">
 
 <p>這裏直接從碰撞判定下手，在 <code>onCollide__9byAjE9cSmbSbow3F9cTFQfLg</code> 中可以發現角色的碰撞判定以及分數判定，function 的上半部（不在圖片上）是角色直接碰撞箱子本體的情況，無視，直接把下半段關於 M 箱子判斷的 if 條件式（截圖中最上面的那條 if） patch 成一定會進入加分的程式碼，同時可以在 <code>update__Arw3f6ryHvqdibU49aaayOg</code> 的最下面知道分數到達 296 之後可以看到 flag：</p>
@@ -497,13 +734,13 @@ The video tag is not supported by your browser.
 <p>Nobody likes analysing infected documents, but it pays the bills. Reverse this macro thrill-ride to discover how to get it to show you the key.</p>
 </blockquote>
 <h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution"></a>Solution</h2><p>看起來是 office 的巨集病毒，少東西所以不會真的執行，直接看巨集的部分，大部分的東西都是簡單的 encode，首先把一些物件用到的字串解出來，其中可以看到有些字串並沒有真的被使用到，可能需要猜一下被拿去做了什麼事情：</p>
-<figure class="highlight py"><figcaption><span>string.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rigmarole</span><span class="params">(a)</span>:</span></span><br><span class="line">    t = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(a),<span class="number">4</span>):</span><br><span class="line">        t += chr(int(a[i:i+<span class="number">2</span>],<span class="number">16</span>)-int(a[i+<span class="number">2</span>:i+<span class="number">4</span>],<span class="number">16</span>))</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">folderol</span><span class="params">()</span>:</span></span><br><span class="line">    onzo = <span class="string">"9655B040B64667238524D15D6201.B95D4E01C55CC562C7557405A532D768C55FA12DD074DC697A06E172992CAF3F8A5C7306B7476B38.C555AC40A7469C234424.853FA85C470699477D3851249A4B9C4E.A855AF40B84695239D24895D2101D05CCA62BE5578055232D568C05F902DDC74D2697406D7724C2CA83FCF5C2606B547A73898246B4BC14E941F9121D464D263B947EB77D36E7F1B8254.853FA85C470699477D3851249A4B9C4E.9A55B240B84692239624.CC55A940B44690238B24CA5D7501CF5C9C62B15561056032C468D15F9C2DE374DD696206B572752C8C3FB25C3806.A8558540924668236724B15D2101AA5CC362C2556A055232AE68B15F7C2DC17489695D06DB729A2C723F8E5C65069747AA389324AE4BB34E921F9421.CB55A240B5469B23.AC559340A94695238D24CD5D75018A5CB062BA557905A932D768D15F982D.D074B6696F06D5729E2CAE3FCF5C7506AD47AC388024C14B7C4E8F1F8F21CB64"</span>.split(<span class="string">"."</span>)</span><br><span class="line">    <span class="keyword">for</span> idx, i <span class="keyword">in</span> enumerate(onzo):</span><br><span class="line">        print(idx,i)</span><br><span class="line">        print(<span class="string">f"onzo[<span class="subst">&#123;idx&#125;</span>] = <span class="subst">&#123;rigmarole(i)&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line">folderol()</span><br><span class="line"><span class="comment"># 0 9655B040B64667238524D15D6201</span></span><br><span class="line"><span class="comment"># onzo[0] = AppData</span></span><br><span class="line"><span class="comment"># 1 B95D4E01C55CC562C7557405A532D768C55FA12DD074DC697A06E172992CAF3F8A5C7306B7476B38</span></span><br><span class="line"><span class="comment"># onzo[1] = \Microsoft\stomp.mp3</span></span><br><span class="line"><span class="comment"># 2 C555AC40A7469C234424</span></span><br><span class="line"><span class="comment"># onzo[2] = play</span></span><br><span class="line"><span class="comment"># 3 853FA85C470699477D3851249A4B9C4E</span></span><br><span class="line"><span class="comment"># onzo[3] = FLARE-ON</span></span><br><span class="line"><span class="comment"># 4 A855AF40B84695239D24895D2101D05CCA62BE5578055232D568C05F902DDC74D2697406D7724C2CA83FCF5C2606B547A73898246B4BC14E941F9121D464D263B947EB77D36E7F1B8254</span></span><br><span class="line"><span class="comment"># onzo[4] = Sorry, this machine is not supported.</span></span><br><span class="line"><span class="comment"># 5 853FA85C470699477D3851249A4B9C4E</span></span><br><span class="line"><span class="comment"># onzo[5] = FLARE-ON</span></span><br><span class="line"><span class="comment"># 6 9A55B240B84692239624</span></span><br><span class="line"><span class="comment"># onzo[6] = Error</span></span><br><span class="line"><span class="comment"># 7 CC55A940B44690238B24CA5D7501CF5C9C62B15561056032C468D15F9C2DE374DD696206B572752C8C3FB25C3806</span></span><br><span class="line"><span class="comment"># onzo[7] = winmgmts:\\.\root\CIMV2</span></span><br><span class="line"><span class="comment"># 8 A8558540924668236724B15D2101AA5CC362C2556A055232AE68B15F7C2DC17489695D06DB729A2C723F8E5C65069747AA389324AE4BB34E921F9421</span></span><br><span class="line"><span class="comment"># onzo[8] = SELECT Name FROM Win32_Process</span></span><br><span class="line"><span class="comment"># 9 CB55A240B5469B23</span></span><br><span class="line"><span class="comment"># onzo[9] = vbox</span></span><br><span class="line"><span class="comment"># 10 AC559340A94695238D24CD5D75018A5CB062BA557905A932D768D15F982D</span></span><br><span class="line"><span class="comment"># onzo[10] = WScript.Network</span></span><br><span class="line"><span class="comment"># 11 D074B6696F06D5729E2CAE3FCF5C7506AD47AC388024C14B7C4E8F1F8F21CB64</span></span><br><span class="line"><span class="comment"># onzo[11] = \Microsoft\v.png</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><figcaption><span>string.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rigmarole</span>(<span class="params">a</span>):</span><br><span class="line">    t = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(a),<span class="number">4</span>):</span><br><span class="line">        t += <span class="built_in">chr</span>(<span class="built_in">int</span>(a[i:i+<span class="number">2</span>],<span class="number">16</span>)-<span class="built_in">int</span>(a[i+<span class="number">2</span>:i+<span class="number">4</span>],<span class="number">16</span>))</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">folderol</span>():</span><br><span class="line">    onzo = <span class="string">&quot;9655B040B64667238524D15D6201.B95D4E01C55CC562C7557405A532D768C55FA12DD074DC697A06E172992CAF3F8A5C7306B7476B38.C555AC40A7469C234424.853FA85C470699477D3851249A4B9C4E.A855AF40B84695239D24895D2101D05CCA62BE5578055232D568C05F902DDC74D2697406D7724C2CA83FCF5C2606B547A73898246B4BC14E941F9121D464D263B947EB77D36E7F1B8254.853FA85C470699477D3851249A4B9C4E.9A55B240B84692239624.CC55A940B44690238B24CA5D7501CF5C9C62B15561056032C468D15F9C2DE374DD696206B572752C8C3FB25C3806.A8558540924668236724B15D2101AA5CC362C2556A055232AE68B15F7C2DC17489695D06DB729A2C723F8E5C65069747AA389324AE4BB34E921F9421.CB55A240B5469B23.AC559340A94695238D24CD5D75018A5CB062BA557905A932D768D15F982D.D074B6696F06D5729E2CAE3FCF5C7506AD47AC388024C14B7C4E8F1F8F21CB64&quot;</span>.split(<span class="string">&quot;.&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> idx, i <span class="keyword">in</span> <span class="built_in">enumerate</span>(onzo):</span><br><span class="line">        <span class="built_in">print</span>(idx,i)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;onzo[<span class="subst">&#123;idx&#125;</span>] = <span class="subst">&#123;rigmarole(i)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">folderol()</span><br><span class="line"><span class="comment"># 0 9655B040B64667238524D15D6201</span></span><br><span class="line"><span class="comment"># onzo[0] = AppData</span></span><br><span class="line"><span class="comment"># 1 B95D4E01C55CC562C7557405A532D768C55FA12DD074DC697A06E172992CAF3F8A5C7306B7476B38</span></span><br><span class="line"><span class="comment"># onzo[1] = \Microsoft\stomp.mp3</span></span><br><span class="line"><span class="comment"># 2 C555AC40A7469C234424</span></span><br><span class="line"><span class="comment"># onzo[2] = play</span></span><br><span class="line"><span class="comment"># 3 853FA85C470699477D3851249A4B9C4E</span></span><br><span class="line"><span class="comment"># onzo[3] = FLARE-ON</span></span><br><span class="line"><span class="comment"># 4 A855AF40B84695239D24895D2101D05CCA62BE5578055232D568C05F902DDC74D2697406D7724C2CA83FCF5C2606B547A73898246B4BC14E941F9121D464D263B947EB77D36E7F1B8254</span></span><br><span class="line"><span class="comment"># onzo[4] = Sorry, this machine is not supported.</span></span><br><span class="line"><span class="comment"># 5 853FA85C470699477D3851249A4B9C4E</span></span><br><span class="line"><span class="comment"># onzo[5] = FLARE-ON</span></span><br><span class="line"><span class="comment"># 6 9A55B240B84692239624</span></span><br><span class="line"><span class="comment"># onzo[6] = Error</span></span><br><span class="line"><span class="comment"># 7 CC55A940B44690238B24CA5D7501CF5C9C62B15561056032C468D15F9C2DE374DD696206B572752C8C3FB25C3806</span></span><br><span class="line"><span class="comment"># onzo[7] = winmgmts:\\.\root\CIMV2</span></span><br><span class="line"><span class="comment"># 8 A8558540924668236724B15D2101AA5CC362C2556A055232AE68B15F7C2DC17489695D06DB729A2C723F8E5C65069747AA389324AE4BB34E921F9421</span></span><br><span class="line"><span class="comment"># onzo[8] = SELECT Name FROM Win32_Process</span></span><br><span class="line"><span class="comment"># 9 CB55A240B5469B23</span></span><br><span class="line"><span class="comment"># onzo[9] = vbox</span></span><br><span class="line"><span class="comment"># 10 AC559340A94695238D24CD5D75018A5CB062BA557905A932D768D15F982D</span></span><br><span class="line"><span class="comment"># onzo[10] = WScript.Network</span></span><br><span class="line"><span class="comment"># 11 D074B6696F06D5729E2CAE3FCF5C7506AD47AC388024C14B7C4E8F1F8F21CB64</span></span><br><span class="line"><span class="comment"># onzo[11] = \Microsoft\v.png</span></span><br></pre></td></tr></table></figure>
 
 <p>繼續往下看可以發現，巨集會解密一段 data 然後儲存為 stomp.mp3，寫個 python 模仿他解密，但我們得到的音檔聽起來跟 flag 一點關係也沒有，不過可以注意到這裡也有部分的 data 是完全沒有被使用到的：</p>
-<figure class="highlight python"><figcaption><span>decrypt.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">"./T"</span>,<span class="string">'r'</span>).read().strip()</span><br><span class="line">key = [<span class="number">0x11</span>,<span class="number">0x22</span>,<span class="number">0x33</span>,<span class="number">0x44</span>,<span class="number">0x55</span>,<span class="number">0x66</span>,<span class="number">0x77</span>,<span class="number">0x88</span>,<span class="number">0x99</span>,<span class="number">0xaa</span>,<span class="number">0xbb</span>,<span class="number">0xcc</span>,<span class="number">0xdd</span>,<span class="number">0xee</span>]</span><br><span class="line"></span><br><span class="line">kuffle = bytes([(int(f[i:i+<span class="number">2</span>],<span class="number">16</span>)  ^ key[(i//<span class="number">4</span>)%len(key)]) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">168667</span>*<span class="number">4</span>,<span class="number">4</span>)])</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"stomp.mp3"</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> z:</span><br><span class="line">        z.write(kuffle)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><figcaption><span>decrypt.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;./T&quot;</span>,<span class="string">&#x27;r&#x27;</span>).read().strip()</span><br><span class="line">key = [<span class="number">0x11</span>,<span class="number">0x22</span>,<span class="number">0x33</span>,<span class="number">0x44</span>,<span class="number">0x55</span>,<span class="number">0x66</span>,<span class="number">0x77</span>,<span class="number">0x88</span>,<span class="number">0x99</span>,<span class="number">0xaa</span>,<span class="number">0xbb</span>,<span class="number">0xcc</span>,<span class="number">0xdd</span>,<span class="number">0xee</span>]</span><br><span class="line"></span><br><span class="line">kuffle = <span class="built_in">bytes</span>([(<span class="built_in">int</span>(f[i:i+<span class="number">2</span>],<span class="number">16</span>)  ^ key[(i//<span class="number">4</span>)%<span class="built_in">len</span>(key)]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">168667</span>*<span class="number">4</span>,<span class="number">4</span>)])</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;stomp.mp3&quot;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> z:</span><br><span class="line">        z.write(kuffle)</span><br></pre></td></tr></table></figure>
 
 <p>沒有用到的是 data 的另外一半，以及一些字串 <code>\Microsoft\v.png</code>，<code>FLARE-ON</code>，如果把 data 抽出來，然後假設檔頭是 PNG 的格式，就可以發現 xor 出來的結果是 <code>NO-E</code>，所以可以直接猜 key 就是 <code>&quot;FLARE-ON&quot;[::-1]</code>，直接寫腳本解：</p>
-<figure class="highlight python"><figcaption><span>flag.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">"./T"</span>,<span class="string">'r'</span>).read().strip()</span><br><span class="line">key = <span class="string">b'FLARE-ON'</span>[::<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">kuffle = [int(f[i:i+<span class="number">2</span>],<span class="number">16</span>)  ^ key[((i<span class="number">-2</span>)//<span class="number">4</span>)%len(key)] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,len(f),<span class="number">4</span>)]</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"flag.png"</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> z:</span><br><span class="line">    z.write(bytes(kuffle))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><figcaption><span>flag.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;./T&quot;</span>,<span class="string">&#x27;r&#x27;</span>).read().strip()</span><br><span class="line">key = <span class="string">b&#x27;FLARE-ON&#x27;</span>[::-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">kuffle = [<span class="built_in">int</span>(f[i:i+<span class="number">2</span>],<span class="number">16</span>)  ^ key[((i-<span class="number">2</span>)//<span class="number">4</span>)%<span class="built_in">len</span>(key)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>,<span class="built_in">len</span>(f),<span class="number">4</span>)]</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag.png&quot;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> z:</span><br><span class="line">    z.write(<span class="built_in">bytes</span>(kuffle))</span><br></pre></td></tr></table></figure>
 
 <p>然後就拿到 flag 的圖片了：</p>
 <img src="/tw/2020-Flare-On-7-Write-up/report.png" class="">
@@ -511,11 +748,11 @@ The video tag is not supported by your browser.
 <h1 id="5-TKApp"><a href="#5-TKApp" class="headerlink" title="5 - TKApp"></a>5 - TKApp</h1><h2 id="Description-4"><a href="#Description-4" class="headerlink" title="Description"></a>Description</h2><blockquote>
 <p>Now you can play Flare-On on your watch! As long as you still have an arm left to put a watch on, or emulate the watch’s operating system with sophisticated developer tools.</p>
 </blockquote>
-<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><p>一樣是滿無聊的一題，題目給的是 <a href="https://developer.samsung.com/galaxy-watch-develop/creating-your-first-app/net-companion/setup-sdk.html" target="_blank" rel="noopener">Galaxy Watch 的應用程式</a>，但動態並沒有什麼明顯的好處，先直接靜態理解一下，直接解壓縮 TKApp.tpk 後走走看看，應該能夠確定應用程式的部分是 .NET 程式：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ExifLib.Standard.dll:                         PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">TKApp.dll:                                    PE32 executable (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">Tizen.Wearable.CircularUI.Forms.Renderer.dll: PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">Tizen.Wearable.CircularUI.Forms.dll:          PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Core.dll:                       PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Platform.Tizen.dll:             PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Platform.dll:                   PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Xaml.dll:                       PE32 executable (DLL) (console) Intel 80386 Mono&#x2F;.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
+<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><p>一樣是滿無聊的一題，題目給的是 <a href="https://developer.samsung.com/galaxy-watch-develop/creating-your-first-app/net-companion/setup-sdk.html">Galaxy Watch 的應用程式</a>，但動態並沒有什麼明顯的好處，先直接靜態理解一下，直接解壓縮 TKApp.tpk 後走走看看，應該能夠確定應用程式的部分是 .NET 程式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ExifLib.Standard.dll:                         PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">TKApp.dll:                                    PE32 executable (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">Tizen.Wearable.CircularUI.Forms.Renderer.dll: PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">Tizen.Wearable.CircularUI.Forms.dll:          PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Core.dll:                       PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Platform.Tizen.dll:             PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Platform.dll:                   PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br><span class="line">Xamarin.Forms.Xaml.dll:                       PE32 executable (DLL) (console) Intel 80386 Mono/.Net assembly, for MS Windows</span><br></pre></td></tr></table></figure>
 
 <p>總之拿個 .NET 的 decompiler 看一下，程式拿一堆字串來當作 AES 的 key，用來解出 flag，所有的東西都能直接找到，去找 app description，圖片的 exif 資訊等等，然後身為 cipher 的 Runtime.dll 則是直接躺在 TPK.dll 裡面，直接寫解密</p>
-<figure class="highlight py"><figcaption><span>decrypt.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">IV = <span class="string">b'NoSaltOfTheEarth'</span></span><br><span class="line">key = <span class="string">b'the kind of challenges we are gonna make here'</span></span><br><span class="line">cipher = open(<span class="string">"Runtime.dll"</span>,<span class="string">'rb'</span>).read()</span><br><span class="line">decryptor = AES.new(sha256(key).digest(),AES.MODE_CBC,iv=IV)</span><br><span class="line">f = decryptor.decrypt(cipher)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"flag.png"</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> flag:</span><br><span class="line">    flag.write(b64decode(f))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><figcaption><span>decrypt.py </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">IV = <span class="string">b&#x27;NoSaltOfTheEarth&#x27;</span></span><br><span class="line">key = <span class="string">b&#x27;the kind of challenges we are gonna make here&#x27;</span></span><br><span class="line">cipher = <span class="built_in">open</span>(<span class="string">&quot;Runtime.dll&quot;</span>,<span class="string">&#x27;rb&#x27;</span>).read()</span><br><span class="line">decryptor = AES.new(sha256(key).digest(),AES.MODE_CBC,iv=IV)</span><br><span class="line">f = decryptor.decrypt(cipher)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;flag.png&quot;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> flag:</span><br><span class="line">    flag.write(b64decode(f))</span><br></pre></td></tr></table></figure>
 
 <img src="/tw/2020-Flare-On-7-Write-up/TKApp.png" class="">
 
@@ -527,10 +764,10 @@ The video tag is not supported by your browser.
 
 <img src="/tw/2020-Flare-On-7-Write-up/codeit_QR.png" class="">
 
-<p>觀察一下 binary 裡面的字串不難發現這是一個從 AutoIt 編譯而來的程式，隨便找一下就可以找到工具 能夠做到 extract byte code 跟 decompile byte code，這裡我是用 <a href="https://github.com/nazywam/AutoIt-Ripper" target="_blank" rel="noopener">AutoIt-Ripper</a></p>
+<p>觀察一下 binary 裡面的字串不難發現這是一個從 AutoIt 編譯而來的程式，隨便找一下就可以找到工具 能夠做到 extract byte code 跟 decompile byte code，這裡我是用 <a href="https://github.com/nazywam/AutoIt-Ripper">AutoIt-Ripper</a></p>
 <p>程式碼算是重度混淆，不過最後的邏輯是這樣的，使用 Windows API <code>GetComputerNameA</code> 先取得電腦名字，然後對其做 SHA-256 之後可以得到一個 hash，之後用在印出真的 QRcode 之前，程式會先偷偷用這個 hash 當作 AES 的 key 來解密一個 cipher，如果解出來的起頭是 <code>FLARE</code> 且同時結尾是 <code>ERALF</code> 時，程式會直接把解出來的東西當作 QRcode 用圖片展示出來，否則就展示本來的輸入所對應的 QRcode，也就是說我們要找到正確的 ComputerName。</p>
 <p>在 227 行附近可以看到一些 bitwise 的操作（ function 我重命名過了）：</p>
-<figure class="highlight autoit"><figcaption><span>script.au3 </span></figcaption><table><tr><td class="gutter"><pre><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">FUNC</span> <span class="title">readSpriteBmp</span> <span class="params">( BYREF $computerName )</span></span></span><br><span class="line">    <span class="keyword">LOCAL</span> $FLQVIZHEZM = InstallFile ( <span class="number">14</span> )</span><br><span class="line">    <span class="keyword">LOCAL</span> $FLFWEZDBYC = createFile ( $FLQVIZHEZM )</span><br><span class="line">    <span class="keyword">IF</span> $FLFWEZDBYC &lt;&gt; - $FLTGQYKODM <span class="keyword">THEN</span></span><br><span class="line">        <span class="keyword">LOCAL</span> $FLVBURIUYD = _GetFileSize_ ( $FLFWEZDBYC )</span><br><span class="line">        <span class="keyword">IF</span> $FLVBURIUYD &lt;&gt; - $FLTMXODMFL <span class="literal">AND</span> <span class="built_in">DLLSTRUCTGETSIZE</span> ( $computerName ) &lt; $FLVBURIUYD - <span class="number">54</span> <span class="keyword">THEN</span></span><br><span class="line">            <span class="keyword">LOCAL</span> $FLNFUFVECT = <span class="built_in">DLLSTRUCTCREATE</span> (_Hex2Str_( <span class="string">'struct;byte['</span> &amp; <span class="string">'269156'</span> &amp; <span class="string">'];endstruct'</span>)</span><br><span class="line">            <span class="keyword">LOCAL</span> $FLSKUANQBG = ReadFile ( $FLFWEZDBYC , $FLNFUFVECT )</span><br><span class="line">            <span class="keyword">IF</span> $FLSKUANQBG &lt;&gt; - $FLVUJARIHO <span class="keyword">THEN</span></span><br><span class="line">                <span class="keyword">LOCAL</span> $FLXMDCHRQD = <span class="built_in">DLLSTRUCTCREATE</span> ( <span class="string">'struct;byte[54];byte['</span> &amp; $FLVBURIUYD - <span class="number">54</span> &amp; <span class="string">'];endstruct'</span>, <span class="built_in">DLLSTRUCTGETPTR</span> ( $FLNFUFVECT ) )</span><br><span class="line">                <span class="keyword">LOCAL</span> $FLQGWNZJZC = <span class="number">1</span></span><br><span class="line">                <span class="keyword">LOCAL</span> $FLOCTXPGQH = <span class="string">''</span></span><br><span class="line">                <span class="keyword">FOR</span> $FLTERGXSKH =  <span class="number">1</span> <span class="keyword">TO</span> <span class="built_in">DLLSTRUCTGETSIZE</span> ( $computerName )</span><br><span class="line">                    <span class="keyword">LOCAL</span> $FLYDTVGPNC = <span class="built_in">NUMBER</span> ( <span class="built_in">DLLSTRUCTGETDATA</span> ( $computerName , <span class="number">1</span> , $FLTERGXSKH ) )</span><br><span class="line">                    <span class="keyword">FOR</span> $FLTAJBYKXX = <span class="number">6</span> <span class="keyword">TO</span> <span class="number">0</span> <span class="keyword">STEP</span> <span class="number">-1</span></span><br><span class="line">                        $FLYDTVGPNC += <span class="built_in">BITSHIFT</span> ( <span class="built_in">BITAND</span> ( <span class="built_in">NUMBER</span> ( <span class="built_in">DLLSTRUCTGETDATA</span> ( $FLXMDCHRQD , <span class="number">2</span> , $FLQGWNZJZC ) ) , <span class="number">1</span> ) , <span class="number">-1</span> * $FLTAJBYKXX )</span><br><span class="line">                        $FLQGWNZJZC += <span class="number">1</span></span><br><span class="line">                    <span class="keyword">NEXT</span></span><br><span class="line">                    $FLOCTXPGQH &amp;= <span class="built_in">CHR</span> ( <span class="built_in">BITSHIFT</span> ( $FLYDTVGPNC ,<span class="number">1</span>) + <span class="built_in">BITSHIFT</span> ( <span class="built_in">BITAND</span> ( $FLYDTVGPNC ,<span class="number">1</span>) , <span class="number">-7</span> ) )</span><br><span class="line">                <span class="keyword">NEXT</span></span><br><span class="line">                <span class="built_in">DLLSTRUCTSETDATA</span> ( $computerName , <span class="number">1</span> , $FLOCTXPGQH )</span><br><span class="line">            <span class="keyword">ENDIF</span></span><br><span class="line">        <span class="keyword">ENDIF</span></span><br><span class="line">        CloseHandle ( $FLFWEZDBYC )</span><br><span class="line">    <span class="keyword">ENDIF</span></span><br><span class="line">    DeleteFileA ( $FLQVIZHEZM )</span><br><span class="line"><span class="keyword">ENDFUNC</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight autoit"><figcaption><span>script.au3 </span></figcaption><table><tr><td class="gutter"><pre><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FUNC</span> <span class="title function_">readSpriteBmp</span> <span class="params">( BYREF $computerName )</span></span><br><span class="line">    <span class="keyword">LOCAL</span> $FLQVIZHEZM = InstallFile ( <span class="number">14</span> )</span><br><span class="line">    <span class="keyword">LOCAL</span> $FLFWEZDBYC = createFile ( $FLQVIZHEZM )</span><br><span class="line">    <span class="keyword">IF</span> $FLFWEZDBYC &lt;&gt; - $FLTGQYKODM <span class="keyword">THEN</span></span><br><span class="line">        <span class="keyword">LOCAL</span> $FLVBURIUYD = _GetFileSize_ ( $FLFWEZDBYC )</span><br><span class="line">        <span class="keyword">IF</span> $FLVBURIUYD &lt;&gt; - $FLTMXODMFL <span class="literal">AND</span> <span class="built_in">DLLSTRUCTGETSIZE</span> ( $computerName ) &lt; $FLVBURIUYD - <span class="number">54</span> <span class="keyword">THEN</span></span><br><span class="line">            <span class="keyword">LOCAL</span> $FLNFUFVECT = <span class="built_in">DLLSTRUCTCREATE</span> (_Hex2Str_( <span class="string">&#x27;struct;byte[&#x27;</span> &amp; <span class="string">&#x27;269156&#x27;</span> &amp; <span class="string">&#x27;];endstruct&#x27;</span>)</span><br><span class="line">            <span class="keyword">LOCAL</span> $FLSKUANQBG = ReadFile ( $FLFWEZDBYC , $FLNFUFVECT )</span><br><span class="line">            <span class="keyword">IF</span> $FLSKUANQBG &lt;&gt; - $FLVUJARIHO <span class="keyword">THEN</span></span><br><span class="line">                <span class="keyword">LOCAL</span> $FLXMDCHRQD = <span class="built_in">DLLSTRUCTCREATE</span> ( <span class="string">&#x27;struct;byte[54];byte[&#x27;</span> &amp; $FLVBURIUYD - <span class="number">54</span> &amp; <span class="string">&#x27;];endstruct&#x27;</span>, <span class="built_in">DLLSTRUCTGETPTR</span> ( $FLNFUFVECT ) )</span><br><span class="line">                <span class="keyword">LOCAL</span> $FLQGWNZJZC = <span class="number">1</span></span><br><span class="line">                <span class="keyword">LOCAL</span> $FLOCTXPGQH = <span class="string">&#x27;&#x27;</span></span><br><span class="line">                <span class="keyword">FOR</span> $FLTERGXSKH =  <span class="number">1</span> <span class="keyword">TO</span> <span class="built_in">DLLSTRUCTGETSIZE</span> ( $computerName )</span><br><span class="line">                    <span class="keyword">LOCAL</span> $FLYDTVGPNC = <span class="built_in">NUMBER</span> ( <span class="built_in">DLLSTRUCTGETDATA</span> ( $computerName , <span class="number">1</span> , $FLTERGXSKH ) )</span><br><span class="line">                    <span class="keyword">FOR</span> $FLTAJBYKXX = <span class="number">6</span> <span class="keyword">TO</span> <span class="number">0</span> <span class="keyword">STEP</span> <span class="number">-1</span></span><br><span class="line">                        $FLYDTVGPNC += <span class="built_in">BITSHIFT</span> ( <span class="built_in">BITAND</span> ( <span class="built_in">NUMBER</span> ( <span class="built_in">DLLSTRUCTGETDATA</span> ( $FLXMDCHRQD , <span class="number">2</span> , $FLQGWNZJZC ) ) , <span class="number">1</span> ) , <span class="number">-1</span> * $FLTAJBYKXX )</span><br><span class="line">                        $FLQGWNZJZC += <span class="number">1</span></span><br><span class="line">                    <span class="keyword">NEXT</span></span><br><span class="line">                    $FLOCTXPGQH &amp;= <span class="built_in">CHR</span> ( <span class="built_in">BITSHIFT</span> ( $FLYDTVGPNC ,<span class="number">1</span>) + <span class="built_in">BITSHIFT</span> ( <span class="built_in">BITAND</span> ( $FLYDTVGPNC ,<span class="number">1</span>) , <span class="number">-7</span> ) )</span><br><span class="line">                <span class="keyword">NEXT</span></span><br><span class="line">                <span class="built_in">DLLSTRUCTSETDATA</span> ( $computerName , <span class="number">1</span> , $FLOCTXPGQH )</span><br><span class="line">            <span class="keyword">ENDIF</span></span><br><span class="line">        <span class="keyword">ENDIF</span></span><br><span class="line">        CloseHandle ( $FLFWEZDBYC )</span><br><span class="line">    <span class="keyword">ENDIF</span></span><br><span class="line">    DeleteFileA ( $FLQVIZHEZM )</span><br><span class="line"><span class="keyword">ENDFUNC</span></span><br></pre></td></tr></table></figure>
 
 <p>他做的事情就是把一開始看到的那個在敲鍵盤的 flare icon 的每 7bits 組起來，這聽起來就是 ASCII，所以如果我們照做的話就可以抽出這段字 <code>aut01tfan1999</code> 這就是正確的電腦名稱，最後就是看要直接改 ComputerName 還是 Hook Function，或是直接解密都行。</p>
 <p>Flag: <code>L00ks_L1k3_Y0u_D1dnt_Run_Aut0_Tim3_0n_Th1s_0ne!@flare-on.com</code></p>
@@ -539,26 +776,27 @@ The video tag is not supported by your browser.
 <h1 id="7-re-crowd"><a href="#7-re-crowd" class="headerlink" title="7 - re_crowd"></a>7 - re_crowd</h1><p>會拿到一個 pcap 檔案，實際上是攻擊者在用 CVE 攻擊伺服器並且偷檔案，裏面包含 alphanumeric unicode shellcode 把它倒出來分析看懂就好了，解完 RC4 就可以得到 flag。</p>
 <h1 id="8-Aardvark"><a href="#8-Aardvark" class="headerlink" title="8 - Aardvark"></a>8 - Aardvark</h1><p>這支程式利用 wsl 叫起一個 ELF 執行檔（放在 PE resource 裏面），之後用 UNIX Socket 溝通來玩 OOXX（Tic-tac-toe） 的遊戲，由於 Tic-tac-toe 在玩家都下最佳位置時是必定平手的遊戲，解法就是把 ELF 裏面初始化遊戲盤面的地方改成預先放一堆 O 這樣就必勝了。</p>
 <h1 id="9-crackinstaller"><a href="#9-crackinstaller" class="headerlink" title="9 - crackinstaller"></a>9 - crackinstaller</h1><p>crackinstaller 會先安裝一個有簽章且能繞過 SMEP 的 driver 之後透過這個 driver 安裝一個沒有簽章的 driver，目標是要在登錄檔裡面寫上正確的密碼然後寫一個 COM 的 Client 跟 crackinstaller 安裝的 COM 做互動，最後就可以拿到 flag。</p>
-<p>比較有趣的點是「一個有簽章且能繞過 SMEP 的 driver 」，一開始我解完題目後一直覺得裡面的 magic number 感覺可以直接查到，搞不好我不用花這麼多時間逆向，結果發現這東西根本就是<a href="https://www.unknowncheats.me/forum/1547391-post1.html" target="_blank" rel="noopener">卡普空的東西</a>，PC 版的 Street Fighter V 的 driver 而且他唯一的功能就是把 SMEP 關掉然後跳上 userland 執行任意程式，天啊卡普空…</p>
+<p>比較有趣的點是「一個有簽章且能繞過 SMEP 的 driver 」，一開始我解完題目後一直覺得裡面的 magic number 感覺可以直接查到，搞不好我不用花這麼多時間逆向，結果發現這東西根本就是<a href="https://www.unknowncheats.me/forum/1547391-post1.html">卡普空的東西</a>，PC 版的 Street Fighter V 的 driver 而且他唯一的功能就是把 SMEP 關掉然後跳上 userland 執行任意程式，天啊卡普空…</p>
 <h1 id="10-break"><a href="#10-break" class="headerlink" title="10 - break"></a>10 - break</h1><p>簡單來說就是執行主要程式後，主要程式會 fork B 來 debug 自己，B 會 fork C 來 debug 自己，邏輯都被往下外包，因為 C 很簡單，所以可以把那些功能都 patch 回 B，這樣就可以用 gdb 跟 B 在做什麼了，就醬子，後面就想辦法搞一搞就會有 flag 了。</p>
 <h1 id="11-rabbithole"><a href="#11-rabbithole" class="headerlink" title="11 - rabbithole"></a>11 - rabbithole</h1><p>非常惡劣，極盡我通靈之能把全部的樣本都看完了，但其實不用看 32bit 那一部分的 1x 個 payload，總之裡面的 PE 檔案都被 PX 這個算法給包起來了，首先要先寫腳本把他們好好解開，然後就可以看懂 dll 之間互相呼叫，被加密的 flag 在 DiMap 這個登錄檔裡面，解開就是了。</p>
 
     </article>
-    <!-- license  -->
+    <!-- license -->
     
         <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/">http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/">October 22nd 2020, 3:57:07</a>
-            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/">http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/">October 22nd 2020, 3:57:07 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/2020-Flare-On-7-Write-up/">June 21st 2024, 1:45:57 am</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
-    <!-- paginator  -->
+    <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" title= "2021::OSCP::回顧與分享">
+                <a href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" title="2021::OSCP::回顧與分享">
                     <div class="nextTitle">2021::OSCP::回顧與分享</div>
                 </a>
             
@@ -566,14 +804,19 @@ The video tag is not supported by your browser.
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" title= "2020::程式安全::HW0 Write-up">
+                <a href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" title="2020::程式安全::HW0 Write-up">
                     <div class="prevTitle">2020::程式安全::HW0 Write-up</div>
                 </a>
             
         </li>
     </ul>
-    <!-- 评论插件 -->
+    <!-- comment -->
     
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
     <div id="disqus_thread"></div>
     <script>
         /**
@@ -591,30 +834,47 @@ The video tag is not supported by your browser.
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
-
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-    </style>
-</main>
-            <!-- profile -->
             
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
         </div>
-        <footer class="footer footer-unloaded">
-    <!-- mermaid-->
     
-      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
-      <script>mermaid.initialize({startOnLoad:true});</script>
-      
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
     <!-- social  -->
     
-    <div class="social">
-        
+        <div class="social">
+            
     
         
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -661,6 +921,8 @@ The video tag is not supported by your browser.
         
     
         
+    
+        
             
                 <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
             
@@ -675,544 +937,576 @@ The video tag is not supported by your browser.
         
     
 
-    </div>
+
+        </div>
     
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
+    <!-- website approve for Chinese user -->
+    
     <!-- 不蒜子  -->
-    
+    	
 </footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
 
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#心得"><span class="toc-number">1.</span> <span class="toc-text">心得</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-fidler"><span class="toc-number">2.</span> <span class="toc-text">1 - fidler</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description"><span class="toc-number">2.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-number">2.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-garbage"><span class="toc-number">3.</span> <span class="toc-text">2 - garbage</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-1"><span class="toc-number">3.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1"><span class="toc-number">3.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-wednesday"><span class="toc-number">4.</span> <span class="toc-text">3 - wednesday</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-2"><span class="toc-number">4.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2"><span class="toc-number">4.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-report"><span class="toc-number">5.</span> <span class="toc-text">4 - report</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-3"><span class="toc-number">5.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-3"><span class="toc-number">5.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-TKApp"><span class="toc-number">6.</span> <span class="toc-text">5 - TKApp</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-4"><span class="toc-number">6.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-4"><span class="toc-number">6.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-codeit"><span class="toc-number">7.</span> <span class="toc-text">6 - codeit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-5"><span class="toc-number">7.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-5"><span class="toc-number">7.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-re-crowd"><span class="toc-number">8.</span> <span class="toc-text">7 - re_crowd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Aardvark"><span class="toc-number">9.</span> <span class="toc-text">8 - Aardvark</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-crackinstaller"><span class="toc-number">10.</span> <span class="toc-text">9 - crackinstaller</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-break"><span class="toc-number">11.</span> <span class="toc-text">10 - break</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-rabbithole"><span class="toc-number">12.</span> <span class="toc-text">11 - rabbithole</span></a></li></ol>
-    </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
 
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
     
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%83%E5%BE%97"><span class="toc-number">1.</span> <span class="toc-text">心得</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-fidler"><span class="toc-number">2.</span> <span class="toc-text">1 - fidler</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description"><span class="toc-number">2.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution"><span class="toc-number">2.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-garbage"><span class="toc-number">3.</span> <span class="toc-text">2 - garbage</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-1"><span class="toc-number">3.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-1"><span class="toc-number">3.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-wednesday"><span class="toc-number">4.</span> <span class="toc-text">3 - wednesday</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-2"><span class="toc-number">4.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-2"><span class="toc-number">4.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-report"><span class="toc-number">5.</span> <span class="toc-text">4 - report</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-3"><span class="toc-number">5.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-3"><span class="toc-number">5.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-TKApp"><span class="toc-number">6.</span> <span class="toc-text">5 - TKApp</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-4"><span class="toc-number">6.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-4"><span class="toc-number">6.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-codeit"><span class="toc-number">7.</span> <span class="toc-text">6 - codeit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Description-5"><span class="toc-number">7.1.</span> <span class="toc-text">Description</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solution-5"><span class="toc-number">7.2.</span> <span class="toc-text">Solution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-re-crowd"><span class="toc-number">8.</span> <span class="toc-text">7 - re_crowd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-Aardvark"><span class="toc-number">9.</span> <span class="toc-text">8 - Aardvark</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-crackinstaller"><span class="toc-number">10.</span> <span class="toc-text">9 - crackinstaller</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-break"><span class="toc-number">11.</span> <span class="toc-text">10 - break</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-rabbithole"><span class="toc-number">12.</span> <span class="toc-text">11 - rabbithole</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
         <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
         <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
         <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
     </ul>
     <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1220,384 +1514,544 @@ top:50vh;
     
     <div class="post-archive">
     
-    
-    
-    
-    <div class="archive-year"> 2022 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
         </li>
     
     </div>
-  </div>
+</div>
+
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
-    
-        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
-    
-        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
-    
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
-    
-        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
-    
-        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
-    
-        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
     </div> 
     <div class="sidebar-tags-list"></div>
 </div>
+
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
     
-        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
 </div>
+
     </div>
-</div> 
-    <script>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
         author: "Terrynini"
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
-    
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
     </body>
 </html>
-
-

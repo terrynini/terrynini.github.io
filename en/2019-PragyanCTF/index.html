@@ -3,18 +3,25 @@
     <!-- title -->
 
 
-
+    
 
 <!-- keywords -->
 
 
 
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
+    
+    <meta name="description" content="">
     <meta name="description" content="Wanna try ghidra in reversing so I play Pragyan CTF.Did not have time to solve them all.Pragyan CTF is a much easier CTF, a good target for me to start writing my blog……It’s a good way to force me to">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2019::PragyanCTF">
-<meta property="og:image">
 <meta property="og:url" content="http://blog.terrynini.tw/en/2019-PragyanCTF/index.html">
 <meta property="og:site_name" content="NiNi&#39;s den">
 <meta property="og:description" content="Wanna try ghidra in reversing so I play Pragyan CTF.Did not have time to solve them all.Pragyan CTF is a much easier CTF, a good target for me to start writing my blog……It’s a good way to force me to">
@@ -23,27 +30,127 @@
 <meta property="og:image" content="http://blog.terrynini.tw/en/2019-PragyanCTF/see.png">
 <meta property="og:image" content="http://blog.terrynini.tw/en/2019-PragyanCTF/wave.png">
 <meta property="og:image" content="http://blog.terrynini.tw/en/2019-PragyanCTF/QRcode.png">
-<meta property="article:published_time" content="2019-03-11T18:08:23.000Z">
+<meta property="article:published_time" content="2019-03-11T17:08:23.000Z">
 <meta property="article:modified_time" content="2019-03-20T18:55:32.000Z">
 <meta property="article:author" content="Terrynini">
 <meta property="article:tag" content="CTF">
 <meta property="article:tag" content="Pragyan">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.terrynini.tw/en/2019-PragyanCTF/a.png">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <meta name="author" content="Terrynini">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="Terrynini">
-    
-    <meta name="keywords" content="NiNi's den,Terrynini">
-    
-    <meta name="description" content="">
-
     <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
     <title>2019::PragyanCTF · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -93,164 +200,258 @@
             transform: translate3d(0, 0, 0);
         }
     }
-
 </style>
 
-    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
     
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        font-size: 80%;
+        text-align: right;
+        /*background-image: linear-gradient(225deg, red, red 10px, transparent 10px, transparent);*/
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        font-size: 80%;
+        width: 19vw;
+        margin-left: -23vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+.article-entry aside  {
+    
+}
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+    text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 90%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
 <script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
+document.addEventListener("DOMContentLoaded", function(){
 
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
+  var selection = document.querySelector('.sidenote-mark') !== null;
+  if( selection ){
+    document.querySelector('.sidenote-mark').addEventListener('mouseover', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.add('hover');
+    });
 
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
+    document.querySelector('.sidenote-mark').addEventListener('mouseout', function(event) {
+        id = event.target.id.match(/\d+/)[0];
+        const target = document.querySelector(`#note-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+  selection = document.querySelector('aside') !== null;
+  if(selection){
+    document.querySelector('aside').addEventListener('mouseover', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.add('hover');
+    });
 
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
+        document.querySelector('aside').addEventListener('mouseout', function(event) {
+        id = event.target.closest('aside').id.match(/\d+/)[0];
+        const target = document.querySelector(`#mark-${id}`);
+        target.classList.remove('hover');
+    });
+  }
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
-</script>
-
-    <link rel="icon" href= "//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-109652024-2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-109652024-2');
-</script>
-
-<meta name="generator" content="Hexo 4.2.1"></head>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
         <body class="post-body">
     
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
     
-<header class="header">
-
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <div class="banner">
-            <div class="blog-title">
-                <a href="/" >🦊Back to NiNi&#39;s Den</a>
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
             </div>
-            <div class="post-title">
+            <div class="post-title header-element">
                 <a href="#" class="post-name">2019::PragyanCTF</a>
             </div>
-    </div>
-    
-    
-    <a class="home-link" style="font-size: larger;" href=/>🦊Back to NiNi's Den</a>
+        </div>
     
 </header>
-    <div class="wrapper">
-        <div class="site-intro" style="
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
 
 
 
@@ -258,12 +459,13 @@
 
 
 
-height:50vh;
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
-    
+        
     <!-- 404页  -->
     
     <div class="site-intro-placeholder"></div>
@@ -273,7 +475,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            2019::PragyanCTF
+                2019::PragyanCTF
             <!-- 404 -->
             
         </h1>
@@ -281,36 +483,42 @@ height:50vh;
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
-            
+                
             <!-- 404 -->
             
         </p>
-        <!-- 文章页meta -->
+        <!-- 文章页 meta -->
         
             <div class="post-intros">
                 <!-- 文章页标签  -->
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "CTF">CTF</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Pragyan">Pragyan</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="CTF">CTF</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Pragyan">Pragyan</a>
     
 </div>
+
                 
+                <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">2.8k</span>Reading time: <span class="post-count reading-time">17 min</span></span>
+                        <span>Word count: <span class="post-count word-count">2.9k</span>Reading time: <span class="post-count reading-time">18 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
-                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
                     <span class="post-intro-time">2019/03/12</span>
+                    <!-- busuanzi -->
                     
-                    <span class="shareWrapper">
-                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
-                        <span class="shareText">Share</span>
-                        <ul class="shareList">
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
                             <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
                                 <div class="share-qrcode"></div>
                             </li>
@@ -323,232 +531,262 @@ height:50vh;
         
     </div>
 </div>
-        <script>
- 
+
+            <script>
   // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
   }
-  console.log("userAgent:" + browser.versions.userAgent);
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
 
   // callback
   function fontLoaded() {
-    console.log('font loaded');
+    console.log('font loaded')
     if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
       var postIntros = document.getElementsByClassName('post-intros')[0]
       if (postIntros) {
-        postIntros.classList.add('post-fade-in');
+        postIntros.classList.add('post-fade-in')
       }
     }
   }
 
   // UC不支持跨域，所以直接显示
-  function asyncCb(){
+  function asyncCb() {
     if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
+      console.log('UCBrowser')
+      fontLoaded()
     } else {
       WebFont.load({
         custom: {
-          families: ['Oswald-Regular']
+          families: ['Oswald-Regular'],
         },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
         },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
         },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
         },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+        timeout: 5000, // Set the timeout to two seconds
+      })
     }
   }
 
-  function asyncErr(){
+  function asyncErr() {
     console.warn('script load from CDN failed, will load local script')
   }
 
   // load webfont-loader async, and add callback function
   function async(u, cb, err) {
-    var d = document, t = 'script',
+    var d = document,
+      t = 'script',
       o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
   }
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
 
-      async(arr[0], success, currReject)
+    async(arr[0], success, currReject)
   }
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
 </script>
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main post-page">
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
     <article class="article-entry">
         <p>Wanna try ghidra in reversing so I play Pragyan CTF.<br>Did not have time to solve them all.<br>Pragyan CTF is a much easier CTF, a good target for me to start writing my blog……<br>It’s a good way to force me to understand every details and improve my English writing skill (maybe).</p>
-<a id="more"></a>
+<span id="more"></span>
 <h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="Cookie-Monster"><a href="#Cookie-Monster" class="headerlink" title="Cookie Monster"></a>Cookie Monster</h2><p>The value of flag in cookie is the md5 result of flag’s slices.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bc54f4d60f1cec0f9a6cb70e13f2127a    md5 pc</span><br><span class="line">114d6a415b3d04db792ca7c0da0c7a55    md5 tf</span><br><span class="line">b2984e12969ad3a3a2a4d334b8fb385a    md5 &#123;c</span><br><span class="line">6f570c477ab64d17825ef2d2dfcb6fe4    md5 0o</span><br><span class="line">988287f7a1eb966ffc4e19bdbdeec7c3    md5 ki</span><br><span class="line">0d4896d431044c92de2840ed53b6fbbd    md5 3s</span><br><span class="line">f355d719add62ceea8c150e5fbfae819    md5 _@</span><br><span class="line">12eccbdd9b32918131341f38907cbbb5    md5 re</span><br><span class="line">639307d281416ad0642faeaae1f098c4    md5 _y</span><br><span class="line">96bc320e4d72edda450c7a9abc8a214f    md5 Um</span><br><span class="line">c716fb29298ad96a3b31757ec9755763    md5 _b</span><br><span class="line">51de5514f3c808babd19f42217fcba49    md5 Ut</span><br><span class="line">05cb7dc333ca611d0a8969704e39a9f0    md5 _t</span><br><span class="line">bc781c76baf5589eef4fb7b9247b89a0    md5 HE</span><br><span class="line">ff108b961a844f859bd7c203b7366f8e    md5 y_</span><br><span class="line">2349277280263dff980b0c8a4a10674b    md5 @l</span><br><span class="line">0b1cdc9fe1f929e469c5a54ffe0b2ed5    md5 s0</span><br><span class="line">364641d04574146d9f88001e66b4410f    md5 _r</span><br><span class="line">c758807125330006a4375357104f9a82    md5 3v</span><br><span class="line">fcfdc12fb4030a8c8a2e19cf7b075926    md5 Ea</span><br><span class="line">440c5c247c708c6e46783e47e3986889    md5 L_</span><br><span class="line">97a7bf81a216e803adfed8bd013f4b85    md5 @_</span><br><span class="line">c1d12de20210d8c1b35c367536e1c255    md5 l0</span><br><span class="line">a8655da06c5080d3f1eb6af7b514e309    md5 t&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bc54f4d60f1cec0f9a6cb70e13f2127a    md5 pc</span><br><span class="line">114d6a415b3d04db792ca7c0da0c7a55    md5 tf</span><br><span class="line">b2984e12969ad3a3a2a4d334b8fb385a    md5 &#123;c</span><br><span class="line">6f570c477ab64d17825ef2d2dfcb6fe4    md5 0o</span><br><span class="line">988287f7a1eb966ffc4e19bdbdeec7c3    md5 ki</span><br><span class="line">0d4896d431044c92de2840ed53b6fbbd    md5 3s</span><br><span class="line">f355d719add62ceea8c150e5fbfae819    md5 _@</span><br><span class="line">12eccbdd9b32918131341f38907cbbb5    md5 re</span><br><span class="line">639307d281416ad0642faeaae1f098c4    md5 _y</span><br><span class="line">96bc320e4d72edda450c7a9abc8a214f    md5 Um</span><br><span class="line">c716fb29298ad96a3b31757ec9755763    md5 _b</span><br><span class="line">51de5514f3c808babd19f42217fcba49    md5 Ut</span><br><span class="line">05cb7dc333ca611d0a8969704e39a9f0    md5 _t</span><br><span class="line">bc781c76baf5589eef4fb7b9247b89a0    md5 HE</span><br><span class="line">ff108b961a844f859bd7c203b7366f8e    md5 y_</span><br><span class="line">2349277280263dff980b0c8a4a10674b    md5 @l</span><br><span class="line">0b1cdc9fe1f929e469c5a54ffe0b2ed5    md5 s0</span><br><span class="line">364641d04574146d9f88001e66b4410f    md5 _r</span><br><span class="line">c758807125330006a4375357104f9a82    md5 3v</span><br><span class="line">fcfdc12fb4030a8c8a2e19cf7b075926    md5 Ea</span><br><span class="line">440c5c247c708c6e46783e47e3986889    md5 L_</span><br><span class="line">97a7bf81a216e803adfed8bd013f4b85    md5 @_</span><br><span class="line">c1d12de20210d8c1b35c367536e1c255    md5 l0</span><br><span class="line">a8655da06c5080d3f1eb6af7b514e309    md5 t&#125;</span><br></pre></td></tr></table></figure>
 
-<p>flag:<br><code>pctf{c0oki3s_@re_yUm_bUt_tHEy_@ls0_r3vEaL_@_l0t}</code></p>
+<p>flag:<br><code>pctf&#123;c0oki3s_@re_yUm_bUt_tHEy_@ls0_r3vEaL_@_l0t&#125;</code></p>
 <h2 id="Game-of-Faces"><a href="#Game-of-Faces" class="headerlink" title="Game of Faces"></a>Game of Faces</h2><p>A form hidden behind the first color block, just upload any picture then you get a base64 encoded string which decoded as <code>The_scroll_says=the_night_kingVSvalyrian.txt</code></p>
 <p>Get the flag at <code>/the_night_kingVSvalyrian.txt</code></p>
-<p>flag:<br><code>pctf{You_L00K_Wi3Rd_IN_H3R3}</code></p>
-<h2 id="Mandatory-PHP"><a href="#Mandatory-PHP" class="headerlink" title="Mandatory PHP"></a>Mandatory PHP</h2><h3 id="final-solution"><a href="#final-solution" class="headerlink" title="final solution"></a>final solution</h3><p><a href="http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&amp;val1=rUs&amp;val3=12&amp;val4=16" target="_blank" rel="noopener">http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&amp;val1=rUs&amp;val3=12&amp;val4=16</a></p>
-<h3 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$a=hash(<span class="string">"sha256"</span>,$a);</span><br><span class="line">$a=(log10($a**(<span class="number">0.5</span>)))**<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>flag:<br><code>pctf&#123;You_L00K_Wi3Rd_IN_H3R3&#125;</code></p>
+<h2 id="Mandatory-PHP"><a href="#Mandatory-PHP" class="headerlink" title="Mandatory PHP"></a>Mandatory PHP</h2><h3 id="final-solution"><a href="#final-solution" class="headerlink" title="final solution"></a>final solution</h3><p><a href="http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&val1=rUs&val3=12&val4=16">http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&amp;val1=rUs&amp;val3=12&amp;val4=16</a></p>
+<h3 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="title function_ invoke__">hash</span>(<span class="string">&quot;sha256&quot;</span>,<span class="variable">$a</span>);</span><br><span class="line"><span class="variable">$a</span>=(<span class="title function_ invoke__">log10</span>(<span class="variable">$a</span>**(<span class="number">0.5</span>)))**<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
 
 <p>Find a string which’s sha256 result’s prefix is <code>1e</code>, so that it would be consider as scientific notation at first line. When <code>$a=&#39;rUs&#39;</code>, the result of sha256 is <code>1e40afafd2290d3f1e0cbc86cd9bbec0df8627b32730ea72e0dce67fe49a2f30</code>, would be consider as $10^{40}$ at second line and the last result is <code>400</code>, which is $12^2+16^2$, done.</p>
 <p>next check:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>($i=<span class="number">1</span>;$i&lt;=<span class="number">10</span>;$i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>($b==urldecode($b))</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">'duck'</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        $b=urldecode($b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>($b===<span class="string">"WoAHh!"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="variable">$i</span>=<span class="number">1</span>;<span class="variable">$i</span>&lt;=<span class="number">10</span>;<span class="variable">$i</span>++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$b</span>==<span class="title function_ invoke__">urldecode</span>(<span class="variable">$b</span>))</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;duck&#x27;</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="variable">$b</span>=<span class="title function_ invoke__">urldecode</span>(<span class="variable">$b</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$b</span>===<span class="string">&quot;WoAHh!&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>It apply urldecode 10 times on <code>$b</code>, so we have to encode <code>WoAHh!</code> 10 times, also. The result should be <code>WoAHh%25252525252525252521</code>. But,the url would be decoded once by default, we have to do one more encode, which would be <code>WoAHh%252525252525252525252521</code></p>
-<p>flag:<br><code>pctf{b3_c4r3fu1_w1th_pHp_f31145}</code></p>
+<p>flag:<br><code>pctf&#123;b3_c4r3fu1_w1th_pHp_f31145&#125;</code></p>
 <h1 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h1><h2 id="Welcome"><a href="#Welcome" class="headerlink" title="Welcome"></a>Welcome</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">binwalk -e welcome.jpeg</span><br><span class="line">unzip d.zip</span><br></pre></td></tr></table></figure>
 
 <p>The password for <code>a.zip</code> is in the secret.bmp, <code>dGhlIHBhc3N3b3JkIGlzOiBoMzExMF90aDNyMyE==</code>, decoded as <code>the password is: h3110_th3r3!</code><br>Then it give us a a.png, the flag is hidden in the white background</p>
 <img src="/en/2019-PragyanCTF/a.png" class="">
 
-<p>flag:<br><code>pctf{st3gs0lv3_1s_u53ful}</code></p>
+<p>flag:<br><code>pctf&#123;st3gs0lv3_1s_u53ful&#125;</code></p>
 <h2 id="Magic-PNGs"><a href="#Magic-PNGs" class="headerlink" title="Magic PNGs"></a>Magic PNGs</h2><p><code>you_cant_see_me.png</code> is a broken png, fix it to get the password for <code>tryme.zip</code><br>First, fix the header , the header should be <code>8950 4e47 1d0a 1a0a</code> instead of <code>8950 4e47 2e0a 2e0a</code>.Next, find ascii string <code>idat</code> in png , this is the name of <code>IDAT</code> chunk, the string should be uppercase. Finally, fix two CRC checksums. then we get a picture of mask from movie <em>V for Vendetta</em>.</p>
 <img src="/en/2019-PragyanCTF/see.png" class="">
 
 <p>According to the hint, the password for <code>tryme.zip</code> should be <code>MD5 (&quot;h4CK3RM4n&quot;) = 2c919f82ee2ed6985d5c5e275d67e4f8</code></p>
-<p>flag:<br><code>pctf{y0u_s33_m33_n0w!}</code></p>
+<p>flag:<br><code>pctf&#123;y0u_s33_m33_n0w!&#125;</code></p>
 <h2 id="Save-Earth"><a href="#Save-Earth" class="headerlink" title="Save Earth"></a>Save Earth</h2><p>Some usb packages, extract the Leftover Capture Data by<br><code>tshark -r ./SaveEarth.pcap -T fields -e usb.capdata &gt; leftover.txt</code></p>
 <p>It doesn’t look like some keyboard strike or mouse position, but more like morse code.</p>
-<figure class="highlight plain"><figcaption><span>leftover.txt</span></figcaption><table><tr><td class="code"><pre><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br></pre></td></tr></table></figure>
+<figure class="highlight txt"><figcaption><span>leftover.txt</span></figcaption><table><tr><td class="code"><pre><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:01:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:04:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br><span class="line">01:02:00:00:00:00:00:00</span><br></pre></td></tr></table></figure>
 
 <p>Get morse code</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ cut -d <span class="string">':'</span> -f 2 leftover.txt | sed -e <span class="string">"s/01/ /g"</span> -e <span class="string">'s/02/-/g'</span> -e <span class="string">'s/04/./g'</span> | tr -d <span class="string">'\n'</span></span><br><span class="line">-.-. - ..-. ... ....- ...- ...--</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cut</span> -d <span class="string">&#x27;:&#x27;</span> -f 2 leftover.txt | sed -e <span class="string">&quot;s/01/ /g&quot;</span> -e <span class="string">&#x27;s/02/-/g&#x27;</span> -e <span class="string">&#x27;s/04/./g&#x27;</span> | <span class="built_in">tr</span> -d <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">-.-. - ..-. ... ....- ...- ...--</span><br></pre></td></tr></table></figure>
 
 <p><code>-.-. - ..-. ... ....- ...- ...--</code> -&gt; <code>CTFS4V3</code></p>
 <p>flag is in lowercase</p>
-<p>flag:<br><code>ctf{s4v3}</code></p>
+<p>flag:<br><code>ctf&#123;s4v3&#125;</code></p>
 <h2 id="Slow-Realization"><a href="#Slow-Realization" class="headerlink" title="Slow Realization"></a>Slow Realization</h2><p>It gives us a flag.pdf and a jpeg picture</p>
 
 
 <p>The <code>EOF</code> of jpeg file format is <code>ff d9</code>, so there is actually a mp3 file concated behind this jpeg. It’s OneRepublic - Counting Stars, but there are some morse code and a weird woman voice. The morse code is not the password, which is</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.--. .- - .. . -. -.-. . .. ... - .... . -.-  . -.-- .--. -.-. - ..-. -. ----- - .... ...-- .-.  ...--</span><br><span class="line">PATIENCE IS THE KEY PCTF N0T H3R3</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.--. .- - .. . -. -.-. . .. ... - .... . -.-  . -.-- .--. -.-. - ..-. -. ----- - .... ...-- .-.  ...--</span><br><span class="line">PATIENCE IS THE KEY PCTF N0T H3R3</span><br></pre></td></tr></table></figure>
 
 <p>I thought that the password is inside the vocal between morse code. Tried to apply reverse, invert, or normalize individually on it, but I still can not get a clear version of the woman voice</p>
 <img src="/en/2019-PragyanCTF/wave.png" class="">
 
 <p>Luckily, I get the password by dictionary attack…., it turns out to be <code>congratulations</code>, WHAT ?<br>It really sounds like that after I knew the real password is <code>congratualtions</code>,but it also sounds like <code>slow realization</code>?<br>Can someone teach me how to get the password in right way?</p>
-<p>flag:<br><code>pctf{y0u_h34rd_m3_r1ght}</code></p>
+<p>flag:<br><code>pctf&#123;y0u_h34rd_m3_r1ght&#125;</code></p>
 <h2 id="Late-PR"><a href="#Late-PR" class="headerlink" title="Late PR"></a>Late PR</h2><p>strings it, done<br>Is this the intended solution ??</p>
-<p>flag:<br><code>pctf{Late_submissions_can_be_good}</code></p>
+<p>flag:<br><code>pctf&#123;Late_submissions_can_be_good&#125;</code></p>
 <h1 id="Cryptography"><a href="#Cryptography" class="headerlink" title="Cryptography"></a>Cryptography</h1><h2 id="Spoiler"><a href="#Spoiler" class="headerlink" title="Spoiler"></a>Spoiler</h2><p>There are some additional information concated after the <code>%%EOF</code> of pdf</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%%EOF0000006a0000006f0000006e000000730000006e0000006f000000770000006900000073000000640000007200000061000000670000006f0000006e00000062000000790000006200000069000000720000007400000068</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%%EOF0000006a0000006f0000006e000000730000006e0000006f000000770000006900000073000000640000007200000061000000670000006f0000006e00000062000000790000006200000069000000720000007400000068</span><br></pre></td></tr></table></figure>
 
 <p>It’s a hex string <code>6a6f6e736e6f776973647261676f6e62796269727468</code>, xor it with another hex string show in pdf.</p>
-<p>flag:<br><code>PCTF{JON_IS_TARGARYEN}</code></p>
+<p>flag:<br><code>PCTF&#123;JON_IS_TARGARYEN&#125;</code></p>
 <h2 id="Add-them-Sneaky-Polynomials"><a href="#Add-them-Sneaky-Polynomials" class="headerlink" title="Add them Sneaky Polynomials"></a>Add them Sneaky Polynomials</h2><p>We get some polynomials equations:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">p &#x3D; x^406 + x^405 + x^402 + x^399 + x^397 + x^391 + x^390 + x^387 + x^386 + x^378 + x^374 + x^372 + x^371 + x^369 + x^367 + x^364 + x^360 + x^358 + x^357 + x^352 + x^350 + x^345 + x^344 + x^341 + x^336 + x^335 + x^334 + x^333 + x^331 + x^330 + x^329 + x^328 + x^327 + x^324 + x^322 + x^320 + x^314 + x^311 + x^308 + x^307 + x^303 + x^300 + x^299 + x^296 + x^295 + x^290 + x^289 + x^287 + x^279 + x^271 + x^266 + x^264 + x^262 + x^260 + x^257 + x^256 + x^252 + x^249 + x^248 + x^246 + x^243 + x^239 + x^238 + x^236 + x^233 + x^230 + x^227 + x^225 + x^223 + x^222 + x^220 + x^218 + x^216 + x^215 + x^209 + x^208 + x^207 + x^204 + x^202 + x^199 + x^190 + x^189 + x^185 + x^184 + x^180 + x^177 + x^176 + x^175 + x^172 + x^167 + x^166 + x^162 + x^160 + x^159 + x^155 + x^154 + x^149 + x^147 + x^143 + x^137 + x^135 + x^131 + x^129 + x^126 + x^124 + x^122 + x^116 + x^110 + x^108 + x^105 + x^104 + x^100 + x^99 + x^97 + x^94 + x^93 + x^90 + x^88 + x^87 + x^86 + x^85 + x^83 + x^75 + x^73 + x^69 + x^63 + x^62 + x^57 + x^54 + x^51 + x^44 + x^41 + x^38 + x^37 + x^36 + x^34 + x^29 + x^28 + x^26 + x^25 + x^21 + x^20 + x^19 + x^16 + x^15 + x^14 + x^13 + x^6 + x^5 + x^2</span><br><span class="line"></span><br><span class="line">q &#x3D; x^399 + x^398 + x^396 + x^393 + x^392 + x^391 + x^388 + x^386 + x^384 + x^381 + x^377 + x^376 + x^368 + x^364 + x^360 + x^355 + x^354 + x^353 + x^352 + x^348 + x^346 + x^345 + x^344 + x^343 + x^335 + x^334 + x^329 + x^326 + x^325 + x^321 + x^318 + x^317 + x^315 + x^314 + x^311 + x^307 + x^306 + x^304 + x^300 + x^296 + x^293 + x^291 + x^282 + x^277 + x^270 + x^263 + x^261 + x^260 + x^256 + x^254 + x^253 + x^252 + x^251 + x^248 + x^245 + x^242 + x^241 + x^239 + x^238 + x^236 + x^232 + x^226 + x^225 + x^222 + x^220 + x^219 + x^214 + x^209 + x^208 + x^207 + x^206 + x^202 + x^200 + x^196 + x^191 + x^190 + x^186 + x^181 + x^180 + x^178 + x^177 + x^169 + x^168 + x^165 + x^164 + x^163 + x^162 + x^161 + x^159 + x^157 + x^156 + x^151 + x^149 + x^148 + x^147 + x^146 + x^144 + x^141 + x^140 + x^138 + x^137 + x^136 + x^134 + x^133 + x^132 + x^130 + x^129 + x^128 + x^126 + x^123 + x^121 + x^113 + x^109 + x^103 + x^101 + x^100 + x^95 + x^93 + x^91 + x^85 + x^84 + x^81 + x^74 + x^73 + x^71 + x^68 + x^67 + x^54 + x^52 + x^51 + x^50 + x^48 + x^46 + x^45 + x^43 + x^39 + x^35 + x^32 + x^31 + x^30 + x^29 + x^21 + x^15 + x^14 + x^9 + x^8 + x^5 + x^4 + x^2 + 1</span><br><span class="line"></span><br><span class="line">r &#x3D; x^404 + x^402 + x^396 + x^389 + x^387 + x^386 + x^384 + x^382 + x^376 + x^373 + x^367 + x^366 + x^365 + x^362 + x^361 + x^358 + x^356 + x^355 + x^354 + x^353 + x^352 + x^349 + x^348 + x^347 + x^345 + x^343 + x^340 + x^334 + x^332 + x^331 + x^328 + x^327 + x^326 + x^322 + x^317 + x^316 + x^314 + x^313 + x^312 + x^310 + x^309 + x^308 + x^305 + x^304 + x^303 + x^301 + x^300 + x^299 + x^296 + x^295 + x^292 + x^291 + x^290 + x^288 + x^287 + x^286 + x^285 + x^283 + x^279 + x^278 + x^274 + x^271 + x^269 + x^268 + x^266 + x^265 + x^263 + x^261 + x^260 + x^259 + x^258 + x^256 + x^254 + x^252 + x^251 + x^250 + x^249 + x^244 + x^243 + x^242 + x^237 + x^236 + x^228 + x^225 + x^224 + x^223 + x^222 + x^221 + x^215 + x^214 + x^213 + x^212 + x^205 + x^201 + x^200 + x^199 + x^197 + x^193 + x^192 + x^191 + x^190 + x^189 + x^188 + x^187 + x^182 + x^180 + x^175 + x^174 + x^173 + x^167 + x^166 + x^163 + x^158 + x^156 + x^155 + x^153 + x^151 + x^150 + x^149 + x^143 + x^142 + x^140 + x^139 + x^136 + x^135 + x^133 + x^129 + x^126 + x^125 + x^123 + x^121 + x^118 + x^117 + x^116 + x^115 + x^113 + x^110 + x^106 + x^105 + x^104 + x^103 + x^102 + x^98 + x^95 + x^92 + x^89 + x^87 + x^85 + x^81 + x^80 + x^77 + x^76 + x^75 + x^74 + x^71 + x^70 + x^67 + x^66 + x^64 + x^63 + x^60 + x^59 + x^58 + x^56 + x^54 + x^53 + x^48 + x^44 + x^41 + x^39 + x^38 + x^35 + x^34 + x^31 + x^29 + x^28 + x^27 + x^22 + x^21 + x^20 + x^17 + x^14 + x^12 + x^11 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">p = x^406 + x^405 + x^402 + x^399 + x^397 + x^391 + x^390 + x^387 + x^386 + x^378 + x^374 + x^372 + x^371 + x^369 + x^367 + x^364 + x^360 + x^358 + x^357 + x^352 + x^350 + x^345 + x^344 + x^341 + x^336 + x^335 + x^334 + x^333 + x^331 + x^330 + x^329 + x^328 + x^327 + x^324 + x^322 + x^320 + x^314 + x^311 + x^308 + x^307 + x^303 + x^300 + x^299 + x^296 + x^295 + x^290 + x^289 + x^287 + x^279 + x^271 + x^266 + x^264 + x^262 + x^260 + x^257 + x^256 + x^252 + x^249 + x^248 + x^246 + x^243 + x^239 + x^238 + x^236 + x^233 + x^230 + x^227 + x^225 + x^223 + x^222 + x^220 + x^218 + x^216 + x^215 + x^209 + x^208 + x^207 + x^204 + x^202 + x^199 + x^190 + x^189 + x^185 + x^184 + x^180 + x^177 + x^176 + x^175 + x^172 + x^167 + x^166 + x^162 + x^160 + x^159 + x^155 + x^154 + x^149 + x^147 + x^143 + x^137 + x^135 + x^131 + x^129 + x^126 + x^124 + x^122 + x^116 + x^110 + x^108 + x^105 + x^104 + x^100 + x^99 + x^97 + x^94 + x^93 + x^90 + x^88 + x^87 + x^86 + x^85 + x^83 + x^75 + x^73 + x^69 + x^63 + x^62 + x^57 + x^54 + x^51 + x^44 + x^41 + x^38 + x^37 + x^36 + x^34 + x^29 + x^28 + x^26 + x^25 + x^21 + x^20 + x^19 + x^16 + x^15 + x^14 + x^13 + x^6 + x^5 + x^2</span><br><span class="line"></span><br><span class="line">q = x^399 + x^398 + x^396 + x^393 + x^392 + x^391 + x^388 + x^386 + x^384 + x^381 + x^377 + x^376 + x^368 + x^364 + x^360 + x^355 + x^354 + x^353 + x^352 + x^348 + x^346 + x^345 + x^344 + x^343 + x^335 + x^334 + x^329 + x^326 + x^325 + x^321 + x^318 + x^317 + x^315 + x^314 + x^311 + x^307 + x^306 + x^304 + x^300 + x^296 + x^293 + x^291 + x^282 + x^277 + x^270 + x^263 + x^261 + x^260 + x^256 + x^254 + x^253 + x^252 + x^251 + x^248 + x^245 + x^242 + x^241 + x^239 + x^238 + x^236 + x^232 + x^226 + x^225 + x^222 + x^220 + x^219 + x^214 + x^209 + x^208 + x^207 + x^206 + x^202 + x^200 + x^196 + x^191 + x^190 + x^186 + x^181 + x^180 + x^178 + x^177 + x^169 + x^168 + x^165 + x^164 + x^163 + x^162 + x^161 + x^159 + x^157 + x^156 + x^151 + x^149 + x^148 + x^147 + x^146 + x^144 + x^141 + x^140 + x^138 + x^137 + x^136 + x^134 + x^133 + x^132 + x^130 + x^129 + x^128 + x^126 + x^123 + x^121 + x^113 + x^109 + x^103 + x^101 + x^100 + x^95 + x^93 + x^91 + x^85 + x^84 + x^81 + x^74 + x^73 + x^71 + x^68 + x^67 + x^54 + x^52 + x^51 + x^50 + x^48 + x^46 + x^45 + x^43 + x^39 + x^35 + x^32 + x^31 + x^30 + x^29 + x^21 + x^15 + x^14 + x^9 + x^8 + x^5 + x^4 + x^2 + 1</span><br><span class="line"></span><br><span class="line">r = x^404 + x^402 + x^396 + x^389 + x^387 + x^386 + x^384 + x^382 + x^376 + x^373 + x^367 + x^366 + x^365 + x^362 + x^361 + x^358 + x^356 + x^355 + x^354 + x^353 + x^352 + x^349 + x^348 + x^347 + x^345 + x^343 + x^340 + x^334 + x^332 + x^331 + x^328 + x^327 + x^326 + x^322 + x^317 + x^316 + x^314 + x^313 + x^312 + x^310 + x^309 + x^308 + x^305 + x^304 + x^303 + x^301 + x^300 + x^299 + x^296 + x^295 + x^292 + x^291 + x^290 + x^288 + x^287 + x^286 + x^285 + x^283 + x^279 + x^278 + x^274 + x^271 + x^269 + x^268 + x^266 + x^265 + x^263 + x^261 + x^260 + x^259 + x^258 + x^256 + x^254 + x^252 + x^251 + x^250 + x^249 + x^244 + x^243 + x^242 + x^237 + x^236 + x^228 + x^225 + x^224 + x^223 + x^222 + x^221 + x^215 + x^214 + x^213 + x^212 + x^205 + x^201 + x^200 + x^199 + x^197 + x^193 + x^192 + x^191 + x^190 + x^189 + x^188 + x^187 + x^182 + x^180 + x^175 + x^174 + x^173 + x^167 + x^166 + x^163 + x^158 + x^156 + x^155 + x^153 + x^151 + x^150 + x^149 + x^143 + x^142 + x^140 + x^139 + x^136 + x^135 + x^133 + x^129 + x^126 + x^125 + x^123 + x^121 + x^118 + x^117 + x^116 + x^115 + x^113 + x^110 + x^106 + x^105 + x^104 + x^103 + x^102 + x^98 + x^95 + x^92 + x^89 + x^87 + x^85 + x^81 + x^80 + x^77 + x^76 + x^75 + x^74 + x^71 + x^70 + x^67 + x^66 + x^64 + x^63 + x^60 + x^59 + x^58 + x^56 + x^54 + x^53 + x^48 + x^44 + x^41 + x^39 + x^38 + x^35 + x^34 + x^31 + x^29 + x^28 + x^27 + x^22 + x^21 + x^20 + x^17 + x^14 + x^12 + x^11 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1</span><br></pre></td></tr></table></figure>
 
 <p>According to challenge’s description, we can extract a string from these equations</p>
-<p>Obviously, if we plug <code>x=2</code> into equations we can get some “binary strings”.<br>For example, $2^5+2^4+2^2+2^1+1 = 110111_{2} = 55$, that is the ascii code for <code>7</code>.<br>After evaluation, we get some meaningless strings.<br>But once we xor them together, the flag shows up</p>
-<p>flag:<br><code>pctf{f1n1t3_f13lds_4r3_m0r3_us3ful_th4n_y0u_th1nk}</code></p>
+<p>Obviously, if we plug <code>x=2</code> into equations we can get some “binary strings”.<br>For example, $2^5+2^4+2^2+2^1+1 &#x3D; 110111_{2} &#x3D; 55$, that is the ascii code for <code>7</code>.<br>After evaluation, we get some meaningless strings.<br>But once we xor them together, the flag shows up</p>
+<p>flag:<br><code>pctf&#123;f1n1t3_f13lds_4r3_m0r3_us3ful_th4n_y0u_th1nk&#125;</code></p>
 <h2 id="The-Order-of-the-Phoenix"><a href="#The-Order-of-the-Phoenix" class="headerlink" title="The Order of the Phoenix"></a>The Order of the Phoenix</h2><p>After google the hint <code>Eleven scientists are working on a secret project.......?</code>, it’s a challenge about Shamir’s Secret Sharing. Read the content of QRcode first</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1-d301da5536a5d8b8e2be50a7584127eb3704025f048cf72335f1b301b852b30a</span><br><span class="line">2-e1af01e2f7887b63c068823cbcd812f91899678656456db71dfa9ab1fbb1bd26</span><br><span class="line">3-dc60d55a411ccfd4a44e6a9799774dd6207dffdfcab4b442075ead165fa7ecb</span><br><span class="line">4-510c9c8f6aaacebf16bb5fd9e2cd8c0845ec483bd49bf57fa4151e5b672c73b0</span><br><span class="line">5-bd4f58a846bb9e47a7402e22df13002aef3bf3048011674269eaff39154c62bf</span><br><span class="line">6-7c61f3ee00ab759a6853f041e74ae2378144a96b662230888d6ba6412c646190</span><br><span class="line">7-d01f29e42de0ab1fb183a35d06a2ac6117acaad2b3017671846c7b380e83d6bb</span><br><span class="line">8-1268bf4430c0b1a4c568a302da92421bc672aceb57fef3401f2434cfc3bf740b</span><br><span class="line">9-b52781fd38b0185bd1a8a92a92dbf01c99eddbb50b86f65a882ad8a7fa313e9d</span><br><span class="line">a-424b493442128adbeef5ce33f18c6c5996cdd97e4922644a4479bb4e05f8846f</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1-d301da5536a5d8b8e2be50a7584127eb3704025f048cf72335f1b301b852b30a</span><br><span class="line">2-e1af01e2f7887b63c068823cbcd812f91899678656456db71dfa9ab1fbb1bd26</span><br><span class="line">3-dc60d55a411ccfd4a44e6a9799774dd6207dffdfcab4b442075ead165fa7ecb</span><br><span class="line">4-510c9c8f6aaacebf16bb5fd9e2cd8c0845ec483bd49bf57fa4151e5b672c73b0</span><br><span class="line">5-bd4f58a846bb9e47a7402e22df13002aef3bf3048011674269eaff39154c62bf</span><br><span class="line">6-7c61f3ee00ab759a6853f041e74ae2378144a96b662230888d6ba6412c646190</span><br><span class="line">7-d01f29e42de0ab1fb183a35d06a2ac6117acaad2b3017671846c7b380e83d6bb</span><br><span class="line">8-1268bf4430c0b1a4c568a302da92421bc672aceb57fef3401f2434cfc3bf740b</span><br><span class="line">9-b52781fd38b0185bd1a8a92a92dbf01c99eddbb50b86f65a882ad8a7fa313e9d</span><br><span class="line">a-424b493442128adbeef5ce33f18c6c5996cdd97e4922644a4479bb4e05f8846f</span><br></pre></td></tr></table></figure>
 
-<p>Guess the hexadecimal digits split by <code>-</code> are x and y on the x-y plane, then ….<br>We have to sovle an equation which derives from these coordinates by <a href="https://en.wikipedia.org/wiki/Lagrange_polynomial" target="_blank" rel="noopener">Lagrange polynomial</a>. I did’t decrypt it on my own implementation, the problems is that I used the wrong the prime. Using a github repo call <a href="https://github.com/blockstack/secret-sharing" target="_blank" rel="noopener">secret-sharing</a> to help me.</p>
-<p>plain text:<br><code>pctf{sh4m1r3_w4s_4_gr34t_m4n}\n</code></p>
-<p>flag:<br><code>pctf{sh4m1r3_w4s_4_gr34t_m4n}</code></p>
-<p><a href="https://medium.com/taipei-ethereum-meetup/%E7%A7%81%E9%91%B0%E5%88%86%E5%89%B2-shamirs-secret-sharing-7a70c8abf664" target="_blank" rel="noopener">reference</a></p>
-<h2 id="Help-Rabin"><a href="#Help-Rabin" class="headerlink" title="Help Rabin"></a>Help Rabin</h2><p>It’s <a href="https://en.wikipedia.org/wiki/Rabin_cryptosystem" target="_blank" rel="noopener">Rabin cryptosystem</a>, which needs the factor <code>p</code>, <code>q</code> of n to do the decryption. The problem in here is that it generates <code>n</code> by mutiple two primes which are close to each other, this makes us are able to factor <code>n</code> by brute force.</p>
-<figure class="highlight py"><figcaption><span>brute.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.PublicKey <span class="keyword">import</span> RSA</span><br><span class="line"></span><br><span class="line">key = RSA.importKey(open(<span class="string">"./publickey.pem"</span>).read())</span><br><span class="line">getcontext().prec = <span class="number">200</span></span><br><span class="line">n = Decimal(key.n)</span><br><span class="line">p = n.sqrt()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> n % p != <span class="number">0</span>:</span><br><span class="line">    p += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">q = n/p</span><br><span class="line">(p,q) = (int(p),int(q))</span><br></pre></td></tr></table></figure>
+<p>Guess the hexadecimal digits split by <code>-</code> are x and y on the x-y plane, then ….<br>We have to sovle an equation which derives from these coordinates by <a href="https://en.wikipedia.org/wiki/Lagrange_polynomial">Lagrange polynomial</a>. I did’t decrypt it on my own implementation, the problems is that I used the wrong the prime. Using a github repo call <a href="https://github.com/blockstack/secret-sharing">secret-sharing</a> to help me.</p>
+<p>plain text:<br><code>pctf&#123;sh4m1r3_w4s_4_gr34t_m4n&#125;\n</code></p>
+<p>flag:<br><code>pctf&#123;sh4m1r3_w4s_4_gr34t_m4n&#125;</code></p>
+<p><a href="https://medium.com/taipei-ethereum-meetup/%E7%A7%81%E9%91%B0%E5%88%86%E5%89%B2-shamirs-secret-sharing-7a70c8abf664">reference</a></p>
+<h2 id="Help-Rabin"><a href="#Help-Rabin" class="headerlink" title="Help Rabin"></a>Help Rabin</h2><p>It’s <a href="https://en.wikipedia.org/wiki/Rabin_cryptosystem">Rabin cryptosystem</a>, which needs the factor <code>p</code>, <code>q</code> of n to do the decryption. The problem in here is that it generates <code>n</code> by mutiple two primes which are close to each other, this makes us are able to factor <code>n</code> by brute force.</p>
+<figure class="highlight py"><figcaption><span>brute.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> decimal <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.PublicKey <span class="keyword">import</span> RSA</span><br><span class="line"></span><br><span class="line">key = RSA.importKey(<span class="built_in">open</span>(<span class="string">&quot;./publickey.pem&quot;</span>).read())</span><br><span class="line">getcontext().prec = <span class="number">200</span></span><br><span class="line">n = Decimal(key.n)</span><br><span class="line">p = n.sqrt()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> n % p != <span class="number">0</span>:</span><br><span class="line">    p += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">q = n/p</span><br><span class="line">(p,q) = (<span class="built_in">int</span>(p),<span class="built_in">int</span>(q))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>Then follow the steps on wiki, we can get the plaintext in one of the 4 decrypted messages:</p>
-<p><code>Hey Rabin, would you like to be the front end to my back end? Here is your flag: pctf{R4b1n_1s_th3_cut3st}</code></p>
-<p>flag:<br><code>pctf{R4b1n_1s_th3_cut3st}</code></p>
+<p><code>Hey Rabin, would you like to be the front end to my back end? Here is your flag: pctf&#123;R4b1n_1s_th3_cut3st&#125;</code></p>
+<p>flag:<br><code>pctf&#123;R4b1n_1s_th3_cut3st&#125;</code></p>
 <h2 id="Easy-RSA"><a href="#Easy-RSA" class="headerlink" title="Easy RSA"></a>Easy RSA</h2><p>It gives some parameter used in RSA</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">e&#x3D;217356749319385698521929657544628507680950813122965981036139317973675569442588326220293299168756490163223201593446006249622787212268918299733683908813777695992195006830244088685311059537057855442978678020950265617092637544349098729925492477391076560770615398034890984685084288600014953201593750327846808762513</span><br><span class="line">n&#x3D;413514550275673527863957027545525175432824699510881864021105557583918890022061739148026915990124447164572528944722263717357237476264481036272236727160588284145055425035045871562541038353702292714978768468806464985590036061328334595717970895975121788928626837881214128786266719801269965024179019247618967408217</span><br><span class="line">c&#x3D;337907824405966440030495671003069758278111764297629248609638912154235544001123799434176915113308593275372838266739188034566867280295804636556069233774555055521212823481663542294565892061947925909547184805760988117713501561339405677394457210062631040728412334490054091265643226842490973415231820626551757008360</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">e=217356749319385698521929657544628507680950813122965981036139317973675569442588326220293299168756490163223201593446006249622787212268918299733683908813777695992195006830244088685311059537057855442978678020950265617092637544349098729925492477391076560770615398034890984685084288600014953201593750327846808762513</span><br><span class="line">n=413514550275673527863957027545525175432824699510881864021105557583918890022061739148026915990124447164572528944722263717357237476264481036272236727160588284145055425035045871562541038353702292714978768468806464985590036061328334595717970895975121788928626837881214128786266719801269965024179019247618967408217</span><br><span class="line">c=337907824405966440030495671003069758278111764297629248609638912154235544001123799434176915113308593275372838266739188034566867280295804636556069233774555055521212823481663542294565892061947925909547184805760988117713501561339405677394457210062631040728412334490054091265643226842490973415231820626551757008360</span><br></pre></td></tr></table></figure>
 
-<p>The <code>e</code> is too big so that may cause the <code>d</code> become small enough to satisfy the condition for wiener’s attack<br>I used <a href="https://github.com/nccgroup/featherduster" target="_blank" rel="noopener">featherduster</a> to apply weiner’s attack here and get <code>d</code> successfully</p>
+<p>The <code>e</code> is too big so that may cause the <code>d</code> become small enough to satisfy the condition for wiener’s attack<br>I used <a href="https://github.com/nccgroup/featherduster">featherduster</a> to apply weiner’s attack here and get <code>d</code> successfully</p>
 <p><code>d=12978409760901509356642421072925801006324287746872153539187221529835976408177</code></p>
-<p>The secret message is <code>Here is your flag, pctf{Sup3r_st4nd4rd_W31n3r_4tt4ck}\n</code></p>
-<p>flag:<br><code>pctf{Sup3r_st4nd4rd_W31n3r_4tt4ck}</code></p>
+<p>The secret message is <code>Here is your flag, pctf&#123;Sup3r_st4nd4rd_W31n3r_4tt4ck&#125;\n</code></p>
+<p>flag:<br><code>pctf&#123;Sup3r_st4nd4rd_W31n3r_4tt4ck&#125;</code></p>
 <h2 id="Decode-This"><a href="#Decode-This" class="headerlink" title="Decode This"></a>Decode This</h2><p>There is a linear equations :</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">z = (x*key[<span class="number">0</span>][<span class="number">0</span>] + y*key[<span class="number">0</span>][<span class="number">1</span>])%<span class="number">26</span> + <span class="number">97</span></span><br><span class="line">w = (x*key[<span class="number">1</span>][<span class="number">0</span>] + y*key[<span class="number">1</span>][<span class="number">1</span>])%<span class="number">26</span> + <span class="number">97</span></span><br></pre></td></tr></table></figure>
 
-<p>Cuz we know that there must be a <code>pctf</code> in plain text, it’s able to solve this equation. I didn’t get the flag in my first trial, cuz I assume that <code>pctf</code> is the prefix of plaintext. After a while, I realized that crypto challenges of Pragyan always like to give us some <code>xxxxxxx flag: pctf{xxxxxxx}</code>, so , all we need to do here is to brute force the position of <code>pctf</code> in the plaintext.</p>
+<p>Cuz we know that there must be a <code>pctf</code> in plain text, it’s able to solve this equation. I didn’t get the flag in my first trial, cuz I assume that <code>pctf</code> is the prefix of plaintext. After a while, I realized that crypto challenges of Pragyan always like to give us some <code>xxxxxxx flag: pctf&#123;xxxxxxx&#125;</code>, so , all we need to do here is to brute force the position of <code>pctf</code> in the plaintext.</p>
 <p>Solving equation is ez in python, because there are lots of package doing this for us (z3, Sympy, sage … etc).</p>
 <p><code>ram has a little secret for you right here it is pctf i like climbing hills what about you</code></p>
 <h1 id="Miscellaneous"><a href="#Miscellaneous" class="headerlink" title="Miscellaneous"></a>Miscellaneous</h1><h2 id="EXORcism"><a href="#EXORcism" class="headerlink" title="EXORcism"></a>EXORcism</h2><p>It gives a txt file which contains lots of <code>1\n</code> and <code>0\n</code>, it’s a bitmap of an QRcode<br>Convert it to image by python</p>
 <img src="/en/2019-PragyanCTF/QRcode.png" class="">
 
 <p>The message is <code>160f15011d1b095339595138535f135613595e1a</code>, a meaningless string<br>Xor the first 4 char with <code>pctf</code> to check if this was the xor result of flag , then the xor-key turned out to be <code>flag</code>.</p>
-<p>flag:<br><code>pctf{wh4_50_53r1u5?}</code></p>
+<p>flag:<br><code>pctf&#123;wh4_50_53r1u5?&#125;</code></p>
 <h1 id="Binary"><a href="#Binary" class="headerlink" title="Binary"></a>Binary</h1><h2 id="Feed-me"><a href="#Feed-me" class="headerlink" title="Feed_me"></a>Feed_me</h2><p>Lazy, use socket and z3 to solve this</p>
-<p>flag:<br><code>pctf{p1zz4_t0pp3d_w1th_p1n34ppl3_s4uc3}</code></p>
+<p>flag:<br><code>pctf&#123;p1zz4_t0pp3d_w1th_p1n34ppl3_s4uc3&#125;</code></p>
 <h2 id="Secret-Keeper"><a href="#Secret-Keeper" class="headerlink" title="Secret Keeper"></a>Secret Keeper</h2><p>Login as <code>admin</code> then it will print flag</p>
 <p>Obviously, it has a UAF bug after remove a user. It just clean and free the chunk of account, but not remove the user from the list, we can even login with null usernam and original password.<br>What’s more, the first registed user’s username can be rewrote as admin</p>
 <h3 id="exploit"><a href="#exploit" class="headerlink" title="exploit"></a>exploit</h3><p>First, register a user with name <code>whatever</code> and password <code>whateverpassword</code>, then delete it<br>Next, register another user with name <code>whatever2</code> and password <code>admin</code><br>Cuz this binary <code>malloc</code> for password first, the chunk which second registed user using for password is actually the same chunk of the first user’s username<br>Now we can login as <code>admin</code> with password <code>whateverpassword</code> to get the flag.</p>
-<p>flag:<br><code>pctf{&quot;ThiS_S3rV1ce-1s$t0T411Y-cR4p_But_w3_34Rn_$$_4nyWaYs&quot;}</code></p>
+<p>flag:<br><code>pctf&#123;&quot;ThiS_S3rV1ce-1s$t0T411Y-cR4p_But_w3_34Rn_$$_4nyWaYs&quot;&#125;</code></p>
 <h2 id="Super-Secure-Vault"><a href="#Super-Secure-Vault" class="headerlink" title="Super Secure Vault"></a>Super Secure Vault</h2><p>The binary ask for  <code>key</code> and <code>password</code>.<br>The key has to satisfy some modular equations :</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">key % <span class="number">27644437</span> == <span class="number">213</span></span><br><span class="line">key % <span class="number">10459</span> == <span class="number">229</span></span><br><span class="line">key % <span class="number">1489</span> == <span class="number">25</span></span><br><span class="line">key % <span class="number">1046527</span> == <span class="number">83</span></span><br><span class="line">key % <span class="number">16127</span> == <span class="number">135</span></span><br></pre></td></tr></table></figure>
 
 <p>We can derive <code>key</code> easily from these equations by CRT (Chinese Remainder Theorem), which is <code>3087629750608333480917556</code></p>
 <p>If the <code>key</code> passes the verification , binary concats <code>27644437104591489104652716127</code> and <code>08</code> after the <code>key</code> in the <code>func2</code>. Then it will try to verify <code>password</code> by looking up a hard-coded array , <code>matrix</code>. In summary, it’s trivial, can be done by idapython.</p>
-<figure class="highlight py"><figcaption><span>ida_sovler.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> idaapi <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">matrix = LocByName(<span class="string">"matrix"</span>)</span><br><span class="line"></span><br><span class="line">key = <span class="string">"3087629750608333480917556"</span> + <span class="string">"27644437104591489104652716127"</span> +<span class="string">"08"</span></span><br><span class="line"></span><br><span class="line">v8 = <span class="number">0</span></span><br><span class="line">v10 = len(key)/<span class="number">2</span></span><br><span class="line"></span><br><span class="line">passwd = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> v8 &lt; len(key)/<span class="number">2</span>:</span><br><span class="line">    idx = int(key[v8:v8+<span class="number">2</span>]+key[v10:v10+<span class="number">2</span>])</span><br><span class="line">    passwd.append(Byte(matrix+idx))</span><br><span class="line">    v8 += <span class="number">2</span></span><br><span class="line">    v10 += <span class="number">2</span></span><br><span class="line"></span><br><span class="line">v9 = <span class="number">0</span></span><br><span class="line">v11 = len(key)/<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> v9 &lt; len(key)/<span class="number">2</span>:</span><br><span class="line">    v4 = int(key[v9:v9+<span class="number">2</span>])</span><br><span class="line">    v5 = int(key[v11:v11+<span class="number">2</span>])</span><br><span class="line">    passwd.append(Byte(matrix+ <span class="number">100</span>*(v4*v4%<span class="number">97</span>)+(v5*v5%<span class="number">97</span>)))</span><br><span class="line">    v9 += <span class="number">2</span></span><br><span class="line">    v11 += <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">''</span>.join(map(chr,passwd))</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><figcaption><span>ida_sovler.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> idaapi <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">matrix = LocByName(<span class="string">&quot;matrix&quot;</span>)</span><br><span class="line"></span><br><span class="line">key = <span class="string">&quot;3087629750608333480917556&quot;</span> + <span class="string">&quot;27644437104591489104652716127&quot;</span> +<span class="string">&quot;08&quot;</span></span><br><span class="line"></span><br><span class="line">v8 = <span class="number">0</span></span><br><span class="line">v10 = <span class="built_in">len</span>(key)/<span class="number">2</span></span><br><span class="line"></span><br><span class="line">passwd = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> v8 &lt; <span class="built_in">len</span>(key)/<span class="number">2</span>:</span><br><span class="line">    idx = <span class="built_in">int</span>(key[v8:v8+<span class="number">2</span>]+key[v10:v10+<span class="number">2</span>])</span><br><span class="line">    passwd.append(Byte(matrix+idx))</span><br><span class="line">    v8 += <span class="number">2</span></span><br><span class="line">    v10 += <span class="number">2</span></span><br><span class="line"></span><br><span class="line">v9 = <span class="number">0</span></span><br><span class="line">v11 = <span class="built_in">len</span>(key)/<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> v9 &lt; <span class="built_in">len</span>(key)/<span class="number">2</span>:</span><br><span class="line">    v4 = <span class="built_in">int</span>(key[v9:v9+<span class="number">2</span>])</span><br><span class="line">    v5 = <span class="built_in">int</span>(key[v11:v11+<span class="number">2</span>])</span><br><span class="line">    passwd.append(Byte(matrix+ <span class="number">100</span>*(v4*v4%<span class="number">97</span>)+(v5*v5%<span class="number">97</span>)))</span><br><span class="line">    v9 += <span class="number">2</span></span><br><span class="line">    v11 += <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">map</span>(<span class="built_in">chr</span>,passwd))</span><br></pre></td></tr></table></figure>
 
-<p>flag:<br><code>pctf{R3v3rS1Ng_#s_V311_L0t_Of_FuR}</code></p>
+<p>flag:<br><code>pctf&#123;R3v3rS1Ng_#s_V311_L0t_Of_FuR&#125;</code></p>
 <h2 id="Armoury"><a href="#Armoury" class="headerlink" title="Armoury"></a>Armoury</h2><p>Format string vulneralbility, leak the GOT entry and find the correct version of libc.<br>Then use <code>%n</code> in format string to overwrite the return address to one gadget.</p>
-<p>flag:<br><code>pctf{“W@r_1sN3v3R@_las41nG_s0lut1on#f0R_any_pr0bleM”}</code></p>
+<p>flag:<br><code>pctf&#123;“W@r_1sN3v3R@_las41nG_s0lut1on#f0R_any_pr0bleM”&#125;</code></p>
 
     </article>
-    <!-- license  -->
+    <!-- license -->
     
         <div class="license-wrapper">
-            <p>Original Author: <a href="http://blog.terrynini.tw">Terrynini</a>
-            <p>Original link: <a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">http://blog.terrynini.tw/en/2019-PragyanCTF/</a>
-            <p>Publish at: <a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">March 12th 2019, 2:08:23</a>
-            <p>Copyright: This article is licensed under <a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></p>
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">http://blog.terrynini.tw/en/2019-PragyanCTF/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">March 12th 2019, 2:08:23 am</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/en/2019-PragyanCTF/">March 21st 2019, 3:55:32 am</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
-    <!-- paginator  -->
+    <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/tw/TIL-FaceBook-GIF-memory-exposure/" title= "TIL::FaceBook_GIF_memory_exposure">
+                <a href="/tw/TIL-FaceBook-GIF-memory-exposure/" title="TIL::FaceBook_GIF_memory_exposure">
                     <div class="nextTitle">TIL::FaceBook_GIF_memory_exposure</div>
                 </a>
             
@@ -556,14 +794,19 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/tw/2018-Reversing-KR-Record/" title= "2018::Reversing.KR::Record">
+                <a href="/tw/2018-Reversing-KR-Record/" title="2018::Reversing.KR::Record">
                     <div class="prevTitle">2018::Reversing.KR::Record</div>
                 </a>
             
         </li>
     </ul>
-    <!-- 评论插件 -->
+    <!-- comment -->
     
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
     <div id="disqus_thread"></div>
     <script>
         /**
@@ -581,30 +824,47 @@ height:50vh;
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
-
     </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 
-    </style>
-</main>
-            <!-- profile -->
             
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
         </div>
-        <footer class="footer footer-unloaded">
-    <!-- mermaid-->
     
-      <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
-      <script>mermaid.initialize({startOnLoad:true});</script>
-      
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
     <!-- social  -->
     
-    <div class="social">
-        
+        <div class="social">
+            
     
         
             
-                <a href="mailto:terrynini38514@gmail.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
             
         
     
@@ -651,6 +911,8 @@ height:50vh;
         
     
         
+    
+        
             
                 <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
             
@@ -665,544 +927,576 @@ height:50vh;
         
     
 
-    </div>
+
+        </div>
     
     <!-- powered by Hexo  -->
     <div class="copyright">
         <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
     </div>
+    <!-- website approve for Chinese user -->
+    
     <!-- 不蒜子  -->
-    
+    	
 </footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="toc-wrapper" style=
-    
 
-
-
-
-
-
-
-top:50vh;
-
-    >
-        <div class="toc-catalog">
-            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie-Monster"><span class="toc-number">1.1.</span> <span class="toc-text">Cookie Monster</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Game-of-Faces"><span class="toc-number">1.2.</span> <span class="toc-text">Game of Faces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mandatory-PHP"><span class="toc-number">1.3.</span> <span class="toc-text">Mandatory PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#final-solution"><span class="toc-number">1.3.1.</span> <span class="toc-text">final solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#detail"><span class="toc-number">1.3.2.</span> <span class="toc-text">detail</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Forensics"><span class="toc-number">2.</span> <span class="toc-text">Forensics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Welcome"><span class="toc-number">2.1.</span> <span class="toc-text">Welcome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Magic-PNGs"><span class="toc-number">2.2.</span> <span class="toc-text">Magic PNGs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Save-Earth"><span class="toc-number">2.3.</span> <span class="toc-text">Save Earth</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Slow-Realization"><span class="toc-number">2.4.</span> <span class="toc-text">Slow Realization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Late-PR"><span class="toc-number">2.5.</span> <span class="toc-text">Late PR</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cryptography"><span class="toc-number">3.</span> <span class="toc-text">Cryptography</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spoiler"><span class="toc-number">3.1.</span> <span class="toc-text">Spoiler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-them-Sneaky-Polynomials"><span class="toc-number">3.2.</span> <span class="toc-text">Add them Sneaky Polynomials</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Order-of-the-Phoenix"><span class="toc-number">3.3.</span> <span class="toc-text">The Order of the Phoenix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Help-Rabin"><span class="toc-number">3.4.</span> <span class="toc-text">Help Rabin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Easy-RSA"><span class="toc-number">3.5.</span> <span class="toc-text">Easy RSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decode-This"><span class="toc-number">3.6.</span> <span class="toc-text">Decode This</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Miscellaneous"><span class="toc-number">4.</span> <span class="toc-text">Miscellaneous</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EXORcism"><span class="toc-number">4.1.</span> <span class="toc-text">EXORcism</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Binary"><span class="toc-number">5.</span> <span class="toc-text">Binary</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Feed-me"><span class="toc-number">5.1.</span> <span class="toc-text">Feed_me</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Secret-Keeper"><span class="toc-number">5.2.</span> <span class="toc-text">Secret Keeper</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exploit"><span class="toc-number">5.2.1.</span> <span class="toc-text">exploit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Super-Secure-Vault"><span class="toc-number">5.3.</span> <span class="toc-text">Super Secure Vault</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Armoury"><span class="toc-number">5.4.</span> <span class="toc-text">Armoury</span></a></li></ol></li></ol>
-    </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
 
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
     
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie-Monster"><span class="toc-number">1.1.</span> <span class="toc-text">Cookie Monster</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Game-of-Faces"><span class="toc-number">1.2.</span> <span class="toc-text">Game of Faces</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mandatory-PHP"><span class="toc-number">1.3.</span> <span class="toc-text">Mandatory PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#final-solution"><span class="toc-number">1.3.1.</span> <span class="toc-text">final solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#detail"><span class="toc-number">1.3.2.</span> <span class="toc-text">detail</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Forensics"><span class="toc-number">2.</span> <span class="toc-text">Forensics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Welcome"><span class="toc-number">2.1.</span> <span class="toc-text">Welcome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Magic-PNGs"><span class="toc-number">2.2.</span> <span class="toc-text">Magic PNGs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Save-Earth"><span class="toc-number">2.3.</span> <span class="toc-text">Save Earth</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Slow-Realization"><span class="toc-number">2.4.</span> <span class="toc-text">Slow Realization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Late-PR"><span class="toc-number">2.5.</span> <span class="toc-text">Late PR</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Cryptography"><span class="toc-number">3.</span> <span class="toc-text">Cryptography</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spoiler"><span class="toc-number">3.1.</span> <span class="toc-text">Spoiler</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-them-Sneaky-Polynomials"><span class="toc-number">3.2.</span> <span class="toc-text">Add them Sneaky Polynomials</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Order-of-the-Phoenix"><span class="toc-number">3.3.</span> <span class="toc-text">The Order of the Phoenix</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Help-Rabin"><span class="toc-number">3.4.</span> <span class="toc-text">Help Rabin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Easy-RSA"><span class="toc-number">3.5.</span> <span class="toc-text">Easy RSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Decode-This"><span class="toc-number">3.6.</span> <span class="toc-text">Decode This</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Miscellaneous"><span class="toc-number">4.</span> <span class="toc-text">Miscellaneous</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EXORcism"><span class="toc-number">4.1.</span> <span class="toc-text">EXORcism</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Binary"><span class="toc-number">5.</span> <span class="toc-text">Binary</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Feed-me"><span class="toc-number">5.1.</span> <span class="toc-text">Feed_me</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Secret-Keeper"><span class="toc-number">5.2.</span> <span class="toc-text">Secret Keeper</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#exploit"><span class="toc-number">5.2.1.</span> <span class="toc-text">exploit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Super-Secure-Vault"><span class="toc-number">5.3.</span> <span class="toc-text">Super Secure Vault</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Armoury"><span class="toc-number">5.4.</span> <span class="toc-text">Armoury</span></a></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
     <ul class="sidebar-tabs sidebar-tabs-active-0">
         <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
         <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
         <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
     </ul>
     <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
     
     
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 38
+        Total : 39
         </div>
         <!-- search  -->
         
@@ -1210,384 +1504,544 @@ top:50vh;
     
     <div class="post-archive">
     
-    
-    
-    
-    <div class="archive-year"> 2022 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/en/2022-BalsnCTF-ProjectO-Write-up/" >2022::BalsnCTF::ProjectO Write-up</a>
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
-    
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/23</span><a class="archive-post-title" href= "/en/2021-Flare-On-8-Write-up/" >2021::Flare-On 8::Write-up</a>
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/en/2021-QEMU-AFL-and-TCG/" >2021::QEMU::AFL++ and TCG</a>
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">02/17</span><a class="archive-post-title" href= "/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/" >2021::OSCP::回顧與分享</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/tw/2020-Flare-On-7-Write-up/" >2020::Flare-On 7::Write-up</a>
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/" >2020::程式安全::HW0 Write-up</a>
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/29</span><a class="archive-post-title" href= "/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2020::AIS3::前測官方解</a>
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/28</span><a class="archive-post-title" href= "/tw/TIL-AVX-Base64/" >TIL::AVX Base64</a>
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/" >程式安全::HW4 Write-up</a>
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/04</span><a class="archive-post-title" href= "/en/2019-Flare-On-6-Record/" >2019::Flare-On 6::Record</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/" >程式安全::HW3 Write-up</a>
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/01</span><a class="archive-post-title" href= "/tw/TIL-Windows-Services-Debug/" >TIL::Windows Services Debug</a>
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/16</span><a class="archive-post-title" href= "/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/" >2019::AIS3::前測官方解</a>
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/01</span><a class="archive-post-title" href= "/en/2019-PlaidCTF/" >2019::PlaidCTF</a>
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/" >TIL::攻擊LCG(線性同餘生成器)</a>
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/en/2019-0CTF-Quals-Sanitize/" >2019::0CTF::Quals::Sanitize</a>
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/" >TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/en/2019-CONFidence/" >2019::CONFidence</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/15</span><a class="archive-post-title" href= "/tw/TIL-FaceBook-GIF-memory-exposure/" >TIL::FaceBook_GIF_memory_exposure</a>
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">03/12</span><a class="archive-post-title" href= "/en/2019-PragyanCTF/" >2019::PragyanCTF</a>
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2018 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">08/07</span><a class="archive-post-title" href= "/tw/2018-Reversing-KR-Record/" >2018::Reversing.KR::Record</a>
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/30</span><a class="archive-post-title" href= "/en/2018-RealWorldCTF-Qual/" >2018::RealWorldCTF::Qual</a>
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">06/13</span><a class="archive-post-title" href= "/tw/2018-AIS3-pre-exam/" >2018::AIS3::pre-exam</a>
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/29</span><a class="archive-post-title" href= "/tw/OS-NachOS-HW1/" >OS::NachOS::HW1</a>
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/04</span><a class="archive-post-title" href= "/en/2018-ASIS-Quals-reverse/" >2018::ASIS-Quals::reverse</a>
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">05/02</span><a class="archive-post-title" href= "/en/2018-0CTF-Quals-g0g0g0/" >2018::0CTF-Quals::g0g0g0</a>
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework5/" >Advance-Algorithm::homework5</a>
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework6/" >Advance-Algorithm::homework6</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework7/" >Advance-Algorithm::homework7</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">01/15</span><a class="archive-post-title" href= "/tw/Advance-Algorithm-homework4/" >Advance-Algorithm::homework4</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
         </li>
     
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2017 </div>
-    <ul class="year-list">
-    
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">12/18</span><a class="archive-post-title" href= "/en/2017-SECCON-Write-up/" >2017::SECCON::Write-up</a>
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
         </li>
     
-    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework3/" >Advance-Algorithm::homework3</a>
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/15</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework2/" >Advance-Algorithm::homework2</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/en/Advance-Algorithm-homework1/" >Advance-Algorithm::homework1</a>
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/en/2017-HITCON-Quals-Sakura-English/" >2017::HITCON-Quals::Sakura::English</a>
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">11/07</span><a class="archive-post-title" href= "/tw/2017-HITCON-qual-Sakura/" >2017::HITCON-qual::Sakura</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/tw/Reversing-kr-write-up-1/" >Reversing.kr #1</a>
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
-    
+        
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/tw/2017-AIS3-pre-exam-write-up/" >AIS3 pre-exam write up</a>
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
         </li>
     
     </div>
-  </div>
+</div>
+
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
-    
-        <span class="sidebar-tag-name" data-tags="CTF"><span class="iconfont-archer">&#xe606;</span>CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reverse"><span class="iconfont-archer">&#xe606;</span>Reverse</span>
-    
-        <span class="sidebar-tag-name" data-tags="HITCON"><span class="iconfont-archer">&#xe606;</span>HITCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="SECCON"><span class="iconfont-archer">&#xe606;</span>SECCON</span>
-    
-        <span class="sidebar-tag-name" data-tags="0CTF"><span class="iconfont-archer">&#xe606;</span>0CTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="ASIS"><span class="iconfont-archer">&#xe606;</span>ASIS</span>
-    
-        <span class="sidebar-tag-name" data-tags="RealWorldCTF"><span class="iconfont-archer">&#xe606;</span>RealWorldCTF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Web"><span class="iconfont-archer">&#xe606;</span>Web</span>
-    
-        <span class="sidebar-tag-name" data-tags="CONFidence"><span class="iconfont-archer">&#xe606;</span>CONFidence</span>
-    
-        <span class="sidebar-tag-name" data-tags="Flare-On"><span class="iconfont-archer">&#xe606;</span>Flare-On</span>
-    
-        <span class="sidebar-tag-name" data-tags="Plaid"><span class="iconfont-archer">&#xe606;</span>Plaid</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pragyan"><span class="iconfont-archer">&#xe606;</span>Pragyan</span>
-    
-        <span class="sidebar-tag-name" data-tags="AFL++"><span class="iconfont-archer">&#xe606;</span>AFL++</span>
-    
-        <span class="sidebar-tag-name" data-tags="QEMU"><span class="iconfont-archer">&#xe606;</span>QEMU</span>
-    
-        <span class="sidebar-tag-name" data-tags="Balsn"><span class="iconfont-archer">&#xe606;</span>Balsn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Algorithm"><span class="iconfont-archer">&#xe606;</span>Algorithm</span>
-    
-        <span class="sidebar-tag-name" data-tags="AIS3"><span class="iconfont-archer">&#xe606;</span>AIS3</span>
-    
-        <span class="sidebar-tag-name" data-tags="Reversing-kr"><span class="iconfont-archer">&#xe606;</span>Reversing-kr</span>
-    
-        <span class="sidebar-tag-name" data-tags="Cryptography"><span class="iconfont-archer">&#xe606;</span>Cryptography</span>
-    
-        <span class="sidebar-tag-name" data-tags="Pwn"><span class="iconfont-archer">&#xe606;</span>Pwn</span>
-    
-        <span class="sidebar-tag-name" data-tags="Misc"><span class="iconfont-archer">&#xe606;</span>Misc</span>
-    
-        <span class="sidebar-tag-name" data-tags="OSCP"><span class="iconfont-archer">&#xe606;</span>OSCP</span>
-    
-        <span class="sidebar-tag-name" data-tags="OS"><span class="iconfont-archer">&#xe606;</span>OS</span>
-    
-        <span class="sidebar-tag-name" data-tags="Base64"><span class="iconfont-archer">&#xe606;</span>Base64</span>
-    
-        <span class="sidebar-tag-name" data-tags="AVX"><span class="iconfont-archer">&#xe606;</span>AVX</span>
-    
-        <span class="sidebar-tag-name" data-tags="FaceBook"><span class="iconfont-archer">&#xe606;</span>FaceBook</span>
-    
-        <span class="sidebar-tag-name" data-tags="GIF"><span class="iconfont-archer">&#xe606;</span>GIF</span>
-    
-        <span class="sidebar-tag-name" data-tags="Windows"><span class="iconfont-archer">&#xe606;</span>Windows</span>
-    
-        <span class="sidebar-tag-name" data-tags="browser"><span class="iconfont-archer">&#xe606;</span>browser</span>
-    
-        <span class="sidebar-tag-name" data-tags="Chakra"><span class="iconfont-archer">&#xe606;</span>Chakra</span>
-    
-        <span class="sidebar-tag-name" data-tags="JIT"><span class="iconfont-archer">&#xe606;</span>JIT</span>
-    
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
     </div> 
     <div class="sidebar-tags-list"></div>
 </div>
+
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
-        <span class="sidebar-category-name" data-categories="WriteUp"><span class="iconfont-archer">&#xe60a;</span>WriteUp</span>
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Record"><span class="iconfont-archer">&#xe60a;</span>Record</span>
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder"><span class="iconfont-archer">&#xe60a;</span>Reminder</span>
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
     
-        <span class="sidebar-category-name" data-categories="Note"><span class="iconfont-archer">&#xe60a;</span>Note</span>
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
     
-        <span class="sidebar-category-name" data-categories="TodayILearn"><span class="iconfont-archer">&#xe60a;</span>TodayILearn</span>
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
     <div class="sidebar-categories-list"></div>
 </div>
+
     </div>
-</div> 
-    <script>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
     var siteMeta = {
-        root: "/",
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
         author: "Terrynini"
     }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- async load share.js -->
-    
-        <script src="/scripts/share.js" async></script>
-    
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
     </body>
 </html>
-
-
