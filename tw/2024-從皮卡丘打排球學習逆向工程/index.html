@@ -28,7 +28,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
 <meta property="article:published_time" content="2024-09-21T15:59:43.000Z">
-<meta property="article:modified_time" content="2024-11-16T13:32:58.161Z">
+<meta property="article:modified_time" content="2024-11-16T15:47:03.085Z">
 <meta property="article:author" content="Terrynini">
 <meta property="article:tag" content="Reversing">
 <meta property="article:tag" content="GameHacking">
@@ -670,7 +670,7 @@ document.addEventListener("DOMContentLoaded", function(){
         <p>去年在 AIS3 的軟體安全選修講了一門關於逆向工程的課《沒有 IDA 難道就無法逆向了嗎？IDA豈是如此不便之物！》。課堂中有一個現場的實作，是我帶著學生撰寫皮卡丘打排球的外掛程式，這是很久以前（2018?）旁聽交大的程式安全時，Lays 在課堂上展示的一個範例（講了整體概念，沒有時間帶到細節），那時候就覺得太酷了吧，我也來試試。所以這次也選擇讓它變成課程的一部分，讓 AIS3 的學生可以在獲得成就感的情境下熟悉 IDA 的操作，並知道如何透過對程式的理解來加速逆向的過程。</p>
 <span id="more"></span>
 
-<p>如果你是來看熱鬧的可以直接跳到 <a href="#%E6%94%BE%E7%BD%AE%E5%9E%8B%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83">放置型皮卡丘打排球</a> 看最終成果。</p>
+<p>如果你是來看熱鬧的可以直接跳到 <a href="#%E6%94%BE%E7%BD%AE%E5%9E%8B%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83">放置型皮卡丘打排球</a> 看最終成果；如果你想直接看外掛程式的部份，可以直接跳到 <a href="#%E6%B3%A8%E5%85%A5%E7%8E%8B%E4%B9%8B%E5%8A%9B%EF%BC%81">注入王之力！</a>。</p>
 <h2 id="你是誰？你在哪？你要幹嘛？"><a href="#你是誰？你在哪？你要幹嘛？" class="headerlink" title="你是誰？你在哪？你要幹嘛？"></a>你是誰？你在哪？你要幹嘛？</h2><p>本次逆向的目的是「還原皮卡丘打排球遊戲中的資料結構，透過操作記憶體進一步做出製作遊戲外掛」。最後實現的外掛功能有：</p>
 <ol>
 <li>把兩個皮卡丘都改成電腦操作，讓電腦左右互搏！</li>
@@ -1059,7 +1059,7 @@ The `<video>` tag is not supported by your browser.
             <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
             <p>Link：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</a>
             <p>Publish date：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">September 22nd 2024, 12:59:43 am</a>
-            <p>Update date：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">November 16th 2024, 10:32:58 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">November 17th 2024, 12:47:03 am</a>
             <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
