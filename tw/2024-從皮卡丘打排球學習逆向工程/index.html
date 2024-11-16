@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+<html lang="en,zh-tw,default">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Terrynini">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Terrynini">
+    
+        <meta name="keywords" content="hacker,cybersecurity,computer science">
+    
+    <meta name="description" content="">
+    <meta name="description" content="去年在 AIS3 的軟體安全選修講了一門關於逆向工程的課《沒有 IDA 難道就無法逆向了嗎？IDA豈是如此不便之物！》。課堂中有一個現場的實作，是我帶著學生撰寫皮卡丘打排球的外掛程式，這是很久以前（2018?）旁聽交大的程式安全時，Lays 在課堂上展示的一個範例（講了整體概念，沒有時間帶到細節），那時候就覺得太酷了吧，我也來試試。所以這次也選擇讓它變成課程的一部分，讓 AIS3 的學生可以在獲得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2024::從皮卡丘打排球學習逆向工程">
+<meta property="og:url" content="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/index.html">
+<meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="去年在 AIS3 的軟體安全選修講了一門關於逆向工程的課《沒有 IDA 難道就無法逆向了嗎？IDA豈是如此不便之物！》。課堂中有一個現場的實作，是我帶著學生撰寫皮卡丘打排球的外掛程式，這是很久以前（2018?）旁聽交大的程式安全時，Lays 在課堂上展示的一個範例（講了整體概念，沒有時間帶到細節），那時候就覺得太酷了吧，我也來試試。所以這次也選擇讓它變成課程的一部分，讓 AIS3 的學生可以在獲得">
+<meta property="og:locale">
+<meta property="og:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
+<meta property="article:published_time" content="2024-09-21T15:59:43.000Z">
+<meta property="article:modified_time" content="2024-11-16T13:32:58.161Z">
+<meta property="article:author" content="Terrynini">
+<meta property="article:tag" content="Reversing">
+<meta property="article:tag" content="GameHacking">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
+    
+    <title>2024::從皮卡丘打排球學習逆向工程 · NiNi&#39;s Den</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-LDDD7SCT3E"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-LDDD7SCT3E');
+        </script>
+    
+
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        text-align: left;
+        margin-left: auto; 
+        margin-right: 0;
+        font-size: 80%;
+        & pre {
+        font-size: 80%;
+        }
+        & div > *:only-child{
+          text-align: center;
+        }
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        width: 22vw;
+        margin-left: -24vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+// .container{
+//     background-image: radial-gradient(circle, rgb(255 115 118) 2px, #121212 2px);
+//     background-size: 1.3rem 1.3rem;
+//     background-position: center center;
+// }
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    width: auto;
+    & *{
+     width: auto;
+     max-width: 100%;
+    }
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+  text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 75%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  var selection = document.querySelectorAll('.sidenote-mark');
+  selection.forEach( ele => ele.addEventListener('mouseover', function(event) {
+      id = event.target.id.match(/\d+/)[0];
+      const target = document.querySelector(`#note-${id}`);
+      target.classList.add('hover');
+  }));
+
+  selection.forEach( ele => ele.addEventListener('mouseout', function(event) {
+      id = event.target.id.match(/\d+/)[0];
+      const target = document.querySelector(`#note-${id}`);
+      target.classList.remove('hover');
+  }));
+
+  selection = document.querySelectorAll('aside');
+  selection.forEach( ele => ele.addEventListener('mouseover', function(event) {
+    id = event.target.closest('aside').id.match(/\d+/)[0];
+    const target = document.querySelector(`#mark-${id}`);
+    target.classList.add('hover');
+  }));
+
+  selection.forEach( ele => ele.addEventListener('mouseout', function(event) {
+      id = event.target.closest('aside').id.match(/\d+/)[0];
+      const target = document.querySelector(`#mark-${id}`);
+      target.classList.remove('hover');
+  }));
+
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <i class="fas fa-chevron-right"></i>
+            <a href=/>NiNi's Den</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">2024::從皮卡丘打排球學習逆向工程</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSCF0918.JPG)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                2024::從皮卡丘打排球學習逆向工程
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Reversing">Reversing</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="GameHacking">GameHacking</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">6.7k</span>Reading time: <span class="post-count reading-time">25 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2024/09/22</span>
+                    <!-- busuanzi -->
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <p>去年在 AIS3 的軟體安全選修講了一門關於逆向工程的課《沒有 IDA 難道就無法逆向了嗎？IDA豈是如此不便之物！》。課堂中有一個現場的實作，是我帶著學生撰寫皮卡丘打排球的外掛程式，這是很久以前（2018?）旁聽交大的程式安全時，Lays 在課堂上展示的一個範例（講了整體概念，沒有時間帶到細節），那時候就覺得太酷了吧，我也來試試。所以這次也選擇讓它變成課程的一部分，讓 AIS3 的學生可以在獲得成就感的情境下熟悉 IDA 的操作，並知道如何透過對程式的理解來加速逆向的過程。</p>
+<span id="more"></span>
+
+<p>如果你是來看熱鬧的可以直接跳到 <a href="#%E6%94%BE%E7%BD%AE%E5%9E%8B%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83">放置型皮卡丘打排球</a> 看最終成果。</p>
+<h2 id="你是誰？你在哪？你要幹嘛？"><a href="#你是誰？你在哪？你要幹嘛？" class="headerlink" title="你是誰？你在哪？你要幹嘛？"></a>你是誰？你在哪？你要幹嘛？</h2><p>本次逆向的目的是「還原皮卡丘打排球遊戲中的資料結構，透過操作記憶體進一步做出製作遊戲外掛」。最後實現的外掛功能有：</p>
+<ol>
+<li>把兩個皮卡丘都改成電腦操作，讓電腦左右互搏！</li>
+<li>用滑鼠操作排球（可以用 cheat engine 做到，但本次練習目的是讓學員熟悉分析時的思考方式）</li>
+</ol>
+<p>首先我們先列舉皮卡丘打排球這個程式有什麼特徵：</p>
+<ol>
+<li>他是 GUI 程式</li>
+<li>玩家透過鍵盤操作皮卡丘進行遊戲</li>
+</ol>
+<p>根據上述兩個資訊，我們可以加快逆向工程所需要的時間！</p>
+<h2 id="皮卡！啟動！"><a href="#皮卡！啟動！" class="headerlink" title="皮卡！啟動！"></a>皮卡！啟動！</h2><p>首先將 pikaball.exe 放入 IDA 中進行分析，那怎麼開始分析呢？平時我們透過字串或是 API 來定位我們想分析的邏輯。然而與操作皮卡丘相關的邏輯應該是不會包含字串，因此我們從 「玩家透過鍵盤操作皮卡丘進行遊戲」這個事實切入。</p>
+<p>在 IDA 中打開「Import」的分頁，搜尋「key」或是「keyboard」就可以發現皮卡丘打排球有使用鍵盤相關的 API 來獲得鍵盤狀態（這裡靠晶彥，或你要說瞎猜。有知識靠知識，沒知識靠通靈！）：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/1.png" class="">
+
+
+<p>點擊名稱兩下，IDA 會帶我們 .idata 段，這裡是 PE 檔案格式用來存放外部 function 的一個地方：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/2.png" class="">
+
+
+<p>在 <code>GetKeyboardState</code> 上面按快捷鍵 X，或是右鍵 -&gt;「list cross reference to」來找到程式中有引用這個 function 的地方，我們會看到僅有一個 function 有使用到 <code>GetKeyboardState</code>：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/3.png" class="">
+
+
+<p>點 <code>GetKeyboardState</code> 兩下跟隨後，按下 F5 進行反編譯，便可以約略猜出這個 function 的功能應該是：</p>
+<ol>
+<li>呼叫 <code>GetKeyboardState</code> 獲得鍵盤狀態</li>
+<li>將表示鍵盤狀態的陣列透過 bit or 壓縮成一個變數 <code>v3</code></li>
+</ol>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/4.png" class="">
+
+<p>此時我會將 function 重新命名來節省記憶力，現在的函數名稱是「<code>sub_409370</code>」，意思是「位於程式記憶體位置 0x409370 的一個 subroutine」。在 <code>sub_409370</code> 名稱上面按快捷鍵 N，或是右鍵 -&gt;「rename global item」來重新命名。這裡有個命名的小技巧：保留記憶體位置。除了方便定位之外，撞名時也不用想新名字。所以我們把它命名成「<code>GetKeyboard_40937</code>」：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/5.png" class="">
+
+<p>接下來在新的 function 名稱 <code>GetKeyboard_40937</code> 上面按快捷鍵 X，或是右鍵 -&gt;「list cross reference to」來找到程式中有引用這個 function 的地方，我們會看到僅有<code>sub_406F60</code> 一個 function 有使用它：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/6.png" class="">
+
+<p>點擊兩下跟隨後會看到一個操作略微難懂的 function <code>sub_406F60</code>，此時還看不太懂。我們可以轉而看一下 <code>sub_406F60</code> 呼叫的第一個 function <code>sub_4092D0</code> 在做什麼：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/7.png" class="">
+
+<p>在 <code>sub_4092D0</code> 中有個 API「<code>joyGetPosEx</code>」，通過名字應該很好猜到這是一個用來獲得遊戲手把（joystick）的狀態的 API。如果猜不到的話可以 google 到微軟手冊中的說明 <a href="https://learn.microsoft.com/en-us/windows/win32/api/joystickapi/nf-joystickapi-joygetposex">joyGetPosEx</a></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/8.png" class="">
+
+<p>所以我們可以先猜測這個略微難懂的 function <code>sub_406F60</code> 應該是獲得遊戲角色最新的操作，這裡將它叫做 <code>GetControlCode_406F60</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/9.png" class="">
+
+<p>我們一樣在 <code>GetControlCode_406F60</code> 上面按 X，一樣只找到 <code>sub_401460</code> 一個 function 引用：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/10.png" class="">
+
+<p>這裡可以透過一些經驗法則來猜測， <code>v4[0]</code>、<code>v4[1]</code> 其實是在記錄方向鍵是否有被按下，<code>v4[2]</code>、<code>v4[3]</code> 是另外兩個按鍵，可能是殺球的指令。<br>此時，為了方便我們逆向，我們可以先建立一個資料結構。我們透過手動計算，因為 <code>v4</code> 是個 <code>_DWORD *</code> ，所以按照記憶體被存取的方法，這可能是一個包含了四個 int 的 struct，我們姑且先定義它為 <code>struct control</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">control</span>&#123;</span></span><br><span class="line">	<span class="type">int</span> x;</span><br><span class="line">	<span class="type">int</span> y;</span><br><span class="line">	<span class="type">int</span> key;</span><br><span class="line">	<span class="type">int</span> another_key;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//所以 v4 實際上可以從 _DWORD * 被更精準的定義成下面這個樣子</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">control</span>* <span class="title">v4</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是當資料結構一大的時候，逐一計算會很費時間。所以我們可以使用 IDA 的功能來快速定義 struct。首先在 <code>v4</code> 上面按右鍵，選擇「reset pointer type」</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/11.png" class="">
+
+<p>會看到 <code>v4</code> 不再是指標</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/12.png" class="">
+
+<p>接下來再對 <code>v4</code> 按一次右鍵，選擇「Create new struct type」</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/13.png" class="">
+
+<p>IDA 就會根據這個 <code>v4</code> 被存取的樣式來分析出記憶體的布局方式：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/14.png" class="">
+
+
+<p>因為稍後我們會建立很多資料結構，所以這裡有個小技巧是，每個你創建的 structure 前面可以加上你愛用的前綴，這樣我們之後就會知道這是我們分析過後建立的資料結構（IDA 自己會引入一些資料結構，我們可能會混在一起）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/15.png" class="">
+
+<p>按下 ok 後即可</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/16.png" class="">
+
+<p>此時不要忘記我們本來的目的，我們要做的事情是，基於「鍵盤輸入會影響皮卡丘物件」的這個事實，透過追蹤鍵盤操作的執行流程與資料流定位到皮卡丘物件。所以我們要找的是 <code>v4</code> 接下來去哪，但我們馬上就會發現他並沒有被使用，原因是 <code>v4</code> 這個「指標」也是從別的地方借來的（看第 15 行）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/17.png" class="">
+
+<p>看到第 15 行，看得出來 <code>v4</code> 是從 <code>this</code> 這個物件取出的，所以我們先針對 <code>this</code> 重複剛剛的操作來重建 struct：「reset pointer type」-&gt;「create new structure」。因為這次沒辦法馬上猜出這個 structure 的意義，所以我們姑且就使用 IDA 給我們的名字，但是加上前綴跟使用他的 function 的位置來命名方便之後找到他。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/18.png" class="">
+
+<p>此時注意 <code>v4</code> 這行，會發現型別沒有對上，所以我們接著打開「local type」的介面對 structure 進行調整，或是通過以下方法慢慢調整結構也可以的，首先我們先調整 <code>this-&gt;char30</code> 的型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/19.png" class="">
+
+<p>在 <code>char30</code> 上面按快捷鍵 Y 或是右鍵「set field type」，他實際上是一個 <code>nini_control</code> 的 array，而且有兩個元素</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/20.png" class="">
+
+<p>為什麼是兩個元素呢？這件事情可以通過下面的迴圈回推得到，注意迴圈裡有個 <code>++v4</code>，而 2 這個數字跟「兩隻」皮卡丘不謀而合，所以我們可以假設，只要看到有個 while 跑了兩次，很大機率是在處理跟兩隻皮卡丘有關係的邏輯。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/21.png" class="">
+
+
+<p>當然為了方便辨識，我們也可以幫 <code>char30</code> 重新命名，在 <code>char30</code> 上面按 N 或是右鍵 rename field，重新命名為 <code>controls</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/22.png" class="">
+
+<p>按下 f5 重新 decompile，像 <code>v4</code> 這種預設的名稱，會因為看到我們重新命名了 structure 中的的變數名稱，如 <code>controls</code>，將新名稱傳遞給 <code>v4</code>，所以 <code>v4</code> 也會被叫成一樣的名字方便閱讀：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/23.png" class="">
+
+<p>好，此時往下滑應該可以看到我們的 <code>controls</code> 有被拿來使用</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/24.png" class="">
+
+<p>我們進入 <code>sub_404E30</code> ，會發現外層看起來只顯示一個參數，但是點進來後卻變成兩個參數：</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/25.png" class="">
+
+<p>這是因為 IDA 在我們進入 function 時分析了一次。我們回到外層就會發現外層也被同步更新了。這裡按 Esc 即可以回到外層，如果內容沒有更新只要按一下 f5 就可以。這裡發現 <code>controls</code> 被放到了第二個參數，而第一個參數 <code>this-dword28</code> 我們此時還不確定是什麼，但因為接下來的程式沒有使用到 <code>controls</code>，所以我們這裡可以大膽假設 <code>this-dword28</code> 應該存有皮卡丘的遊戲數據。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/26.png" class="">
+
+
+<p>重新回到 <code>sub_404E30</code> 中，此時我們可以先修好 function 的定義，因為跟據傳進來的參數我們知道第二個參數的型別應該是 <code>nini_controls*</code> 才對，你可以選擇對 function 名稱按 Y 或是單純對 <code>a2</code> 按 Y，總之改好他。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/27.png" class="">
+
+<p>用處有兩個：</p>
+<ol>
+<li>我們可以繼續往下修正其他 function 的參數型別</li>
+<li>假設有其他 function 也有呼叫這個 function，我們就可以反推第二個傳進來的變數應該是什麼型別（例如 <code>sub_404e30(v1, v2)</code>，假設 v2 本來被誤認成 int，我們就可以按 Y 去把它修正成 <code>nini_control*</code>）</li>
+</ol>
+<p>接下來就照心情隨便逛逛，看看哪裡有拿我們的 <code>nini_control</code> 做運算，先看 <code>sub_404F50</code> ，一樣先修好他的 type</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/28.png" class="">
+
+<p>只有 <code>sub_403AC0</code> 有用到，繼續跟進去，修正型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/29.png" class="">
+
+<p>這時候滑鼠點一下 <code>a2</code> 之後，整面的 <code>a2</code> 都會被 hightlight 起來（ghidra 也有一樣的功能，但要手動開啟），因為我們只在意 <code>a2</code> 到底被用去哪了，所以可以看一下 highlight 的地方找一下線索，譬如說我們發現 <code>a2</code> 被傳進 <code>sub_403D70</code> 做使用，我們一樣就跟進去</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/30.png" class="">
+
+<p>點進 <code>sub_403D70</code> 後，<code>sub_403D70</code> 從一個參數變成了兩個參數，Esc 回頭檢查一下</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/31.png" class="">
+
+<p>修正型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/32.png" class="">
+
+
+<p>往下滑就會發現好像中獎了，因為 <code>a2</code> 賦值給 <code>v20</code> 後， <code>v20</code> 被拿來跟兩個東西做運算，很有可能是皮卡丘</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/33.png" class="">
+
+<p>更下面一點也有拿 <code>speedY</code> 的操作來做運算，（在皮卡丘打排球裡按下再殺球會是一個急墜殺球）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/34.png" class="">
+
+<p>這裡先看一下 <code>v20</code> 具體是怎麼用的</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/35.png" class="">
+
+
+<p>一樣跟進 <code>sub_401FE0</code> 並且修復型別。注意，這裡進去 <code>sub_401FE0</code> 後三個參數變成了四個，所以記得退回上一步檢查，重新 f5 應該會變成這樣</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/36.png" class="">
+
+<p>修復型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/37.png" class="">
+
+<p>從這裡開始，會發現 function 內容已經在根據 <code>a2</code> 的 <code>speedx</code> 跟 <code>speedy</code> 是 -1, 0 還是 1 來做出相對應的運算，而運算都針對在 <code>this</code> 這個指標上面，例如</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/38.png" class="">
+
+<p>所以很明顯的，<code>this</code> 就是皮卡丘物件了，透過一樣的手法，「reset pointer type」-&gt;「create new structure」，我們就叫他 <code>nini_pikachu</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/39.png" class="">
+
+<p>一樣透過 <code>a2</code> 來分析，可以還原出一些皮卡丘這個物件的重要 member，例如下面 48 行附近的程式碼，我們可以猜到 <code>dwordA8</code> 應該就是皮卡丘的 X 座標</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/40.png" class="">
+
+<p>用前面教的方法，一樣對 <code>dwordA8</code> 重新命名，弄成好看的樣子 </p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/41.png" class="">
+
+<p>接著分析看看 <code>dwordAC</code>，從 struct 來看在 <code>posX</code> 的後面（<code>posX</code> 是 0xA8，int 佔 4 byte，所以 0xAC 就是下一個），然後跟 <code>speedy</code> 有關係，244 看起來就是 Y 軸邊界檢查，<code>dwordB0</code> 看起來就是重力，所以 <code>dwordAC</code> 應該就是 <code>posY</code> 了，直接猜。（視窗的左上角是 x,y &#x3D; 0,0，往右邊 x 增加，往下面 y 增加）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/42.png" class="">
+
+<p>改名</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/43.png" class="">
+
+<p>此時稍微回到 function 一開始的地方，這裡有個呼叫，跟進去 <code>sub_402380</code> 看一下</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/44.png" class="">
+
+<p>修復型別（注意最後有個 <code>nini_control</code> 被傳進來，可以自行確認）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/45.png" class="">
+
+
+<p>會發現，<code>control</code> 被清空了，然後透過一連串的運算重新決定 <code>control</code> 是什麼，所以我們可以確定，這個 function 就是電腦操作皮卡丘的邏輯</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/46.png" class="">
+
+<p>那我們可以把它重新命名</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/47.png" class="">
+
+<p>回到上一步呼叫他的地方</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/48.png" class="">
+
+<p>從這裡可以推理出來 <code>dwordA4</code> 就是決定一個皮卡丘角色是不是由電腦來操作的 bool，我們也重新命名他</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/49.png" class="">
+
+<p>好讓我們先把剛剛這個 function 也命名好，我們改成一個簡單易懂的名字</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/50.png" class="">
+
+<p>然後回到使用他的地方，可以用 Esc 或是用快捷鍵 X 的方式找到。看一下會發現我們的皮卡丘物件是從這個 function 的 <code>this</code> 裡被拿出來的</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/51.png" class="">
+
+<p>所以我們一樣幫 <code>this</code> 做一個 structure，因為它存了兩個玩家，所以姑且叫他 <code>nini_entities</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/52.png" class="">
+
+<p>然後一樣我們要來修正 member <code>的類別，intC</code> 很明顯就是要改成 <code>nini_pikachu</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/53.png" class="">
+
+<p>而且因為下面有個 do 迴圈，所以我們把它修正成 <code>nini_pikachu *intC[2]</code>，而 <code>v5</code> 應該是 <code>nini_pikachu**</code>，同時我們把 <code>intC</code> 重新命名成 <code>players</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/54.png" class="">
+
+<p>很棒，那我們這裡可以回頭分析一下排球在哪裡，當然這一步，或是皮卡丘物件都可以透過動態分析定位到，但本次練習的目的是讓大家熟悉逆向工具的操作，還有分析時的思考方式，所以覺得好玩的話也可以自己動手用 Cheat Engine 動態分析來加速我們這整個定位到物件的流程。 </p>
+<p>接下來在同個 function 中稍微看一下會發現，在這個 funciton 中，只要運算皮卡丘的地方（do while 迴圈），<code>dword14</code> 就會莫名其妙的跟兩隻皮卡丘一起做運算，感覺有極高機率是在運算碰撞事件（皮卡丘撞到它），有可能是障礙物或是邊線，也有可能就是我們在找的球，所以可以試著分析看看。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/55.png" class="">
+
+
+<p>那我們跟進第 31 行的 <code>sub_402DA0</code> 中，稍微看一下會發現，中間一段程式碼看起來像在處理球碰撞到視窗邊界，例如 38 行，看起來像是檢查 <code>位置+速度-球的圖片素材寬度/2 &gt;= 螢幕寬度</code> (寫遊戲常見的運算，因為圖片的座標是由圖片矩形的左上角來定位，所以算碰撞的時候會把這個點加上素材寬度的一半，才會真的用圖片的正中心做運算)，如果是 true 的話就把 <code>this[14]</code> 變成 <code>-this[14]</code>(因為 <code>v2</code> 也是從 <code>this[14]</code> 拿出來的)，看起來 <code>this[14]</code> 就是球運動的速度。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/56.png" class="">
+
+<p>一樣，幫 <code>this</code> 製作結構，這裡我們叫他 <code>nini_ball</code>，根據我們剛剛精彩的推論來重新命名結構</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/57.png" class="">
+
+<p>好，這裡的任務算是完成了，回到上一層呼叫這個 function 的地方</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/58.png" class="">
+
+<p>現在我們知道這個 member 跟 function 在做什麼了，嘗試命名跟修復型別(<code>nini_ball*</code>)</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/59.png" class="">
+
+<p>現在我們已經姑且復原了皮卡丘跟球的 struct （因為我們只是要控制球的位置還有打開皮卡丘的電腦模式，已經算是足夠）。但有個問題就是這些物件存在在指標中，而每次重新開始遊戲時，指標所分配到的位置都不一樣。然而在程式設計時，應該會有一個最上層的物件，是存在在 global 的地方來方便工程師使用物件，而 global 的位置就是我們可以定位到的，他不會隨著程式重新開啟而變動（因為這個遊戲的 code 沒有做位址空間組態隨機載入，ASLR），因此接下來我們要找這個最上層物件，我們的作弊程式就可以先定位到這個最上層物件，然後再一層一層定位到皮卡丘跟排球這三個指標這次執行的記憶體位置。</p>
+<p>所以我們就從 <code>403d70</code> 這個 function 開始，一層一層按快捷鍵 X 往上看物件是怎麼被傳遞下來的</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/60.png" class="">
+
+<p>好，先往上一層，這裡的 <code>this</code> 型別需要被我們修復成 <code>nini_entities*</code> （根據 <code>sub_403D70</code> 的參數型別）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/61.png" class="">
+
+<p>往上滑到這個 function 的開頭</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/62.png" class="">
+
+<p>再往上一層，這裡的 <code>this+16</code> 是 <code>nini_entities*</code>，表示 <code>this</code> 又是另外一個物件，一樣，我們「create structure type」，並且修復類別與名稱</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/63.png" class="">
+
+<p>大概就長這樣，因為還不知道這個結構叫什麼好，姑且叫他 <code>nini_this_404F50</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/64.png" class="">
+
+<p>再往上一層</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/65.png" class="">
+
+<p>一樣，根據 <code>sub_404F50</code> 的第一個參數的型別，我們修復一下參數</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/66.png" class="">
+
+<p>然後再往上一層，會發現 <code>nini_this_404F50</code> 其實是 <code>nini_this_401460</code> 中的一個 member</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/67.png" class="">
+
+<p>這裡一樣修復他的型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/68.png" class="">
+
+<p>一樣滑到 function 的最上面</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/69.png" class="">
+
+<p>然後往上一層，會發現我們跑到了奇怪的地方！</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/70.png" class="">
+
+<p>這裡其實就是 vtable，也就是一個用來記錄物件的 member function 的 array。那這個「某個物件」是什麼呢？在寫 C++ 的類別時，在該類別的 member function 中我們通常都可以使用 <code>this</code> 來找到自己，這個 <code>this</code> 實際上的實作方式就是把自己當作第一個參數傳進去所有 member function 裏面！所以表示什麼？表示 <code>sub_401460</code> 是 <code>nini_this_401460</code> 的 member function，而我們現在看到的正是 <code>nini_this_401460</code> 的 vtable。那接下來要怎麼辦？稍微往上滑，不要太大力，會發現前面有個地方有標籤 <code>off_40F000</code>，這表示 IDA 有發現這個位置有被別人使用，所以我們可以知道，這個位置很大機率就是 vtable 的起頭（因為要把 vtable 賦予給所有新創造的 <code>nini_this_401460</code> 物件）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/71.png" class="">
+
+<p>接下來一樣，在 <code>off_40F000</code> 上按快捷鍵 X，會發現有兩個引用，而通常 vtable 會在物件的建構子跟解構子中被使用，我們隨便看一下第一個引用</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/72.png" class="">
+
+<p>這裡有一堆 new，基本上可以確定這是建構子</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/73.png" class="">
+
+<p>順手修復一下型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/74.png" class="">
+
+<p>然後一樣按 X 找到他的上一層，就回到了視窗的 main，而透過參數知道 <code>v5</code> 應該是一個 <code>nini_this_401460</code> 的 structure，讓我們跟著 <code>v5</code> 往下跟進 <code>sub_401240</code> 看看</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/75.png" class="">
+
+<p>修復型別</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/76.png" class="">
+
+<p>往下看到第 28 行， 進去 <code>sub_404BE0</code> </p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/77.png" class="">
+
+<p>會看到第二個參數因為有被拿去做一些 <code>GetDC</code> 等等的操作， IDA 有認出來他的型別是 <code>HWND</code>，意思是 handle of Window，也就是用來操作跟視窗相關的一個 handle（類似號碼牌的概念，拿著號碼牌就可以存取對應的視窗），這個 handle 對我們來說非常實用，因為我們要控制視窗的滑鼠點擊事件需要他。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/78.png" class="">
+
+<p>所以我們可以回上一層修復 <code>gap4</code> 的名稱跟型別，同時往下看到第 30 行，呼叫 <code>sub_4062B0</code> 的這個 function</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/79.png" class="">
+
+
+<p>隨便點進去看看會發現，他把 <code>this</code> 設定到 global 變數上了！</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/80.png" class="">
+
+<p>所以我們的作弊程式只需要把 <code>0x4110D8</code> 當做一個 <code>nini_this_401460 *</code> 來解析的話就可以找到皮卡丘物件跟球物件了！接下來我們要匯出 struct，按下快捷鍵 shift + f1，或是如下圖所示從工具列打開 subview 中的 local types</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/81.png" class="">
+
+<p>在搜尋列上打我們先前常用的前綴就可以找出所有我們定義的 structure</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/82.png" class="">
+
+<p>這裡可以做一些簡單的修正，例如 <code>nini_this_401460</code>，他是最上層結構，我想把他重新命名成 <code>nini_program</code>，這裡就點選他</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/83.png" class="">
+
+<p>可以按 ctrl+E 或是右鍵 edit 來編輯</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/84.png" class="">
+
+<p><code>nini_this_404F50</code>  也一樣，我想把它改成 <code>nini_game</code></p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/85.png" class="">
+
+<p>突然想到，回頭重新命名一下 <code>nini_program</code>，把 <code>nini_game*</code> 的這個 member 重新命名成 <code>game</code> 這個好懂一點的名字</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/86.png" class="">
+
+<p>框選全部想匯出的 struct，右鍵 export to header file，我們就可以快速把他們匯出成 C&#x2F;C++ 方便使用的形式了。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/87.png" class="">
+
+
+<h2 id="注入王之力！"><a href="#注入王之力！" class="headerlink" title="注入王之力！"></a>注入王之力！</h2><p>注入我們的程式碼到遊戲中有很多方法，但因為皮卡丘打排球基本上沒有保護，所以我們也不用想太多花招。像我這種有禮貌的紳士就是請皮卡丘打排球的程式直接讀我們的 dll 進去讓我們作弊，拜託幾個勒。 在拜託之前，我們先來寫 dll，我們在 visual studio 中建立一個 dll 範本</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/88.png" class="">
+
+<p>因為 IDA 使用的型別名稱中多了個底線 <code>_DWORD</code> <code>_BYTE</code><br>所以使用前記得補上</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> DWORD _DWORD;</span><br><span class="line"><span class="keyword">typedef</span> BYTE _BYTE;</span><br></pre></td></tr></table></figure>
+
+<p>複製貼上匯出的 structure 或是 include 都行，但下面這兩個沒用到可以刪了</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/89.png" class="">
+
+<p>我們講解一下 code 的部分，DllMain 就是 dll 被載入時首先執行的地方，這裡我們開一個 thread 執行 function <code>hakcingStart</code>，這樣才不會把遊戲程式卡死，</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//https://learn.microsoft.com/en-us/windows/win32/dlls/dllmain</span></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">(HMODULE hModule,</span></span></span><br><span class="line"><span class="params"><span class="function">	DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="params"><span class="function">	LPVOID lpReserved</span></span></span><br><span class="line"><span class="params"><span class="function">)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">		<span class="built_in">CreateThread</span>(<span class="literal">NULL</span>, <span class="number">0</span>, (LPTHREAD_START_ROUTINE)hackingStart, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">	<span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">	<span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們要做的事情有兩個：</p>
+<ol>
+<li>劫持遊戲用來處理視窗消息的 function，這樣我們才能處理滑鼠事件</li>
+<li>找個地方修改記憶體讓我們可以定住球或是把皮卡丘改成電腦模式。</li>
+</ol>
+<p>第 1. 步很直覺可以完成，首先我們先解析 <code>0x4110D8</code> 這個 global variable（我們前面逆向過了，用來存 program 的地方），因為不知道什麼時候他會初始化完成，所以寫個迴圈來等他完成我們再做後面的事情，完成後我們來看看 <code>hookWndProc</code> 做了什麼。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">nini_program* pProgram;</span><br><span class="line"><span class="built_in">BOOL</span>(__stdcall* pfnGetKeyboardState)(PBYTE lpKeyState);</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">hackingStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		pProgram = *(nini_program**)<span class="number">0x4110D8</span>;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">200</span>); <span class="comment">//#include &lt;time.h&gt;</span></span><br><span class="line">	&#125; <span class="keyword">while</span> (!pProgram);</span><br><span class="line">	<span class="built_in">hookWndProc</span>(pProgram);</span><br><span class="line">	<span class="comment">//overwrite the address of GetKeyboardState in IAT</span></span><br><span class="line">	<span class="comment">//save the real address of GetKeyboardState</span></span><br><span class="line">	pfnGetKeyboardState = GetKeyboardState;</span><br><span class="line">	<span class="built_in">hookIAT</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡用了 <code>SetWindowLongPtr</code> 這個 function 把處理消息的函式改成我們寫的 <code>WndProc</code> ，而舊的消息處理會被回傳，所以我們用 <code>oldWndProc</code> 把他接起來。<br><code>WndProc</code> 裡面做的事情是去檢查滑鼠事件，然後用 <code>CallWindowProc</code> 去呼叫本來處理消息的函式，這樣其他事件才會正常被處理，到這裡我們已經處理完滑鼠的訊號了！</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">WNDPROC oldWndProc = <span class="literal">NULL</span>;</span><br><span class="line"><span class="type">bool</span> bBallFreeze = FALSE;</span><br><span class="line"></span><br><span class="line"><span class="function">LRESULT CALLBACK <span class="title">WndProc</span><span class="params">(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (message) &#123;</span><br><span class="line">	<span class="keyword">case</span> WM_RBUTTONDOWN:</span><br><span class="line">		bBallFreeze = TRUE;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> WM_RBUTTONUP:</span><br><span class="line">		bBallFreeze = FALSE;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">CallWindowProc</span>(oldWndProc, hWnd, message, wParam, lParam);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">hookWndProc</span><span class="params">(nini_program* pProgram)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowlongptra</span></span><br><span class="line">	oldWndProc = (WNDPROC)<span class="built_in">SetWindowLongPtr</span>(pProgram-&gt;hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來要說第二件事情，找個地方修改記憶體讓我們可以定住球或是把皮卡丘改成電腦模式。我們可以有很多花招，但最快速簡單的方法是 IAT hijack。效果是當皮卡丘打排球程式去呼叫外部 function 的時候，會先執行我們的程式碼，才去做真正本來他想呼叫的外部 function，而且這個劫持的點應該要在皮卡丘真的移動之前（不然就會等到下一個 game tick 才作動，而且不確定會不會被覆寫）。</p>
+<p>這裡最理想的就是每輪都會執行，而且只被一個地方使用的 <code>GetKeyboardState</code>，所以回到我們的 <code>hackingStart</code>，因為等等我們會把 <code>GetKeyboardState</code> 在 IAT 上紀錄的位置劫持走，所以我們要先把它保存起來，不然後面我們就真的拿不到鍵盤輸入，之後才是使用 <code>hookIAT</code> 來進行劫持</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">nini_program* pProgram;</span><br><span class="line"><span class="built_in">BOOL</span>(__stdcall* pfnGetKeyboardState)(PBYTE lpKeyState);</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">hackingStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">do</span> &#123;</span><br><span class="line">		pProgram = *(nini_program**)<span class="number">0x4110D8</span>;</span><br><span class="line">		<span class="built_in">Sleep</span>(<span class="number">200</span>); <span class="comment">//#include &lt;time.h&gt;</span></span><br><span class="line">	&#125; <span class="keyword">while</span> (!pProgram);</span><br><span class="line">	<span class="built_in">hookWndProc</span>(pProgram);</span><br><span class="line">	<span class="comment">//overwrite the address of GetKeyboardState in IAT</span></span><br><span class="line">	<span class="comment">//save the real address of GetKeyboardState</span></span><br><span class="line">	pfnGetKeyboardState = GetKeyboardState;</span><br><span class="line">	<span class="built_in">hookIAT</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那我們來看看 hookIAT 做了啥，這裡透過 <code>GetModuleHandleA(NULL)</code> 得到整個皮卡丘打排球的程式在記憶體中的位置之後，我們就等於定位到了一個存在在 memory 上的 PE file，運用我們對 PE 程式的初淺理解（這裡有興趣的學員可以自行 google，我沒有時間了ＱＱ），找到 IAT 中用來紀錄外部 function <code>GetKeyboardState</code> 在哪裡的欄位，把他改寫成我們的壞壞函式 <code>hookedGetKeyboardState</code>。注意這裡用 <code>VirtualProtect</code> 把該記憶體位置的寫權限打開，因為那裡本來不能寫。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;winternl.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">hookIAT</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	UINT_PTR uiPikaballBase = (UINT_PTR)<span class="built_in">GetModuleHandleA</span>(<span class="literal">NULL</span>);</span><br><span class="line">	PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)uiPikaballBase;</span><br><span class="line">	PIMAGE_NT_HEADERS pNtHeaders = (PIMAGE_NT_HEADERS)(uiPikaballBase + pDosHeader-&gt;e_lfanew);</span><br><span class="line">	PIMAGE_DATA_DIRECTORY pImportsDirectory = (PIMAGE_DATA_DIRECTORY)&amp;pNtHeaders-&gt;OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];</span><br><span class="line">	PIMAGE_IMPORT_DESCRIPTOR pImportDesccriptor = (PIMAGE_IMPORT_DESCRIPTOR)(uiPikaballBase + pImportsDirectory-&gt;VirtualAddress);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (pImportDesccriptor-&gt;Name)</span><br><span class="line">	&#123;</span><br><span class="line">		LPCSTR libraryName = (LPCSTR)(uiPikaballBase + pImportDesccriptor-&gt;Name);</span><br><span class="line">		<span class="keyword">if</span> (!_stricmp(libraryName, <span class="string">&quot;user32.dll&quot;</span>)) &#123;</span><br><span class="line">			<span class="built_in">LoadLibraryA</span>(libraryName);</span><br><span class="line">			PIMAGE_THUNK_DATA pOriginalFirstThunk = (PIMAGE_THUNK_DATA)(uiPikaballBase + pImportDesccriptor-&gt;OriginalFirstThunk);</span><br><span class="line">			PIMAGE_THUNK_DATA pFirstThunk = (PIMAGE_THUNK_DATA)(uiPikaballBase + pImportDesccriptor-&gt;FirstThunk);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">while</span> (pOriginalFirstThunk-&gt;u1.AddressOfData)</span><br><span class="line">			&#123;</span><br><span class="line">				PIMAGE_IMPORT_BY_NAME pFunctionName = (PIMAGE_IMPORT_BY_NAME)(uiPikaballBase + pOriginalFirstThunk-&gt;u1.AddressOfData);</span><br><span class="line">				<span class="keyword">if</span> (!_stricmp(pFunctionName-&gt;Name, <span class="string">&quot;GetKeyboardState&quot;</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					DWORD oldProtect = <span class="number">0</span>;</span><br><span class="line">					<span class="built_in">VirtualProtect</span>((LPVOID)(&amp;pFirstThunk-&gt;u1.Function), <span class="number">4</span>, PAGE_READWRITE, &amp;oldProtect);</span><br><span class="line"></span><br><span class="line">					pFirstThunk-&gt;u1.Function = (DWORD)hookedGetKeyboardState;</span><br><span class="line">					<span class="built_in">VirtualProtect</span>((LPVOID)(&amp;pFirstThunk-&gt;u1.Function), <span class="number">4</span>, oldProtect, &amp;oldProtect);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> &#123;</span><br><span class="line">					++pOriginalFirstThunk;</span><br><span class="line">					++pFirstThunk;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		pImportDesccriptor++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那 <code>hookedGetKeyboardState</code> 做的事情就是我們真正作弊的邏輯了，把第二個玩家設定成電腦（這裡你可以把第一個玩家是電腦的設定關掉，你就可以玩左邊角色了，電腦玩家的演算法在左邊比較強）。 然後在<code>bBallFreeze</code> 是 true 的情況下，我們先 <code>GetCursorPos</code> 來獲得滑鼠的 x,y 座標，然後用 <code>ScreenToClient</code> 把滑鼠座標換算成在視窗內的滑鼠座標，接下來就是一頓操作讓球的座標跟滑鼠一樣然後速度歸零，最後的最後，去呼叫本來用來獲取鍵盤輸入的 function 確保程式不會出錯！</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">BOOL WINAPI <span class="title">hookedGetKeyboardState</span><span class="params">(PBYTE lpKeyState)</span> </span>&#123;</span><br><span class="line">	pProgram-&gt;game-&gt;entities-&gt;players[<span class="number">1</span>]-&gt;isComputer = TRUE;</span><br><span class="line">	<span class="comment">//pProgram-&gt;game-&gt;entities-&gt;player[0]-&gt;isComputer = FALSE;</span></span><br><span class="line">	<span class="keyword">if</span> (bBallFreeze) &#123;</span><br><span class="line">		POINT cursorPos;</span><br><span class="line">		<span class="built_in">GetCursorPos</span>(&amp;cursorPos);</span><br><span class="line">		<span class="built_in">ScreenToClient</span>(pProgram-&gt;hwnd, &amp;cursorPos);</span><br><span class="line">		pProgram-&gt;game-&gt;entities-&gt;ball-&gt;posX = cursorPos.x;</span><br><span class="line">		pProgram-&gt;game-&gt;entities-&gt;ball-&gt;posY = cursorPos.y;</span><br><span class="line">		pProgram-&gt;game-&gt;entities-&gt;ball-&gt;speedX =</span><br><span class="line">			pProgram-&gt;game-&gt;entities-&gt;ball-&gt;speedY = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">pfnGetKeyboardState</span>(lpKeyState);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後 export 一個其實沒東西的 function，方便我們等等去修改皮卡丘打排球的 IAT，讓他以為他需要使用我們 dll 中的 Dummy function。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">__declspec(dllexport) <span class="function"><span class="type">void</span> <span class="title">Dummy</span><span class="params">()</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>接下來編譯成 dll 就可以了！記得選擇成 x86 才編譯，因為我們的遊戲也是 x86</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/90.png" class="">
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/upload_0f4a1d355e7a8c97e3c9a97ca525ff58.png" class="">
+
+
+<p>看 compile 的資訊及可以找到 visual studio 把我們的 dll 放在哪</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/upload_22105f59f02385c272a48f3243bbbbb1.png" class="">
+
+
+
+<p>接下來，把 dll 複製到遊戲資料夾裡面。</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/91.png" class="">
+
+<p>接下來是最後一步了，我們要禮貌地請 PikaBall.exe 載入我們的作弊 dll，拜託幾個勒。請打開課程附件中的 CFF Explorer.exe（在 CFF_Explorer.zip 裏面）</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/92.png" class="">
+<p>載入</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/93.png" class="">
+
+<p>選擇 Import Adder</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/94.png" class="">
+
+<p>Add</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/95.png" class="">
+
+<p>選我們剛剛 compile 出來的 dll</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/96.png" class="">
+
+<p>選我們的 Dummy function 後使用 Import By Name</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/97.png" class="">
+
+<p>確認右手邊成功後，點選 Rebuild Import Table</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/98.png" class="">
+<p>成功</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/99.png" class="">
+
+
+
+<p>按存檔</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/1h.png" class="">
+<p>要不要覆蓋都行，我建議不要</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/1h1.png" class="">
+<p>存成 PikaBall_hack.exe</p>
+<img src="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/1h2.png" class="">
+
+<h2 id="放置型皮卡丘打排球"><a href="#放置型皮卡丘打排球" class="headerlink" title="放置型皮卡丘打排球"></a>放置型皮卡丘打排球</h2><p>選擇單人遊戲時，不是由玩家挑戰電腦，而是電腦的左右互搏，把皮卡丘打排球玩成放置型遊戲！除此之外還可以透過右鍵控制排球，一圓跟皮卡丘玩傳接球的夢想。</p>
+<video width="100%" height="400" src="pika.mp4" controls="controls">
+The `<video>` tag is not supported by your browser.
+</video>
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>Author：<a href="http://blog.terrynini.tw">Terrynini</a>
+            <p>Link：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">September 22nd 2024, 12:59:43 am</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">November 16th 2024, 10:32:58 pm</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/tw/2024-%E5%B9%AB%E9%83%A8%E8%90%BD%E6%A0%BC%E5%A2%9E%E5%8A%A0%E8%A8%BB%E9%87%8B%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%81/" title="2024::幫部落格增加註釋的功能！">
+                    <div class="prevTitle">2024::幫部落格增加註釋的功能！</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2024::從皮卡丘打排球學習逆向工程"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:nini@undefined.zip" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/terrynini" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.facebook.com/profile.php?id=100001963625238" class="iconfont-archer facebook" target="_blank" title=facebook></a>
+            
+        
+    
+        
+            
+                <a href="//twitter.com/terrynini38514" class="iconfont-archer twitter" target="_blank" title=twitter></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                <a href="//www.linkedin.com/in/%E5%BB%B7%E5%AE%87-%E9%99%B3-bb1b21140/" class="iconfont-archer linkedin" target="_blank" title=linkedin></a>
+            
+        
+    
+        
+            
+                <a href="https://speakerdeck.com/terrynini" class="iconfont-archer others" target="_blank" title=others></a>
+            
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
+    
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%A0%E6%98%AF%E8%AA%B0%EF%BC%9F%E4%BD%A0%E5%9C%A8%E5%93%AA%EF%BC%9F%E4%BD%A0%E8%A6%81%E5%B9%B9%E5%98%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">你是誰？你在哪？你要幹嘛？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9A%AE%E5%8D%A1%EF%BC%81%E5%95%9F%E5%8B%95%EF%BC%81"><span class="toc-number">2.</span> <span class="toc-text">皮卡！啟動！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E7%8E%8B%E4%B9%8B%E5%8A%9B%EF%BC%81"><span class="toc-number">3.</span> <span class="toc-text">注入王之力！</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BE%E7%BD%AE%E5%9E%8B%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83"><span class="toc-number">4.</span> <span class="toc-text">放置型皮卡丘打排球</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 41
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/22</span>
+            <a class="archive-post-title" href="/tw/2024-%E5%BE%9E%E7%9A%AE%E5%8D%A1%E4%B8%98%E6%89%93%E6%8E%92%E7%90%83%E5%AD%B8%E7%BF%92%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B/">2024::從皮卡丘打排球學習逆向工程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span>
+            <a class="archive-post-title" href="/tw/2024-%E5%B9%AB%E9%83%A8%E8%90%BD%E6%A0%BC%E5%A2%9E%E5%8A%A0%E8%A8%BB%E9%87%8B%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%81/">2024::幫部落格增加註釋的功能！</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/22</span>
+            <a class="archive-post-title" href="/tw/2023-%E8%87%AA%E7%94%B1%E7%BE%8E%E5%88%A9%E5%A0%85-%E4%B8%8A%E7%BE%9A%E7%BE%8A%E5%B3%BD%E8%B0%B7%E4%B9%8B%E6%97%85/">2023::自由美利堅::上羚羊峽谷之旅</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/12</span>
+            <a class="archive-post-title" href="/en/2022-BalsnCTF-ProjectO-Write-up/">2022::BalsnCTF::ProjectO Write-up</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/23</span>
+            <a class="archive-post-title" href="/en/2021-Flare-On-8-Write-up/">2021::Flare-On 8::Write-up</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/en/2021-QEMU-AFL-and-TCG/">2021::QEMU::AFL++ and TCG</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/17</span>
+            <a class="archive-post-title" href="/tw/2021-OSCP-%E5%9B%9E%E9%A1%A7%E8%88%87%E5%88%86%E4%BA%AB/">2021::OSCP::回顧與分享</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span>
+            <a class="archive-post-title" href="/tw/2020-Flare-On-7-Write-up/">2020::Flare-On 7::Write-up</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span>
+            <a class="archive-post-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">2020::程式安全::HW0 Write-up</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/29</span>
+            <a class="archive-post-title" href="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2020::AIS3::前測官方解</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/28</span>
+            <a class="archive-post-title" href="/tw/TIL-AVX-Base64/">TIL::AVX Base64</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">程式安全::HW4 Write-up</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/04</span>
+            <a class="archive-post-title" href="/en/2019-Flare-On-6-Record/">2019::Flare-On 6::Record</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span>
+            <a class="archive-post-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">程式安全::HW3 Write-up</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/01</span>
+            <a class="archive-post-title" href="/tw/TIL-Windows-Services-Debug/">TIL::Windows Services Debug</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/16</span>
+            <a class="archive-post-title" href="/tw/2019-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/">2019::AIS3::前測官方解</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/01</span>
+            <a class="archive-post-title" href="/en/2019-PlaidCTF/">2019::PlaidCTF</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span>
+            <a class="archive-post-title" href="/tw/TIL-%E6%94%BB%E6%93%8ALCG-%E7%B7%9A%E6%80%A7%E5%90%8C%E9%A4%98%E7%94%9F%E6%88%90%E5%99%A8/">TIL::攻擊LCG(線性同餘生成器)</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/en/2019-0CTF-Quals-Sanitize/">2019::0CTF::Quals::Sanitize</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/tw/TIL-%E5%88%A9%E7%94%A8-Chakra-JIT-%E7%B9%9E%E9%81%8E-DEP-%E5%92%8C-CFG/">TIL::利用 Chakra JIT 繞過 DEP 和 CFG</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span>
+            <a class="archive-post-title" href="/en/2019-CONFidence/">2019::CONFidence</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/tw/TIL-FaceBook-GIF-memory-exposure/">TIL::FaceBook_GIF_memory_exposure</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/12</span>
+            <a class="archive-post-title" href="/en/2019-PragyanCTF/">2019::PragyanCTF</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/07</span>
+            <a class="archive-post-title" href="/tw/2018-Reversing-KR-Record/">2018::Reversing.KR::Record</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/30</span>
+            <a class="archive-post-title" href="/en/2018-RealWorldCTF-Qual/">2018::RealWorldCTF::Qual</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/13</span>
+            <a class="archive-post-title" href="/tw/2018-AIS3-pre-exam/">2018::AIS3::pre-exam</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/29</span>
+            <a class="archive-post-title" href="/tw/OS-NachOS-HW1/">OS::NachOS::HW1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/04</span>
+            <a class="archive-post-title" href="/en/2018-ASIS-Quals-reverse/">2018::ASIS-Quals::reverse</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/02</span>
+            <a class="archive-post-title" href="/en/2018-0CTF-Quals-g0g0g0/">2018::0CTF-Quals::g0g0g0</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework5/">Advance-Algorithm::homework5</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework6/">Advance-Algorithm::homework6</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework7/">Advance-Algorithm::homework7</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/tw/Advance-Algorithm-homework4/">Advance-Algorithm::homework4</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2017 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/18</span>
+            <a class="archive-post-title" href="/en/2017-SECCON-Write-up/">2017::SECCON::Write-up</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework3/">Advance-Algorithm::homework3</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/15</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework2/">Advance-Algorithm::homework2</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span>
+            <a class="archive-post-title" href="/en/Advance-Algorithm-homework1/">Advance-Algorithm::homework1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span>
+            <a class="archive-post-title" href="/tw/Reversing-kr-write-up-1/">Reversing.kr #1</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/15</span>
+            <a class="archive-post-title" href="/tw/2017-AIS3-pre-exam-write-up/">AIS3 pre-exam write up</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reverse">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reverse
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="HITCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                HITCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="SECCON">
+                <span class="iconfont-archer">&#xe606;</span>
+                SECCON
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="0CTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                0CTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="ASIS">
+                <span class="iconfont-archer">&#xe606;</span>
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flare-On">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flare-On
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing-kr
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Cryptography">
+                <span class="iconfont-archer">&#xe606;</span>
+                Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pwn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pwn
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Misc">
+                <span class="iconfont-archer">&#xe606;</span>
+                Misc
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSCP">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSCP
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Travel">
+                <span class="iconfont-archer">&#xe606;</span>
+                Travel
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CSS">
+                <span class="iconfont-archer">&#xe606;</span>
+                CSS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Dev">
+                <span class="iconfont-archer">&#xe606;</span>
+                Dev
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OS">
+                <span class="iconfont-archer">&#xe606;</span>
+                OS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Base64">
+                <span class="iconfont-archer">&#xe606;</span>
+                Base64
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AVX">
+                <span class="iconfont-archer">&#xe606;</span>
+                AVX
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="FaceBook">
+                <span class="iconfont-archer">&#xe606;</span>
+                FaceBook
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GIF">
+                <span class="iconfont-archer">&#xe606;</span>
+                GIF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Windows">
+                <span class="iconfont-archer">&#xe606;</span>
+                Windows
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="browser">
+                <span class="iconfont-archer">&#xe606;</span>
+                browser
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Chakra">
+                <span class="iconfont-archer">&#xe606;</span>
+                Chakra
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="JIT">
+                <span class="iconfont-archer">&#xe606;</span>
+                JIT
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GameHacking">
+                <span class="iconfont-archer">&#xe606;</span>
+                GameHacking
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="WriteUp">
+            <span class="iconfont-archer">&#xe60a;</span>
+            WriteUp
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Record">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Record
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Note">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Note
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="TodayILearn">
+            <span class="iconfont-archer">&#xe60a;</span>
+            TodayILearn
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "http://blog.terrynini.tw",
+        root: siteMetaRoot,
+        author: "Terrynini"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
+        
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
