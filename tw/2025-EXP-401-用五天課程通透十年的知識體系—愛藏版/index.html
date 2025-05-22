@@ -28,7 +28,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
 <meta property="article:published_time" content="2025-05-22T09:58:00.000Z">
-<meta property="article:modified_time" content="2025-05-22T13:00:29.626Z">
+<meta property="article:modified_time" content="2025-05-22T13:39:17.025Z">
 <meta property="article:author" content="NiNi">
 <meta property="article:tag" content="OSEE">
 <meta name="twitter:card" content="summary">
@@ -689,7 +689,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <li><strong>72 小時考試挑戰</strong>：OSEE 是 OffSec 中考試時間最長的證照。考試僅有兩題，皆為未知漏洞，學員需在 72 小時內開發出完整的 exploit 並繳交一份<strong>完整詳盡的滲透測試報告</strong>，包含步驟說明與截圖。</li>
 </ol>
 <p>雖然課程官網推薦學員熟悉 WinDBG、IDA Pro、x86&#x2F;x64 組合語言、C&#x2F;C++，但上完課後，我感覺只要會這些東西的基本操作就可以了。因為課程中並沒有過於刁鑽的場景，而且需要進行逆向工程的地方都滿單純的，整個課程也都不需要使用 IDA Pro 的 decompile 功能。整體來說，這門課的重點還是放在 <strong>exploit 的撰寫與技巧應用</strong>，而非深入逆向分析。因此相較於純逆向技能，有過 <strong>binary exploitation 經驗（不論是 Windows 還是 Linux）會對學習過程有更大的幫助。</strong></p>
-<h2 id="課程前準備"><a href="#課程前準備" class="headerlink" title="課程前準備"></a>課程前準備</h2><p>在報名完成後會收到 OffSec 寄來的行前通知，內容包含了課程的硬體與軟體需求。例如，為了確保學員有辦法練習到課堂上提到的保護，會需要電腦支援 NX、SMEP 與 VT-x&#x2F;EPT。而且因為課程中有 VMWare 相關的內容，需要啟用巢狀虛擬化之外還要確保硬碟空間與 RAM 的大小足夠（不過新版的課程移除 VMWare 了）。我個人會推薦另外帶一個攜帶式的外接螢幕去上課，因為在對虛擬機進行 remote debugging 的同時，還需要看上課簡報或是在 Visual Studio 中修改 exploit，如果一直切來切去是會滿分心的。</p>
+<h2 id="課程前準備"><a href="#課程前準備" class="headerlink" title="課程前準備"></a>課程前準備</h2><p>在報名完成後會收到 OffSec 寄來的行前通知，內容包含了課程的硬體與軟體需求。例如，為了確保學員有辦法練習到課堂上提到的保護，會需要電腦支援 NX、SMEP 與 VT-x&#x2F;EPT。而且因為課程中有 VMware 相關的內容，需要啟用巢狀虛擬化之外還要確保硬碟空間與 RAM 的大小足夠（不過新版的課程移除 VMware 了）。我個人會推薦另外帶一個攜帶式的外接螢幕去上課，因為在對虛擬機進行 remote debugging 的同時，還需要看上課簡報或是在 Visual Studio 中修改 exploit，如果一直切來切去是會滿分心的。</p>
 <p>除此之外，行前通知中還包含了很多課前準備資料，包含了很多上課中會提到的概念以及手法的粗淺介紹，諸如：Bypassing DEP、Bypassing ASLR、Bypassing CFG、Windows Mitigations Improvements、Type Confusion Vulnerabilities、SMEP、Token Stealing、Low Fragmentation Heap 等等各種事前預習資料。當然，因為太忙了所以我是一個都沒看。</p>
 <h2 id="上課狀況"><a href="#上課狀況" class="headerlink" title="上課狀況"></a>上課狀況</h2><p>這次課程是連續五天的實體課程，每天從早上 9:00 上到晚上 18:00，上課地點在北科大的集思會議中心。一走進教室就看到桌上擺著一本超大的課本。</p>
 <img src="/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/book.jpg" class="">
@@ -713,7 +713,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <h3 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h3><p>第二天持續 VMware Workstation 的課程，因為課堂上的例子是與 Heap 相關的漏洞，所以先花了一點篇幅介紹 Windows Heap 的整體架構，為後續撰寫 exploit 打好基礎，屆時可以更好的控制 Heap。</p>
 <p>接著課程進入 Bypassing ASLR、Stack Pivoting、Defeating DEP 等等內容。從這裡開始，可以明顯感受到這門課的實用價值。通常在 CTF 比賽中，我們只在乎能不能拿到 Flag，不特別追求 exploit 的穩定性；在  Pwn2Own 等比賽中，重點則是能不能穩定取得 Shell，只要「One Shot」即可，後續系統會不會 crash 並不是太大問題。但在這門課中，學員會被要求要把程式回復到正常的狀態。也就是說，無論是 VMware Workstation 與 Windows ，在 exploit 執行完之後都不能出現 crash 或當機，必須像什麼事都沒發生過一樣繼續運作。（當然，不接受使用 while loop 或 sleep 卡住程式來「作弊」）</p>
 <p>下半天，內容逐漸進入到 Edge Browser 的部分。不過這邊教的還是 Chakra 版本的 Edge，而不是現行的 Chromium 版本。講師提到，選擇 Chakra 版是因為這個版本啟用了更多 Windows 原生的保護機制，選擇舊版的 Edge 反而可以練習到更多 Windows 的 exploit 技巧，更符合這門課「Advanced Windows Exploitation」的定位。實際上要在這門課中真正學好 Browser pwn 確實也是不可能的，要想追上最新版的細節或漏洞研究趨勢，那會是另一個龐大到可以開成一整門課的主題，不是 Advanced Windows Exploitation 這門課需要追求的。但即便如此，我們還是學到了許多關於 Browser Exploit 的核心概念，例如 Type Confusion、<code>addressof</code>、<code>fakeobj</code> 等技巧，以及重要的 Debugging 流程。</p>
-<p>雖然 Browser 的部分還沒開始太多，但今天講師還是給了第一個 Extra Mile：<strong>使用 ROP 繞過 CFG（Control Flow Guard）保護，完成 Sandbox Escape 的 exploit</strong>（課堂上教是 CET（Control-Flow Enforcement Technology）啟用的情境，屆時連 ROP 都無法成功）。聽起來很簡單，但講師還特別要求，我們必須把漏洞包裝成一個可以無限次觸發 ROP 的 function，讓 Exploit 開發過程更加有紀律，也能提升開發效率。</p>
+<p>雖然 Browser 的部分還沒開始太多，但今天講師還是給了第一個 Extra Mile：<strong>使用 ROP 繞過 CFG（Control Flow Guard）保護，完成 Sandbox Escape 的 exploit</strong>（課堂上教是 CET（Control-Flow Enforcement Technology）啟用的情境，屆時連 ROP 都無法成功）。聽起來很簡單，但講師還特別要求，我們必須把漏洞包裝成一個可以無限次觸發 ROP 的 function，讓 exploit 開發過程更加有紀律，也能提升開發效率。</p>
 <p>當然，這中間還有其他難點需要解決，像是如何取得可用的記憶體位置等等。但是因為我真的很想拿到那個愚蠢的硬幣，所以我一個晚上看了一兩百頁還沒有教到的地方，先把要做什麼事情釐清之後就開始寫這個 exploit，不過一直到早上五點我都還沒搞定就先睡了。</p>
 <h3 id="Day-3"><a href="#Day-3" class="headerlink" title="Day 3"></a>Day 3</h3><p>第三天的課程整天都聚焦在 Edge 上，這是我覺得這門課最有趣的部分。</p>
 <p>從 Type Confusion 漏洞開始，講師帶我們一步步透過操控 Edge 中的 Javascript 物件來控制 RIP。接著，課程進入各種防護機制的介紹，每啟用一種新防護，就馬上教我們怎麼設法繞過它。我們先是繞過 CFG（Control Flow Guard），接著 Control-Flow Enforcement Technology（CET），接著 Arbitrary Code Guard（ACG），最後則是從 Browser 的低權限 Sandbox 逃脫到 Windows 執行高權限的指令。</p>
@@ -729,32 +729,32 @@ document.addEventListener("DOMContentLoaded", function(){
 <p>當然，最後我順利拿到了兩枚 Challenge Coin。不過聽同事說，有國外的學員在心得文中提到，因為課堂上拿到了兩枚 Challenge Coin，太過自信，結果考試時沒有充分準備，聽得我都有點緊張了。</p>
 <img src="/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/coins.png" class="">
 
-<h2 id="課後感想"><a href="#課後感想" class="headerlink" title="課後感想"></a>課後感想</h2><h3 id="完整的體驗"><a href="#完整的體驗" class="headerlink" title="完整的體驗"></a>完整的體驗</h3><p>一週的實體訓練課程帶來了極佳的心流體驗。這五天的生活，除了 Windows 的 Exploit 之外就沒別的東西了，加上 Extra Miles 的獎勵機制，可以說是連做夢都在寫 Exploit，精神狀態直接變成 Windows 的形狀。而且為了確保系統的穩定性還有開發的速度，從一開始就必須認真思考，選擇最適合的方式來完成 exploit，以便後續作業能更輕鬆。同時，也必須建立良好的 coding 習慣，這不僅能在除錯過程中提升可讀性，也能在後續維護時，減少出錯的機率，並節省釐清概念所需的時間。</p>
+<h2 id="課後感想"><a href="#課後感想" class="headerlink" title="課後感想"></a>課後感想</h2><h3 id="完整的體驗"><a href="#完整的體驗" class="headerlink" title="完整的體驗"></a>完整的體驗</h3><p>一週的實體訓練課程帶來了極佳的心流體驗。這五天的生活，除了 Windows 的 exploit 之外就沒別的東西了，加上 Extra Miles 的獎勵機制，可以說是連做夢都在寫 exploit，精神狀態直接變成 Windows 的形狀。而且為了確保系統的穩定性還有開發的速度，從一開始就必須認真思考，選擇最適合的方式來完成 exploit，以便後續作業能更輕鬆。同時，也必須建立良好的 coding 習慣，這不僅能在除錯過程中提升可讀性，也能在後續維護時，減少出錯的機率，並節省釐清概念所需的時間。</p>
 <h3 id="學習資源"><a href="#學習資源" class="headerlink" title="學習資源"></a>學習資源</h3><p>後續有不少人私訊詢問 EXP-401 這堂課是否有建議的 learning path，例如是否應該先修哪些課程，或是否有推薦的預習資源。老實說，我覺得課程本身就足夠了，不太需要額外找其他資源來準備。不過，如果你還在考慮自己是否適合這堂課，可以先從以下幾個免費資源開始：</p>
 <ol>
 <li><a href="https://github.com/hacksysteam/HackSysExtremeVulnerableDriver">HackSys Extreme Vulnerable Driver (HEVD)</a>：這個專案提供了許多設計來練習的有漏洞的 Windows Driver。不過因為是 Driver，主要練習的是 Kernel Mode 的保護機制、漏洞發現與利用方法。</li>
 <li><a href="https://p.ost2.fyi/">OpenSecurityTraining2</a>：這個網站上有許多資安研究員無償製作的免費課程，不僅包含 Windows 相關課程，也有許多基礎課程，例如：x86-64 OS Internals、Introductory WinDbg 等。</li>
 </ol>
 <p>這些資源都是非常知名且品質有保障的免費教材，維護者本身要不是現職資安研究員，就是同時也有在開設付費課程的專業人士。就我所知，許多初學者在早期學習時期就是靠這些資源打基礎。（不過我個人沒有完整使用過這些資源，總時數不超過兩個小時。）</p>
-<p>或者，假設你的程度比較進階一點，那其實可以考慮直接找網路上有 Write-up 的 1-day 復現。像這堂課中提到的某個 Win32k 漏洞，我其實一兩年前就寫過完整的 Exploit，雖然當時做得還不夠穩定。Angelboy 也寫過一些課程中提到、難度比較高的漏洞利用。這種實作練習非常有幫助，因為過程中會經歷到 exploit 開發的各個步驟：搜集資料、定位漏洞位置、保護機制的繞過、Windows 的特殊機制等等。</p>
+<p>或者，假設你的程度比較進階一點，那其實可以考慮直接找網路上有 Write-up 的 1-day 復現。像這堂課中提到的某個 Win32k 漏洞，我其實一兩年前就寫過完整的 exploit，雖然當時做得還不夠穩定。Angelboy 也寫過一些課程中提到、難度比較高的漏洞利用。這種實作練習非常有幫助，因為過程中會經歷到 exploit 開發的各個步驟：搜集資料、定位漏洞位置、保護機制的繞過、Windows 的特殊機制等等。</p>
 <h3 id="課程本身的價值"><a href="#課程本身的價值" class="headerlink" title="課程本身的價值"></a>課程本身的價值</h3><p>這門課可以說是 OffSec 精心提煉後的一帖大補藥，不僅將 Windows 各種保護機制系統性地整理起來，還涵蓋了許多在公開資源中難以找到的細節。做研究的人應該都能體會：我們或許知道某個保護機制或系統設計的存在，但要深入了解它們背後的具體實作，往往需要自己從零開始，收集零碎的資料、分析程式碼、花費大量時間反覆推敲。</p>
 <p>在理解一個大型系統時，通常也會遇到類似的情況：系統中存在許多重要的角色與機制，但相關研究往往散落在過去十幾年的資料中。第一步，要先花時間搜尋並整理過去十年的研究，逐步釐清各個角色之間的互動關係，進而理解它們在什麼條件下會失效，最終才能拼湊出一個完整的故事。而這種從大量資料中梳理出來的研究成果，通常是不會輕易對外分享的。</p>
 <p>而 EXP-401，正是把這樣等級的研究成果濃縮成課程內容，毫無保留地分享給學員。從最早期的 DEP 保護機制開始，各種保護機制接著一層層的堆疊上去，EXP-401 在課程中就一步步帶你走過這整個歷史軌跡。每一層防護是為了解決什麼樣的問題？又是如何被攻擊者逐步繞過？課程不只是講理論，還結合具體漏洞案例，教你如何實際避開這些防護機制。</p>
 <p>到課程結束時，學員腦中已經構築出一幅清晰的 Windows 藍圖。每個保護機制的出現背景、運作方式、可能的弱點與對應的利用方法，都能一一連結起來。這不只是單純的提升了撰寫 exploit 的能力，而是真正掌握了 Windows 系統內部運作的脈絡與故事。</p>
 <h3 id="課程內容依然適用嗎"><a href="#課程內容依然適用嗎" class="headerlink" title="課程內容依然適用嗎"></a>課程內容依然適用嗎</h3><p>EXP-401 的課程設計主要圍繞在 Windows 的保護機制與漏洞利用方法上，內容並未過多著墨於那些已經被淘汰的技術。因此，課程中介紹的各種保護機制，基本上都是目前 Windows 系統中仍然存在且有效的防護措施。</p>
-<p>除了講解保護機制本身，課程也搭配了許多輔助教材。不過，這些教材的主要目的是為了說明各種情境，並促進學員對漏洞利用方法的思考。例如，以課程中使用 Chakra 引擎版本的 Edge 瀏覽器來說，使用 Chakra 版本的 Edge 當然不貼近現實，因為沒有人在使用它了，但從 Windows 系統保護機制的角度來看，這樣的範例依然相當適用。因為無論是哪一款瀏覽器，只要出現漏洞，開發 Exploit 時所面對的系統層面問題基本上是一致的。</p>
+<p>除了講解保護機制本身，課程也搭配了許多輔助教材。不過，這些教材的主要目的是為了說明各種情境，並促進學員對漏洞利用方法的思考。例如，以課程中使用 Chakra 引擎版本的 Edge 瀏覽器來說，使用 Chakra 版本的 Edge 當然不貼近現實，因為沒有人在使用它了，但從 Windows 系統保護機制的角度來看，這樣的範例依然相當適用。因為無論是哪一款瀏覽器，只要出現漏洞，開發 exploit 時所面對的系統層面問題基本上是一致的。</p>
 <p>當然，在「瀏覽器範圍內」要解決的問題是不一樣的，像 Chrome 就會多出一層自己設計的 Sandbox 機制，這是應用程式層面的額外挑戰。但必須理解，除非這門課叫做 Browser Exploit Development，否則你不應該預期在這堂課上獲取太多瀏覽器特有防護機制相關的知識。</p>
 <p>總結來說，如果只聚焦在 Windows 系統本身的保護機制與漏洞利用技巧上，EXP-401 的課程內容在今天依然非常適用。</p>
 <h3 id="對找工作有幫助嗎"><a href="#對找工作有幫助嗎" class="headerlink" title="對找工作有幫助嗎"></a>對找工作有幫助嗎</h3><p>這是許多人關心的問題。我的回答是：<strong>有幫助，但影響不大。</strong> 為什麼這麼說呢？</p>
 <ol>
-<li><strong>如果你想成為一名紅隊演練專家：</strong> 在沒有紅隊相關證照的情況下，僅持有 OSEE 並不能證明什麼。雇主更在意的是你是否具備完整的紅隊演練思維（mindset），而不是你有能力在 Windows 上面開發 Exploit。當然，如果兩者兼備，肯定是非常加分的。</li>
+<li><strong>如果你想成為一名紅隊演練專家：</strong> 在沒有紅隊相關證照的情況下，僅持有 OSEE 並不能證明什麼。雇主更在意的是你是否具備完整的紅隊演練思維（mindset），而不是你有能力在 Windows 上面開發 exploit。當然，如果兩者兼備，肯定是非常加分的。</li>
 <li><strong>如果你想成為一名資安研究員：</strong> 這門課的內容僅能視為入門等級。取得 OSEE 證照，頂多證明你有能力處理某些基本的技術問題。但在真正的研究工作中，更重要的是：你能不能自己主導一個研究？能不能獨立解決研究過程中遇到的各種問題？</li>
 </ol>
 <p>因為我是資安研究員，所以想更深入聊聊第二點。如果你想成為一名真正的研究員，那事實上你並不需要任何證照，沒有任何證照可以直接證明一個人研究的品質。真正的能力，需要透過累積實績、發表成果來證明。</p>
 <p>當然，在累積實績之前，必然會有一段時間不短的，紮實學習、反覆撞牆的過程。從這個角度來看，<strong>EXP-401 的價值，在於幫助你快速且有系統地建立起必要的基礎知識。</strong> 對於這門課最淺白的理解是：「快速準備好 Windows 研究所需的技術背景」。但實際上，EXP-401 的價值不僅止於此。EXP-401 的上課過程更像是「臨摹大師名作」，跟隨過去頂尖研究員的腳步，從新保護機制的推出、理解到繞過，學習這個過程中需要掌握的工具、技巧，以及如何有效提煉出關鍵資訊。雖然課程主題圍繞在 Windows 上，但背後訓練的思考模型與研究方法卻不僅止於 Windows，這些能力是可以被應用到 IoT、Linux、macOS 等其他領域的。</p>
 <p>所以我個人認為這堂課的價值比起證照本身更高，但當然，付一樣的錢還是把證照一起拿走比較賺。</p>
 <h2 id="考試與報告撰寫"><a href="#考試與報告撰寫" class="headerlink" title="考試與報告撰寫"></a>考試與報告撰寫</h2><p>如同前面說的，OSEE 考試一共有兩題。OffSec 為此設計了一系列漏洞，並且為了貼近現實，每個漏洞都有對應的 CVE Advisory 和模擬的部落格文章。部落格文章主要介紹程式的運作機制和過去漏洞利用的方法，而 CVE Advisory 雖然會描述漏洞類型，但並不會具體指出漏洞位置、觸發方式，也不會提供 PoC。考生必須依靠這些線索，自行逆向分析，找出漏洞所在，撰寫可觸發漏洞的程式，最終在繞過所有保護機制後，讀取 <code>proof.txt</code> 檔案，才算完成挑戰。</p>
-<p>考試時間安排為：<strong>72 小時內完成 Exploit，24 小時內完成報告</strong>。但實際操作時，時間遠沒有表面上那麼充裕，這點稍後會解釋。</p>
+<p>考試時間安排為：<strong>72 小時內完成 exploit，24 小時內完成報告</strong>。但實際操作時，時間遠沒有表面上那麼充裕，這點稍後會解釋。</p>
 <p>具體評分標準可參考 OSEE 官方提供的報告模板：<a href="https://offensive-security.com/awe/AWE-Exam-Report.docx">AWE-Exam-Report.docx</a>。每一題的分數都是 50 分，但若只完成某題的一半，僅能獲得 25 分，而合格分數為 75 分。例如，以報告模板中的第一題來說，若只做到 Code Execution，卻無法完成 Sandbox Escape，就只能拿 25 分；第二題若僅做到 Read&#x2F;Write Primitive，但未成功提升權限，同樣只能拿 25 分。</p>
 <p>雖然我在去年八月就上完課，但是因為超級忙的所以根本就沒辦法安排考試。九月、十月主要忙著研究 Pwn2Own 的目標（最後成功打下 AeoTec），年底則是準備 CCC 的演講，年初接著是 SITCON 和三月的 DEVCORE Conf。但最後還是勉強在 2&#x2F;24 塞了一個 OSEE 考試。</p>
 <p>當天早上八點開考，第一題很快就弄出  Code Execution 拿到 25 分。不過因為一個小地方沒注意，卡在 Sandbox Escape 做不出來。所以第二天先跳去第二題看看，下午兩點左右就把題目解掉，拿了 50 分；剩下半天繼續磨第一題，終於在半夜兩點破台。原本大家還在講說要搶台灣第一張 OSEE，但我現在覺得應該要玩「OSEE Speedrun」才有意義。這幾天我基本上還是正常生活（扣除有台攝影機會照著你的傻臉，還算正常），還有空練琴，如果第一天不要耍白痴的話，好像真的有機會一天解完。</p>
@@ -766,13 +766,13 @@ document.addEventListener("DOMContentLoaded", function(){
 </ul>
 </li>
 </ul>
-<p>接下來剩下的時間，就是用來專心撰寫報告。<br>前面提到，考生必須在 <strong>72 小時內完成 Exploit</strong>，並在接下來 <strong>24 小時內完成報告</strong>。但實際上，時間根本沒那麼充裕，原因在於 OSEE 的報告要求非常嚴格。</p>
+<p>接下來剩下的時間，就是用來專心撰寫報告。<br>前面提到，考生必須在 <strong>72 小時內完成 exploit</strong>，並在接下來 <strong>24 小時內完成報告</strong>。但實際上，時間根本沒那麼充裕，原因在於 OSEE 的報告要求非常嚴格。</p>
 <p>以官方提供的範本 <a href="https://offensive-security.com/awe/AWE-Exam-Report.docx">AWE-Exam-Report.docx</a> 為例，可以發現整份報告的結構被劃分得非常細緻，比如：「2.2 Initial Exploitation」、「2.3 Read and Write Primitive」、「2.4 Code Execution」、「2.5 Sandbox Escape」等等。</p>
-<p>平時自己寫 Exploit，通常都是順順寫到底，很少會特意去紀錄中間每個細節。但在考試中，必須清楚拆解每一個階段，不僅要說明自己是怎麼利用漏洞的，還必須具體證明自己繞過了哪些保護機制，並且附上可以直接複製貼上就能夠執行的程式碼。例如，「Read and Write Primitive」這個階段，平常我們可能只是在開發過程中確認一下就繼續推進了，很少會特別停下來做獨立驗證。但在報告中，你必須證明自己具備這個能力。常見的做法是撰寫小型 PoC，讀寫一塊不可存取的記憶體，並搭配 Debugger 截圖作為佐證。</p>
-<p>然而，<strong>考試機器只開放 72 小時使用，而且所有資料都禁止下載</strong>。這表示：如果 72 小時內沒有收集齊全所有必須的截圖、證據和中間過程，之後在寫報告時就會非常痛苦，甚至可能因為證據不足導致無法通過。因此，在寫報告時才去拆分每個階段的 PoC 是不可能的，因為這樣會缺少必要的截圖，甚至無法驗證 PoC 是否能正常執行。最保險的策略是：<strong>在 72 小時內，不只是完成 Exploit，也要同步撰寫 PoC，收集完所有資料，並把報告的主要內容草擬出來。</strong></p>
+<p>平時自己寫 exploit，通常都是順順寫到底，很少會特意去紀錄中間每個細節。但在考試中，必須清楚拆解每一個階段，不僅要說明自己是怎麼利用漏洞的，還必須具體證明自己繞過了哪些保護機制，並且附上可以直接複製貼上就能夠執行的程式碼。例如，「Read and Write Primitive」這個階段，平常我們可能只是在開發過程中確認一下就繼續推進了，很少會特別停下來做獨立驗證。但在報告中，你必須證明自己具備這個能力。常見的做法是撰寫小型 PoC，讀寫一塊不可存取的記憶體，並搭配 Debugger 截圖作為佐證。</p>
+<p>然而，<strong>考試機器只開放 72 小時使用，而且所有資料都禁止下載</strong>。這表示：如果 72 小時內沒有收集齊全所有必須的截圖、證據和中間過程，之後在寫報告時就會非常痛苦，甚至可能因為證據不足導致無法通過。因此，在寫報告時才去拆分每個階段的 PoC 是不可能的，因為這樣會缺少必要的截圖，甚至無法驗證 PoC 是否能正常執行。最保險的策略是：<strong>在 72 小時內，不只是完成 exploit，也要同步撰寫 PoC，收集完所有資料，並把報告的主要內容草擬出來。</strong></p>
 <p>而且真的有人因為報告不夠詳盡，即使在解題階段拿了 100 分也沒有通過，所以我嚇得直接交了一百頁的報告出去。</p>
 <h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>考試的當下其實沒有覺得這考試到底有多難，或許有人看過<a href="https://www.facebook.com/share/p/16W1Jo4eqp/">徐牧遠的貼文</a>，知道通過率很低，但我覺得對大部份研究員來說應該是簡單到笑出來。</p>
-<p>總之，把所有 Exploit 和報告都整理好交出去之後，就只剩等待 OffSec 公告考試結果了。官方說審核可能需要最多十個工作天，我一路等到了 3 月 10 號，終於收到通過的通知。<br>據說這是全台灣第一張 OSEE 證照，算是順利解鎖了一個成就：</p>
+<p>總之，把所有 exploit 和報告都整理好交出去之後，就只剩等待 OffSec 公告考試結果了。官方說審核可能需要最多十個工作天，我一路等到了 3 月 10 號，終於收到通過的通知。<br>據說這是全台灣第一張 OSEE 證照，算是順利解鎖了一個成就：</p>
 <img src="/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/OSEE.png" class="">
 <p>比較可惜的是，從幾年前開始 OffSec 就不再寄送實體證書和小卡了。  其實我還蠻想拿到 OSEE 的實體小卡的 ＱＱ，不知道 OffSec 那邊有沒有庫存可以加購？（當年考過 OSCP 的時候有收到小卡，超有紀念價值）<br>回憶一下當年 OSCP 的小卡：</p>
 <img src="/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/oscp_card.png" class="">
@@ -794,7 +794,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <p>Author：<a href="http://blog.terrynini.tw">NiNi</a>
             <p>Link：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/</a>
             <p>Publish date：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">May 22nd 2025, 6:58:00 pm</a>
-            <p>Update date：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">May 22nd 2025, 10:00:29 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">May 22nd 2025, 10:39:17 pm</a>
             <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
