@@ -28,7 +28,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
 <meta property="article:published_time" content="2025-05-22T09:58:00.000Z">
-<meta property="article:modified_time" content="2025-05-22T10:59:20.954Z">
+<meta property="article:modified_time" content="2025-05-22T12:28:14.393Z">
 <meta property="article:author" content="NiNi">
 <meta property="article:tag" content="OSEE">
 <meta name="twitter:card" content="summary">
@@ -668,7 +668,7 @@ document.addEventListener("DOMContentLoaded", function(){
         <p>2024 年 8 月，DEVCORE 跟 OffSec 在台北辦了一場 Live Training，總共有四門課可以報名：SOC-200、WEB-200、PEN-200、EXP-401，這是第一次看到 OffSec 在台灣辦 Live Training。當然，其中我最感興趣的肯定是 EXP-401，也叫做 Advanced Windows Exploitation（AWE），更多人知道的是他的證照名稱「OSEE」。</p>
 <span id="more"></span>
 
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OSEE 是 OffSec 裡面最難的一張證照，截至目前為止，全球大約只有只有一到兩百人，通過率甚至只有 10% 左右。我們一直很想挑戰看看這張傳說中的證照到底有多難，不過就是一張證照到底是能難到哪裡去？</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>OSEE 是 OffSec 裡面最難的一張證照，截至目前為止，全球大約只有一到兩百人持有，通過率甚至只有 10% 左右。我們一直很想挑戰看看這張傳說中的證照到底有多難，不過就是一張證照到底是能難到哪裡去？</p>
 <p>在 DEVCORE，我們很早就開始統計，如果台灣有機會上 OSEE，究竟有多少人想去？那時候我的第一個念頭就是：「就算自費也要上！」原因很簡單：</p>
 <ul>
 <li>OSEE <strong>僅提供現場授課</strong>，完全沒有線上版。</li>
@@ -722,7 +722,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <img src="/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/coin.jpg" class="">
 
 <p>在今天下課之前，講師也給出了這門課最後一個 Extra Mile 挑戰，這次是跟後面即將上到的 Kernel Mode 課程內容有關：在 Low Integrity 的情境下完成某個 CVE 的漏洞利用最後執行高權限的 <code>cmd.exe</code>。</p>
-<p>這邊的難點在於因為是 Low Integrity 所以無法直接使用 <code>NtQeurySystemInformation</code> 來洩漏 Windows Kernel 的記憶體位置，需要透過其他漏洞來迂迴的取得我們想要的 Kernel 記憶體位置。而且，由於課堂中給的 CVE 需要寫檔案才能完成漏洞利用，我們還需要找一個 Low Integrity 也能寫入的資料夾才能順利放置 exploit 所需的檔案並完成利用。</p>
+<p>這邊的難點在於因為是 Low Integrity 所以無法直接使用 <code>NtQuerySystemInformation</code> 來洩漏 Windows Kernel 的記憶體位置，需要透過其他漏洞來迂迴的取得我們想要的 Kernel 記憶體位置。而且，由於課堂中給的 CVE 需要寫檔案才能完成漏洞利用，我們還需要找一個 Low Integrity 也能寫入的資料夾才能順利放置 exploit 所需的檔案並完成利用。</p>
 <p>但我決定今天晚上爽爽的睡上一覺，所以先不管這個 Extra Mile 在幹嘛。</p>
 <h3 id="Day-4、5"><a href="#Day-4、5" class="headerlink" title="Day 4、5"></a>Day 4、5</h3><p>前幾天的課程主要聚焦在 Windows User Mode 的保護機制與漏洞利用，到了最後兩天，則專注在 Kernel Mode 的內容。我們學習了有關 Kernel Driver 以及 Win32k 的漏洞利用，涵蓋了大量作業系統相關知識以及 Kernel 獨有的攻擊技巧，如：Token Stealing、ACL NULL-ing、SMEP、Page Table、KVA Shadow、Desktop Heap、Virtualization-Based Security、kCFG 等等。在 Kernel 層級，我們更需要特別注意漏洞利用的穩定性，以及如何在完成利用後將系統恢復到正常狀態，而不是直接讓系統 Crash。</p>
 <p>雖然這堂課長達五天，但隨著時間推進，感覺大家越來越興奮。Lays 說，可能是因為平常根本沒人在乎 Windows，現在有一門課五天都在講這個東西就很爽。到了後面，上課時幾乎所有人都興奮地站著看講師操作 WinDBG 及修正 exploit，氣氛一直熱烈到課程結束。</p>
@@ -794,7 +794,7 @@ document.addEventListener("DOMContentLoaded", function(){
             <p>Author：<a href="http://blog.terrynini.tw">NiNi</a>
             <p>Link：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/</a>
             <p>Publish date：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">May 22nd 2025, 6:58:00 pm</a>
-            <p>Update date：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">May 22nd 2025, 7:59:20 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/tw/2025-EXP-401-%E7%94%A8%E4%BA%94%E5%A4%A9%E8%AA%B2%E7%A8%8B%E9%80%9A%E9%80%8F%E5%8D%81%E5%B9%B4%E7%9A%84%E7%9F%A5%E8%AD%98%E9%AB%94%E7%B3%BB%E2%80%94%E6%84%9B%E8%97%8F%E7%89%88/">May 22nd 2025, 9:28:14 pm</a>
             <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
