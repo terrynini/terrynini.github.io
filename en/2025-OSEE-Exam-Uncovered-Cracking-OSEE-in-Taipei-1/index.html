@@ -22,7 +22,7 @@
     <meta name="description" content="In August 2024, DEVCORE and OffSec held a live training event in Taipei, offering four courses: SOC-200, WEB-200, PEN-200, and EXP-401. This was the first time OffSec held a live training in Taiwan. N">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2025::OSEE Exam Uncovered::Cracking OSEE in Taipei">
-<meta property="og:url" content="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/index.html">
+<meta property="og:url" content="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/index.html">
 <meta property="og:site_name" content="NiNi&#39;s den">
 <meta property="og:description" content="In August 2024, DEVCORE and OffSec held a live training event in Taipei, offering four courses: SOC-200, WEB-200, PEN-200, and EXP-401. This was the first time OffSec held a live training in Taiwan. N">
 <meta property="og:locale" content="en_US">
@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <p>OffSec’s official site has a page listing all their live training sessions: <a href="https://www.offsec.com/training-and-events/">Upcoming Live Training &amp; Events | OffSec</a>. The most well-known EXP-401 session is held every August at Black Hat USA in Las Vegas. Rough math says that the round-trip airfare from Taipei to Vegas plus hotel for the week costs a small fortune, so taking the class in Taipei easily saves more than NT$100k on travel alone. Absolutely worth it.</p>
 <p>All things considered, I think this was the best training course I’ve ever attended, and I highly recommend it. Even if you’re not focused on Windows research, you will still enjoy it. The goal needn’t be earning the OSEE (though passing would be awesome). The class experience itself is fantastic.</p>
 <h2 id="Course-Overview"><a href="#Course-Overview" class="headerlink" title="Course Overview"></a>Course Overview</h2><p>EXP-401 (OSEE) is the only “Expert-level” course from OffSec, and it’s widely recognized as the most difficult certification with the lowest pass rate. You can find its position in Paul Jerimy’s <a href="https://pauljerimy.com/security-certification-roadmap/">Security Certification Roadmap</a>:</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/certs.png" class="">
+
 
 <p>EXP-401 is focused on advanced “Windows exploitation techniques.” Modern Windows systems are equipped with various security mitigations (e.g., DEP, ASLR, CFG, ACG, CET), and the course walks students through bypassing these protections, developing working exploits in environments with single or multiple protections enabled. Some highlights of the course include:</p>
 <ul>
@@ -694,20 +694,20 @@ document.addEventListener("DOMContentLoaded", function(){
 <p>Besides, I suggest bringing an extra portable monitor. While remote-debugging a VM, you also need to view slides or tweak exploits in Visual Studio. The constant window-switching is really distracting.</p>
 <p>The mail also contained plenty of reading on concepts and techniques that would be discussed during the class, such as DEP&#x2F;ASLR&#x2F;CFG bypass, Windows mitigations, type confusion vulnerabilities, SMEP, token stealing, LFH, and more. Of course, I didn’t read any of them because I was too busy.</p>
 <h2 id="Class-Experience"><a href="#Class-Experience" class="headerlink" title="Class Experience"></a>Class Experience</h2><p>The course ran at GIS Taipei Tech Convention Center for five consecutive days, 9 AM–6 PM.<br>I saw a gigantic textbook on each desk when I walking in.</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/book.jpg" class="">
+
 
 <p>It’s about 600 pages, 3.6 cm thick:</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/book_size.jpg" class="">
+
 
 <p>As tall as a 1&#x2F;7 Hatsune Miku figure:</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/miku.jpg" class="">
+
 
 <p>In short: <em>huge</em>.</p>
 <p>Food and snacks were provided daily. You only had to worry about learning (and bathroom breaks).<br>Our instructors were <a href="https://dz.linkedin.com/in/nassereddine-abdelli?trk=public_post_feed-actor-name">Nassereddine ABDELLI</a>（<a href="https://x.com/n4sr0">@n4sr0</a>）and <a href="https://lb.linkedin.com/in/victor-khoury">Victor Khoury</a>（<a href="https://github.com/V-i-x-x">Vixx</a>）, they are very experienced and interacted constantly, tossing questions to ensure everyone kept up. Even unexpected questions were answered live with hands-on demos. I think that’s why live training is better than online courses: you can really squeeze every bit of knowledge out of the instructors.</p>
 <p>During the five days, two “<strong>Extra Miles</strong>“ challenges were offered. Completing each of them during the week can earn you a challenge coin. There were also small Q&amp;A quizzes for stickers.</p>
 <p>Near the end of day 1, the instructors impulsively added a mini-challenge: solve an ROP chain in 45 minutes to win a coin. No one succeeded. Orange or Lays joked, “Almost all of Taiwan’s Microsoft Top 100 hackers are here, and still no one cracked it.” It looks like OSEE really is tough.</p>
 <h3 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h3><p>We received slides, VMs, and a brief course intro. The most quoted slide online is probably this one:</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/slide.png" class="">
+
 
 <p>It warned that the difficulty would ramp up dramatically, though I personally felt it wasn’t that extreme. Perhaps this is because these topics (VM, browser, kernel) are everyday fare for vulnerability researchers or just because CTF players are more reluctant.</p>
 <p>A fun Easter egg: a lewd-looking samurai appears at the top of the slides and gradually loses his armor as the course progresses. Its helmet turns into a straw hat, and weapons vanish until he’s just naked. It possibly symbolizes the mystery of Windows being stripped away one by one. (I always wondered why he doesn’t gear up instead, but that would reveal the nude slide 1, which is not a good choice)</p>
@@ -724,7 +724,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <p>We started with a Type Confusion vulnerability, and the instructor walked us step-by-step through how to manipulate JavaScript objects in Edge to gain control over the RIP (instruction pointer). From there, we moved into a series of modern defense mechanisms, and each time a new mitigation was introduced, we immediately learned how to bypass it. First, we circumvented <strong>Control Flow Guard (CFG)</strong>, then <strong>Control-Flow Enforcement Technology (CET)</strong>, followed by <strong>Arbitrary Code Guard (ACG)</strong>, and finally, we broke out of the browser’s <strong>low-privileged sandbox</strong> to execute high-privilege commands on Windows.</p>
 <p>Throughout the process, we not only learned about the protection mechanisms present in modern Windows systems but also gained a deep understanding of their limitations and the techniques to bypass them.</p>
 <p>Even though the material covered in class didn’t exactly follow the same path as the <strong>Extra Mile</strong> challenges, I managed to complete the <strong>ROP sandbox escape</strong> challenge during the lectures, making me the <strong>first to earn a challenge coin</strong>! (though its serial number looked ominous in Mandarin, which means die together):</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/coin.jpg" class="">
+
 
 <p>Later that day, we got the final Extra Mile challenge, this time focused on <strong>Kernel Mode</strong>: From <strong>Low Integrity</strong>, exploit a known CVE to launch a high-privilege <code>cmd.exe</code>.</p>
 <p>The tricky part here is that, due to the Low Integrity level, you couldn’t use <code>NtQuerySystemInformation</code> to leak kernel addresses. Additionally, the CVE provided during class requires writing a file to complete the exploit, so we have to find a directory where a Low Integrity process can <strong>successfully write files</strong> in order to place our payload and carry out the attack.</p>
@@ -732,7 +732,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <h3 id="Days-4–5"><a href="#Days-4–5" class="headerlink" title="Days 4–5"></a>Days 4–5</h3><p>The final two days focused on <strong>kernel mode</strong>: driver and Win32k exploitation, token stealing, ACL NULL-ing, SMEP, page tables, KVA shadow, VBS, kCFG, and more. Stability and clean restoration after exploitation were paramount. Crashing the OS is not acceptable.</p>
 <p>Despite five long days, the room only grew more excited. As Lays put it, “Nobody usually cares about Windows, so five straight days on it is a blast.” By the end, people were literally standing around the instructors, watching live demos of WinDBG and exploit fixes. The energy stayed high right through the final minute.</p>
 <p>I ended up earning both challenge coins. But rumor has it that a student got overconfident from winning both challenge coins and didn’t study enough for the exam… which made me a little nervous too.</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/coins.png" class="">
+
 
 <h2 id="Post-Class-Reflections"><a href="#Post-Class-Reflections" class="headerlink" title="Post-Class Reflections"></a>Post-Class Reflections</h2><h3 id="Immersive-Flow"><a href="#Immersive-Flow" class="headerlink" title="Immersive Flow"></a>Immersive Flow</h3><p>The week-long in-person training was an incredibly immersive flow-state experience. For five full days, my entire world revolved around Windows exploitation, there was barely room for anything else. With the Extra Miles reward system in place, I felt like I was even writing exploits in my dreams.</p>
 <p>To ensure system stability and maximize development speed, I had to carefully choose the right exploitation approaches from the beginning. That also meant cultivating solid coding habits. This not only improved debugging clarity but also reduced future errors and saved time revisiting concepts.</p>
@@ -780,12 +780,12 @@ document.addEventListener("DOMContentLoaded", function(){
 <h2 id="Final-Thoughts"><a href="#Final-Thoughts" class="headerlink" title="Final Thoughts"></a>Final Thoughts</h2><p>At the time, the exam didn’t feel that hard. Some may have seen <a href="https://www.facebook.com/share/p/16W1Jo4eqp/">Xu Muyuan’s post</a> about the low pass rate, but for anyone who dares to call themselves a researcher, this exam should be easy enough to make you laugh.</p>
 <p>Once I submitted everything, I waited for OffSec to review it. They say it can take up to 10 business days. I finally got the pass notification on March 10.</p>
 <p>It’s rumored that this is the <strong>first OSEE certification in Taiwan</strong>, so… achievement is unlocked!</p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/OSEE.png" class="">
+
 
 <blockquote>
 <p>🥲 A bit sad that OffSec no longer sends physical certificates or cards. I really wanted a physical OSEE card for the memories. I still have my OSCP card, which is a treasured keepsake.</p>
 </blockquote>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/oscp_card.png" class="">
+
 
 <h2 id="Bonus-Upcoming-live-training-by-DEVCORE-August-2025"><a href="#Bonus-Upcoming-live-training-by-DEVCORE-August-2025" class="headerlink" title="Bonus: Upcoming live training by DEVCORE (August 2025)"></a>Bonus: Upcoming live training by DEVCORE (August 2025)</h2><p>DEVCORE will once again host OffSec’s  live training this August, offering:</p>
 <ul>
@@ -795,21 +795,26 @@ document.addEventListener("DOMContentLoaded", function(){
 </ul>
 <p>If you’re interested, I recommend registering early. Early bird pricing is much cheaper and increases over time.</p>
 <p>More info: <a href="https://training.devco.re/2025">DEVCORE &amp; OffSec Live Training 2025</a></p>
-<img src="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/trainings.png" class="">
+
     </article>
     <!-- license -->
     
         <div class="license-wrapper">
             <p>Author：<a href="http://blog.terrynini.tw">NiNi</a>
-            <p>Link：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/">http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/</a>
-            <p>Publish date：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/">May 25th 2025, 1:45:57 pm</a>
-            <p>Update date：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/">May 25th 2025, 2:53:44 pm</a>
+            <p>Link：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/">http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/">May 25th 2025, 1:45:57 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/">May 25th 2025, 2:53:44 pm</a>
             <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
         </div>
     
     <!-- paginator -->
     <ul class="post-paginator">
         <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/" title="2025::OSEE Exam Uncovered::Cracking OSEE in Taipei">
+                    <div class="nextTitle">2025::OSEE Exam Uncovered::Cracking OSEE in Taipei</div>
+                </a>
             
         </li>
         <li class="previous">
@@ -835,7 +840,7 @@ document.addEventListener("DOMContentLoaded", function(){
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
         
         var disqus_config = function () {
-        this.page.url = "http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.url = "http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/";  // Replace PAGE_URL with your page's canonical URL variable
         this.page.identifier = "2025::OSEE Exam Uncovered::Cracking OSEE in Taipei"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
         };
         
@@ -1223,7 +1228,24 @@ document.addEventListener("DOMContentLoaded", function(){
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1598,7 +1620,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 44
+        Total : 45
         </div>
         <!-- search  -->
         
@@ -1615,7 +1637,13 @@ document.addEventListener("DOMContentLoaded", function(){
         
         <li class="archive-post-item">
             <span class="archive-post-date">05/25</span>
-            <a class="archive-post-title" href="/en/2025-OSEE-Exam-Uncovered-The-Dual-Challenge-of-Exploit-Development-and-Detailed-Reporting/">2025::OSEE Exam Uncovered::Cracking OSEE in Taipei</a>
+            <a class="archive-post-title" href="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/">2025::OSEE Exam Uncovered::Cracking OSEE in Taipei</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/25</span>
+            <a class="archive-post-title" href="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/">2025::OSEE Exam Uncovered::Cracking OSEE in Taipei</a>
         </li>
     
         

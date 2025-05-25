@@ -19,20 +19,25 @@
         <meta name="keywords" content="hacker,cybersecurity,computer science">
     
     <meta name="description" content="">
-    <meta property="og:type" content="website">
-<meta property="og:title" content="NiNi&#39;s den">
-<meta property="og:url" content="http://blog.terrynini.tw/tags/Web/index.html">
+    <meta name="description" content="In August 2024, DEVCORE and OffSec held a live training event in Taipei, offering four courses: SOC-200, WEB-200, PEN-200, and EXP-401. This was the first time OffSec held a live training in Taiwan. N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2025::OSEE Exam Uncovered::Cracking OSEE in Taipei">
+<meta property="og:url" content="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/index.html">
 <meta property="og:site_name" content="NiNi&#39;s den">
+<meta property="og:description" content="In August 2024, DEVCORE and OffSec held a live training event in Taipei, offering four courses: SOC-200, WEB-200, PEN-200, and EXP-401. This was the first time OffSec held a live training in Taiwan. N">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
+<meta property="article:published_time" content="2025-05-25T05:59:29.000Z">
+<meta property="article:modified_time" content="2025-05-25T06:00:22.862Z">
 <meta property="article:author" content="NiNi">
+<meta property="article:tag" content="OSEE">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://blog.terrynini.tw/intro/DSCF0918.JPG">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="//avatars2.githubusercontent.com/u/15998206?s=400&u=a9da7956108c466fb27481f535959a5dd8861d74&v=4">
     
-    <title>NiNi&#39;s Den</title>
+    <title>2025::OSEE Exam Uncovered::Cracking OSEE in Taipei · NiNi&#39;s Den</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -217,7 +222,177 @@
         </script>
     
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<!-- hexo injector head_end start --><style type="text/css">
+
+.sidenote-mark { 
+    border-style: hidden hidden dashed;
+    background-color: transparent;
+    border-color: #f75357;
+}
+
+.sidenote-mark:hover,
+.sidenote-mark.hover {
+    color: #eee;
+    background-color: rgba(247, 83, 87,0.5);
+}
+
+/*p:has(.sidenote-mark:hover) ~ aside {
+    border-bottom: 2px solid #f75357;
+}*/
+
+@media (min-width: 1400px) {
+    .article-entry .side aside {
+        display: block;
+        position: relative;
+        text-align: left;
+        margin-left: auto; 
+        margin-right: 0;
+        font-size: 80%;
+        & pre {
+        font-size: 80%;
+        }
+        & div > *:only-child{
+          text-align: center;
+        }
+    }
+    .article-entry .side{
+        display: block;
+        background: transparent;
+        padding: 1px;
+        float: left;
+        position: relative;
+        width: 22vw;
+        margin-left: -24vw;
+        transform: translateY(-50%); 
+        overflow: hidden;
+    }
+
+}
+
+// .container{
+//     background-image: radial-gradient(circle, rgb(255 115 118) 2px, #121212 2px);
+//     background-size: 1.3rem 1.3rem;
+//     background-position: center center;
+// }
+
+.side{
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2vw;
+    overflow: hidden;
+}
+
+aside {
+    border: 1px solid #f75357;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: 1s;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 0;
+    padding: 8px;
+    display: flex;
+    background: #181818;
+    font-size: 80%;
+    width: auto;
+    & *{
+     width: auto;
+     max-width: 100%;
+    }
+    p{
+        word-break: break-all;
+    }
+}
+
+aside::before, aside::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background: #181818;
+  z-index: -1;
+  transition: 1s;
+  display: block;
+  text-align: center; 
+  content: '';
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+aside::before {
+  height: 200%;
+  width: 90%;
+}
+
+aside::after {
+  width: 200%;
+  height: 75%;
+}
+
+aside:hover,
+aside.hover {
+  background: #222222;
+}
+
+.side:hover > .aside,
+.side.hover > .aside {
+  background: #222222;
+}
+
+aside:hover::before,
+aside.hover::before {
+  width: 0px;
+  background: #222222;
+}
+
+aside:hover::after,
+aside.hover::after{
+  height: 0px;
+  background: #222222;
+}
+
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  var selection = document.querySelectorAll('.sidenote-mark');
+  selection.forEach( ele => ele.addEventListener('mouseover', function(event) {
+      id = event.target.id.match(/\d+/)[0];
+      const target = document.querySelector(`#note-${id}`);
+      target.classList.add('hover');
+  }));
+
+  selection.forEach( ele => ele.addEventListener('mouseout', function(event) {
+      id = event.target.id.match(/\d+/)[0];
+      const target = document.querySelector(`#note-${id}`);
+      target.classList.remove('hover');
+  }));
+
+  selection = document.querySelectorAll('aside');
+  selection.forEach( ele => ele.addEventListener('mouseover', function(event) {
+    id = event.target.closest('aside').id.match(/\d+/)[0];
+    const target = document.querySelector(`#mark-${id}`);
+    target.classList.add('hover');
+  }));
+
+  selection.forEach( ele => ele.addEventListener('mouseout', function(event) {
+      id = event.target.closest('aside').id.match(/\d+/)[0];
+      const target = document.querySelector(`#mark-${id}`);
+      target.classList.remove('hover');
+  }));
+
+});
+</script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script type="text/javascript">
@@ -226,6 +401,8 @@
             document.write('<script src="/lib/jquery.min.js" />')
         }
     </script>
+    
+        <body class="post-body">
     
         <!-- header -->
         <header class="header header-mobile">
@@ -253,6 +430,17 @@
     </div>
     <!-- toggle banner for post layout -->
     
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">NiNi&#39;s Den</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">2025::OSEE Exam Uncovered::Cracking OSEE in Taipei</a>
+            </div>
+        </div>
+    
 </header>
 
         <!-- fixed footer -->
@@ -279,24 +467,73 @@
 
 
 
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
+        
+    <!-- 404页  -->
+    
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/DSCF0918.JPG)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+                2025::OSEE Exam Uncovered::Cracking OSEE in Taipei
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+                
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="OSEE">OSEE</a>
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>Word count: <span class="post-count word-count">4.1k</span>Reading time: <span class="post-count reading-time">25 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2025/05/25</span>
+                    <!-- busuanzi -->
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -426,193 +663,214 @@
 
             <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
-                <main class="main index-page">
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">
-                
-                <span class="abstract-title-text">2020::程式安全::HW0 Write-up</span>
-            </a>
-            <div class="abstract-content">
-                <p>早安是我拉ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，今年又是助教拉，騙個流量，感恩。
-            </div>
-            <!-- read more -->
-            
-                <div class="abstract-read-more-button">
-                    <a href="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/">
-                        <span style="margin-right: 0.2rem;">READ MORE</span>
-                        <i class="fas fa-angle-right"></i>
-                    </a>
-                </div>
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/06/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/09/25</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Reverse">Reverse</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Web">Web</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Cryptography">Cryptography</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Pwn">Pwn</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Misc">Misc</a>
-    
-</div>
+                <main class="main post-page">
+    <article class="article-entry">
+        <p>In August 2024, DEVCORE and OffSec held a live training event in Taipei, offering four courses: SOC-200, WEB-200, PEN-200, and EXP-401. This was the first time OffSec held a live training in Taiwan.</p>
+<p>Naturally, the course I was most interested in was EXP-401, also known as Advanced Windows Exploitation (AWE). Most people know it by its certification name, “OSEE.”</p>
+<span id="more"></span>
 
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">
-                
-                <span class="abstract-title-text">程式安全::HW4 Write-up</span>
-            </a>
-            <div class="abstract-content">
-                <p>2019 年交大程式安全 HW4 write-up<br>哈哈是我拉😎😎😎助教拉🤙🤙🤙</p>
-            </div>
-            <!-- read more -->
-            
-                <div class="abstract-read-more-button">
-                    <a href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW4-Write-up/">
-                        <span style="margin-right: 0.2rem;">READ MORE</span>
-                        <i class="fas fa-angle-right"></i>
-                    </a>
-                </div>
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2021/03/23">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/12/18</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Web">Web</a>
-    
-</div>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>OSEE is considered OffSec’s hardest certification. As of now, only about 100–200 people worldwide hold this certification, and the pass rate is around 10%. We’ve always been curious just how tough this legendary cert really is. After all, how hard could a certification be?</p>
+<p>At DEVCORE, we started early on by asking how many people in Taiwan would be interested if an OSEE course were available locally. My first thought was: “Even if I have to dig into my pockets, I’m in!”  The reasons were simple:</p>
+<ol>
+<li>OSEE is <strong>only offered in-person</strong>, with no online version available</li>
+<li>In the past, attending this course meant <strong>having to go abroad</strong>, with the most well-known session being the annual Black Hat USA training.</li>
+<li>It’s extremely hard to sign up, and some people even write scripts to secure their seats.</li>
+<li>Regardless of exam results, it would be a first for Taiwan: either the first OSEE holder or the first to fail, both an achievement.</li>
+</ol>
+<p>OffSec’s official site has a page listing all their live training sessions: <a href="https://www.offsec.com/training-and-events/">Upcoming Live Training &amp; Events | OffSec</a>. The most well-known EXP-401 session is held every August at Black Hat USA in Las Vegas. Rough math says that the round-trip airfare from Taipei to Vegas plus hotel for the week costs a small fortune, so taking the class in Taipei easily saves more than NT$100k on travel alone. Absolutely worth it.</p>
+<p>All things considered, I think this was the best training course I’ve ever attended, and I highly recommend it. Even if you’re not focused on Windows research, you will still enjoy it. The goal needn’t be earning the OSEE (though passing would be awesome). The class experience itself is fantastic.</p>
+<h2 id="Course-Overview"><a href="#Course-Overview" class="headerlink" title="Course Overview"></a>Course Overview</h2><p>EXP-401 (OSEE) is the only “Expert-level” course from OffSec, and it’s widely recognized as the most difficult certification with the lowest pass rate. You can find its position in Paul Jerimy’s <a href="https://pauljerimy.com/security-certification-roadmap/">Security Certification Roadmap</a>:</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/certs.png" class="">
 
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">
-                
-                <span class="abstract-title-text">程式安全::HW3 Write-up</span>
-            </a>
-            <div class="abstract-content">
-                <p>2019 年交大程式安全 HW3 write-up<br>哈哈是我拉😎😎😎助教拉🤙🤙🤙</p>
-            </div>
-            <!-- read more -->
-            
-                <div class="abstract-read-more-button">
-                    <a href="/tw/%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW3-Write-up/">
-                        <span style="margin-right: 0.2rem;">READ MORE</span>
-                        <i class="fas fa-angle-right"></i>
-                    </a>
-                </div>
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2021/03/23">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/11/21</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Web">Web</a>
-    
-</div>
+<p>EXP-401 is focused on advanced “Windows exploitation techniques.” Modern Windows systems are equipped with various security mitigations (e.g., DEP, ASLR, CFG, ACG, CET), and the course walks students through bypassing these protections, developing working exploits in environments with single or multiple protections enabled. Some highlights of the course include:</p>
+<ul>
+<li><strong>In-person only</strong>: Unlike other OffSec courses, this one is not available online. The instructor relies heavily on interacting with students, so physical presence is required.</li>
+<li><strong>Real-world focus</strong>: The course uses real-world enterprise-level applications like VMware and Edge as targets for analysis.</li>
+<li><strong>Deep Windows content</strong>: Topics include user-mode and kernel-mode exploitation, advanced heap manipulation, VM escape, sandbox escape, and kernel driver reverse engineering.</li>
+<li><strong>72-hour exam challenge</strong>: OSEE has the longest exam duration of all OffSec certifications. You’re given two zero-day-style challenges and must develop full working exploits and submit a <strong>detailed report</strong>, complete with steps and screenshots, within 72 hours.</li>
+</ul>
+<p>Although the course recommends familiarity with WinDBG, IDA Pro, x86&#x2F;x64 assembly, and C&#x2F;C++, I found that only basic knowledge is needed. The course doesn’t throw overly complex scenarios at you, and any reverse engineering tasks are quite straightforward. The focus is definitely on <strong>writing and refining exploits</strong>, not deep reverse engineering. So rather than pure RE skills, having experience in <strong>binary exploitation</strong> (on Windows or Linux) will be far more helpful.</p>
+<h2 id="Before-Class"><a href="#Before-Class" class="headerlink" title="Before Class"></a>Before Class</h2><p>After registering, OffSec sends a preparation email detailing the hardware and software requirements. For example, your machine must support NX, SMEP, and VT-x&#x2F;EPT to ensure you can test all protection mechanisms discussed in class. VMware content (now removed in the latest version) also required nested virtualization, plenty of disk, and RAM.</p>
+<p>Besides, I suggest bringing an extra portable monitor. While remote-debugging a VM, you also need to view slides or tweak exploits in Visual Studio. The constant window-switching is really distracting.</p>
+<p>The mail also contained plenty of reading on concepts and techniques that would be discussed during the class, such as DEP&#x2F;ASLR&#x2F;CFG bypass, Windows mitigations, type confusion vulnerabilities, SMEP, token stealing, LFH, and more. Of course, I didn’t read any of them because I was too busy.</p>
+<h2 id="Class-Experience"><a href="#Class-Experience" class="headerlink" title="Class Experience"></a>Class Experience</h2><p>The course ran at GIS Taipei Tech Convention Center for five consecutive days, 9 AM–6 PM.<br>I saw a gigantic textbook on each desk when I walking in.</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/book.jpg" class="">
 
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/en/2018-RealWorldCTF-Qual/">
-                
-                <span class="abstract-title-text">2018::RealWorldCTF::Qual</span>
-            </a>
-            <div class="abstract-content">
-                <p>RealWorld CTF is very interesting and that is the hardest check-in challenge I’ve ever saw.</p>
-            </div>
-            <!-- read more -->
-            
-                <div class="abstract-read-more-button">
-                    <a href="/en/2018-RealWorldCTF-Qual/">
-                        <span style="margin-right: 0.2rem;">READ MORE</span>
-                        <i class="fas fa-angle-right"></i>
-                    </a>
-                </div>
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/06/21">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/30</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="CTF">CTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="RealWorldCTF">RealWorldCTF</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Web">Web</a>
-    
-</div>
+<p>It’s about 600 pages, 3.6 cm thick:</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/book_size.jpg" class="">
 
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
+<p>As tall as a 1&#x2F;7 Hatsune Miku figure:</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/miku.jpg" class="">
+
+<p>In short: <em>huge</em>.</p>
+<p>Food and snacks were provided daily. You only had to worry about learning (and bathroom breaks).<br>Our instructors were <a href="https://dz.linkedin.com/in/nassereddine-abdelli?trk=public_post_feed-actor-name">Nassereddine ABDELLI</a>（<a href="https://x.com/n4sr0">@n4sr0</a>）and <a href="https://lb.linkedin.com/in/victor-khoury">Victor Khoury</a>（<a href="https://github.com/V-i-x-x">Vixx</a>）, they are very experienced and interacted constantly, tossing questions to ensure everyone kept up. Even unexpected questions were answered live with hands-on demos. I think that’s why live training is better than online courses: you can really squeeze every bit of knowledge out of the instructors.</p>
+<p>During the five days, two “<strong>Extra Miles</strong>“ challenges were offered. Completing each of them during the week can earn you a challenge coin. There were also small Q&amp;A quizzes for stickers.</p>
+<p>Near the end of day 1, the instructors impulsively added a mini-challenge: solve an ROP chain in 45 minutes to win a coin. No one succeeded. Orange or Lays joked, “Almost all of Taiwan’s Microsoft Top 100 hackers are here, and still no one cracked it.” It looks like OSEE really is tough.</p>
+<h3 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h3><p>We received slides, VMs, and a brief course intro. The most quoted slide online is probably this one:</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/slide.png" class="">
+
+<p>It warned that the difficulty would ramp up dramatically, though I personally felt it wasn’t that extreme. Perhaps this is because these topics (VM, browser, kernel) are everyday fare for vulnerability researchers or just because CTF players are more reluctant.</p>
+<p>A fun Easter egg: a lewd-looking samurai appears at the top of the slides and gradually loses his armor as the course progresses. Its helmet turns into a straw hat, and weapons vanish until he’s just naked. It possibly symbolizes the mystery of Windows being stripped away one by one. (I always wondered why he doesn’t gear up instead, but that would reveal the nude slide 1, which is not a good choice)</p>
+<p>The first half of the day was a warm-up: Win32 APIs, x64 shellcode, etc. Then, we dove into VMware internals, starting with protections like DEP and ASLR and how to bypass them using ROP. We then explored how VMware Workstation works under the hood.</p>
+<p>I was super impressed with the course materials. It’s clear that the team behind it consists of highly skilled researchers. The training manual is the crystallization of their careful study and organization. As a result, the content is filled with references. If you’re interested in exploring the original research in more depth, you can easily find further reading materials by following the references provided in the book.</p>
+<p>By the end of the day, I realized I really needed that second screen, so I bought one at the Syntrend that night.</p>
+<h3 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h3><p>We continued with VMware Workstation content. The exploitation is related to the heap, so the day started with Windows Heap internals. </p>
+<p>Then, go into bypassing ASLR, stack pivoting, and defeating DEP. This part really highlighted the course’s practical value. Unlike CTFs (where stability isn’t essential) or Pwn2Own (where a “One Shot” is enough), this course demands stability. After exploit execution, VMware and Windows must keep running like nothing happened: no crashing, no freezing. (You can’t cheat by freezing the program with a sleep loop.)</p>
+<p>The afternoon shifted to the Edge browser, specifically Chakra Edge, not the current Chromium Edge. The instructors chose Chakra because it enables more native mitigations, letting us practice more Windows exploits. Pure “browser PWNs” would deserve their own course. Nonetheless, we learned core concepts: type confusion, <code>addressof</code>, <code>fakeobj</code>, and crucial debugging workflows.</p>
+<p>Although we haven’t yet delved deeply into the browser-related parts today, the instructor gave us our first Extra Mile challenge: <strong>use ROP to bypass CFG and achieve a sandbox escape exploit</strong>. (In class, we learned about scenarios with CET enabled, where even ROP would fail.)</p>
+<p>It might sound straightforward, but the instructor specifically required us to wrap the vulnerability into a function that allows ROP to be triggered repeatedly. This approach brings more discipline to the exploit development process and significantly improves development efficiency.</p>
+<p>Of course, there were other challenges to overcome as well, like figuring out how to obtain usable memory addresses. But because I wanted that stupid coin so badly, I read ahead 100+ pages that we hadn’t even covered yet and started building the exploit. I stayed up until 5 AM but still hadn’t nailed it.</p>
+<h3 id="Day-3"><a href="#Day-3" class="headerlink" title="Day 3"></a>Day 3</h3><p>Day 3 of the course was entirely focused on Edge, and it was the most fascinating part of the class for me.</p>
+<p>We started with a Type Confusion vulnerability, and the instructor walked us step-by-step through how to manipulate JavaScript objects in Edge to gain control over the RIP (instruction pointer). From there, we moved into a series of modern defense mechanisms, and each time a new mitigation was introduced, we immediately learned how to bypass it. First, we circumvented <strong>Control Flow Guard (CFG)</strong>, then <strong>Control-Flow Enforcement Technology (CET)</strong>, followed by <strong>Arbitrary Code Guard (ACG)</strong>, and finally, we broke out of the browser’s <strong>low-privileged sandbox</strong> to execute high-privilege commands on Windows.</p>
+<p>Throughout the process, we not only learned about the protection mechanisms present in modern Windows systems but also gained a deep understanding of their limitations and the techniques to bypass them.</p>
+<p>Even though the material covered in class didn’t exactly follow the same path as the <strong>Extra Mile</strong> challenges, I managed to complete the <strong>ROP sandbox escape</strong> challenge during the lectures, making me the <strong>first to earn a challenge coin</strong>! (though its serial number looked ominous in Mandarin, which means die together):</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/coin.jpg" class="">
+
+<p>Later that day, we got the final Extra Mile challenge, this time focused on <strong>Kernel Mode</strong>: From <strong>Low Integrity</strong>, exploit a known CVE to launch a high-privilege <code>cmd.exe</code>.</p>
+<p>The tricky part here is that, due to the Low Integrity level, you couldn’t use <code>NtQuerySystemInformation</code> to leak kernel addresses. Additionally, the CVE provided during class requires writing a file to complete the exploit, so we have to find a directory where a Low Integrity process can <strong>successfully write files</strong> in order to place our payload and carry out the attack.</p>
+<p>But… I’ve decided to reward myself with a good night’s sleep tonight, so I’ll just ignore that Extra Mile for now.</p>
+<h3 id="Days-4–5"><a href="#Days-4–5" class="headerlink" title="Days 4–5"></a>Days 4–5</h3><p>The final two days focused on <strong>kernel mode</strong>: driver and Win32k exploitation, token stealing, ACL NULL-ing, SMEP, page tables, KVA shadow, VBS, kCFG, and more. Stability and clean restoration after exploitation were paramount. Crashing the OS is not acceptable.</p>
+<p>Despite five long days, the room only grew more excited. As Lays put it, “Nobody usually cares about Windows, so five straight days on it is a blast.” By the end, people were literally standing around the instructors, watching live demos of WinDBG and exploit fixes. The energy stayed high right through the final minute.</p>
+<p>I ended up earning both challenge coins. But rumor has it that a student got overconfident from winning both challenge coins and didn’t study enough for the exam… which made me a little nervous too.</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/coins.png" class="">
+
+<h2 id="Post-Class-Reflections"><a href="#Post-Class-Reflections" class="headerlink" title="Post-Class Reflections"></a>Post-Class Reflections</h2><h3 id="Immersive-Flow"><a href="#Immersive-Flow" class="headerlink" title="Immersive Flow"></a>Immersive Flow</h3><p>The week-long in-person training was an incredibly immersive flow-state experience. For five full days, my entire world revolved around Windows exploitation, there was barely room for anything else. With the Extra Miles reward system in place, I felt like I was even writing exploits in my dreams.</p>
+<p>To ensure system stability and maximize development speed, I had to carefully choose the right exploitation approaches from the beginning. That also meant cultivating solid coding habits. This not only improved debugging clarity but also reduced future errors and saved time revisiting concepts.</p>
+<h3 id="Learning-Resources"><a href="#Learning-Resources" class="headerlink" title="Learning Resources"></a>Learning Resources</h3><p>A common question I get in my DMs is whether there’s a recommended learning path for EXP-401. Should you take any prerequisite courses or study specific materials? Honestly, the course itself is comprehensive enough that no additional preparation is strictly necessary. But if you’re still unsure whether it’s the right fit for you, here are a few free resources to test the waters:</p>
+<ul>
+<li><strong><a href="https://github.com/hacksysteam/HackSysExtremeVulnerableDriver">HackSys Extreme Vulnerable Driver (HEVD)</a>:</strong> A purposely vulnerable Windows driver project, great for practicing kernel-mode exploitation.</li>
+<li><strong><a href="https://p.ost2.fyi/">OpenSecurityTraining2</a>:</strong> A fantastic collection of free courses created by security researchers, covering topics like x86-64 OS Internals and WinDbg basics.</li>
+</ul>
+<p>These are high-quality, well-maintained resources often used by beginners to build a solid foundation. (Although personally, I’ve spent less than two hours on them in total.)</p>
+<p>For more advanced learners, try reproducing 1-day exploits with public write-ups. For example, I wrote a full exploit for one Win32k vulnerability covered in the course a year or two ago, albeit not very stable. Researchers like Angelboy have also written about some of the more challenging vulnerabilities mentioned in the course. Reproducing these is an excellent way to learn the whole process of exploit development: gathering information, locating the bug, bypassing protections, and understanding unique Windows mechanisms.</p>
+<h3 id="Value-of-the-Course"><a href="#Value-of-the-Course" class="headerlink" title="Value of the Course"></a>Value of the Course</h3><p>EXP-401 is essentially a carefully distilled, high-quality crash course by OffSec, offering insights rarely found in public resources. For those in research, you’ll know that even when you’re aware of certain protections or system designs, diving into their actual implementations often requires starting from scratch, which means collecting scattered documentation, reading code, and reasoning through endless trial and error.</p>
+<p>When trying to understand a large and complex system, you often face a similar challenge: the system contains many critical components and mechanisms, but the relevant research is usually scattered across more than a decade of material. The first step is to invest time into searching for and organizing past research, gradually mapping out how these components interact. Only then can you begin to understand under what conditions each mechanism might fail, and eventually piece together a coherent, complete picture. Research results derived from this kind of deep, painstaking synthesis are rarely shared openly.</p>
+<p><strong>EXP-401</strong>, however, distills that level of research into a course and shares it with participants with no holding back. Starting from the earliest days of DEP, each subsequent defense mechanism is layered on top of the last. The course walks you step-by-step through this historical evolution. What problem was each layer of protection designed to solve? How did attackers eventually find ways to bypass it?</p>
+<p>By the end of the course, students gain a clear mental map of the Windows ecosystem. You learn how and why each mitigation was introduced, how it works, how it’s bypassed, and where its weaknesses lie. This isn’t just about writing exploits. It’s about truly understanding the underlying story and logic of Windows internals.</p>
+<h3 id="Is-the-Course-Still-Relevant-Today"><a href="#Is-the-Course-Still-Relevant-Today" class="headerlink" title="Is the Course Still Relevant Today?"></a>Is the Course Still Relevant Today?</h3><p>The EXP-401 course primarily centers on <strong>Windows security mechanisms and exploitation techniques</strong>, with minimal focus on outdated technologies. As a result, the protection mechanisms introduced throughout the course are all still <strong>relevant and effective in modern Windows systems</strong>.</p>
+<p>Beyond just explaining the security mechanisms, the course is supplemented with various <strong>supporting materials</strong>. These materials aren’t meant to simulate real-world environments perfectly but to illustrate different scenarios and stimulate critical thinking about exploitation strategies. For example, the course uses a version of <strong>Microsoft Edge with the Chakra engine</strong>. While Chakra-based Edge is no longer in use today, it still serves as a valuable case study from the perspective of <strong>Windows-level protections</strong>. That’s because, regardless of the browser in question, once a vulnerability is found, the <strong>system-level challenges</strong> faced during exploit development remain largely the same.</p>
+<p>Of course, the <strong>in-browser challenges</strong> do differ between browsers. For instance, Chrome introduces an additional layer of complexity with its own custom <strong>sandboxing mechanism</strong>, which adds application-specific hurdles. But it’s important to understand that <strong>unless this course were specifically about browser exploit development</strong>, it’s unrealistic to expect deep coverage of browser-specific defenses.</p>
+<p>In summary, if your focus is strictly on <strong>Windows OS-level protection mechanisms and exploitation techniques</strong>, the content of <strong>EXP-401 remains highly relevant and applicable even today</strong>.</p>
+<h3 id="Will-It-Help-You-Get-a-Job"><a href="#Will-It-Help-You-Get-a-Job" class="headerlink" title="Will It Help You Get a Job?"></a>Will It Help You Get a Job?</h3><p>Short answer: <strong>It helps, but not significantly</strong>. Here’s why:</p>
+<ul>
+<li><strong>If you’re aiming for red teaming:</strong> Holding the OSEE alone doesn’t prove much unless you also demonstrate a red team mindset. Exploit skills help, but thinking like an adversary matters more.</li>
+<li><strong>If you’re aiming for security research:</strong> OSEE is only an entry badge. Getting the OSEE only shows you can handle some technical problems, but real research is about driving your own projects and solving novel problems independently.</li>
+</ul>
+<p>As a researcher myself, I’d say certifications aren’t essential. Research quality is proven through results and published work, not certs. But before reaching that point, you need a solid knowledge base. And that’s where EXP-401 really shines.</p>
+<p>In a way, EXP-401 is like tracing a master’s artwork. You follow in the footsteps of top researchers, learning how protections are introduced, understood, and bypassed. You gain not just technical skills but also the thought process and methodology behind real-world vulnerability research. These skills translate well beyond Windows. It can also be applied to IoT, Linux, macOS research, and more.</p>
+<p>So yes, the course is more valuable than the cert alone. But if you’re paying for it, might as well earn that cert too.</p>
+<h2 id="Report-Writing"><a href="#Report-Writing" class="headerlink" title="Report Writing"></a>Report Writing</h2><p>As mentioned earlier, the OSEE exam consists of two challenges. OffSec has designed a series of vulnerabilities for this purpose, and to simulate real-world scenarios, each vulnerability is accompanied by corresponding CVE advisories and simulated blog posts. The blog posts mainly introduce how the program works and methods previously used to exploit, while the CVE advisories describe the type of vulnerability but do not specify the exact location, trigger method or provide a PoC. Candidates must rely on these clues to reverse-engineer the binaries, identify the vulnerabilities, write code to trigger them, and ultimately bypass all protection mechanisms to read the <code>proof.txt</code> file in order to complete the challenge.</p>
+<p>The exam time is arranged as: <strong>72 hours to complete the exploit, 24 hours to complete the report</strong>. However, in practice, time is far less abundant than it seems. This will be explained later.</p>
+<p>The specific grading criteria can be found in the official OSEE report template: <a href="https://offensive-security.com/awe/AWE-Exam-Report.docx">AWE-Exam-Report.docx</a>. Each challenge is worth 50 points. Completing only half of a challenge will only earn 25 points, and the passing score is 75 points. For example, according to the first question in the report template, if you achieve code execution but fail to complete sandbox escape, you only get 25 points. Similarly, for the second question, if you achieve Read&#x2F;Write Primitive but fail to escalate privileges, you also only get 25 points.</p>
+<p>Although I completed the course in August last year, I was way too busy to schedule the exam. In September and October, I was mainly focused on researching Pwn2Own targets (eventually successfully exploiting AeoTec). At the end of the year, I was preparing for a CCC talk, followed by SITCON at the beginning of the year, and then DEVCORE Conf in March. In the end, I barely managed to squeeze in an OSEE exam on 2&#x2F;24.</p>
+<p>The exam started at 8:00 AM. I quickly achieved code execution for the first question and earned 25 points. However, I overlooked a detail and got stuck on sandbox escape. So, the next day, I switched to the second question and solved it around 2:00 PM, earning 50 points. I spent the remaining half-day grinding on the first question and finally beat it at 2:00 AM. We were talking about being the first in Taiwan to get an OSEE, but now I think it makes more sense to aim for an “OSEE Speedrun.” I basically lived a normal life during those few days (aside from having a camera pointed at my dumb face, it was fairly normal) and even had time to practice piano. If I hadn’t messed up on the first day, finishing in a day seemed possible.</p>
+<ul>
+<li>Timeline<ul>
+<li>2&#x2F;24 08:00:00: Exam started at 8:00 AM</li>
+<li>2&#x2F;25 14:04:52: Solved the second question</li>
+<li>2&#x2F;26 02:41:43: Solved the first question, completed the exam</li>
+</ul>
+</li>
+</ul>
+<p>The rest of the time was spent focusing on writing the report.<br>As mentioned earlier, candidates must <strong>complete the exploit within 72 hours</strong>, and then <strong>complete the report within the next 24 hours</strong>. However, in reality, the time is not nearly as sufficient as it seems, because the OSEE report requirements are extremely strict.</p>
+<p>Take the official template <a href="https://offensive-security.com/awe/AWE-Exam-Report.docx">AWE-Exam-Report.docx</a> for example, you’ll see that the entire structure is meticulously detailed, with sections like “2.2 Initial Exploitation”, “2.3 Read and Write Primitive”, “2.4 Code Execution”, “2.5 Sandbox Escape”, and so on.</p>
+<p>When we write exploits normally, we usually just proceed linearly and rarely document every intermediate step. However, you have to break down each stage clearly during the exam. Not only must you explain how you exploited the vulnerability, but you must also provide concrete proof of bypassing protection mechanisms, along with copy-paste-ready code. For example, in the “Read and Write Primitive” stage, you might just check this in passing and move on in normal dev flow. But in the report, you must prove you can do this. A common approach is to write a small PoC that reads&#x2F;writes an inaccessible memory region, with debugger screenshots as supporting evidence.</p>
+<p>However, the <strong>exam machine is only available for 72 hours, and all data downloads are prohibited</strong>. This means that if you don’t collect all the required screenshots, evidence, and intermediate steps within those 72 hours, writing the report later will be extremely painful, and you might even fail due to lack of evidence. Therefore, it’s impossible to write the report afterward by trying to break down the PoC into stages cause you’ll be missing necessary screenshots and won’t be able to verify if the PoC still works. The safest strategy is: Within 72 hours, not only complete the exploit but also simultaneously write PoCs, gather all data, and draft the main content of the report.</p>
+<p>There have been cases where candidates scored a full 100 points during the exploit phase but failed the exam because the report was not detailed enough. So, I was terrified and submitted a 100-page report.</p>
+<h2 id="Final-Thoughts"><a href="#Final-Thoughts" class="headerlink" title="Final Thoughts"></a>Final Thoughts</h2><p>At the time, the exam didn’t feel that hard. Some may have seen <a href="https://www.facebook.com/share/p/16W1Jo4eqp/">Xu Muyuan’s post</a> about the low pass rate, but for anyone who dares to call themselves a researcher, this exam should be easy enough to make you laugh.</p>
+<p>Once I submitted everything, I waited for OffSec to review it. They say it can take up to 10 business days. I finally got the pass notification on March 10.</p>
+<p>It’s rumored that this is the <strong>first OSEE certification in Taiwan</strong>, so… achievement is unlocked!</p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/OSEE.png" class="">
+
+<blockquote>
+<p>🥲 A bit sad that OffSec no longer sends physical certificates or cards. I really wanted a physical OSEE card for the memories. I still have my OSCP card, which is a treasured keepsake.</p>
+</blockquote>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/oscp_card.png" class="">
+
+<h2 id="Bonus-Upcoming-live-training-by-DEVCORE-August-2025"><a href="#Bonus-Upcoming-live-training-by-DEVCORE-August-2025" class="headerlink" title="Bonus: Upcoming live training by DEVCORE (August 2025)"></a>Bonus: Upcoming live training by DEVCORE (August 2025)</h2><p>DEVCORE will once again host OffSec’s  live training this August, offering:</p>
+<ul>
+<li><strong>PEN-300:</strong> Advanced Evasion Techniques</li>
+<li><strong>WEB-300:</strong> Advanced Web Attacks</li>
+<li><strong>EXP-401:</strong> Advanced Windows Exploitation</li>
+</ul>
+<p>If you’re interested, I recommend registering early. Early bird pricing is much cheaper and increases over time.</p>
+<p>More info: <a href="https://training.devco.re/2025">DEVCORE &amp; OffSec Live Training 2025</a></p>
+<img src="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/trainings.png" class="">
+    </article>
+    <!-- license -->
     
-    <!-- paginator  -->
+        <div class="license-wrapper">
+            <p>Author：<a href="http://blog.terrynini.tw">NiNi</a>
+            <p>Link：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/">http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/</a>
+            <p>Publish date：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/">May 25th 2025, 2:59:29 pm</a>
+            <p>Update date：<a href="http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/">May 25th 2025, 3:00:22 pm</a>
+            <p>License：This article is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei-1/" title="2025::OSEE Exam Uncovered::Cracking OSEE in Taipei">
+                    <div class="prevTitle">2025::OSEE Exam Uncovered::Cracking OSEE in Taipei</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        
+        var disqus_config = function () {
+        this.page.url = "http://blog.terrynini.tw/en/2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/";  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = "2025::OSEE Exam Uncovered::Cracking OSEE in Taipei"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        
+        (function () { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://terrynini.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
     
 </main>
 
@@ -705,6 +963,34 @@
 
         </div>
         <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= //avatars2.githubusercontent.com/u/15998206 />
+    <div class="profile-name">Terrynini</div>
+    
+        <div class="profile-signature">
+            逆逆逆逆
+        </div>
+    
+    
+</div>
+
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Course-Overview"><span class="toc-number">2.</span> <span class="toc-text">Course Overview</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Before-Class"><span class="toc-number">3.</span> <span class="toc-text">Before Class</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Class-Experience"><span class="toc-number">4.</span> <span class="toc-text">Class Experience</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Day-1"><span class="toc-number">4.1.</span> <span class="toc-text">Day 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Day-2"><span class="toc-number">4.2.</span> <span class="toc-text">Day 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Day-3"><span class="toc-number">4.3.</span> <span class="toc-text">Day 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Days-4%E2%80%935"><span class="toc-number">4.4.</span> <span class="toc-text">Days 4–5</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Post-Class-Reflections"><span class="toc-number">5.</span> <span class="toc-text">Post-Class Reflections</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Immersive-Flow"><span class="toc-number">5.1.</span> <span class="toc-text">Immersive Flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Learning-Resources"><span class="toc-number">5.2.</span> <span class="toc-text">Learning Resources</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Value-of-the-Course"><span class="toc-number">5.3.</span> <span class="toc-text">Value of the Course</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Is-the-Course-Still-Relevant-Today"><span class="toc-number">5.4.</span> <span class="toc-text">Is the Course Still Relevant Today?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Will-It-Help-You-Get-a-Job"><span class="toc-number">5.5.</span> <span class="toc-text">Will It Help You Get a Job?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Report-Writing"><span class="toc-number">6.</span> <span class="toc-text">Report Writing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Final-Thoughts"><span class="toc-number">7.</span> <span class="toc-text">Final Thoughts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bonus-Upcoming-live-training-by-DEVCORE-August-2025"><span class="toc-number">8.</span> <span class="toc-text">Bonus: Upcoming live training by DEVCORE (August 2025)</span></a></li></ol>
+            </div>
         
         <!-- sidebar -->
         <div class="sidebar sidebar-hide">
@@ -1951,7 +2237,16 @@
         
         <!-- async load share.js -->
         
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
         <!-- mermaid -->
+        
+            <script src='https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.min.js'></script>
+            <script>
+                if (window.mermaid) {
+                    mermaid.initialize({theme: 'dark'});
+                }
+            </script>
         
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
