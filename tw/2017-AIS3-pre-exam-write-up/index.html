@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function(){
   )
 </script>
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <img class="loading" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
@@ -686,16 +686,16 @@ document.addEventListener("DOMContentLoaded", function(){
 <h3 id="Crypto2"><a href="#Crypto2" class="headerlink" title="Crypto2"></a>Crypto2</h3><p>因為用了ECB mode ，所以每個區塊間沒有關聯，而且加密用的key也不會換，造成cut &amp; paste attack。<br></p>
 <h3 id="Crypto3-Crypto4"><a href="#Crypto3-Crypto4" class="headerlink" title="Crypto3 &amp; Crypto4"></a>Crypto3 &amp; Crypto4</h3><p>sha1 collision，這兩題滿有趣的。<br><br>在做比較的時候使用的是 <code>===</code> 而不是 <code>==</code> 所以不能用陣列的方法繞過，因此就是利用google在2月時找到的sha1碰撞，把兩個文件作為username還有password傳入。<br><br>Crypto4 則是利用string() parse的時候會被<code>\00</code>截斷，加入題目要求的字串，而最後一個條件則是sha1的結果開頭要是<code>f00d</code>，只要在文件後面加入一堆<code>\00</code>，結果就會不一樣，所以就寫個腳本自動檢查就好了。</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&quot;flag.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&quot;source&quot;</span>])) &#123;</span><br><span class="line">    <span class="title function_ invoke__">show_source</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">startsWith</span>(<span class="params"><span class="variable">$haystack</span>, <span class="variable">$needle</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="variable">$length</span> = <span class="title function_ invoke__">strlen</span>(<span class="variable">$needle</span>);</span><br><span class="line">    <span class="keyword">return</span> (<span class="title function_ invoke__">substr</span>(<span class="variable">$haystack</span>, <span class="number">0</span>, <span class="variable">$length</span>) === <span class="variable">$needle</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&quot;username&quot;</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&quot;password&quot;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$username</span> = (<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&quot;username&quot;</span>];</span><br><span class="line">    <span class="variable">$password</span> = (<span class="keyword">string</span>)<span class="variable">$_POST</span>[<span class="string">&quot;password&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="variable">$h1</span> = <span class="title function_ invoke__">sha1</span>(<span class="variable">$username</span>);</span><br><span class="line">    <span class="variable">$h2</span> = <span class="title function_ invoke__">sha1</span>(<span class="variable">$password</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$username</span> == <span class="variable">$password</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;Your password can not be your username.&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$h1</span> === <span class="variable">$h2</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;Flag1: <span class="subst">$flag1</span>&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$username</span>, <span class="string">&quot;Snoopy_do_not_like_cats_hahahaha&quot;</span>) !== <span class="literal">false</span> <span class="keyword">and</span></span><br><span class="line">            <span class="title function_ invoke__">strpos</span>(<span class="variable">$password</span>, <span class="string">&quot;ddaa_is_PHD&quot;</span>) !== <span class="literal">false</span> <span class="keyword">and</span></span><br><span class="line">            <span class="title function_ invoke__">startsWith</span>(<span class="variable">$h1</span>, <span class="string">&quot;f00d&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="variable">$msg</span> .= <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="variable">$msg</span> .= <span class="string">&quot;Flag2: <span class="subst">$flag2</span>&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;Invalid password.&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<h3 id="MISC2"><a href="#MISC2" class="headerlink" title="MISC2"></a>MISC2</h3><p>就只顯示了<code>I&#39;ve sent you something :)</code>，網頁註解裡面有一個img的tag <code>&lt;img src=&#39;sudoku.png&#39;&gt;</code>，把註解拿開後會顯示一張數獨的圖片：<br><img src="/tw/2017-AIS3-pre-exam-write-up/sudoku.png" class=""><br><br>然後我以為這題是steganography，結果跟原圖根本就連一bit都沒差別啊。<br><br>用curl看header才會發現：<br></p>
-<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_00.png" class=""><br>
+<h3 id="MISC2"><a href="#MISC2" class="headerlink" title="MISC2"></a>MISC2</h3><p>就只顯示了<code>I&#39;ve sent you something :)</code>，網頁註解裡面有一個img的tag <code>&lt;img src=&#39;sudoku.png&#39;&gt;</code>，把註解拿開後會顯示一張數獨的圖片：<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2017-AIS3-pre-exam-write-up/sudoku.png" class=""><br><br>然後我以為這題是steganography，結果跟原圖根本就連一bit都沒差別啊。<br><br>用curl看header才會發現：<br></p>
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_00.png" class=""><br>
 <p>decode後就會得到<code>S74G32.php</code>，進去後會看到一張png:<br></p>
-<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_01.png" class=""><br>
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_01.png" class=""><br>
 <p>總之我的膝蓋告訴我flag一定在白色的地方，因為他九成是png:<br></p>
-<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_02.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc2_02.png" class="">
 <h3 id="MISC4"><a href="#MISC4" class="headerlink" title="MISC4"></a>MISC4</h3><p>這題要ssh到一台主機，然後權限很低，flag就在眼前但是不能cat。<br>有三個檔案flag、shell、shell.c，shell.c長這樣：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">int filter(char* cmd)&#123;</span><br><span class="line">        int r=0;</span><br><span class="line">        r += strstr(cmd, &quot;=&quot;)!=0;</span><br><span class="line">        r += strstr(cmd, &quot;PATH&quot;)!=0;</span><br><span class="line">        r += strstr(cmd, &quot;export&quot;)!=0;</span><br><span class="line">        r += strstr(cmd, &quot;/&quot;)!=0;</span><br><span class="line">        r += strstr(cmd, &quot;\\&quot;)!=0;</span><br><span class="line">        r += strstr(cmd, &quot;`&quot;)!=0;</span><br><span class="line">        r += strstr(cmd, &quot;flag&quot;)!=0;</span><br><span class="line">        return r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">extern char** environ;</span><br><span class="line">void delete_env()&#123;</span><br><span class="line">        char** p;</span><br><span class="line">        for(p=environ; *p; p++) memset(*p, 0, strlen(*p));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char* argv[], char** envp)&#123;</span><br><span class="line">        setregid(getegid(), -1);</span><br><span class="line">        if(argc &lt; 2) &#123; return 0; &#125;</span><br><span class="line">        delete_env();</span><br><span class="line">        putenv(&quot;PATH=/this_is_not_a_valid_path&quot;);</span><br><span class="line">        if(filter(argv[1])) return 0;</span><br><span class="line">        printf(&quot;%s\n&quot;, argv[1]);</span><br><span class="line">        system( argv[1] );</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>總之只能用sh內建的指令echo跟pwd啥的，加上一些神奇的東西就變成：</p>
-<img src="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc4_00.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2017-AIS3-pre-exam-write-up/AIS3_misc4_00.png" class="">
     </article>
     <!-- license -->
     
@@ -1128,7 +1128,22 @@ document.addEventListener("DOMContentLoaded", function(){
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1515,7 +1530,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 46
         </div>
         <!-- search  -->
         
@@ -1529,6 +1544,12 @@ document.addEventListener("DOMContentLoaded", function(){
             <div class="archive-year"> 2025 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span>
+            <a class="archive-post-title" href="/en/2025-Adding-a-custom-Javascript-API-to-Webkit/">2025::Adding a custom Javascript API to Webkit</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/04</span>
@@ -1850,13 +1871,13 @@ document.addEventListener("DOMContentLoaded", function(){
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
         
@@ -1882,6 +1903,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 CTF
             </span>
         
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
             <span class="sidebar-tag-name" data-tags="Reverse">
                 <span class="iconfont-archer">&#xe606;</span>
                 Reverse
@@ -1892,34 +1918,9 @@ document.addEventListener("DOMContentLoaded", function(){
                 HITCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="SECCON">
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
                 <span class="iconfont-archer">&#xe606;</span>
-                SECCON
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="0CTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                0CTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ASIS">
-                <span class="iconfont-archer">&#xe606;</span>
-                ASIS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                RealWorldCTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Web">
-                <span class="iconfont-archer">&#xe606;</span>
-                Web
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="CONFidence">
-                <span class="iconfont-archer">&#xe606;</span>
-                CONFidence
+                Reversing-kr
             </span>
         
             <span class="sidebar-tag-name" data-tags="Flare-On">
@@ -1927,49 +1928,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 Flare-On
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Plaid">
-                <span class="iconfont-archer">&#xe606;</span>
-                Plaid
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Pragyan">
-                <span class="iconfont-archer">&#xe606;</span>
-                Pragyan
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AFL++">
-                <span class="iconfont-archer">&#xe606;</span>
-                AFL++
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="QEMU">
-                <span class="iconfont-archer">&#xe606;</span>
-                QEMU
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Balsn">
-                <span class="iconfont-archer">&#xe606;</span>
-                Balsn
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Algorithm">
-                <span class="iconfont-archer">&#xe606;</span>
-                Algorithm
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AIS3">
-                <span class="iconfont-archer">&#xe606;</span>
-                AIS3
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Reversing-kr">
-                <span class="iconfont-archer">&#xe606;</span>
-                Reversing-kr
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="Cryptography">
                 <span class="iconfont-archer">&#xe606;</span>
                 Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
             </span>
         
             <span class="sidebar-tag-name" data-tags="Pwn">
@@ -2000,6 +1966,26 @@ document.addEventListener("DOMContentLoaded", function(){
             <span class="sidebar-tag-name" data-tags="Dev">
                 <span class="iconfont-archer">&#xe606;</span>
                 Dev
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GameHacking">
+                <span class="iconfont-archer">&#xe606;</span>
+                GameHacking
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSEE">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSEE
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
             </span>
         
             <span class="sidebar-tag-name" data-tags="OS">
@@ -2047,19 +2033,54 @@ document.addEventListener("DOMContentLoaded", function(){
                 JIT
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Reversing">
+            <span class="sidebar-tag-name" data-tags="SECCON">
                 <span class="iconfont-archer">&#xe606;</span>
-                Reversing
+                SECCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="GameHacking">
+            <span class="sidebar-tag-name" data-tags="0CTF">
                 <span class="iconfont-archer">&#xe606;</span>
-                GameHacking
+                0CTF
             </span>
         
-            <span class="sidebar-tag-name" data-tags="OSEE">
+            <span class="sidebar-tag-name" data-tags="ASIS">
                 <span class="iconfont-archer">&#xe606;</span>
-                OSEE
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
             </span>
         
             <span class="sidebar-tag-name" data-tags="WebKit">
@@ -2088,11 +2109,6 @@ document.addEventListener("DOMContentLoaded", function(){
             Record
         </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder">
-            <span class="iconfont-archer">&#xe60a;</span>
-            Reminder
-        </span>
-    
         <span class="sidebar-category-name" data-categories="Note">
             <span class="iconfont-archer">&#xe60a;</span>
             Note
@@ -2101,6 +2117,11 @@ document.addEventListener("DOMContentLoaded", function(){
         <span class="sidebar-category-name" data-categories="TodayILearn">
             <span class="iconfont-archer">&#xe60a;</span>
             TodayILearn
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
         </span>
     
     </div>
@@ -2168,5 +2189,18 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
 </html>

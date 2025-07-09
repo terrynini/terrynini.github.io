@@ -661,7 +661,7 @@ document.addEventListener("DOMContentLoaded", function(){
   )
 </script>
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <img class="loading" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
@@ -682,7 +682,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <hr>
 <p>題目：if Decision Hamiltonian Cycle(<strong>DHC</strong>) $\in P<br>\rightarrow$ Finding Hamiltonian Cycle(<strong>FHC</strong>) $\in P$</p>
 <p>假設現在有一個演算法<code>HamCycle(G)</code>可以在P時間內解掉<strong>DHC</strong>，<br>則我們可以建構以下演算法在確定性P時間內解掉<strong>FHC</strong><br>(證明：連結裡面有)</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">HCVertices</span>(G)</span><br><span class="line">    H = []</span><br><span class="line">    next ← <span class="number">0</span>  <span class="comment">// 初始值不重要</span></span><br><span class="line">    choose a starting node v</span><br><span class="line">    <span class="keyword">while</span> G has unchecked edges <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">HamCycle</span>(G) then</span><br><span class="line">            <span class="comment">// 試著一個個拔掉連在v上的邊</span></span><br><span class="line">            <span class="comment">// 如果有一個邊e被拿掉後，新的圖就不存在HC，那e就是HC的一部分</span></span><br><span class="line">            <span class="keyword">for</span> all edges e = (v,u) on v <span class="keyword">do</span></span><br><span class="line">                G<span class="number">&#x27;</span> ← G − e</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">HamCycle</span>(G<span class="number">&#x27;</span>) then</span><br><span class="line">                    G = G<span class="number">&#x27;</span></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    add v to H</span><br><span class="line">                    mark e as checked</span><br><span class="line">                    next ← u</span><br><span class="line">            v ← next</span><br><span class="line">    <span class="keyword">return</span> H</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">HCVertices</span>(G)</span><br><span class="line">    H = []</span><br><span class="line">    next ← <span class="number">0</span>  <span class="comment">// 初始值不重要</span></span><br><span class="line">    choose a starting node v</span><br><span class="line">    <span class="keyword">while</span> G has unchecked edges <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">HamCycle</span>(G) then</span><br><span class="line">            <span class="comment">// 試著一個個拔掉連在v上的邊</span></span><br><span class="line">            <span class="comment">// 如果有一個邊e被拿掉後，新的圖就不存在HC，那e就是HC的一部分</span></span><br><span class="line">            <span class="keyword">for</span> all edges e = (v,u) on v <span class="keyword">do</span></span><br><span class="line">                G<span class="string">&#x27; ← G − e</span></span><br><span class="line"><span class="string">                if HamCycle(G&#x27;</span>) then</span><br><span class="line">                    G = G&#x27;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    add v to H</span><br><span class="line">                    mark e as checked</span><br><span class="line">                    next ← u</span><br><span class="line">            v ← next</span><br><span class="line">    <span class="keyword">return</span> H</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://hackmd.io/s/SJkREbaQz#13-%E5%95%8F%E9%A1%8C%E8%AE%8A%E8%BD%89problem-reduction">問題變轉(Problem Reduction)</a></p>
 <blockquote>
@@ -697,7 +697,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <p>Prove that P $\subseteq$ NP$\cap$ co-NP and if NP$\ne$ co-NP,then P$\ne $NP.</p>
 </blockquote>
 <hr>
-<p><img src="https://i.imgur.com/sTOq7zL.png" alt="錦文的講義"><br>$P \subseteq (NP \ \cap \  coNP) \rightarrow P \subseteq NP, P \subseteq coNP$<br>so if $P &#x3D; NP \\<br>\rightarrow NP \subseteq (NP \ \cap \  coNP) \\<br>\rightarrow NP \subseteq coNP \ 又 \ size(NP)&#x3D;size(coNP) \\<br>\rightarrow NP &#x3D; coNP$</p>
+<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://i.imgur.com/sTOq7zL.png" alt="錦文的講義"><br>$P \subseteq (NP \ \cap \  coNP) \rightarrow P \subseteq NP, P \subseteq coNP$<br>so if $P &#x3D; NP \\<br>\rightarrow NP \subseteq (NP \ \cap \  coNP) \\<br>\rightarrow NP \subseteq coNP \ 又 \ size(NP)&#x3D;size(coNP) \\<br>\rightarrow NP &#x3D; coNP$</p>
 <p>$\because P \Rightarrow Q$ 等價於 $\bar Q \Rightarrow \bar P$<br>$\therefore$ if $NP \neq coNP$, then $P \neq NP$</p>
 <h2 id="題五"><a href="#題五" class="headerlink" title="題五"></a>題五</h2><blockquote>
 <p>Show that 2-CNF-SAT is polynomial time solvable.</p>
@@ -1333,7 +1333,22 @@ Determine whether each of the following problems is polynomial time solvable or 
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1720,7 +1735,7 @@ Determine whether each of the following problems is polynomial time solvable or 
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 46
         </div>
         <!-- search  -->
         
@@ -1734,6 +1749,12 @@ Determine whether each of the following problems is polynomial time solvable or 
             <div class="archive-year"> 2025 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span>
+            <a class="archive-post-title" href="/en/2025-Adding-a-custom-Javascript-API-to-Webkit/">2025::Adding a custom Javascript API to Webkit</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/04</span>
@@ -2055,13 +2076,13 @@ Determine whether each of the following problems is polynomial time solvable or 
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
         
@@ -2087,6 +2108,11 @@ Determine whether each of the following problems is polynomial time solvable or 
                 CTF
             </span>
         
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
             <span class="sidebar-tag-name" data-tags="Reverse">
                 <span class="iconfont-archer">&#xe606;</span>
                 Reverse
@@ -2097,34 +2123,9 @@ Determine whether each of the following problems is polynomial time solvable or 
                 HITCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="SECCON">
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
                 <span class="iconfont-archer">&#xe606;</span>
-                SECCON
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="0CTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                0CTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ASIS">
-                <span class="iconfont-archer">&#xe606;</span>
-                ASIS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                RealWorldCTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Web">
-                <span class="iconfont-archer">&#xe606;</span>
-                Web
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="CONFidence">
-                <span class="iconfont-archer">&#xe606;</span>
-                CONFidence
+                Reversing-kr
             </span>
         
             <span class="sidebar-tag-name" data-tags="Flare-On">
@@ -2132,49 +2133,14 @@ Determine whether each of the following problems is polynomial time solvable or 
                 Flare-On
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Plaid">
-                <span class="iconfont-archer">&#xe606;</span>
-                Plaid
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Pragyan">
-                <span class="iconfont-archer">&#xe606;</span>
-                Pragyan
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AFL++">
-                <span class="iconfont-archer">&#xe606;</span>
-                AFL++
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="QEMU">
-                <span class="iconfont-archer">&#xe606;</span>
-                QEMU
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Balsn">
-                <span class="iconfont-archer">&#xe606;</span>
-                Balsn
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Algorithm">
-                <span class="iconfont-archer">&#xe606;</span>
-                Algorithm
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AIS3">
-                <span class="iconfont-archer">&#xe606;</span>
-                AIS3
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Reversing-kr">
-                <span class="iconfont-archer">&#xe606;</span>
-                Reversing-kr
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="Cryptography">
                 <span class="iconfont-archer">&#xe606;</span>
                 Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
             </span>
         
             <span class="sidebar-tag-name" data-tags="Pwn">
@@ -2205,6 +2171,26 @@ Determine whether each of the following problems is polynomial time solvable or 
             <span class="sidebar-tag-name" data-tags="Dev">
                 <span class="iconfont-archer">&#xe606;</span>
                 Dev
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GameHacking">
+                <span class="iconfont-archer">&#xe606;</span>
+                GameHacking
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSEE">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSEE
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
             </span>
         
             <span class="sidebar-tag-name" data-tags="OS">
@@ -2252,19 +2238,54 @@ Determine whether each of the following problems is polynomial time solvable or 
                 JIT
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Reversing">
+            <span class="sidebar-tag-name" data-tags="SECCON">
                 <span class="iconfont-archer">&#xe606;</span>
-                Reversing
+                SECCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="GameHacking">
+            <span class="sidebar-tag-name" data-tags="0CTF">
                 <span class="iconfont-archer">&#xe606;</span>
-                GameHacking
+                0CTF
             </span>
         
-            <span class="sidebar-tag-name" data-tags="OSEE">
+            <span class="sidebar-tag-name" data-tags="ASIS">
                 <span class="iconfont-archer">&#xe606;</span>
-                OSEE
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
             </span>
         
             <span class="sidebar-tag-name" data-tags="WebKit">
@@ -2293,11 +2314,6 @@ Determine whether each of the following problems is polynomial time solvable or 
             Record
         </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder">
-            <span class="iconfont-archer">&#xe60a;</span>
-            Reminder
-        </span>
-    
         <span class="sidebar-category-name" data-categories="Note">
             <span class="iconfont-archer">&#xe60a;</span>
             Note
@@ -2306,6 +2322,11 @@ Determine whether each of the following problems is polynomial time solvable or 
         <span class="sidebar-category-name" data-categories="TodayILearn">
             <span class="iconfont-archer">&#xe60a;</span>
             TodayILearn
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
         </span>
     
     </div>
@@ -2373,5 +2394,18 @@ Determine whether each of the following problems is polynomial time solvable or 
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
 </html>

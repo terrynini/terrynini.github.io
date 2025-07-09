@@ -664,7 +664,7 @@ document.addEventListener("DOMContentLoaded", function(){
   )
 </script>
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <img class="loading" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
@@ -783,7 +783,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </tr>
 </tbody></table>
 <p>舉例，<code>Ｗ</code> 這個字會被轉換成 <code>. ..</code>，以此類推。<br>這個 table 可以透過黑箱測試推理、<code>strings</code>、或是逆向找到，這裡用 radare2 看一下可以找到 table 在 <code>0x201020</code>：</p>
-<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/r2_tsai.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/r2_tsai.png" class="">
 
 <p>寫個 script 把 <code>TsaiBroSaid</code> 解回來就好了。</p>
 <figure class="highlight python"><figcaption><span>solve.py</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line">table = [<span class="string">&#x27;5&#x27;</span>,<span class="string">&#x27;6&#x27;</span>,<span class="string">&#x27;7&#x27;</span>,<span class="string">&#x27;8&#x27;</span>,<span class="string">&#x27;9&#x27;</span>,<span class="string">&#x27;&#123;&#x27;</span>,<span class="string">&#x27;&#125;&#x27;</span>,<span class="string">&#x27;_&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;W&#x27;</span>,<span class="string">&#x27;X&#x27;</span>,<span class="string">&#x27;Y&#x27;</span>,<span class="string">&#x27;0&#x27;</span>,<span class="string">&#x27;y&#x27;</span>,<span class="string">&#x27;z&#x27;</span>,<span class="string">&#x27;A&#x27;</span>,<span class="string">&#x27;B&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;m&#x27;</span>,<span class="string">&#x27;n&#x27;</span>,<span class="string">&#x27;o&#x27;</span>,<span class="string">&#x27;p&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;S&#x27;</span>,<span class="string">&#x27;T&#x27;</span>,<span class="string">&#x27;U&#x27;</span>,<span class="string">&#x27;V&#x27;</span>,<span class="string">&#x27;G&#x27;</span>,<span class="string">&#x27;H&#x27;</span>,<span class="string">&#x27;I&#x27;</span>,<span class="string">&#x27;J&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;K&#x27;</span>,<span class="string">&#x27;L&#x27;</span>,<span class="string">&#x27;M&#x27;</span>,<span class="string">&#x27;N&#x27;</span>,<span class="string">&#x27;u&#x27;</span>,<span class="string">&#x27;v&#x27;</span>,<span class="string">&#x27;w&#x27;</span>,<span class="string">&#x27;x&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;e&#x27;</span>,<span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;g&#x27;</span>,<span class="string">&#x27;h&#x27;</span>,<span class="string">&#x27;q&#x27;</span>,<span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;s&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;i&#x27;</span>,<span class="string">&#x27;j&#x27;</span>,<span class="string">&#x27;k&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;O&#x27;</span>,<span class="string">&#x27;P&#x27;</span>,<span class="string">&#x27;Q&#x27;</span>,<span class="string">&#x27;R&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;C&#x27;</span>,<span class="string">&#x27;D&#x27;</span>,<span class="string">&#x27;E&#x27;</span>,<span class="string">&#x27;F&#x27;</span>,<span class="string">&#x27;1&#x27;</span>,<span class="string">&#x27;2&#x27;</span>,<span class="string">&#x27;3&#x27;</span>,<span class="string">&#x27;4&#x27;</span>]</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;./TsaiBroSaid&quot;</span>,<span class="string">&quot;r&quot;</span>).read().split(<span class="string">&#x27;\n&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">f = f.split(<span class="string">&quot;發財&quot;</span>)[<span class="number">1</span>:]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(f),<span class="number">2</span>):</span><br><span class="line">    <span class="built_in">print</span>(table[(<span class="built_in">len</span>(f[i])-<span class="number">1</span>)*<span class="number">8</span>+<span class="built_in">len</span>(f[i+<span class="number">1</span>])-<span class="number">1</span>],end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
@@ -798,7 +798,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </blockquote>
 <p>來自室友大一的 final project，音樂音量沒有 normalize 導致我已經耳聾，題目說只要 full combo 就會給你 flag，避免有人妄想用玩的，所以跟普通音遊規則不同，調整成只有 perfect 才會 combo，如果你還玩出來了，麻煩下面留言，我要跪你。</p>
 <h2 id="題解-1"><a href="#題解-1" class="headerlink" title="題解"></a>題解</h2><p>java 是直譯式語言， compile 只是 compile 成 Java bytecode，幾乎所有的東西都還留著，包括變數名稱，decompile 後可以拿到幾乎跟原始碼一樣的 java code，直接用<a href="http://www.javadecompilers.com/">線上工具</a>來 decompile，這題難的地方大概只有 code 滿多的，可以直接找一下變數名稱有沒有 flag：</p>
-<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/decompile.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/decompile.png" class="">
 
 <p>在 <code>Visual/PanelEnding.java</code> 79 行附近可以找到一個變數叫做 flag ，內容看起來像是被加密過。</p>
 <figure class="highlight java"><figcaption><span>Visual/PanelEnding.java</span></figcaption><table><tr><td class="gutter"><pre><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.lWest = <span class="keyword">new</span> <span class="title class_">JLabel</span>();</span><br><span class="line"><span class="built_in">this</span>.lEast = <span class="keyword">new</span> <span class="title class_">JLabel</span>();</span><br><span class="line"><span class="built_in">this</span>.flag = <span class="keyword">new</span> <span class="title class_">byte</span>[] &#123; <span class="number">89</span>, <span class="number">74</span>, <span class="number">75</span>, <span class="number">43</span>, <span class="number">126</span>, <span class="number">69</span>, <span class="number">120</span>, <span class="number">109</span>, <span class="number">68</span>, <span class="number">109</span>, <span class="number">109</span>, <span class="number">97</span>, <span class="number">73</span>, <span class="number">110</span>, <span class="number">45</span>, <span class="number">113</span>, <span class="number">102</span>, <span class="number">64</span>, <span class="number">121</span>, <span class="number">47</span>, <span class="number">111</span>, <span class="number">119</span>, <span class="number">111</span>, <span class="number">71</span>, <span class="number">114</span>, <span class="number">125</span>, <span class="number">68</span>, <span class="number">105</span>, <span class="number">127</span>, <span class="number">124</span>, <span class="number">94</span>, <span class="number">103</span>, <span class="number">46</span>, <span class="number">107</span>, <span class="number">97</span>, <span class="number">104</span> &#125;;        <span class="built_in">this</span>.btnFont = <span class="keyword">new</span> <span class="title class_">Font</span>(<span class="string">&quot;Dialog&quot;</span>, <span class="number">1</span>, <span class="number">35</span>);</span><br><span class="line"><span class="built_in">this</span>.btnBack = <span class="keyword">new</span> <span class="title class_">JButton</span>(<span class="string">&quot;Back&quot;</span>);</span><br><span class="line"><span class="built_in">this</span>.setLayout(<span class="keyword">new</span> <span class="title class_">BorderLayout</span>());</span><br><span class="line"><span class="built_in">this</span>.setBackground(<span class="built_in">this</span>.c.brown);</span><br></pre></td></tr></table></figure>
@@ -829,7 +829,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <hr>
 <h1 id="🧠-Stand-up-Brain"><a href="#🧠-Stand-up-Brain" class="headerlink" title="🧠 Stand up!Brain"></a>🧠 Stand up!Brain</h1><h2 id="題目敘述-2"><a href="#題目敘述-2" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
 <p>又到了 Brain tell 咪 ㄜ joke 的時間了<br>這次輪到你說個笑話來聽聽了</p>
-<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/joke.webp" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/joke.webp" class="">
 </blockquote>
 <h2 id="題解-2"><a href="#題解-2" class="headerlink" title="題解"></a>題解</h2><p>題目給的是一個用 Ｃ 寫的 <a href="https://zh.wikipedia.org/wiki/Brainfuck">Brainfuck</a> interpreter，老梗，但不知道也沒關係，還是可以透過逆向看懂。</p>
 <p>這裡用 radare2 disassemble，<code>0x7e2</code> 這裡可以看到輸入是 6 個字，推測輸入正確的 6 個字就會拿到 flag：</p>
@@ -897,7 +897,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </blockquote>
 <hr>
 <h1 id="🌹-La-vie-en-rose"><a href="#🌹-La-vie-en-rose" class="headerlink" title="🌹 La vie en rose"></a>🌹 La vie en rose</h1><h2 id="題目敘述-4"><a href="#題目敘述-4" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
-<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/rose.jpg" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/rose.jpg" class="">
 </blockquote>
 <h2 id="題解-4"><a href="#題解-4" class="headerlink" title="題解"></a>題解</h2><p>稍微逆向看一下會發現 binary 前面一直使用 <code>_MEIPASS2</code> 這個字串，會被拿去 call <code>GetEnvironmentVariableW</code> 之類的 API，查一下就可以發現這個是 PyInstaller 使用的一個環境變數，PyInstaller 是一個可以把 python 包成執行檔的工具（exe以外也可以），原理是把 python compile 成 bytecode 之後，執行檔執行時會把 bytecode 抓出來執行，不難想到應該會有工具可以把東西拉出來，<a href="https://sourceforge.net/projects/pyinstallerextractor/">PyInstaller Extractor</a>。</p>
 <p>所有的東西會被抽出來放進 <code>La vie en rose.exe_extracted</code> 資料夾，pyinstallerextractor.py 會告訴你 entry point 是啥：</p>
@@ -913,7 +913,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">xxd importlib.pyc | <span class="built_in">head</span></span></span><br><span class="line">00000000: 550d 0d0a 0000 0000 0000 0000 e300 0000  U...............</span><br><span class="line">00000010: 0000 0000 0000 0000 0000 0000 0008 0000  ................</span><br></pre></td></tr></table></figure>
 
 <p>所以其實也不需要知道版本， 可以直接拿到 magic number <code>550d 0d0a</code>。<br>假設不知道這件事情的話，那現在要先知道版本是什麼，要確定版本有幾個方法，執行 binary 去看他載了什麼 dll：</p>
-<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/pythondll.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/pythondll.png" class="">
 
 <p>或是像剛剛一樣直接 grep，不然 ls 也行：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">grep python *</span></span><br><span class="line">Include\pyconfig.h:#                               pragma comment(lib,&quot;python38_d.lib&quot;)</span><br><span class="line">Include\pyconfig.h:#                               pragma comment(lib,&quot;python3.lib&quot;)</span><br><span class="line">Include\pyconfig.h:#                               pragma comment(lib,&quot;python38.lib&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">ls</span> | grep python</span>  </span><br><span class="line">python38.dll</span><br></pre></td></tr></table></figure>
@@ -954,17 +954,24 @@ document.addEventListener("DOMContentLoaded", function(){
 <hr>
 <h1 id="🐉-Uroboros"><a href="#🐉-Uroboros" class="headerlink" title="🐉 Uroboros"></a>🐉 Uroboros</h1><h2 id="題目敘述-5"><a href="#題目敘述-5" class="headerlink" title="題目敘述"></a>題目敘述</h2><blockquote>
 <p>你好啊愛德華大哥哥，真的沒想到你可以到第二十五層來呢！<br>不過就到這裡為止了，<br>接下來就由我 反重力三頭鎖鏈康妮·解放·緋紅 來做你的對手!</p>
-<img src="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/connie.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-AIS3-%E5%89%8D%E6%B8%AC%E5%AE%98%E6%96%B9%E8%A7%A3/connie.png" class="">
 </blockquote>
 <p>出這題才發現，這個 emoji 也太帥了ㄅ，元氣彈？？？</p>
-<img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/237/dragon_1f409.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/apple/237/dragon_1f409.png" class="">
 
 <p>然後寫 blog 才發現，我 cout 字串的地方迴圈寫錯了🤔️，少印一個拉，哈哈，不過剛好沒輸入踩到那個點，笑到不行。</p>
 <h2 id="題解-5"><a href="#題解-5" class="headerlink" title="題解"></a>題解</h2><p>有使用 structure 的 C++ 逆向題，仔細看可以發現，一開始做了一個 circular double linked list，整個環的長度是 314，原本的 code 看起來像是這樣：</p>
 <figure class="highlight c"><figcaption><span>source.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">node* ring = new node;</span><br><span class="line">ring-&gt;prev = ring;</span><br><span class="line">ring-&gt;next = ring;</span><br><span class="line">ring-&gt;idx = <span class="number">0</span>;</span><br><span class="line">node* work = ring;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">313</span> ; i ++)&#123;</span><br><span class="line">    node* temp = new node;</span><br><span class="line">    temp-&gt;idx = <span class="number">0</span>;</span><br><span class="line">    temp-&gt;next = work-&gt;next;</span><br><span class="line">    temp-&gt;prev = work;</span><br><span class="line">    work-&gt;next = temp;</span><br><span class="line">    work = temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>畫出來長這樣：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">stateDiagram</span><br><span class="line">dot:&quot;...&quot;</span><br><span class="line">[*] --&gt; node0</span><br><span class="line">node0 --&gt; node1</span><br><span class="line">node1 --&gt; node2</span><br><span class="line">node2 --&gt; dot</span><br><span class="line">dot --&gt; node313</span><br><span class="line">node313 --&gt; node0</span><br></pre></td></tr></table></figure>
+<pre class="mermaid">stateDiagram
+dot:"..."
+[*] --> node0
+node0 --> node1
+node1 --> node2
+node2 --> dot
+dot --> node313
+node313 --> node0</pre>
 
 <p>decompile 後 C++ 長得比較難看懂一點，大致是這樣：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// cout &lt;&lt; &quot;Only state alchemists are entitled to know the forbidden secret, show me that you are&quot; &lt;&lt; endl;</span></span><br><span class="line"><span class="comment">// 如果你對 c++ 有點認識的話 cout 其實會回傳 ostream，所以 v3 是用來繼續串 endl 用的</span></span><br><span class="line">v3 = <span class="built_in">std</span>::operator&lt;&lt;&lt;<span class="built_in">std</span>::char_traits&lt;<span class="type">char</span>&gt;&gt;(&amp;<span class="built_in">std</span>::<span class="built_in">cout</span>,<span class="string">&quot;Only state alchemists are entitled to know the forbidden secret, show me that you are&quot;</span>);</span><br><span class="line"><span class="built_in">std</span>::ostream::operator&lt;&lt;(v3, &amp;<span class="built_in">std</span>::<span class="built_in">endl</span>&lt;<span class="type">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="type">char</span>&gt;&gt;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// string v19;</span></span><br><span class="line"><span class="built_in">std</span>::__cxx11::basic_string&lt;<span class="type">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="type">char</span>&gt;,<span class="built_in">std</span>::allocator&lt;<span class="type">char</span>&gt;&gt;::basic_string(v19);</span><br><span class="line"><span class="comment">// cin &gt;&gt; v19;</span></span><br><span class="line"><span class="built_in">std</span>::operator&gt;&gt;&lt;<span class="type">char</span>&gt;(&amp;<span class="built_in">std</span>::<span class="built_in">cin</span>, v19);</span><br><span class="line"></span><br><span class="line"><span class="comment">// std::string::iterator v13 = v19.begin();</span></span><br><span class="line">v13 = <span class="built_in">std</span>::__cxx11::basic_string&lt;<span class="type">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="type">char</span>&gt;,<span class="built_in">std</span>::allocator&lt;<span class="type">char</span>&gt;&gt;::begin(v19);</span><br><span class="line"><span class="comment">// std::string::iterator v14 = v19.end()</span></span><br><span class="line">v14 = <span class="built_in">std</span>::__cxx11::basic_string&lt;<span class="type">char</span>,<span class="built_in">std</span>::char_traits&lt;<span class="type">char</span>&gt;,<span class="built_in">std</span>::allocator&lt;<span class="type">char</span>&gt;&gt;::end(v19);</span><br><span class="line"><span class="comment">// while v13 != v14 這個迴圈會把輸入的每個字都拿出來</span></span><br><span class="line"><span class="keyword">while</span> ( (<span class="type">unsigned</span> __int8)__gnu_cxx::operator!=&lt;<span class="type">jstmt_t</span> **,<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="type">jstmt_t</span> *&gt;&gt;(&amp;v13, &amp;v14) )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// v12 = *v13; 拿出當前的 char</span></span><br><span class="line">    v12 = *(<span class="type">char</span> *)sub_21E6((__int64)&amp;v13);</span><br><span class="line">    v15 = v16;</span><br><span class="line">    <span class="comment">// 在環上找到第 char*7 個 node，</span></span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; <span class="number">7</span> * v12; ++j )</span><br><span class="line">      v15 = v15-&gt;next;</span><br><span class="line">    <span class="comment">// 把自己的值記錄上去，但把原本的值 &lt;&lt; 6 來保留重複的字</span></span><br><span class="line">    v15-&gt;value = v9++ + (v15-&gt;value &lt;&lt; <span class="number">6</span>);</span><br><span class="line">    <span class="comment">// v13++;</span></span><br><span class="line">    sub_21C6(&amp;v13);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
@@ -1419,7 +1426,22 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1806,7 +1828,7 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 46
         </div>
         <!-- search  -->
         
@@ -1820,6 +1842,12 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
             <div class="archive-year"> 2025 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span>
+            <a class="archive-post-title" href="/en/2025-Adding-a-custom-Javascript-API-to-Webkit/">2025::Adding a custom Javascript API to Webkit</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/04</span>
@@ -2141,13 +2169,13 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
         
@@ -2173,6 +2201,11 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
                 CTF
             </span>
         
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
             <span class="sidebar-tag-name" data-tags="Reverse">
                 <span class="iconfont-archer">&#xe606;</span>
                 Reverse
@@ -2183,34 +2216,9 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
                 HITCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="SECCON">
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
                 <span class="iconfont-archer">&#xe606;</span>
-                SECCON
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="0CTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                0CTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ASIS">
-                <span class="iconfont-archer">&#xe606;</span>
-                ASIS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                RealWorldCTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Web">
-                <span class="iconfont-archer">&#xe606;</span>
-                Web
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="CONFidence">
-                <span class="iconfont-archer">&#xe606;</span>
-                CONFidence
+                Reversing-kr
             </span>
         
             <span class="sidebar-tag-name" data-tags="Flare-On">
@@ -2218,49 +2226,14 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
                 Flare-On
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Plaid">
-                <span class="iconfont-archer">&#xe606;</span>
-                Plaid
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Pragyan">
-                <span class="iconfont-archer">&#xe606;</span>
-                Pragyan
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AFL++">
-                <span class="iconfont-archer">&#xe606;</span>
-                AFL++
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="QEMU">
-                <span class="iconfont-archer">&#xe606;</span>
-                QEMU
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Balsn">
-                <span class="iconfont-archer">&#xe606;</span>
-                Balsn
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Algorithm">
-                <span class="iconfont-archer">&#xe606;</span>
-                Algorithm
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AIS3">
-                <span class="iconfont-archer">&#xe606;</span>
-                AIS3
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Reversing-kr">
-                <span class="iconfont-archer">&#xe606;</span>
-                Reversing-kr
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="Cryptography">
                 <span class="iconfont-archer">&#xe606;</span>
                 Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
             </span>
         
             <span class="sidebar-tag-name" data-tags="Pwn">
@@ -2291,6 +2264,26 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
             <span class="sidebar-tag-name" data-tags="Dev">
                 <span class="iconfont-archer">&#xe606;</span>
                 Dev
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GameHacking">
+                <span class="iconfont-archer">&#xe606;</span>
+                GameHacking
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSEE">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSEE
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
             </span>
         
             <span class="sidebar-tag-name" data-tags="OS">
@@ -2338,19 +2331,54 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
                 JIT
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Reversing">
+            <span class="sidebar-tag-name" data-tags="SECCON">
                 <span class="iconfont-archer">&#xe606;</span>
-                Reversing
+                SECCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="GameHacking">
+            <span class="sidebar-tag-name" data-tags="0CTF">
                 <span class="iconfont-archer">&#xe606;</span>
-                GameHacking
+                0CTF
             </span>
         
-            <span class="sidebar-tag-name" data-tags="OSEE">
+            <span class="sidebar-tag-name" data-tags="ASIS">
                 <span class="iconfont-archer">&#xe606;</span>
-                OSEE
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
             </span>
         
             <span class="sidebar-tag-name" data-tags="WebKit">
@@ -2379,11 +2407,6 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
             Record
         </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder">
-            <span class="iconfont-archer">&#xe60a;</span>
-            Reminder
-        </span>
-    
         <span class="sidebar-category-name" data-categories="Note">
             <span class="iconfont-archer">&#xe60a;</span>
             Note
@@ -2392,6 +2415,11 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
         <span class="sidebar-category-name" data-categories="TodayILearn">
             <span class="iconfont-archer">&#xe60a;</span>
             TodayILearn
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
         </span>
     
     </div>
@@ -2459,5 +2487,18 @@ $$?*7\equiv 141\mod 314\\?\equiv 141*7^{-1}\mod 314\\141*45\mod314\\\text{(7 在
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
 </html>

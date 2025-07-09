@@ -31,8 +31,8 @@
 <meta property="article:modified_time" content="2024-06-20T16:45:57.084Z">
 <meta property="article:author" content="NiNi">
 <meta property="article:tag" content="Reverse">
-<meta property="article:tag" content="Web">
 <meta property="article:tag" content="Cryptography">
+<meta property="article:tag" content="Web">
 <meta property="article:tag" content="Pwn">
 <meta property="article:tag" content="Misc">
 <meta name="twitter:card" content="summary">
@@ -509,9 +509,9 @@ document.addEventListener("DOMContentLoaded", function(){
     
         <a class="post-tag" href="javascript:void(0);" data-tags="Reverse">Reverse</a>
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="Web">Web</a>
-    
         <a class="post-tag" href="javascript:void(0);" data-tags="Cryptography">Cryptography</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Web">Web</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags="Pwn">Pwn</a>
     
@@ -673,19 +673,19 @@ document.addEventListener("DOMContentLoaded", function(){
   )
 </script>
 
-            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <img class="loading" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
         <p>早安是我拉ฅ(&#x3D;ˇωˇ&#x3D;)ฅ，今年又是助教拉，騙個流量，感恩。<span id="more"></span></p>
 <h1 id="Eekum-Bokum"><a href="#Eekum-Bokum" class="headerlink" title="Eekum Bokum"></a>Eekum Bokum</h1><h2 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h2><p>首先可以先跟程式互動一下掌握功能，總之看起來是一個 <a href="https://en.wikipedia.org/wiki/15_puzzle">n-puzzle game</a>，值得一提的是，這個遊戲的 16 個方塊總共可以組成 $16!$ 個開局（可動塊不一定要在右下），其中洽有一半無解，因為我們遊戲過程中只能使用上下左右，組合出來的是一個交錯群，但這個起始盤面 16 號在右下且只有一次置換，不可能有解，所以別玩了，好好逆向好ㄇ：</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev0.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev0.png" class="">
 
 <p>總之先嘗試 file 它，可以發現他是 .Net assembly：</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> EekumBokum.exe</span><br><span class="line">EekumBokum.exe: PE32 executable (GUI) Intel 80386 Mono/.Net assembly, <span class="keyword">for</span> MS Windows</span><br></pre></td></tr></table></figure>
 
 <p>.Net 跟 JVM 類似，基本上就是一個執行 bytecode 的環境，bytecode 的好處除了方便移植到各個平台外，還非常好逆向(?)，這裡可以用 <a href="https://github.com/0xd4d/dnSpy">dnSpy</a> 來幫助解題，匯入後長這樣：</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev1.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev1.png" class="">
 
 <p>總之 Program 是程式的入口點，他會叫起 Form1 也就是我們所看到的介面，直接打開來看，可以看得到建構式應該是在排遊戲盤面：</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Form1</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">this</span>.InitializeComponent();</span><br><span class="line">    <span class="keyword">this</span>.idxMovable = <span class="number">15</span>;</span><br><span class="line">    <span class="keyword">this</span>.originalPicture.AddRange(<span class="keyword">new</span> Bitmap[]</span><br><span class="line">    &#123;</span><br><span class="line">        Resources.EekumBokum_1,</span><br><span class="line">        Resources.EekumBokum_2,</span><br><span class="line">        Resources.EekumBokum_3,</span><br><span class="line">        Resources.EekumBokum_4,</span><br><span class="line">        Resources.EekumBokum_5,</span><br><span class="line">        Resources.EekumBokum_6,</span><br><span class="line">        Resources.EekumBokum_7,</span><br><span class="line">        Resources.EekumBokum_8,</span><br><span class="line">        Resources.EekumBokum_9,</span><br><span class="line">        Resources.EekumBokum_10,</span><br><span class="line">        Resources.EekumBokum_11,</span><br><span class="line">        Resources.EekumBokum_12,</span><br><span class="line">        Resources.EekumBokum_13,</span><br><span class="line">        Resources.EekumBokum_14,</span><br><span class="line">        Resources.EekumBokum_15,</span><br><span class="line">        Resources.EekumBokum_16</span><br><span class="line">    &#125;);</span><br><span class="line">    List&lt;PictureBox&gt; listPitctureOrderedByName = (<span class="keyword">from</span> PictureBox c <span class="keyword">in</span> <span class="keyword">this</span>.groupBox1.Controls</span><br><span class="line">    <span class="keyword">orderby</span> Regex.Replace(c.Name, <span class="string">&quot;\\d+&quot;</span>, (Match n) =&gt; n.Value.PadLeft(<span class="number">4</span>, <span class="string">&#x27;0&#x27;</span>))</span><br><span class="line">    <span class="keyword">select</span> c).ToList&lt;PictureBox&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        listPitctureOrderedByName[i].Image = <span class="keyword">this</span>.originalPicture[i];</span><br><span class="line">    &#125;</span><br><span class="line">    listPitctureOrderedByName[<span class="number">13</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">14</span>];</span><br><span class="line">    listPitctureOrderedByName[<span class="number">14</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">13</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -697,27 +697,27 @@ document.addEventListener("DOMContentLoaded", function(){
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">List&lt;<span class="built_in">byte</span>&gt; pwdl = <span class="keyword">new</span> List&lt;<span class="built_in">byte</span>&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> p = <span class="number">0</span>; p &lt; <span class="number">16</span>; p++)</span><br><span class="line">&#123;</span><br><span class="line">    pwdl.Add(((Bitmap)listPitcture[p].Image).GetPixel(<span class="number">66</span>, <span class="number">99</span>).R);</span><br><span class="line">    <span class="keyword">if</span> (!listPitcture[p].Image.Equals(<span class="keyword">this</span>.originalPicture[p]))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>這裡直覺的作法應該就是把圖片抽出來，拿出對應座標的 pixel，然後解密，但由於 .Net 非常好還原，dnSpy 還原出來的 code 基本上跟 source code 沒差別，所以我們其實可以重新 compile 他就好了，在 Form1 的建構子上面點 Edit Method：</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev2.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev2.png" class="">
 
 <p>直接讓遊戲開局的盤面變成走一步可解就好了，直接修改建構子然後點 Compile，之後存檔就好了：</p>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">listPitctureOrderedByName[<span class="number">13</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">14</span>];</span><br><span class="line">listPitctureOrderedByName[<span class="number">14</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">13</span>];</span><br><span class="line"><span class="comment">//把上面兩行改成下面兩行</span></span><br><span class="line">listPitctureOrderedByName[<span class="number">14</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">15</span>];</span><br><span class="line">listPitctureOrderedByName[<span class="number">15</span>].Image = <span class="keyword">this</span>.originalPicture[<span class="number">14</span>];</span><br></pre></td></tr></table></figure>
 
 <h2 id="Exploit-or-just-move"><a href="#Exploit-or-just-move" class="headerlink" title="Exploit (or just move)"></a>Exploit (or just move)</h2><p>重新執行修改過後完成 compile 的程式：</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev3.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev3.png" class="">
 
 <p>(按一下左鍵)</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev4.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/rev4.png" class="">
 
 <p>flag: <code>flag&#123;NANI_KORE?(=.=)EEKUM_BOKUM(=^=)EEKUM_BOKUM&#125;</code></p>
 <h1 id="owoHub"><a href="#owoHub" class="headerlink" title="owoHub"></a>owoHub</h1><h2 id="Recon-1"><a href="#Recon-1" class="headerlink" title="Recon"></a>Recon</h2><p>題目的介面很簡單，可以輸入 username 跟選擇 I am cute&#x2F;not cute，簡單跟題目互動來掌握一下有什麼功能。</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0.png" class="">
 
 <p>如果勾選 I am not cute，網站會顯示一堆 Stop</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0-1.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web0-1.png" class="">
 <p>這裡的 I am cute 沒辦法選擇，但這只是 html tag 而已，最快的方法就是用開發者工具拔掉 attribute</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web1.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web1.png" class="">
 <p>直接拿掉，之後就能勾選了</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web2.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/web2.png" class="">
 
 <p>進來後有一堆可愛小吉，雖然對於我來說比 flag 讚多了，但還是遵循世俗的價值，繼續尋找 flag</p>
 
@@ -735,7 +735,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;nini&quot;</span>,<span class="string">&quot;admin&quot;</span>:<span class="literal">false</span>,<span class="string">&quot;cute&quot;</span>:<span class="literal">true</span>,<span class="string">&quot;admin&quot;</span>:<span class="literal">true</span>&#125;&amp;a=&#123;<span class="literal">true</span>&#125;</span><br><span class="line"><span class="comment">//最後被訪問的 URL 也就變成</span></span><br><span class="line"><span class="comment">//http://127.0.0.1:9487/?data=&#123;&quot;username&quot;:&quot;nini&quot;,&quot;admin&quot;:false,&quot;cute&quot;:true,&quot;admin&quot;:true&#125;&amp;a=&#123;true&#125;&amp;givemeflag=no</span></span><br></pre></td></tr></table></figure>
 
 <p>這裡的 <code>&amp;a</code> 的 <code>&amp;</code> 要先進行一次 urlencode 不然會被 <code>app.get(&#39;/auth&#39;</code> 直接拿來用，訪問 <a href="https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true%7D&a=%7Btrue%5D">https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true}%26a={true</a>，就能成功變成 admin 了：</p>
-<img src="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/webadmin.png" class="">
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="/tw/2020-%E7%A8%8B%E5%BC%8F%E5%AE%89%E5%85%A8-HW0-Write-up/webadmin.png" class="">
 
 <p>下一個問題是要怎麼把 <code>givemeflag</code> 改成 “yes”，再發起請求的時給予多個同名的 GET parameters，server 會取最後一個，我們注入的點在 <code>givemeflag=no</code> 之前，所以沒辦法直接蓋掉，這裡可以用 pound sign 來把後半段的 GET parameter 直接變成 URL 的 anchor，得到最後的 cute</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="literal">true</span>,<span class="string">&quot;admin&quot;</span>:<span class="literal">true</span>&#125;&amp;givemeflag=yes#<span class="literal">true</span></span><br><span class="line"><span class="comment">//最後被訪問的 URL 也就變成</span></span><br><span class="line"><span class="comment">//http://127.0.0.1:9487/?data=&#123;&quot;username&quot;:&quot;nini&quot;,&quot;admin&quot;:false,&quot;cute&quot;:true,&quot;admin&quot;:true&#125;&amp;givemeflag=yes#true&#125;&amp;givemeflag=no</span></span><br></pre></td></tr></table></figure>
@@ -1235,7 +1235,22 @@ document.addEventListener("DOMContentLoaded", function(){
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1622,7 +1637,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 45
+        Total : 46
         </div>
         <!-- search  -->
         
@@ -1636,6 +1651,12 @@ document.addEventListener("DOMContentLoaded", function(){
             <div class="archive-year"> 2025 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/09</span>
+            <a class="archive-post-title" href="/en/2025-Adding-a-custom-Javascript-API-to-Webkit/">2025::Adding a custom Javascript API to Webkit</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">06/04</span>
@@ -1957,13 +1978,13 @@ document.addEventListener("DOMContentLoaded", function(){
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
+            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
         </li>
     
         
         <li class="archive-post-item">
             <span class="archive-post-date">11/07</span>
-            <a class="archive-post-title" href="/tw/2017-HITCON-qual-Sakura/">2017::HITCON-qual::Sakura</a>
+            <a class="archive-post-title" href="/en/2017-HITCON-Quals-Sakura-English/">2017::HITCON-Quals::Sakura::English</a>
         </li>
     
         
@@ -1989,6 +2010,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 CTF
             </span>
         
+            <span class="sidebar-tag-name" data-tags="AIS3">
+                <span class="iconfont-archer">&#xe606;</span>
+                AIS3
+            </span>
+        
             <span class="sidebar-tag-name" data-tags="Reverse">
                 <span class="iconfont-archer">&#xe606;</span>
                 Reverse
@@ -1999,34 +2025,9 @@ document.addEventListener("DOMContentLoaded", function(){
                 HITCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="SECCON">
+            <span class="sidebar-tag-name" data-tags="Reversing-kr">
                 <span class="iconfont-archer">&#xe606;</span>
-                SECCON
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="0CTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                0CTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="ASIS">
-                <span class="iconfont-archer">&#xe606;</span>
-                ASIS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
-                <span class="iconfont-archer">&#xe606;</span>
-                RealWorldCTF
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Web">
-                <span class="iconfont-archer">&#xe606;</span>
-                Web
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="CONFidence">
-                <span class="iconfont-archer">&#xe606;</span>
-                CONFidence
+                Reversing-kr
             </span>
         
             <span class="sidebar-tag-name" data-tags="Flare-On">
@@ -2034,49 +2035,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 Flare-On
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Plaid">
-                <span class="iconfont-archer">&#xe606;</span>
-                Plaid
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Pragyan">
-                <span class="iconfont-archer">&#xe606;</span>
-                Pragyan
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AFL++">
-                <span class="iconfont-archer">&#xe606;</span>
-                AFL++
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="QEMU">
-                <span class="iconfont-archer">&#xe606;</span>
-                QEMU
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Balsn">
-                <span class="iconfont-archer">&#xe606;</span>
-                Balsn
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Algorithm">
-                <span class="iconfont-archer">&#xe606;</span>
-                Algorithm
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="AIS3">
-                <span class="iconfont-archer">&#xe606;</span>
-                AIS3
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Reversing-kr">
-                <span class="iconfont-archer">&#xe606;</span>
-                Reversing-kr
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="Cryptography">
                 <span class="iconfont-archer">&#xe606;</span>
                 Cryptography
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Web">
+                <span class="iconfont-archer">&#xe606;</span>
+                Web
             </span>
         
             <span class="sidebar-tag-name" data-tags="Pwn">
@@ -2107,6 +2073,26 @@ document.addEventListener("DOMContentLoaded", function(){
             <span class="sidebar-tag-name" data-tags="Dev">
                 <span class="iconfont-archer">&#xe606;</span>
                 Dev
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Reversing">
+                <span class="iconfont-archer">&#xe606;</span>
+                Reversing
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="GameHacking">
+                <span class="iconfont-archer">&#xe606;</span>
+                GameHacking
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="OSEE">
+                <span class="iconfont-archer">&#xe606;</span>
+                OSEE
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Algorithm">
+                <span class="iconfont-archer">&#xe606;</span>
+                Algorithm
             </span>
         
             <span class="sidebar-tag-name" data-tags="OS">
@@ -2154,19 +2140,54 @@ document.addEventListener("DOMContentLoaded", function(){
                 JIT
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Reversing">
+            <span class="sidebar-tag-name" data-tags="SECCON">
                 <span class="iconfont-archer">&#xe606;</span>
-                Reversing
+                SECCON
             </span>
         
-            <span class="sidebar-tag-name" data-tags="GameHacking">
+            <span class="sidebar-tag-name" data-tags="0CTF">
                 <span class="iconfont-archer">&#xe606;</span>
-                GameHacking
+                0CTF
             </span>
         
-            <span class="sidebar-tag-name" data-tags="OSEE">
+            <span class="sidebar-tag-name" data-tags="ASIS">
                 <span class="iconfont-archer">&#xe606;</span>
-                OSEE
+                ASIS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="RealWorldCTF">
+                <span class="iconfont-archer">&#xe606;</span>
+                RealWorldCTF
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="CONFidence">
+                <span class="iconfont-archer">&#xe606;</span>
+                CONFidence
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Plaid">
+                <span class="iconfont-archer">&#xe606;</span>
+                Plaid
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Pragyan">
+                <span class="iconfont-archer">&#xe606;</span>
+                Pragyan
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="AFL++">
+                <span class="iconfont-archer">&#xe606;</span>
+                AFL++
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="QEMU">
+                <span class="iconfont-archer">&#xe606;</span>
+                QEMU
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Balsn">
+                <span class="iconfont-archer">&#xe606;</span>
+                Balsn
             </span>
         
             <span class="sidebar-tag-name" data-tags="WebKit">
@@ -2195,11 +2216,6 @@ document.addEventListener("DOMContentLoaded", function(){
             Record
         </span>
     
-        <span class="sidebar-category-name" data-categories="Reminder">
-            <span class="iconfont-archer">&#xe60a;</span>
-            Reminder
-        </span>
-    
         <span class="sidebar-category-name" data-categories="Note">
             <span class="iconfont-archer">&#xe60a;</span>
             Note
@@ -2208,6 +2224,11 @@ document.addEventListener("DOMContentLoaded", function(){
         <span class="sidebar-category-name" data-categories="TodayILearn">
             <span class="iconfont-archer">&#xe60a;</span>
             TodayILearn
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Reminder">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Reminder
         </span>
     
     </div>
@@ -2275,5 +2296,18 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
 </html>
