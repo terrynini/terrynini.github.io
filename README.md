@@ -83,7 +83,3 @@ But it has been integrated into mdx, so you can
 ```
 
 The component will automatically find and display the image, and it's fully compatible with Astro's asset optimization.
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
