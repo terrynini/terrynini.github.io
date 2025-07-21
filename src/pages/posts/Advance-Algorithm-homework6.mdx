@@ -1,0 +1,296 @@
+---
+title: "Advance-Algorithm::homework6"
+description: ""
+publishDate: "2018-01-15"
+category: "Algorithm"
+layout: "../../layouts/ArticleLayout.astro"
+---
+***建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。***
+
+## 題一
+
+>Show that LCD$\leq$ LIS and LCS$\leq$ LIS. Does this result imply that there exist $O(n logn)$ algorithms for LCD and LCS? (Here $n$ represents the input length.)
+
+***
+LCS = Longest Common Subsequence
+LCD = Longest Chain of Dominations (平面上一串點，a支配b支配c支配d，求這個平面最長的支配鍊是多長)
+LIS = Longest Increasing Subsequence
+
+若A支配B，表示$(X\_A > X\_B) \wedge (Y\_A > Y\_B)$，表示一個LCD其$x,y$座標必為兩Increasing subsequence，因此可知 LCD $\leq$ LIS。
+
+好 這題定義有點詭異，所以我們最後筆記的結語是
+
+> 你媽pass
+
+* [Morris](https://www.slideshare.net/Morris1028/aaex6-group2)
+* 參考講義Unit7
+
+## 題二
+
+>Given a set of points S in the plane, a subset of $S$ is called an anti-chain if the points of the subset can be arranged in an order such that the $x$ coordinates of the points in the order are increasing and their $y$ coordinates are decreasing. Design an algorithm to find an anti-chain with maximal size.
+
+***
+
+給一堆點，順序不重要，找出x遞增且y遞減的最長組合。
+
+把點依照y降冪排列，然後在x上面找LIS就好了。
+
+## 題三
+
+>Show that any comparison-based algorithm needs $\Omega(n log n)$ time to solve the following problem: Given n points in the 2D plane, construct a tree of minimum total length whose vertices are the given points and the edge length of an edge is the Euclidean distance between the two end points of the edge.
+
+***
+
+* Euclidean distance：平面上兩點間的直線距離即為這兩點的Euclidean distance
+* 原題目：在2D平面上給定n個點，建一個距離（權重）總和最小的tree，tree的各頂點即為2D平面上的點，兩頂點間的邊的距離（權重）即為這兩的點在平面上的直線距離。
+* 直接將問題轉成「最小生成樹」就可以用 [Kruskal's algorithm](https://zh.wikipedia.org/wiki/%E5%85%8B%E9%B2%81%E6%96%AF%E5%85%8B%E5%B0%94%E6%BC%94%E7%AE%97%E6%B3%95) 解
+* 但作業是：Show that any comparison-based algorithm needs $\Omega(nlogn)$ time to solve this problem
+* 參考wiki吧lol
+* 利用問題變轉的特性，因為決策版EMST可以變轉為最佳化EMST，求的決策版的下界便可同時知道最佳化EMST的下界
+
+[決策版 EMST 下界](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.116.2296&rep=rep1&type=pdf)
+
+>不管 送他惹QQ
+
+[wiki](https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91#%E6%9B%B4%E5%BF%AB%E7%9A%84%E7%AE%97%E6%B3%95)
+這三小
+快 還要更快
+摸豆海鴉褲
+
+## 題四
+
+> Let $x\_1, x\_2, \dots , x\_n$ be n distinct points. Give an algorithm to calculate the polynomial $p(x)$ of degree n in standard form such that $p(x\_i) = 0$ for every $1 \leq i \leq n$.
+
+***
+
+要求設計一個演算法將$p(x)=(x-x\_1)(x-x\_2)(x-x\_3)\dots(x-x\_n)$展開為標準式。
+
+![截圖自演算法筆記](https://i.imgur.com/JoZHYPm.png)
+這裡的多項式相乘，就是係數做convolution的運算，如果兩多項式各有n項，需要花$O(n^2)$，使用快速傅立葉把時間壓至$O(nlogn)$。
+
+但如果逐項做FFT複雜度會是$\sum\_\{i=2}^\{n-1}O(ilogi)=O(n^2logn)$，所以用分治的方法，對切下去做FFT。
+
+複雜度：$T(n) = 2T(n/2) + O(nlogn) → O(nlog^2n)$
+
+[摺積與離散傅立葉轉換](https://ccjou.wordpress.com/2012/05/04/%E6%91%BA%E7%A9%8D%E8%88%87%E9%9B%A2%E6%95%A3%E5%82%85%E7%AB%8B%E8%91%89%E8%BD%89%E6%8F%9B/)
+[FFT與多項式乘法](https://medium.com/@aiswaryamathur/understanding-fast-fourier-transform-from-scratch-to-solve-polynomial-multiplication-8018d511162f)
+
+## 題五
+
+>Let $p(x)$ be a given polynomial of degree n in standard form, and let $x\_1, x\_2, ... , x\_n$ be n distinct numbers. Give an algorithm to calculate each $p(x\_i)$ for $1 \leq i \leq n$. (Hint: use the fact that the division problem of polynomials can be solved in $O(n log n)$ time and the result of the previous problem.)
+
+***
+
+$p(x) = f(x)g(x) + r(x)$
+想辦法讓 $f(x)g(x) = 0$，就是使用多項式除法讓式子變成：
+$p(x) = f(x)(x-x\_i) + r(x)$
+
+多項式除法複雜度為$O(nlogn)$如果對每個$x\_i$都分開計算複雜度為$O(n)O(nlogn)=O(n^2logn)$
+
+但根據第四題，我們能夠先使用我們要查詢的數列 $< x\_1,x\_2,x\_3,\dots , x\_n >$做出一個函式$q(x)$，使得$q(x\_i)=0, for\;1\leq i\leq n$，做多項式除法可得$p(x) = f(x)q(x) + r(x)$
+
+如此一來便可簡化運算：$p(x\_i)=f(x\_i)\times 0+r(x\_i)=r(x\_i)$
+
+簡化運算的時間複雜度為:$O(nlog^2n) + O(nlogn) = O(nlog^2n)$
+
+簡化後的式子保證會消去最高次項，本來求出最高項的所需的快速冪時間複雜度為$O(logn)$
+
+>乾 所以這樣到底會不會比較快
+錦文別搞我Ｒ
+
+## 題六
+
+>Given $n$ pairs of points $(x\_i, y\_i)$ with $x\_1, x\_2, \dots , x\_n$ being distinct. Design an algorithm to find the coefficients of the unique polynomial of degree less than $n$ that passes through these $n$ points.
+
+***
+如果有n個點，我們知道我們可以找到一條線穿過這些點，不過，如果這條線的最高次方$\leq n-1$，這條線是唯一的，也就是說最高次方$\leq n-1$的線只有一條，題目要求你做一個算法把這個多項式的係數都算出來。
+
+[拉格朗日插值法](https://en.wikipedia.org/wiki/Lagrange_polynomial)
+然後用第4.題的方法得到的結果，用微分求值，組合出拉格朗日多項式的係數。
+> 這樣展開好像會有問題？還沒求出$x^n$的係數?
+
+[Neville's algorithm](https://en.wikipedia.org/wiki/Neville%27s_algorithm)
+
+* let：$p\_\{i,j}(x)$ 會穿過 point $i$~$j$ 的多項式
+* initial condition：$p\_\{i,i}(x) = y\_i$
+* recurrence relation：$p\_\{i,j}(x) = \frac
+\{(x-x\_j)p\_\{i,j-1}(x) - (x-x\_i)p\_\{i+1,j}(x)}
+\{(x\_i-x\_j)}$
+
+[該唯一多項式的證明](http://mathforcollege.com/nm/mws/gen/05inp/mws_gen_inp_bck_introduction.pdf)
+
+## 題七
+
+>Given two images $A$ and $B$ with $B$ being the smaller one, where would we put $B$ on $A$, so that the overlapping part of $A$ and $B$ has the most likelihood? The difference between $A$ and $B$ is defined as the sum of the squares of the differences of corresponding elements in the overlapped parts of $A$ and $B$. Note that $B$ must completely reside on $A$.
+
+***
+
+這題真的太有趣了，這是zoj的題目，他本來就告訴你要用cyclic convolution做加速，但是morris又在其他兩項上面做了手腳，讓他更快。
+[morris](http://mypaper.pchome.com.tw/zerojudge/post/1326705427)
+
+這題假設我們兩張圖片的大小分別是$n\times m,p\times q$，brute force的解法複雜度是$O(n\times m\times p\times q)$
+
+image A:
+$$
+ \begin\{bmatrix}
+   a\_1 & a\_2 & a\_3 \\\\
+   a\_4 & a\_5 & a\_6 \\\\
+   a\_7 & a\_8 & a\_9
+  \end\{bmatrix}
+$$
+
+image B:
+$$
+   \begin\{bmatrix}
+   b\_1 & b\_2  \\\\
+   b\_3 & b\_4  \\\\
+  \end\{bmatrix}
+$$
+
+若先把兩張圖片的第一個元素對齊，算式應該為各相應元素的平方差的總和，$(x-y)^2=x^2-2xy+y^2$，其中每個元素的$xy$項和，可以使用Cyclic Convolution(講義7-32)直接求出，複雜度為$O(nmlog(nm))$，下面會做說明。
+
+如：$b\_1$對齊$a\_5$，結果應為:
+
+$$
+\displaylines\{(b\_1-a\_5)^2 + (b\_2-a\_6)^2 + (b\_3-a\_8)^2 + (b\_4-a\_9)^2}
+\displaylines\{= \sum\_\{i=1...4}(b\_i)^2 + \{(a\_5)^2 + (a\_6)^2 + (a\_8)^2 + (a\_9)^2\} - 2(b\_1a\_5 + b\_2a\_6 + b\_3a\_8 + b\_4a\_9)}
+$$
+
+* 上式的**第二項**：我們可以邊輸入邊做出另外一個陣列 A'來加快計算:
+  * $O(nm)$
+
+$$
+ \begin\{bmatrix}
+   (a\_1)^2 & (a\_1)^2+(a\_2)^2 & (a\_1)^2+(a\_2)^2+(a\_3)^2 \\
+   (a\_1)^2+(a\_4)^2 & (a\_1)^2+(a\_2)^2+(a\_4)^2+(a\_5)^2 & 略 \\
+   (a\_1)^2+(a\_4)^2+(a\_7)^2 & 略 & 略
+  \end\{bmatrix}
+$$
+
+* 上式的**第一項**：Image B因為是比較小張的圖片，所以每個元素的平方一定會用到，全部加起來放進一個變數就好了
+  * $O(pq)$
+* 上式的**第三項**：把兩個圖片的矩陣拉成sequence，然後在sequence後面用0 padding到$ 2^\{\lceil log\_2n\rceil} $的長度，就會變成$< a\_1,a\_2,\dots ,a\_N>,< b\_1,b\_2,\dots, b\_N>$，兩個sequence做Cyclic Convolution會得到一個長度為Ｎ的sequence $r$，例：$< 1,2,3,4 >,< 1,2,3,4 >$這兩個sequence會產出$< 30,24,22,24 >$
+  * $O(NlogN)$
+
+$$
+\displaylines\{30 = (1\*1 + 2\*2 + 3\*3 + 4\*4)}
+\displaylines\{24 = (1\*4 + 2\*1 + 3\*2 + 4\*3)}
+\displaylines\{22 = (1\*3 + 2\*4 + 3\*1 + 4\*2)}
+\displaylines\{24 = (1\*2 + 2\*3 + 3\*4 + 4\*1)}
+$$
+
+## 題八
+
+>Given a set $S$ of $k$ strings, we want to find every string in $S$ that is a substring of some other string in $S$. Assume that the total length of all the strings in $S$ is $n$, give an $O(n)$ time algorithm to solve this problem.
+
+***
+
+把set中全部的字串拿來做**G**eneralized **S**uffix **T**ree，之後拿每個字串在GST中做搜尋，只要能找到兩次，就表示除了自己之外，還是其他字串的子字串。
+
+* **複雜度分析：**
+建構GST : $O(n)$ (n是字串總長度)
+搜尋時間 : $\sum\_\{i=1}^\{N}O(m\_i+n)=O(n)$ (N為字串數，m為關鍵字的長度)
+總時間複雜度 : $O(n)$
+[suffix tree及線性時間造樹](http://www.cnblogs.com/gaochundong/p/suffix_tree.html)
+[GST](https://www.geeksforgeeks.org/generalized-suffix-tree-1/)
+
+## 題九
+
+>Give a linear-time algorithm that takes in a string and finds the longest maximal pair of equal substrings in which the two copies do not overlap. That is, if the two copies begin at positions $p1 < p2$ and are of length $n'$, then $p1+ n' < p2$.
+
+***
+
+對每個節點$N\_i$，找出其子樹中的的最大及最小索引值之差$\delta$，則可以root到$N\_i$的路徑上可以得到一些子字串，而這個子字串的長度必須小於等於$\delta$，這些就是共同子字串。
+
+參考：morris
+[dp解，複雜度太高](https://www.geeksforgeeks.org/longest-repeating-and-non-overlapping-substring/)
+[不考慮overlap的解法](https://www.geeksforgeeks.org/suffix-tree-application-3-longest-repeated-substring/)
+
+## 題十
+
+>Show how to count the number of distinct substrings of a string $T$ in time $O(n)$, where the length of $T$ is $n$. Also show how to enumerate one copy of each distinct substring in time proportional to the length of all those strings.
+
+***
+
+後綴樹的每個樹枝都是一個後綴，在這後綴上面我們列舉他的前綴就可以得到任意子字串。
+
+***Example*** : xabxac的後綴樹
+
+```
+  |---xa---[]--bxac--[]
+  |         |
+  |         |---c----[]
+  |
+[root]--a--[]--bxac--[]
+  |         |
+  |         |---c----[]
+  |
+  |--c--[]
+  |
+  |---bxac---[]
+```
+
+拿第一個樹枝來說，我們可以找到以下子字串：x,xa,xab,xabx,xabxa,xabxac,xac，不難發現子字串數就是邊上的字元數。
+
+***複雜度分析：***
+建構suffix tree : $O(n)$
+計算字元數：$O(n)$    (suffix tree的大小是$\Theta(n)$)
+總時間複雜度： $O(n)$
+
+## 題十一
+
+>Solve the minimum coloring problem on interval graphs.
+
+***
+
+***Interval graph:*** 用前面活動規劃的問題來舉例，就是把活動轉為graph表示，每個活動為圖上的點，如果兩活動時間有重疊就在兩點間加上邊。
+
+著色的意思表示根據顏色使用某個資源，所以顏色越少所佔用的資源越少，這種概念，不過這不是重點，因為這題就是要著色沒給活動。
+
+>不確定對不對，morris解法(greedy)：
+bfs著色，填入不跟鄰近點衝突的最小色號。
+
+[Interval Graph Coloring Problem](http://homepages.gac.edu/~sskulrat/Courses/2015F-375/lectures/g2.pdf)
+[Interval graph](https://en.wikipedia.org/wiki/Interval_graph)
+
+## 題十二
+
+>Design an algorithm for determining $\alpha (G)$ and $k(G)$ on a bipartite graph $G$.
+
+***
+
+* $\alpha(G)$: 最大獨立集的大小
+* $k(G)$: 最小團覆蓋的數量
+* ***團***：每個點都是相鄰的，則可以稱為團，即這個團切下來可以看成是一個完全圖
+* ***最小團覆蓋***：使用最少數量的團，來包含這整張圖的頂點
+* ***在 `二分圖` 裡面你只能找到一些由兩個點構成的團。***
+
+**二分圖中：**
+
+* 最大獨立集的大小 = 頂點總數($|V|$) - 最大匹配
+* 最小團覆蓋 = 最大匹配 + 剩下的獨立點
+     = 最大匹配數 + (頂點總數 - 2 * 最大匹配)
+     = 頂點總數 - 最大匹配 = 最大獨立集的大小 !!!
+* 二分圖的最大匹配：可用「匈牙利演算法」解
+
+[各種定義](http://blog.csdn.net/u013007900/article/details/41631683)
+http://blog.csdn.net/Flynn_curry/article/details/52966283
+[二分圖匹配](https://www.renfei.org/blog/bipartite-matching.html)
+[二分圖最大獨立集](https://read01.com/zh-tw/N5R5BR.html#.Wk_ct1T1VTY)
+[clique cover](https://en.wikipedia.org/wiki/Clique_cover)
+
+## 題十三
+
+>A path cover of a directed graph $G=(V, E)$ is a set $P$ of paths such that every vertex in $V$ is included in at least one path in $P$. A minimum path cover of $G$ is a path cover containing the fewest number of paths. Give an algorithm to find a minimum path cover of a directed acyclic graph.
+
+***
+
+從DAG建構二分圖，二分圖表示的，就是每個節點的路徑關係，因為不可交路徑不可共用頂點，匹配也不可共用，故可以用匹配來找出最小不可交路徑覆蓋。
+
+* 最小不可交路徑覆蓋 = 原圖節點數 - 對應的二分圖的`最大匹配數`
+
+* 最小相交路徑覆蓋：我們可以先幫圖加邊，如果有路徑1->2->3，我們就直接新增一條邊1->3，然後再用最小不可交路徑覆蓋的方法，就可以求得相交路徑覆蓋。
+
+[解法前置](http://blog.sina.com.cn/s/blog_64e467d60100qqkf.html)
+[解法](https://www.cnblogs.com/justPassBy/p/5369930.html)
+[解法](http://www.itdadao.com/articles/c15a1133857p0.html)

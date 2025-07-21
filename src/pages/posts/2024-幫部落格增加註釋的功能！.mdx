@@ -1,0 +1,92 @@
+---
+title: "2024::幫部落格增加註釋的功能！"
+description: ""
+publishDate: "2024-06-23"
+category: "Dev"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+The post is how I implement a side note feature for hexo.\
+But since the blog is Astro now, you have to view the post on [wayback machine](https://web.archive.org/web/20250111095044/https://blog.terrynini.tw/tw/2024-%E5%B9%AB%E9%83%A8%E8%90%BD%E6%A0%BC%E5%A2%9E%E5%8A%A0%E8%A8%BB%E9%87%8B%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%81/) to see the actual effect.
+
+
+忙了一段時間都沒有好好維護部落格，除了資料有點舊之外，換了電腦才發現 Hexo 版本超級舊跑什麼東西都會踩到一堆 Bug。而且正好一直有一個很想做的功能：在文章旁邊顯示註解！正好有點時間，就順便做完了，大概紀錄一下這個功能是怎麼實作的之外，確實也需要一篇文章來測試一下這個功能XD。
+
+自己感覺這篇文章用電腦板來看，效果應該是最好的。
+
+# 網路巡邏
+
+之前在看別人的部落格的時候就有注意到有些文章會有 sidenote 的效果，譬如 [Secret Club](https://secret.club/2020/08/14/macos-entitlements.html) 就有非常簡單的 sidenote 格式，讀起來很舒服，有時候也會有 code 形式的內容包在裡面
+(基本上都在英文網站看到，中文世界不流行？)
+
+<Image src="./secretclub.png" alt="" />
+
+也有比較酷炫的版本，像是 DOWN TO THE WIRE 這篇[關於 DEFCON 的文章](https://dttw.tech/posts/HJ9TU7J_O)，有趣的地方是它的 sidenote 內文有更多的 HTML tag 可以使用。
+(應該是 CTF 戰隊 PPP 相關的人寫的部落格)
+
+<Image src="./downtothewire.png" alt="" />
+
+# 實作時間
+
+簡單的 google 一下可以看到很多關於 HTML5 引入的 `<aside>` 的資訊，但實際上卻很少範例是直接使用這個 tag 來製作 sidenote。盤點一下實作時遇到的一些問題（使用 Hexo）：
+
+## 直接使用 `<aside>` 的限制
+
+首先要知道，`<p>` 內不能有區塊級的元素，不然段落會被自動關閉，所以用 Hexo 撰寫文章時，如果直接在的 markdown 中這樣寫的話：
+
+```
+我破防了
+禁止禁止啊啊啊huhhuhhuh漬鯊<aside>但我怕痛</aside>我就這樣了嗚哇哇哇哇哇
+```
+
+實際上會被 render 成下面這樣：
+
+<Image src="./aside.png" alt="" />
+
+注意到內文中的 `我就這樣了嗚哇哇哇哇哇`，因為 `<p>` 被關閉導致強置換行之外，aside 之後的內文也沒有被 `<p>` 包起來，解法也很簡單就是 aside 都乖乖放在正好換行的地方就好了。但很多人因此改用一些非區塊級的元素來實作 sidenote 功能，好處是在寫 plugin 的時候可以用一個語法完成，不用放太多注意力在文章本身以外的事情。 譬如說，「看看旁邊的 sidenote 寫了什麼」這段文字在編輯時，寫起來可能就會是這樣：
+(haha this is sidenote)
+
+```
+看看旁邊的 {% mark "haha this is sidenote" %} sidenote 寫了什麼 {% endmark %}
+```
+
+另外一個好處就是，可以純用 CSS 做出尋找對應片段的效果，直接看看這個[部落格](https://danilafe.com/blog/sidenotes/)。這是他 sidenote 的主要語法（這是 Hugo 的外掛）
+
+```
+<span class="sidenote">
+<label class="sidenote-label" for="{{ .Get 1 }}">{{ .Get 2 }}</label>
+<input class="sidenote-checkbox" type="checkbox" id="{{ .Get 1 }}"></input>
+<span class="sidenote-content sidenote-{{ .Get 0 }}">
+{{ .Inner }}
+</span>
+</span>
+```
+
+注意 `sidenote-label` 與 `sidenote-content` 就好，因為他們都被置於 `sidenote` 之中，所以特效寫起來就會很簡單，只需要 CSS 就能搞定。
+
+如果我要分開寫，最後還需要塞一些 js 讓重點句子與 sidenote 可以找到彼此，在知道對方被 hover 時做出一些特效。前面提到的 DOWN TO THE WIRE，雖然從圖片上看起來他的重點句子跟 sidenote 之間好像也有做對應，不過實際上他是不能互動的，只是一直 highlight 在那裡（我也不是很確定為什麼我要讓它動起來就是了，可能比較酷？大概）。
+
+如果重點句子與 sidenote 不包在一起，還是有辦法可以用純 CSS 做出尋找對應片段的效果，但只能是單向的。例如，使用下面的 selector ，當重點句子被 hover 時，下一個找到的 sidenote 就會被套用 `border-bottom` 的效果：
+
+```css
+p:has(.sidenote-mark:hover) ~ aside {
+  border-bottom: 2px solid #f75357;
+}
+```
+但 CSS 沒有 selector 可以尋找上個元素，所以無法反過來讓 `.sidenote-mark` 做出改變。
+
+## 寫個 Plugin
+
+因為我真的很想在 sidenote 裡面塞一堆鬼東西，就像上面那個塞了 code snippet 的一樣，所以我寫了個 hexo 的 plugin：[hexo-sidenote](https://github.com/terrynini/hexo-sidenote)（但只有我知道怎麼用，因為實在寫的太陽春），我現在可以用下面語法來寫 sidenote：
+
+```
+{% mark 5 %}這是 id 為 5 的重點，它會被對應到{% endmark %}」……？
+{% sideNote 5 %} id 為 5 的 note，沒錯{% endsideNote %}
+```
+
+效果就是，這是 id 為 5 的重點，它會被對應到……？
+id 為 5 的 note，沒錯
+
+## Future Work
+
+雖然一直用 sidenote 感覺對寫作來講就很不健康，如果有心應該總是有辦法可以把那些塞進 sidenote 裡的那駝鬼東西好好的寫進內文，但，就爽嘛。但現在這個外掛，它有個大病，就是靠太近的 sidenote 會把彼此覆蓋在一起，不知道有沒有什麼輕鬆的解法可以讓他們不要 overlap，但我想就……就……改天吧……

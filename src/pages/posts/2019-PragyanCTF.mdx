@@ -1,0 +1,435 @@
+---
+title: "2019::PragyanCTF"
+description: ""
+publishDate: "2019-03-12"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+Wanna try ghidra in reversing so I play Pragyan CTF.
+Did not have time to solve them all.
+Pragyan CTF is a much easier CTF, a good target for me to start writing my blog......
+It's a good way to force me to understand every details and improve my English writing skill (maybe).
+
+# Web
+
+## Cookie Monster
+
+The value of flag in cookie is the md5 result of flag's slices.
+
+```
+bc54f4d60f1cec0f9a6cb70e13f2127a    md5 pc
+114d6a415b3d04db792ca7c0da0c7a55    md5 tf
+b2984e12969ad3a3a2a4d334b8fb385a    md5 {c
+6f570c477ab64d17825ef2d2dfcb6fe4    md5 0o
+988287f7a1eb966ffc4e19bdbdeec7c3    md5 ki
+0d4896d431044c92de2840ed53b6fbbd    md5 3s
+f355d719add62ceea8c150e5fbfae819    md5 _@
+12eccbdd9b32918131341f38907cbbb5    md5 re
+639307d281416ad0642faeaae1f098c4    md5 _y
+96bc320e4d72edda450c7a9abc8a214f    md5 Um
+c716fb29298ad96a3b31757ec9755763    md5 _b
+51de5514f3c808babd19f42217fcba49    md5 Ut
+05cb7dc333ca611d0a8969704e39a9f0    md5 _t
+bc781c76baf5589eef4fb7b9247b89a0    md5 HE
+ff108b961a844f859bd7c203b7366f8e    md5 y_
+2349277280263dff980b0c8a4a10674b    md5 @l
+0b1cdc9fe1f929e469c5a54ffe0b2ed5    md5 s0
+364641d04574146d9f88001e66b4410f    md5 _r
+c758807125330006a4375357104f9a82    md5 3v
+fcfdc12fb4030a8c8a2e19cf7b075926    md5 Ea
+440c5c247c708c6e46783e47e3986889    md5 L_
+97a7bf81a216e803adfed8bd013f4b85    md5 @_
+c1d12de20210d8c1b35c367536e1c255    md5 l0
+a8655da06c5080d3f1eb6af7b514e309    md5 t}
+```
+
+flag:
+`pctf{c0oki3s_@re_yUm_bUt_tHEy_@ls0_r3vEaL_@_l0t}`
+
+## Game of Faces
+
+A form hidden behind the first color block, just upload any picture then you get a base64 encoded string which decoded as `The_scroll_says=the_night_kingVSvalyrian.txt`
+
+Get the flag at `/the_night_kingVSvalyrian.txt`
+
+flag:
+`pctf{You_L00K_Wi3Rd_IN_H3R3}`
+
+## Mandatory PHP
+
+### final solution
+
+http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&val1=rUs&val3=12&val4=16
+
+### detail
+
+```php
+$a=hash("sha256",$a);
+$a=(log10($a**(0.5)))**2;
+```
+
+Find a string which's sha256 result's prefix is `1e`, so that it would be consider as scientific notation at first line. When `$a='rUs'`, the result of sha256 is `1e40afafd2290d3f1e0cbc86cd9bbec0df8627b32730ea72e0dce67fe49a2f30`, would be consider as $10^{40}$ at second line and the last result is `400`, which is $12^2+16^2$, done.
+
+next check:
+
+```php
+for($i=1;$i<=10;$i++){
+    if($b==urldecode($b))
+        die('duck');
+    else
+        $b=urldecode($b);
+}
+if($b==="WoAHh!")
+```
+
+It apply urldecode 10 times on `$b`, so we have to encode `WoAHh!` 10 times, also. The result should be `WoAHh%25252525252525252521`. But,the url would be decoded once by default, we have to do one more encode, which would be `WoAHh%252525252525252525252521`
+
+flag:
+`pctf{b3_c4r3fu1_w1th_pHp_f31145}`
+
+# Forensics
+
+## Welcome
+
+```sh
+binwalk -e welcome.jpeg
+unzip d.zip
+```
+
+The password for `a.zip` is in the secret.bmp, `dGhlIHBhc3N3b3JkIGlzOiBoMzExMF90aDNyMyE==`, decoded as `the password is: h3110_th3r3!`
+Then it give us a a.png, the flag is hidden in the white background
+
+<Image src="./a.png" alt="" />
+
+flag:
+`pctf{st3gs0lv3_1s_u53ful}`
+
+## Magic PNGs
+
+`you_cant_see_me.png` is a broken png, fix it to get the password for `tryme.zip`
+First, fix the header , the header should be `8950 4e47 1d0a 1a0a` instead of `8950 4e47 2e0a 2e0a`.Next, find ascii string `idat` in png , this is the name of `IDAT` chunk, the string should be uppercase. Finally, fix two CRC checksums. then we get a picture of mask from movie *V for Vendetta*.
+
+<Image src="./see.png" alt="" />
+
+According to the hint, the password for `tryme.zip` should be `MD5 ("h4CK3RM4n") = 2c919f82ee2ed6985d5c5e275d67e4f8`
+
+flag:
+`pctf{y0u_s33_m33_n0w!}`
+
+## Save Earth
+
+Some usb packages, extract the Leftover Capture Data by 
+`tshark -r ./SaveEarth.pcap -T fields -e usb.capdata > leftover.txt`
+
+It doesn't look like some keyboard strike or mouse position, but more like morse code.
+
+```txt leftover.txt
+01:02:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+```
+
+Get morse code
+
+```sh
+$ cut -d ':' -f 2 leftover.txt | sed -e "s/01/ /g" -e 's/02/-/g' -e 's/04/./g' | tr -d '\n'
+-.-. - ..-. ... ....- ...- ...--
+```
+
+`-.-. - ..-. ... ....- ...- ...--` -> `CTFS4V3`
+
+flag is in lowercase
+
+flag:
+`ctf{s4v3}`
+
+## Slow Realization
+
+It gives us a flag.pdf and a jpeg picture
+
+<Image src="./scenery.jpeg" alt="" />
+
+The `EOF` of jpeg file format is `ff d9`, so there is actually a mp3 file concated behind this jpeg. It's OneRepublic - Counting Stars, but there are some morse code and a weird woman voice. The morse code is not the password, which is
+
+```
+.--. .- - .. . -. -.-. . .. ... - .... . -.-  . -.-- .--. -.-. - ..-. -. ----- - .... ...-- .-.  ...--
+PATIENCE IS THE KEY PCTF N0T H3R3
+```
+
+I thought that the password is inside the vocal between morse code. Tried to apply reverse, invert, or normalize individually on it, but I still can not get a clear version of the woman voice
+
+<Image src="./wave.png" alt="" />
+
+Luckily, I get the password by dictionary attack...., it turns out to be `congratulations`, WHAT ?
+It really sounds like that after I knew the real password is `congratualtions`,but it also sounds like `slow realization`?
+Can someone teach me how to get the password in right way?
+
+flag:
+`pctf{y0u_h34rd_m3_r1ght}`
+
+## Late PR
+
+strings it, done
+Is this the intended solution ??
+
+flag:
+`pctf{Late_submissions_can_be_good}`
+
+# Cryptography
+
+## Spoiler
+
+There are some additional information concated after the `%%EOF` of pdf
+
+```
+%%EOF0000006a0000006f0000006e000000730000006e0000006f000000770000006900000073000000640000007200000061000000670000006f0000006e00000062000000790000006200000069000000720000007400000068
+```
+
+It's a hex string `6a6f6e736e6f776973647261676f6e62796269727468`, xor it with another hex string show in pdf.
+
+flag:
+`PCTF{JON_IS_TARGARYEN}`
+
+## Add them Sneaky Polynomials
+
+We get some polynomials equations:
+
+```
+p = x^406 + x^405 + x^402 + x^399 + x^397 + x^391 + x^390 + x^387 + x^386 + x^378 + x^374 + x^372 + x^371 + x^369 + x^367 + x^364 + x^360 + x^358 + x^357 + x^352 + x^350 + x^345 + x^344 + x^341 + x^336 + x^335 + x^334 + x^333 + x^331 + x^330 + x^329 + x^328 + x^327 + x^324 + x^322 + x^320 + x^314 + x^311 + x^308 + x^307 + x^303 + x^300 + x^299 + x^296 + x^295 + x^290 + x^289 + x^287 + x^279 + x^271 + x^266 + x^264 + x^262 + x^260 + x^257 + x^256 + x^252 + x^249 + x^248 + x^246 + x^243 + x^239 + x^238 + x^236 + x^233 + x^230 + x^227 + x^225 + x^223 + x^222 + x^220 + x^218 + x^216 + x^215 + x^209 + x^208 + x^207 + x^204 + x^202 + x^199 + x^190 + x^189 + x^185 + x^184 + x^180 + x^177 + x^176 + x^175 + x^172 + x^167 + x^166 + x^162 + x^160 + x^159 + x^155 + x^154 + x^149 + x^147 + x^143 + x^137 + x^135 + x^131 + x^129 + x^126 + x^124 + x^122 + x^116 + x^110 + x^108 + x^105 + x^104 + x^100 + x^99 + x^97 + x^94 + x^93 + x^90 + x^88 + x^87 + x^86 + x^85 + x^83 + x^75 + x^73 + x^69 + x^63 + x^62 + x^57 + x^54 + x^51 + x^44 + x^41 + x^38 + x^37 + x^36 + x^34 + x^29 + x^28 + x^26 + x^25 + x^21 + x^20 + x^19 + x^16 + x^15 + x^14 + x^13 + x^6 + x^5 + x^2
+
+q = x^399 + x^398 + x^396 + x^393 + x^392 + x^391 + x^388 + x^386 + x^384 + x^381 + x^377 + x^376 + x^368 + x^364 + x^360 + x^355 + x^354 + x^353 + x^352 + x^348 + x^346 + x^345 + x^344 + x^343 + x^335 + x^334 + x^329 + x^326 + x^325 + x^321 + x^318 + x^317 + x^315 + x^314 + x^311 + x^307 + x^306 + x^304 + x^300 + x^296 + x^293 + x^291 + x^282 + x^277 + x^270 + x^263 + x^261 + x^260 + x^256 + x^254 + x^253 + x^252 + x^251 + x^248 + x^245 + x^242 + x^241 + x^239 + x^238 + x^236 + x^232 + x^226 + x^225 + x^222 + x^220 + x^219 + x^214 + x^209 + x^208 + x^207 + x^206 + x^202 + x^200 + x^196 + x^191 + x^190 + x^186 + x^181 + x^180 + x^178 + x^177 + x^169 + x^168 + x^165 + x^164 + x^163 + x^162 + x^161 + x^159 + x^157 + x^156 + x^151 + x^149 + x^148 + x^147 + x^146 + x^144 + x^141 + x^140 + x^138 + x^137 + x^136 + x^134 + x^133 + x^132 + x^130 + x^129 + x^128 + x^126 + x^123 + x^121 + x^113 + x^109 + x^103 + x^101 + x^100 + x^95 + x^93 + x^91 + x^85 + x^84 + x^81 + x^74 + x^73 + x^71 + x^68 + x^67 + x^54 + x^52 + x^51 + x^50 + x^48 + x^46 + x^45 + x^43 + x^39 + x^35 + x^32 + x^31 + x^30 + x^29 + x^21 + x^15 + x^14 + x^9 + x^8 + x^5 + x^4 + x^2 + 1
+
+r = x^404 + x^402 + x^396 + x^389 + x^387 + x^386 + x^384 + x^382 + x^376 + x^373 + x^367 + x^366 + x^365 + x^362 + x^361 + x^358 + x^356 + x^355 + x^354 + x^353 + x^352 + x^349 + x^348 + x^347 + x^345 + x^343 + x^340 + x^334 + x^332 + x^331 + x^328 + x^327 + x^326 + x^322 + x^317 + x^316 + x^314 + x^313 + x^312 + x^310 + x^309 + x^308 + x^305 + x^304 + x^303 + x^301 + x^300 + x^299 + x^296 + x^295 + x^292 + x^291 + x^290 + x^288 + x^287 + x^286 + x^285 + x^283 + x^279 + x^278 + x^274 + x^271 + x^269 + x^268 + x^266 + x^265 + x^263 + x^261 + x^260 + x^259 + x^258 + x^256 + x^254 + x^252 + x^251 + x^250 + x^249 + x^244 + x^243 + x^242 + x^237 + x^236 + x^228 + x^225 + x^224 + x^223 + x^222 + x^221 + x^215 + x^214 + x^213 + x^212 + x^205 + x^201 + x^200 + x^199 + x^197 + x^193 + x^192 + x^191 + x^190 + x^189 + x^188 + x^187 + x^182 + x^180 + x^175 + x^174 + x^173 + x^167 + x^166 + x^163 + x^158 + x^156 + x^155 + x^153 + x^151 + x^150 + x^149 + x^143 + x^142 + x^140 + x^139 + x^136 + x^135 + x^133 + x^129 + x^126 + x^125 + x^123 + x^121 + x^118 + x^117 + x^116 + x^115 + x^113 + x^110 + x^106 + x^105 + x^104 + x^103 + x^102 + x^98 + x^95 + x^92 + x^89 + x^87 + x^85 + x^81 + x^80 + x^77 + x^76 + x^75 + x^74 + x^71 + x^70 + x^67 + x^66 + x^64 + x^63 + x^60 + x^59 + x^58 + x^56 + x^54 + x^53 + x^48 + x^44 + x^41 + x^39 + x^38 + x^35 + x^34 + x^31 + x^29 + x^28 + x^27 + x^22 + x^21 + x^20 + x^17 + x^14 + x^12 + x^11 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1
+```
+
+According to challenge's description, we can extract a string from these equations
+
+Obviously, if we plug `x=2` into equations we can get some "binary strings".
+For example, $2^5+2^4+2^2+2^1+1 = 110111_{2} = 55$, that is the ascii code for `7`.
+After evaluation, we get some meaningless strings.
+But once we xor them together, the flag shows up
+
+flag:
+`pctf{f1n1t3_f13lds_4r3_m0r3_us3ful_th4n_y0u_th1nk}`
+
+## The Order of the Phoenix
+
+After google the hint `Eleven scientists are working on a secret project.......?`, it's a challenge about Shamir's Secret Sharing. Read the content of QRcode first
+
+```
+1-d301da5536a5d8b8e2be50a7584127eb3704025f048cf72335f1b301b852b30a
+2-e1af01e2f7887b63c068823cbcd812f91899678656456db71dfa9ab1fbb1bd26
+3-dc60d55a411ccfd4a44e6a9799774dd6207dffdfcab4b442075ead165fa7ecb
+4-510c9c8f6aaacebf16bb5fd9e2cd8c0845ec483bd49bf57fa4151e5b672c73b0
+5-bd4f58a846bb9e47a7402e22df13002aef3bf3048011674269eaff39154c62bf
+6-7c61f3ee00ab759a6853f041e74ae2378144a96b662230888d6ba6412c646190
+7-d01f29e42de0ab1fb183a35d06a2ac6117acaad2b3017671846c7b380e83d6bb
+8-1268bf4430c0b1a4c568a302da92421bc672aceb57fef3401f2434cfc3bf740b
+9-b52781fd38b0185bd1a8a92a92dbf01c99eddbb50b86f65a882ad8a7fa313e9d
+a-424b493442128adbeef5ce33f18c6c5996cdd97e4922644a4479bb4e05f8846f
+```
+
+Guess the hexadecimal digits split by `-` are x and y on the x-y plane, then ....
+We have to sovle an equation which derives from these coordinates by [Lagrange polynomial](https://en.wikipedia.org/wiki/Lagrange_polynomial). I did't decrypt it on my own implementation, the problems is that I used the wrong the prime. Using a github repo call [secret-sharing](https://github.com/blockstack/secret-sharing) to help me.
+
+plain text:
+`pctf{sh4m1r3_w4s_4_gr34t_m4n}\n`
+
+flag:
+`pctf{sh4m1r3_w4s_4_gr34t_m4n}`
+
+[reference](https://medium.com/taipei-ethereum-meetup/%E7%A7%81%E9%91%B0%E5%88%86%E5%89%B2-shamirs-secret-sharing-7a70c8abf664)
+
+## Help Rabin
+
+It's [Rabin cryptosystem](https://en.wikipedia.org/wiki/Rabin_cryptosystem), which needs the factor `p`, `q` of n to do the decryption. The problem in here is that it generates `n` by mutiple two primes which are close to each other, this makes us are able to factor `n` by brute force.
+
+```py brute.py
+from decimal import *
+from Crypto.PublicKey import RSA
+
+key = RSA.importKey(open("./publickey.pem").read())
+getcontext().prec = 200
+n = Decimal(key.n)
+p = n.sqrt()
+
+while n % p != 0:
+    p += 1
+
+q = n/p
+(p,q) = (int(p),int(q))
+
+```
+
+Then follow the steps on wiki, we can get the plaintext in one of the 4 decrypted messages:
+
+`Hey Rabin, would you like to be the front end to my back end? Here is your flag: pctf{R4b1n_1s_th3_cut3st}`
+
+flag:
+`pctf{R4b1n_1s_th3_cut3st}`
+
+## Easy RSA
+
+It gives some parameter used in RSA
+
+```
+e=217356749319385698521929657544628507680950813122965981036139317973675569442588326220293299168756490163223201593446006249622787212268918299733683908813777695992195006830244088685311059537057855442978678020950265617092637544349098729925492477391076560770615398034890984685084288600014953201593750327846808762513
+n=413514550275673527863957027545525175432824699510881864021105557583918890022061739148026915990124447164572528944722263717357237476264481036272236727160588284145055425035045871562541038353702292714978768468806464985590036061328334595717970895975121788928626837881214128786266719801269965024179019247618967408217
+c=337907824405966440030495671003069758278111764297629248609638912154235544001123799434176915113308593275372838266739188034566867280295804636556069233774555055521212823481663542294565892061947925909547184805760988117713501561339405677394457210062631040728412334490054091265643226842490973415231820626551757008360
+```
+
+The `e` is too big so that may cause the `d` become small enough to satisfy the condition for wiener's attack
+I used [featherduster](https://github.com/nccgroup/featherduster) to apply weiner's attack here and get `d` successfully
+
+`d=12978409760901509356642421072925801006324287746872153539187221529835976408177`
+
+The secret message is `Here is your flag, pctf{Sup3r_st4nd4rd_W31n3r_4tt4ck}\n`
+
+flag:
+`pctf{Sup3r_st4nd4rd_W31n3r_4tt4ck}`
+
+## Decode This
+
+There is a linear equations :
+
+```py
+    z = (x*key[0][0] + y*key[0][1])%26 + 97
+    w = (x*key[1][0] + y*key[1][1])%26 + 97
+```
+
+Cuz we know that there must be a `pctf` in plain text, it's able to solve this equation. I didn't get the flag in my first trial, cuz I assume that `pctf` is the prefix of plaintext. After a while, I realized that crypto challenges of Pragyan always like to give us some `xxxxxxx flag: pctf{xxxxxxx}`, so , all we need to do here is to brute force the position of `pctf` in the plaintext.
+
+Solving equation is ez in python, because there are lots of package doing this for us (z3, Sympy, sage ... etc).
+
+`ram has a little secret for you right here it is pctf i like climbing hills what about you`
+
+# Miscellaneous
+
+## EXORcism
+
+It gives a txt file which contains lots of `1\n` and `0\n`, it's a bitmap of an QRcode
+Convert it to image by python
+<Image src="./QRcode.png" alt="" />
+
+The message is `160f15011d1b095339595138535f135613595e1a`, a meaningless string
+Xor the first 4 char with `pctf` to check if this was the xor result of flag , then the xor-key turned out to be `flag`.
+
+flag:
+`pctf{wh4_50_53r1u5?}`
+
+# Binary
+
+## Feed_me
+
+Lazy, use socket and z3 to solve this
+
+flag:
+`pctf{p1zz4_t0pp3d_w1th_p1n34ppl3_s4uc3}`
+
+## Secret Keeper
+
+Login as `admin` then it will print flag
+
+Obviously, it has a UAF bug after remove a user. It just clean and free the chunk of account, but not remove the user from the list, we can even login with null usernam and original password.
+What's more, the first registed user's username can be rewrote as admin
+
+### exploit
+
+First, register a user with name `whatever` and password `whateverpassword`, then delete it
+Next, register another user with name `whatever2` and password `admin`
+Cuz this binary `malloc` for password first, the chunk which second registed user using for password is actually the same chunk of the first user's username
+Now we can login as `admin` with password `whateverpassword` to get the flag.
+
+flag:
+`pctf{"ThiS_S3rV1ce-1s$t0T411Y-cR4p_But_w3_34Rn_$$_4nyWaYs"}`
+
+## Super Secure Vault
+
+The binary ask for  `key` and `password`.
+The key has to satisfy some modular equations :
+
+```py
+key % 27644437 == 213
+key % 10459 == 229
+key % 1489 == 25
+key % 1046527 == 83
+key % 16127 == 135
+```
+
+We can derive `key` easily from these equations by CRT (Chinese Remainder Theorem), which is `3087629750608333480917556`
+
+If the `key` passes the verification , binary concats `27644437104591489104652716127` and `08` after the `key` in the `func2`. Then it will try to verify `password` by looking up a hard-coded array , `matrix`. In summary, it's trivial, can be done by idapython.
+
+```py ida_sovler.py
+from idaapi import *
+
+matrix = LocByName("matrix")
+
+key = "3087629750608333480917556" + "27644437104591489104652716127" +"08"
+
+v8 = 0
+v10 = len(key)/2
+
+passwd = []
+
+while v8 < len(key)/2:
+    idx = int(key[v8:v8+2]+key[v10:v10+2])
+    passwd.append(Byte(matrix+idx))
+    v8 += 2
+    v10 += 2
+
+v9 = 0
+v11 = len(key)/2
+
+while v9 < len(key)/2:
+    v4 = int(key[v9:v9+2])
+    v5 = int(key[v11:v11+2])
+    passwd.append(Byte(matrix+ 100*(v4*v4%97)+(v5*v5%97)))
+    v9 += 2
+    v11 += 2
+
+print ''.join(map(chr,passwd))
+```
+
+flag:
+`pctf{R3v3rS1Ng_#s_V311_L0t_Of_FuR}`
+
+## Armoury
+
+Format string vulneralbility, leak the GOT entry and find the correct version of libc.
+Then use `%n` in format string to overwrite the return address to one gadget.
+
+
+flag:
+`pctf{“W@r_1sN3v3R@_las41nG_s0lut1on#f0R_any_pr0bleM”}`

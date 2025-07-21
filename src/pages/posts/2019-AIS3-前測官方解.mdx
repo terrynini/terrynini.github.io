@@ -1,0 +1,356 @@
+---
+title: "2019::AIS3::前測官方解"
+description: ""
+publishDate: "2019-06-16"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+2019 AIS3 pre-exam 由我出題的部分的解題流程。
+[題目的原始碼以及下面提到的解法腳本](https://github.com/terrynini/AIS3_2019_challenges)
+這裡是解題統計，給大家做個參考。
+
+<Image src="./sta1.png" alt="" />
+<Image src="./sta2.png" alt="" />
+
+# WTF
+
+這題其實沒有打算要考什麼，就是測試一下大家的神通力？
+題目給了一推 png，簡單地用各種工具應該是測不出什麼 stego 的鬼東西，這時候如果你願意近一點看的話會發現它就是一臉迷宮樣：
+
+<Image src="./maze.png" alt="" />
+
+這時你腦袋裡應該飛出幾個 `DFS`，`BFS`之類的演算法，然而你並不知道起點跟終點，不知道要從哪走到哪，事實上如果你真的走出來應該也是一坨屎，這時候題目有個好像沒啥鬼用的提示 `תיבת נח`，恩，他是諾亞方舟的意思，一個你解完才會知道這是什麼意思的提示。
+總之這題其實跟 [FloodFill](https://zh.wikipedia.org/wiki/Flood_fill) 有關，你可以考慮雕一個簡單的腳本，或是，更簡單的，用小畫家的填充工具就好了。
+如果你都很懶，我已經寫好一個放在 github 裡面了拿來跑跑看就知道了，結果大概是像這樣子：
+<Image src="./png.png" alt="" />
+
+# Trivial
+
+## recon
+
+binary 只會檢查你的輸入長度是否是 60，如果符合的話，就會把 flag 複製到剛剛用來輸入的 buffer，但是不會列印出來，比較 naive 的方法就是看懂 code 然後把 flag 手動拼回來，直覺又快速的做法是使用 gdb。
+
+## solve
+
+```
+gdb-peda$  b puts
+gdb-peda$  run <<< `python -c 'print("a"*60)'`
+gdb-peda$  find AIS3
+
+Searching for 'AIS3' in: None ranges
+Found 7 results, display max 7 items:
+Trivial : 0x555555554798 (rex.B)
+[stack] : 0x7fffffffdb90 ("AIS3{This_is_a_rea", 'l' <repeats 11 times>, "y_boariiing_challenge}aaaaaaaaa")
+[stack] : 0x7fffffffe06e ("AIS3_2019_staff/Trivial/Trivial")
+[stack] : 0x7fffffffe174 ("AIS3_2019_staff/Trivial")
+[stack] : 0x7fffffffe82c ("AIS3_2019_staff/Trivial")
+[stack] : 0x7fffffffef86 ("AIS3_2019_staff/Trivial/Trivial")
+[stack] : 0x7fffffffefd8 ("AIS3_2019_staff/Trivial/Trivial")
+```
+
+`AIS3{This_is_a_reallllllllllly_boariing_challenge}`
+
+# TsaiBro
+
+## recon
+
+基本上就是 [Tap code](https://zh.wikipedia.org/wiki/%E6%95%B2%E6%89%93%E5%AF%86%E7%A2%BC)，每個發財後面跟著不同數量的`.`，每兩個可以對應找出一個單字，例如`發財.發財.`是`a`，`發財.發財..`是`b`，寫個解碼的腳本就好了。
+
+## solve
+
+```python solve.py
+#!/usr/bin/env python3
+table = ['a','b','c','d','e','f','g','h',
+'i','j','k','l','m','n','o','p',
+'q','r','s','t','u','v','w','x',
+'y','z','A','B','C','D','E','F',
+'G','H','I','J','K','L','M','N',
+'O','P','Q','R','S','T','U','V',
+'W','X','Y','0','1','2','3','4',
+'5','6','7','8','9','{','}','_']
+
+f = open("./flag.txt","r").read().split('\n')[1]
+f = f.split("發財")[1:]
+for i in range(0,len(f),2):
+    print(table[(len(f[i])-1)*8+len(f[i+1])-1],end='')
+```
+
+# HolyGrenade
+
+## recon
+
+這題給的是一個 `pyc` 檔案，裡面是 python 的 bytecode，可以用 uncompyle 之類的工具把他弄回 python 的樣子，弄回來之後會是一份被混淆過的 python script
+
+## solve
+
+### decompile
+
+```python HolyGrenade.py
+from secret import flag
+from hashlib import md5
+
+if 64 - 64: i11iIiiIii
+def OO0o ( arg ) :
+ arg = bytearray ( arg , 'ascii' )
+ for Oo0Ooo in range ( 0 , len ( arg ) , 4 ) :
+  O0O0OO0O0O0 = arg [ Oo0Ooo ]
+  iiiii = arg [ Oo0Ooo + 1 ]
+  ooo0OO = arg [ Oo0Ooo + 2 ]
+  II1 = arg [ Oo0Ooo + 3 ]
+  arg [ Oo0Ooo + 2 ] = II1
+  arg [ Oo0Ooo + 1 ] = O0O0OO0O0O0
+  arg [ Oo0Ooo + 3 ] = iiiii
+  arg [ Oo0Ooo ] = ooo0OO
+ return arg . decode ( 'ascii' )
+ if 64 - 64: Oooo % OOO0O / II1Ii / Ooo
+flag += b"0" * ( len ( flag ) % 4 )
+if 63 - 63: iI11i11IiIiII + oo00oOOo * Oooo000o % OOo . OOO
+for Oo0Ooo in range ( 0 , len ( flag ) , 4 ) :
+ print ( OO0o ( md5 ( bytes ( flag [ Oo0Ooo : Oo0Ooo + 4 ] ) ) . hexdigest ( ) ) )
+ if 27 - 27: Iii1IIIiiI + iI - Oo / iII11iiIII111 % iiiIIii1I1Ii . O00oOoOoO0o0O
+```
+
+### deobfuscate
+
+最好的方法就是，手動把它修好 XD，總之修好之後大概長這樣
+
+```python source.py
+from secret import flag
+from hashlib import md5
+
+def rearrange( arg ):
+    arg = bytearray(arg,'ascii')
+    for i in range(0,len(arg),4):
+        a = arg[i]
+        b = arg[i+1]
+        c = arg[i+2]
+        d = arg[i+3]
+        arg[i+2] = d
+        arg[i+1] = a
+        arg[i+3] = b
+        arg[i] = c
+    return arg.decode('ascii')
+
+flag += b"0"*(len(flag)%4)
+
+for i in range(0,len(flag),4):
+    print(rearrange(md5(bytes(flag[i:i+4])).hexdigest()))
+```
+
+### decode 
+
+可以看得出來，flag 的每 4 個字元被拿去做 md5 之後又被重新排列了一次，所以把題目給的`output.txt`修復好之後，送上線上的 md5 網站就可以拿回 flag 了
+
+```python solve.py
+#!/usr/bin/env python3
+f = open("output.txt",'r').read().split('\n')[:-1]
+def rearrange( arg ):
+    arg = bytearray(arg,'ascii')
+    for i in range(0,len(arg),4):
+        a = arg[i]
+        b = arg[i+1]
+        c = arg[i+2]
+        d = arg[i+3]
+        arg[i+1] = d
+        arg[i+2] = a
+        arg[i] = b
+        arg[i+3] = c
+    return arg.decode('ascii')
+
+for i in f:
+    print(rearrange(i))
+```
+
+### md5 crack
+
+拿結果去餵 https://hashkiller.co.uk/Cracker/MD5
+
+```
+aab3fb739ad2d154fe856818d66b6427 MD5 AIS3 
+343e0b500b25058ed52de927ca6bbd87 MD5 {7he 
+dc719b0b22f0fc5a6dfbfc0ee60c70a8 MD5 re_1 
+cd9e8edd75eb88b7873d9eab7dd685fe MD5 5_th 
+6d740b3c874058ca047ab375ecb662f6 MD5 e_k1 
+18fed6fa3fcf748e9530a6e10296c446 MD5 ll3r 
+73d9c19bea1d91abb5f0f4eb24e9f567 MD5 _ra6 
+a05e1b0e95d57c4566877d1b7eb27872 MD5 61t} or osCommerce 61:t}
+```
+
+# 0neWay
+
+## recon
+
+簡單分析可以發現，這個 binary 會問你三個問題來驗證你的身份，驗證的方法是把你所有的回答串接再一起後丟進一個很像是 hash 的 function 中計算，即 `hash(ans1||ans2||ans3) == 8932587927620123215`，同時也會計算其長度是否符合 `hash(strlen(ans1||ans2||ans3)) ==  177593`，而這個很像 hash 的 function，它事實上就是一個功能正常的小巧 `djb2`  hash function，也就是符合 onewayness，無法直接逆推。
+
+在對這個 hash function 一無所知的情況下，其實 google 算式就能找到了，再者，透過簡單的實驗應該可以發現，這個 hash 並沒有明顯可以逆運算的特徵，而字串長度也讓暴力破解法時間成本很高，因此這時候應該考慮的事情是，這整個加密的過程，還有哪裡是脆弱的。
+
+觀察程式流程，可以發現如果通過 hash 的驗證，程式將會以循環 xor 的方式來解碼一個 jpg 檔案，而我們知道 jpg 是有特定 header 的，$jpg\oplus key = cipher$ 所以做逆運算就可以得到 key，$cipher \oplus jpg = key$，但事實上並不需要如此費工。
+
+## key leak
+
+因為 jpeg 有一段 App makers 的標籤，這裡有連續重複的 `0x20`，所以導致 cipher 中 leak 了 key，
+
+仔細看 cipher 的 hex 就會發現不遠的地方有一段 data 長這樣 ：
+
+```
+4550 4554 4e49 4e49 1212 4944 4944 4e4f  EPETNINI..IDIDNO
+5448 4156 4550 4554 4e49 4e49 1212 4944  THAVEPETNINI..ID
+4944 4e4f 5448 4156 4550 4554 4e49 4e49  IDNOTHAVEPETNINI
+1212 4944 4944 4e4f 5448 4156 4550 4554  ..IDIDNOTHAVEPET
+4e49 4e49 1212 4944 4944 4e4f 5448 4156  NINI..IDIDNOTHAV
+4550 4554 4e49 4e49 1212 4944 4944 4e4f  EPETNINI..IDIDNO
+5448 4156 4550 4554 4e49 4e49 1212 4944  THAVEPETNINI..ID
+4944 4e4f 5448 4156 4550 4554 4e49 4e49  IDNOTHAVEPETNINI
+1212 4944 4944 4e4f 5448 4156 4550 4554  ..IDIDNOTHAVEPET
+4e49 4e49 1212 4944 4944 4e4f 5448 4156  NINI..IDIDNOTHAV
+...
+```
+
+## solve
+
+要求驗證的時候有說過全部小寫，所以不難發現這一段 data 有被 `xor 0x20`，還原後可以知道三段驗證的答案是 `nini`，`22`，`ididnothavepet`，拿回去餵 binary 就可以得到 flag 了。
+
+<Image src="./flaggggg.jpg" alt="" />
+
+更簡單的做法，把 cipher dump 出來做 frequency analysis 可以直接猜出 key。
+
+# MasterPiece
+
+這題與 Game 基本上就是不希望大家直接看整份 code ，其實有許多明顯的斷點可以讓你直接找到關鍵的 code 部分。
+
+## recon
+
+簡單試玩一下可以發現，應該是要畫出 flag 的樣子讓他彈出正確的訊息，否則他就會一直彈出 `That is not the flag, that's your ugly ass`的視窗，透過這個特點，我們可以用 ida 的 string 找到關鍵的 code 在 `sub_140001220`。
+
+<Image src="./string.png" alt="" />
+
+接下來就是看 code
+
+```c
+  if ( v2 )
+  {
+    v14 = QString::fromAscii_helper("Yes, that the flag !!", 21i64);
+    ...
+  }
+  else
+  {
+    v13 = QString::fromAscii_helper("That is not the flag, that's your ugly ass", 42i64);
+    ...
+  }
+```
+
+往上看還有哪裡修改 `v2`，上面可能要花一點時間看，不過邊 google Qt 相關 function 邊看懂應該不是問題，source code 是長這樣：
+
+```c
+    image.fill(qRgb(255, 255, 255));
+    for( int row = 0 ; row < image.height() ; row++){
+        for( int col = 0 ; col < image.width() ; col++){
+            if( bitmap[row][col] != flag[row*image.width()+col]){
+                pass = false;
+                break;
+            }
+        }
+    }
+```
+
+flag 陣列就是 ida 中的 `byte_14006B000`，其實就是一堆 0 跟 1 而已，一個代表黑色一個代表白色，所以把 `byte_14006B000` dump 出來就可以了，這裡有個問題就是，我們並不知道 `image.height()` 跟 `image.width()` 是什麼，不過這可以用 x64dbg 直接觀察結果，因為圖片的大小並不會改變。
+
+## solve
+
+```python solve.py
+#!/usr/bin/env python3
+import numpy as np
+from PIL import Image
+import random
+import string
+
+f = open("./flag.dump","r").read().split(',')
+w = 650
+h = 410
+arr = np.zeros([h,w])
+for i in range(h):
+    for j in range(w):
+        arr[i][j] = 255 if f[i*w+j] == '1' else 0
+img = Image.fromarray(np.uint8(arr),"L")
+img.save("flag.png")
+```
+
+<Image src="./flag.png" alt="" />
+
+# Game
+
+這題與 MasterPiece 基本上就是不希望大家直接看整份 code ，其實有許多明顯的斷點可以讓你直接找到關鍵的 code 部分。
+
+## recon
+
+這邊使用 memory scan 的方式來找到關鍵的 code ，簡單遊玩幾次後可以發現，每殺死一個怪，地毯的顏色就會改變（錯過的怪將會直接遺失相關訊息，基本上每隻都應該要打到，不過還是可以用猜的），15*15格的地毯其實就類似跑馬燈，過了4關以後會發現怪的速度開始增加，我們先簡單掃描 score 的變化來找到存 score 的變數記憶體位置在哪：
+
+<Image src="./CE1.png" alt="" />
+
+然後接下來找是哪個 instruction 在修改 score：
+
+<Image src="./CE2.png" alt="" />
+<Image src="./CE3.png" alt="" />
+
+最後 show assembly 來觀察其附近的邏輯：
+<Image src="./CE4.png" alt="" />
+
+這邊有個有趣的方法，因為我們知道我們現在處在的邏輯是 *我打死了怪，我要增加 score* 的 branch 當中，所以我們可以大膽猜測往前一點應該要有*判斷是不是擊中的邏輯*，當然也有可能這只是一個 `add_score()` 的函式，不過前面的code 很多，可以試試看，至於試試看的方法就是，手工 fuzz ，把跳轉的條件 `nop` 掉或是改成相反的判斷，例如 `if(bullet.x > enemy.x){a}else{b}` 組合語言可能就會是 `jb`，如果把 `jb` 改成 `nop`，那就永遠都會執行 `{a}` 部分的 code，重新嘗試幾次可以看到下面這部分的 code 是判斷子彈是否有打到怪：
+
+<Image src="./CE5.png" alt="" />
+
+把上圖的 `jl` 改成 `nop` 就可以全圖打怪了，不過我沒有打算這樣就給 flag，等到第四關的時候會變速，單純按著 `space` 來不及打完，會遺失很多的訊息，導致看不知道目前到底拚出了什麼單字，這時候我們要做的就是，去 ida 看我們剛剛找到的這些 code 附近到底還有什麼東西，有很多做法，把怪速度改成0慢慢打，把子彈改更快，把 flag 訊息復原直接畫圖等等，最簡單的就改速度。
+對應的位置在 ida 中的 `sub_1400030F0()`，這裡面有一些奇怪的東西，例如 `LODWORD(v53) = rand() % 720;`，亂改可以發現這個是生成的位置，或是
+
+```c
+        if ( (signed int)result <= 3 )
+          v26 = 0.1;
+        else
+          v26 = 1.1;
+```
+
+亂改後可以發現這個是怪的速度，總之這邊就是看 code 的上下文，透過剛剛 recon 階段蒐集到的資訊，去比對每一段 code 大致上會是在處理什麼邏輯。
+基本上把速度改成 0 慢慢玩就會過了，因為預設還是希望大家把他弄快一點，所以 flag 長度有故意拉長，讓慢慢玩的人晚一點拿到 flag。
+避免大家覺得我豪洨，根本黑箱不出來，下面是 @segno 錄下來的解法：
+
+<video width="100%" height="400" src="/files/segno.mp4" controls="controls">
+The `<video>` tag is not supported by your browser.
+</video>
+
+# BigO1
+
+這題看 source code 應該就會恍然大悟了吧？總之這是超級超級超超級弱化版本了，這題來自 flare-on 2018 的其中一題，這題一直沒辦法用 gdb debug 的原因很簡單，我在 main 之前 ptrace 了整支程式，所以 gdb 要 ptrace 的時候就會被我寫的 ptrace 偵測到，這應該很好發現，因為有些被 print 出來的句子並沒有在 main 裡面被 print 出來。
+
+這個 binary 要求你輸入 999 把 key，每次驗證完一把 key 後，就會把他 xor 一段寫死的 data array ， 999 輪後就把該 data array 印出來，所以可以知道我們要做的事情就是通過每個驗證，然後解出 flag，這裡需要逆向的是 binary 怎麼樣來驗證我們的 key 是不是正確的，然後因為我沒有做 code 段的加密，不然會太難，所以這個 binary 是 static link，不然馬上就可以發現旁邊有一些奇怪的 function 。
+
+決定要怎麼驗證 flag 的 struct 如下 ：
+
+```c
+struct Check
+{
+    void (*func)() ;
+    char* input;
+    int offset;
+    int chr_idx;
+    int check_len;
+    int verify[2];
+} checker;
+```
+
+func 是一個指向 `verify_[1-5]` 其中一個 function 的函式指標，不過這樣會變得太簡單，因為 ida 認得出來，所以我有幫他加上偏移，實際上他是 `verify_[1-5]-offset`，所以靜態分析得時候是不會被解析的，他會在執行的時候在 `check()`中重新計算真正的 function 在哪：
+
+```c
+checker.func = data[idx].func+checker.offset;
+```
+
+每把 key 的長度是 70byte ，每個驗證 function 會驗證其中的 1~2byte ，不會重複驗證驗證過的 byte，也就是每個 function 只會算出唯一解，不需要複雜的運算，總共只有 5 個驗證 function，去看 source code 吧，基本上是很簡單的運算， fibonacci 或是單純乘法或是單純 xor 而已。
+
+所以要做的事情就是，復原 struct ，知道他打算驗證什麼，驗證哪幾 byte，對應的驗證函式是什麼。
+這題就先不公布解法的腳本了，留一題給大家當暑假作業，呵呵，這題難點就是逆向而已，腳本練習一下啊。
+不過算好的 key.txt 已經放在 github 上了，把 key 餵給 binary 的方法：
+
+```
+cat key.txt | ./BigO1 ;done
+```

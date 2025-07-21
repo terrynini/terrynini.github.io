@@ -1,0 +1,259 @@
+---
+title: "Advance-Algorithm::homework5"
+description: ""
+publishDate: "2018-01-15"
+category: "Algorithm"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+***建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。***
+
+## 題一
+
+>Suppose we wish not only to increment a counter but also to reset it to zero (i.e., make all bits in it 0). Counting the time to examine or modify a bit as $O(1)$, show how to implement a counter as an array of bits so that any sequence of n INCREMENT and RESET operations takes time $O(n)$ on an initially zero counter. (Hint: Keep a pointer to the high-order 1.)
+
+***
+
+### 聚集分析 n-INCREMENT (aggregate analysis)
+
+從計數 m 到計數 m+1 並不是每一個位元都會改變，而以前我們鬆散的估計就說有可能每一個位元都會改變 , 例如 01111111 變成 10000000。事實上 仔細觀察：
+
+* A[0] 位元每間隔 $2^0$ 次 計數改變一次
+* A[1] 位元每間隔 $2^1$ 次 計數改變一次
+* A[2] 位元每間隔 $2^2$ 次 計數改變一次
+* ...
+* A[k] 位元每間隔 $2^k$ 次 計數改變一次
+
+$\frac\{n}\{2^0}+\frac\{n}\{2^1}+\frac\{n}\{2^2}+...+\frac\{n}\{2^k}≤2n$
+因此 $T(n)=O(2n)=O(n)$
+
+### RESET
+
+直接整個A[]從頭到尾歸0 $\rightarrow O(n)$
+
+
+[CASE STUDY 2 : Incrementing a binary counter](http://mropengate.blogspot.tw/2015/06/algorithm-amortized-analysis.html)
+
+## 題二
+
+>Show how to implement a queue with two ordinary stacks so that the amortized cost of each Enqueue and Dequeue operation is $O(1)$.
+
+***
+
+在攤銷式分析下，inqueue及dequeue的時間複雜度為$O(1)$
+
+```pseudo pseudo=
+instack, outstack
+push(val)
+    instack.push(val)
+pop() {
+    if(outstack.empty)
+        while(!instack.empty)
+            outstack.push(instack.pop())
+    return outstack.pop();
+}
+```
+
+by Accounting Method (記帳方法)
+
+```
+實際代價：
+Push: total = 1
+    instack_push: 1
+Pop : total = 2*instack_size + 1
+    instack_pop_to_empty: instack_size
+    outstack_push       : instack_size
+    outstack_pop        : 1
+
+平攤代價(amortized cost):
+Push: 4
+    each element just has at most 4 steps:
+        instack_push : 1
+        instack_pop  : 1
+        outstack_push: 1
+        outstack_pop : 1
+Pop : 0
+
+T(n) <= 4n, T(n)/n <= 4 → O(1)
+```
+
+## 題三
+
+>Consider an ordinary binary min-heap data structure with n elements supporting the instructions INSERT and EXTRACT-MIN in $O(lgn)$ worst-case time. Give a potential function $\Phi$ such that the amortized cost of INSERT is $O(lgn)$ and the amortized cost of EXTRACT-MIN is $O(1)$ and show that it works.
+
+***
+
+let $\Phi(H) = \sum\limits\_\{i \in H} w\_i$ , where $H$ is the binary min heap, $w\_i$ = depth of element $i \in H$.
+let $c\_i =$ 第 $i$ 個操作的實際成本, $n = H$的元素數
+
+1. INSERT: insert element at most depth $logn$ & bubble up
+    a. insert new element: $c\_i + \Phi(H\_i) - \Phi(H\_\{i-1}) \leq O(logn) + O(logn)$
+    b. bubble up: $c\_i + \Phi(H\_i) - \Phi(H\_\{i-1}) \leq O(logn) + 0$
+    * total = $O(logn)$
+2. EXTRACT-MIN: remove root node & bubble up
+    a. remove root: $c\_i + \Phi(H\_i) - \Phi(H\_\{i-1}) \leq O(1) + 0$
+    b. bubble up: $c\_i + \Phi(H\_i) - \Phi(H\_\{i-1}) \leq O(logn) + O(-logn)$
+    * total = $O(1)$
+
+[reference](https://cs.stackexchange.com/questions/7894/potential-function-binary-heap-extract-max-o1)
+
+## 題四
+
+> Design a data structure to support the following two operations for a dynamic multi-set $S$ of integers, which allows duplicate values:
+> INSERT(S, x) inserts $x$ into $S$.
+> DELETE-LARGER-HALF(S) deletes the largest $\lceil \frac\{|S|}\{2}\rceil$ elements from $S$.
+> Explain how to implement this data structure so that any sequence of m INSERT and DELETE-LARGER-HALF operations runs in $O(m)$ time. Your implementation should also include a way to output the elements of $S$ in $O(|S|)$ time.
+
+***
+
+* 資料結構：課堂上說是dynamic table（就是c++裡面的vector的概念）
+* $INSERT(S,x)$：直接放在陣列最後面
+* $DELETE-LARGER-HALF(S)$ : 用median-of-medians算法，可以在$O(n)$內找到中位數，然後再花$O(n)$的時間把大的一半刪掉。
+
+[中位數演算法](http://tmt514-blog.logdown.com/posts/484313-divide-and-conquer-method-iii-find-the-median)
+
+## 題五
+
+>Suppose that in the dynamic table operations, instead of contracting a table by halving its size when its load factor drops below 1/4, we contract it by multiplying its size by 2/3 when its load factor drops below 1/3. What is the amortized cost of a TABLE-DELETE that uses this strategy?
+
+***
+
+* 基本上potential method中的**實際成本**跟aggregate method中定義的是一樣的東西，只是aggregate用趨近無限的算法來算，potential則是用態勢函數來計算。
+* potential function 中的 $\abs\{2*num[T] - size[T]}$來自於accounting method，根據第一個reference，前$\frac\{n}\{2}$個元素存款為0，後面存款為2，刪除操作亦相同，只是存款為1。
+
+[比較好的原始版本(但沒有contract)](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-introduction-to-algorithms-sma-5503-fall-2005/video-lectures/lecture-13-amortized-algorithms-table-doubling-potential-method/lec13.pdf)
+[完整優質版本](http://www.iiitdm.ac.in/old/Faculty_Teaching/Sadagopan/pdf/ADSA/amortized-analysis-part-2.pdf)
+[這題的解答](http://www.sharecourse.net/sharecourse/upload/person/3085/files/Algorithm%20HW11%20Ch17-3%20solution.pdf)
+
+## 題六
+
+>Study the famous KMP algorithm for the string matching problem and give an amortized analysis of the algorithm.
+
+***
+
+假設字串$T$, $P$, $|T| > |P|$
+利用stack來存放已比對到的相同字元
+
+* `push:`比對相同的字元
+* `pop :`挪動 $P$ 一格
+* `multi-pop(k):`挪動 $P$ `k`格
+
+因此對應到stack的攤銷分析：(記帳法)
+
+* `push = 2`
+* `pop = 0`
+* `multi-pop(k) = 0`
+  * total $\leq O(2|T|)$
+
+建立 $F$ 函式時，同理
+
+* total $\leq O(2|P|)$
+
+所以總和 = $O(|T|+|P|)$
+
+[演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/StringMatching.html)
+[PTT](https://www.ptt.cc/bbs/b99902HW/M.1300796484.A.EE1.html)
+[莫名其妙找到的Z array算法](https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/)
+
+## 題七
+
+>Given an array $a[1\dots n]$, for each position in the array, search among the previous positions for the last position that contains a smaller value. That is, for each position $i$, $1 \leq i \leq n$, find the largest possible index pi such that $p\_i < i$ and $a[p\_i] < a[i]$. For convenience, we attach a dummy element $a[0] = -\infty$. Then, each $p\_i$, $1 \leq i \leq n$, is well-defined. Design a linear time algorithm to solve this problem.
+
+***
+
+題目給一個陣列，要求對每一個元素：往陣列前面找一個比現在這個元素還小的元素，然後其index越大越好，並且題目定義array[0]為負無限
+
+作法：從尾巴開始拜訪，把不知道解答的元素都推進stack裡面，最後就會知道解了
+
+```
+a[1...n] = 輸入的陣列
+a[0] = -INF
+pl[1...n] = [0...0]
+stack = []
+for i = n to 1
+    while !stack.empty() && a[i] < a[stack.top()]
+        pl[stack.pop()] = i
+    stack.append(i)
+return pl
+```
+
+[類似的題目](https://stackoverflow.com/questions/9493853/given-an-array-find-out-the-next-smaller-element-for-each-element)
+
+## 題八
+
+>Binary search of a sorted array takes logarithmic search time, but the time to insert a new element is linear in the size of the array. We can improve the time for insertion by keeping several sorted arrays. Specifically, suppose that we wish to support SEARCH and INSERT on a set of n elements. Let $k = \lceil lg(n+1)\rceil$, and let the binary representation of $n$ be $< n\_\{k-1}, n\_\{k-2}, \dots , n\_\{0}>$. We have k sorted arrays $A\_0, A\_1, \dots , A\_\{k-1}$, where for $i = 0, 1, \dots, k-1$, the length of array $A\_i$ is $2^i$. Each array is either full or empty, depending on whether $n\_i = 1$ or $n\_i = 0$, respectively. The total number of elements held in all k arrays is therefore exactly n. Although each individual array is sorted, elements in different arrays bear no particular relationship to each other.
+> a) Describe how to perform the SEARCH operation for this data structure. Analyze its worst-case running time.
+> b)Describe how to perform the INSERT operation. Analyze its worst-case and amortized running times.
+> c) Discuss how to implement DELETE.
+***
+假設輸入有$n$個元素，則我們令$k=\lceil log(n+1)\rceil$，表示$n$化為二進位所需要的位元數，並依此宣告多個陣列$A\_0,A\_1,A\_2, \dots ,A\_\{k-1}$，每個陣列的長度為$2^i$，對應n在二進位時的第i個位元，依照其對應的位元如果是1就裝滿否則不作使用，而且每個陣列內的元素是排列過的，但兩陣列間的元素沒有絕對的關係存在(這裡為方便表示，陣列內的index從1開始)。
+
+**SEARCH :**
+
+* 找出所有使用中的陣列，對其做二分搜
+* **複雜度：**
+  * 最差情況我們需要看過每個陣列，且每個陣列成本為$O(log(2^i))=O(i)$
+  * 因此複雜度為$\sum_\{i=0}^\{k}O(i)=O(k^2)=O(log^2n)$
+
+```c=
+Search(A, n, key)
+    i = 0
+    while n > 0 do
+        if n is odd then
+            pos = BSearch(A_i, 2^i , key)
+            if pos != 0 then
+                return (i; pos)
+        n = n/2
+        i = i + 1
+    return "not found"
+```
+
+**INSERT :**
+
+* 插入元素會使n增加，意味著我們必須搬動陣列，以符合其二進位的變化
+* 每次插入元素使$n+1$，則從LSB起，連續的1都將進位為0，因此我們要從LSB起找第一個0
+* 定義 $Merge(A\_a,A\_b,A\_c)$，將陣列$A\_a,A\_b$合併後放進$A\_c$
+* **複雜度 (aggregate method):**
+  * 每個$B\_i$陣列產生的成本來自Merge為$O(2^i)$
+  * 假設我們從$n=1$一直INSERT元素直到$n=N$，這中間$B\_i$共會被產生$\lfloor\frac\{N}\{2^i}\rfloor$次
+  * 得$\sum\_\{i=0}^\{k-1}\lfloor\frac\{N}\{2^i}\rfloor O(2^i)\leq \sum\_\{i=0}^\{k-1}O(2^k)\leq O(2^kk) = O(NlogN)$
+  * 因此本操作的平攤代價為 $\frac\{O(NlogN)}\{N} = O(logN)$
+
+```c=
+Insert(A, n, e)
+    i = 0
+    B_0 = \{e}
+    while n is odd do
+        Merge(A_i, B_i, B_i+1)
+        n = n/2
+        i = i + 1
+    A_i = B_i
+```
+
+**DELETE :**
+
+* 由於刪除元素導致n減少，從LSB起，連續的0都將借位得1，因此我們要從LSB起找第一個1，並將其中的元素拆分到較低位的陣列當中
+* 定義Replace($A_i$, pos, e)可以將原本$A_i[pos]$元素替代為$e$，並且保證使陣列處於排序過的狀態
+* 這裏pseudo code中的$A_i[j:k]$，表示取$A_i$中第j個到第k個元素(包括k)
+* 使用陣列中最高的值$A_k[2^k]$來進行取代，在拆分時只取$A_k[1:2^k-1]$
+
+```c=
+Delete(A, n, i, pos)
+    k = 0
+    while n is even do
+        n = n/2
+        k = k + 1
+    if i = k then  
+        Replace(A_k[1 : 2^k - 1], pos, A_k[2^k])
+    else
+        Replace(A_i, pos, A_k[2^k])
+    for i = 0 to k do
+        A_i = A_k[2^i : 2^(i+1)-1]
+    A_i = {}
+```
+
+1. SEARCH: $O(log^2 n)$
+2. INSERT: $O(logn)$
+3. DELETE: 題目沒要求
+
+[reference](http://www.cse.fau.edu/~jie/teaching/fall_2003_files/hw4dai.pdf)

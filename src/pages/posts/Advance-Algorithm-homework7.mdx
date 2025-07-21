@@ -1,0 +1,280 @@
+---
+title: "Advance-Algorithm::homework7"
+description: ""
+publishDate: "2018-01-15"
+category: "Algorithm"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+***建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。***
+***感恩彬智讚嘆彬智***
+
+## 題一
+
+>Show that the class $P$, viewed as a set of languages is closed under union, intersection, concatenation, complement and Kleene star. That is, if $L1, L2 \in P$, then, $L1 \cup L2 \in P$,etc.
+
+***
+
+* [page 4 - Problem 2-a](https://www.csie.ntu.edu.tw/~hsinmu/courses/_media/ada_11fall/hw6-sol.pdf)
+* [Kleene star](https://en.wikipedia.org/wiki/Kleene_star)
+
+## 題二
+
+>Show that if the decision version of the Hamiltonian cycle is polynomial-time solvable then so is the problem of finding a Hamiltonian cycle.
+
+***
+
+題目：if Decision Hamiltonian Cycle(**DHC**) $\in P
+\rightarrow$ Finding Hamiltonian Cycle(**FHC**) $\in P$
+
+假設現在有一個演算法`HamCycle(G)`可以在P時間內解掉**DHC**，
+則我們可以建構以下演算法在確定性P時間內解掉**FHC**
+(證明：連結裡面有)
+
+```cpp=
+HCVertices(G)
+    H = []
+    next ← 0  // 初始值不重要
+    choose a starting node v
+    while G has unchecked edges do
+        if HamCycle(G) then
+            // 試著一個個拔掉連在v上的邊
+            // 如果有一個邊e被拿掉後，新的圖就不存在HC，那e就是HC的一部分
+            for all edges e = (v,u) on v do
+                G' ← G − e
+                if HamCycle(G') then
+                    G = G'
+                else
+                    add v to H
+                    mark e as checked
+                    next ← u
+            v ← next
+    return H
+```
+
+[問題變轉(Problem Reduction)](https://hackmd.io/s/SJkREbaQz#13-%E5%95%8F%E9%A1%8C%E8%AE%8A%E8%BD%89problem-reduction)
+
+>媽我找到答案了 裡面的[problem 1](http://www.cs.wustl.edu/~pless/441/hw3soln.pdf)
+
+## 題三
+
+>Show that the class $NP$, viewed as a set of languages is closed under union, intersection, concatenation and Kleene star.
+
+***
+類似1.
+
+## 題四
+
+>Prove that P $\subseteq$ NP$\cap$ co-NP and if NP$\ne$ co-NP,then P$\ne $NP.
+
+***
+
+![錦文的講義](https://i.imgur.com/sTOq7zL.png)
+$P \subseteq (NP \ \cap \  coNP) \rightarrow P \subseteq NP, P \subseteq coNP$
+so if $P = NP \\\\
+\rightarrow NP \subseteq (NP \ \cap \  coNP) \\\\
+\rightarrow NP \subseteq coNP \ 又 \ size(NP)=size(coNP) \\\\
+\rightarrow NP = coNP$
+
+$\because P \Rightarrow Q$ 等價於 $\bar Q \Rightarrow \bar P$
+$\therefore$ if $NP \neq coNP$, then $P \neq NP$
+
+## 題五
+
+>Show that 2-CNF-SAT is polynomial time solvable.
+
+***
+
+**CNF** : conjunctive normal form，數位電路中的product of sum，例：$(A \lor B) \land (C \lor D)$
+
+[stackoverflow](https://stackoverflow.com/questions/8467676/how-is-2-cnf-sat-is-in-p-while-3-cnf-sat-is-in-npc)
+[演算法筆記](http://www.csie.ntnu.edu.tw/~u91029/Component.html#6)
+
+>↑這個方法太神啦
+>>太屌辣
+
+## 題六
+
+>The subgraph isomorphism problem takes two graphs $G1$ and $G2$ and asks whether $G1$ is isomorphic to a subgraph of $G2$. Show that this problem is NP-complete.
+
+***
+[Chegg標準解答](https://www.chegg.com/homework-help/introduction-to-algorithms-2nd-edition-chapter-34.5-solutions-9780262032933)
+
+* **Subgraph Isomorphism Problem**
+  * `Input :`graph $G\_1$, $G\_2$
+  * `Output:`$G\_1$ 是否與 $G\_2$ 的其中一個 subgraph 同構
+
+證明 **Clique Problem** $\propto$ **Subgraph Isomorphism Problem**
+(以下簡稱**CP**、**SIP**)
+
+1. 已知 **CP** $\in$ **NPC**
+    * `Input :`graph $S$, int $k$
+    * `Output:`$S$ 是否存在一個 $k$-vertice 的完全子圖
+2. 輸入變轉：
+    * **SIP**的輸入 $G\_1 = k$-clique：$O(N^2)$
+    * **SIP**的輸入 $G\_2 = S$：$O(N^2)$
+3. 因為`CP(S,k) = SIP(k-clique,S)`
+4. 所以 **CP** $\propto$ **SIP** $\rightarrow$ **SIP** $\in$ **NP-hard**
+5. 又 **SIP** $\in$ **NP**（簡單寫個NP演算法就知道了）
+6. **SIP** $\in$ **NPC**
+
+## 題七
+
+>Given an integer m-by-n matrix $A$, and an integer m-vector $b$, the integer programming problem asks whether there is an integer n-vector $x$ such that $Ax \leq b$. Prove that this problem is NP-complete.
+
+***
+
+* **Integer Programming Problem**
+  * `Input :`m*n matrix $A$, m-vector $b$
+  * `Output:`是否存在一 n-vector $x$ 使得 $Ax \leq b$
+
+證明 **SAT** $\propto$ **Integer Programming Problem** (**IPP**)
+
+1. 已知 **SAT** $\in$ **NPC** 
+    * `Input :`CNF布林函式 $E(x) = C\_1 \land C\_2 \land ... \land C\_k$ , $x = \{ x\_1,...,x\_n\}$
+        如 $C\_1 = \lnot x\_1 + x\_3 + x\_7$
+    * `Output:`是否存在一組輸入當作 $x$ 使得 $E(x) = True$
+2. 變轉：
+    * **IPP**的輸入$A = \begin\{bmatrix}a\_\{11} & a\_\{12} & ... & a\_\{1n} \\\\
+        ...    & ...    & ... & ...    \\\\
+        a\_\{m1} & a\_\{m2} & ... & a\_\{mn} \\\\
+        \end\{bmatrix}$, $b = \begin\{bmatrix}b\_1 \\\\
+         ... \\\\
+        b\_m \\\\
+        \end\{bmatrix}$, 其中各列 $a\_i*b$ 對應到 $C\_i$
+
+    * 如：$C\_1$ 對應 $(1-x\_1)+x\_3+x\_7 \geq 1 \\\\
+        \rightarrow -x\_1+x\_3+x\_7 \geq 0 \\\\
+        \rightarrow x\_1-x\_3-x\_7 \leq 0 \\\\
+        \rightarrow a\_1 = \{1,0,-1,0,0,0,-1,...\}, b\_1=0$
+    * **IPP**的輸出改為：是否存在一 n-vector $x=\{0,1\}$ 使得 $ A\_x \leq b$，0 對應 $False$，1 對應 $True$
+3. 因為`SAT(E) = IPP(A,b)`
+4. 所以 **SAT** $\propto$ **IPP** $\rightarrow$ **IPP** $\in$ **NP-hard**
+5. 又 **IPP** $\in$ **NP**（簡單寫個NP演算法就知道了）
+6. **IPP** $\in$ **NPC**
+
+## 題八
+
+>Given a set $S$ of integers, determine whether there exists a subset $A \subseteq S$, such that $\sum\_\{x\in A}x = \sum_\{x\in S-A} x$. Show this problem is NP-complete.
+
+***
+
+[Problem 1](https://web.njit.edu/~marvin/cs341/hw/hwsoln13.pdf)
+
+* **Partition Problem**
+  * `Input :`set $S$
+  * `Output:`是否存在 $S\_1, S\_2 \in S, S\_1 \cap S\_2 = \varnothing$ s.t. $\sum S\_1 = \sum S\_2$
+
+證明 **Subset Sum Problem** $\propto$ **Partition Problem**
+(以下簡稱**SSP**、**PP**)
+
+1. 已知 **SSP** $\in$ **NPC**
+    * `Input :`set $S$, int $k$
+    * `Output:`是否存在 $S' \in S$ s.t. $\sum S' = k$
+2. 變轉：
+    * **PP**的輸入 $X = S \cup \{s-2k\}$, $s = \sum S$
+3. 因為`SSP(S,k) = PP(X)`
+    * 若左則右：若`SSP(S,k)`成立，代表$S$中有subset $S'$ 加總為 $k$，則在`PP(X)`中就可以將 $X$ 分為 $S'\cup \{s-2k\}$ 和剩下的一半，加總皆為 $s-k$
+    * 若右則左：若`PP(X)`成立，代表互斥子集 $S\_1, S\_2$ 加總皆為 $s-k$，且必定其中一邊含有 $s-2k$，將其去除後，該集合 $S'$ 加總為 $k$ 且 $S' \in S$
+4. 所以 **SSP** $\propto$ **PP** $\rightarrow$ **PP** $\in$ **NP-hard**
+5. 又 **PP** $\in$ **NP**（簡單寫個NP演算法就知道了）
+6. **PP** $\in$ **NPC**
+
+## 題九
+
+>An undirected graph $G$ is k-colorable, if we can color $V(G)$ using at most $k$ colors such that for each edge $xy$ in $E(G)$, its two end vertices are $x$ and $y$ are colored with different colors. Let k-COLOR denote the problem of determine whether $G$ is k-colorable. Show that k-COLOR is NP-complete for any constant $k \geq 3$.
+
+***
+
+**3SAT** $\propto$ **3著色** $\propto$ **k著色**
+
+* **k Coloring Problem**
+  * `Input :`graph $G$, int k , $k > 2$
+  * `Output:`是否存在一種最多使用k色的著色方式，使G上相鄰的vertex顏色皆不同
+
+* **3 Coloring Problem**
+  * `Input :`graph $G$
+  * `Output:`是否存在一種最多使用3色的著色方式，使G上相鄰的vertex顏色皆不同
+
+證明 **3SAT** $\propto$ **3 Coloring Problem**
+(以下簡稱**3SAT**、**3CP**)
+
+1. 已知 **3SAT** $\in$ **NPC**
+    * `Input :` formula $\phi$variables Set $X$, clauses set $C$ 靠 突然不會訂輸入
+    * `Output :` 是否能指定$X$一組布林值使$C$中的子句皆為真
+2. 變轉：
+    * 3CP的輸入G = $G_\{\phi}$
+
+總之他把圖構成類似電路圖的樣子
+
+然後如果要證明 **3著色** $\propto$ **k著色**
+其實非常簡單，以四色為例：
+
+* 四色的輸入為：我們只要在三色圖上面新增一個點，並且這個點跟其他所有的點都有邊
+* 四色的輸出為：是否存在一種著色方法，只用四色就可以畫這張圖
+假設原圖可以用3色著色，那剛才多加的那個點，***一定會需要用到第四色***，所以我們可以知道，要變轉到k色著色，只要幫3色圖的輸入加上k-3個點，且這幾個新增的點到每點都要有邊，這樣我們就可以證明 **3著色** $\propto$ **k著色**了。
+
+https://www.clear.rice.edu/comp487/3sat-to-3col.pdf
+https://cgi.csc.liv.ac.uk/~igor/COMP309/3CP.pdf
+
+## 題十
+
+>Show that the path cover problem is NP-complete.
+
+***
+
+* **Path Cover Problem**
+  * `Input :`graph $G'$, int k
+  * `Output:`是否存在一個path的集合 $S$ ， $\abs\{S}\textless k$  s.t. 所有點都在 $S$ 的任意元素(路徑)上
+
+證明 **Hamiltonian Cycle Problem** $\propto$ **Path Cover Problem**
+(以下簡稱**HCP**、**PCP**)
+
+1. 已知 **HCP** $\in$ **NPC**
+    * `Input :`graph $G$
+    * `Output:`是否存在一cycle $c$ s.t. 所有點都恰在 $c$ 上出現一次
+2. 變轉：
+    * **PCP**的輸入 $G' =$ 在原圖 $G$ 上找一個邊$(u,v)$，並在 $u$ 上接上一個新的點 $u'$，在 $v$ 上接上一個新的點 $v'$，形成的新圖當作$G'$
+    * **PCP**的輸入 $k = 1$
+3. 所以 **HCP** $\propto$ **PCP** $\rightarrow$ **PCP** $\in$ **NP-hard**
+4. 又 **PCP** $\in$ **NP**（簡單寫個NP演算法就知道了）
+5. **PCP** $\in$ **NPC**
+
+## 題十一
+
+>List all NP-complete problems (and give proofs) that appear in Ex.1~6.
+
+***
+
+<div style="color:red">
+Determine whether each of the following problems is polynomial time solvable or NP-complete.
+</div>
+
+> 應該不會考吧
+> 隔天要考就沒寫了系列 呵呵
+
+## 題十二
+
+>Given a set $S$ of $n$ real numbers, another real number $M$, and an integer $k$, we want to determine whether or not there exist $k$ elements in $S$ whose sum is exactly $M$.
+
+***
+這個好證，跟前面類似
+
+## 題十三
+
+>We are given an integer $k$ and $n$ objects which have to be placed in bins of equal capacity $M$. Object $i, 1 \leq i \leq n$, requires mi units of capacity. The objective is to determine whether $k$ bins are enough to accommodate all $n$ objects. No object may be placed partly in one bin and partly in another.
+
+***
+
+這也好證
+
+## 題十四
+
+>Given an undirecter graph $G$ and a number $k$ :
+>a) Is there a cycle of length $\geq$ k?
+>b) Is there a cycle of length $\leq$ k?
+>c) Is there a spanning tree with each node of degree $\leq$ 3?
+
+***
+
+應該還可以

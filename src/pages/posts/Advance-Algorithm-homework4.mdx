@@ -1,0 +1,310 @@
+---
+title: "Advance-Algorithm::homework4"
+description: ""
+publishDate: "2018-01-15"
+category: "Algorithm"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+***建議如果看不懂算法的話可以拿起紙筆操作，因為我有點懶不想要畫圖。***
+
+## 題一
+
+> For two points $p$ and $q$ in the plane, we say that $p$ dominates $q$ if both $x$ and $y$ coordinates of $p$ are no less than that of $q$ respectively. Given a set $S$ of $n$ points, the rank of a point $p$ in $S$ is the number of points in $S$ dominated by $p$. We want to find the rank of every point in $S$. A naïve algorithm needs $O(n2)$ time. Design a faster algorithm for this problem.
+
+***
+
+* 一個點支配另外一個點，表示他的$x,y$都要比另外一個點大，因此將所有的點照$x$軸升冪排序後，我們可以確定$x$是遞增的，因此若右半面某點$P\_r$的$y$比左半面某點$P\_l$的y還大，則我們知道$P\_r$支配$P\_l$，同時$P\_r$也支配$P\_l$所支配的所有點。
+* 複雜度：$T(n)=2T(n/2)+c_1nlogn+c_2nlogn \Rightarrow O(nlog^2n)$
+* 然後我發現這有點蠢，其實y軸預先排序好就好了，這樣你只要做一次$O(nlogn)的排序。
+  * 所以 $T(n)= 2T(\frac\{n}\{2}) + O(n)$
+  * 複雜度等於 $O(nlogn) + O(n) = O(nlogn)$
+
+<div class="highlight">
+Algorithm 二維求秩演算法(分治)
+Input: n個二維平面點所構成的集合$S$，$n\geq 1$
+Output: 集合$S$中所有點的秩(rank)
+
+步驟1: 若$n=1$，則回傳$S$中唯一一個點的秩為0並結束。
+步驟2: 找出所有點的X軸中位數(median)畫出垂直於X軸的直線L，將S中的點分為二個集合$S\_L$與$S\_R$。
+步驟3: 遞迴地使用二維求秩演算法分別求出$S\_L$與$S\_R$中所有點的秩。
+步驟4: 根據Y軸值排序所有在$S$中的點，依序由小而大掃描所有點，求出每一個在$S\_R$的點$i$前面有多少個$S\_L$的點(記為$update\_i$)，$rank(i) += update\_i$，最後回傳$S$中所有點的秩。
+</div>
+
+## 題二
+ 
+> An array $A[1\dots n]$ contains all the integers from 0 to n except one integer. It would be easy to determine the missing integer in $O(n)$ time by using an auxiliary array $B[0\dots n]$ to record which numbers appear in A. In this problem, however, we cannot access an entire integer in A with a single operation. The elements of A are represented in binary, and the only operation we can use to access them is “fetch the jth bit of $A[i]$,” which takes constant time. Show that if we use only this operation, we can still determine the missing integer in $O(n)$ time.
+
+***
+
+**利用 _Most significant bit_ (MSB) 進行二分搜尋**
+
+* 一個非負整數$n$，我們需要使用$\lceil log(n+1)\rceil$個bits來表示他
+* 這裡將 LSB 編號為 1，MSB編號為$\lceil log(n+1)\rceil$
+* 如果我們有一串連續的整數$0\sim n$，則會有 $2^\{(\lceil log(n+1)\rceil -1)}$個數字小於$2^\{(\lceil log(n+1)\rceil -1)}$
+* ***重點：*** 在確認缺少的數字是在A或B堆時，其實我們也是在1 bit 1bit拼出缺少的整數，例如:
+如果我們有0,1,2,4，則我們執行會得到缺少的數在A、B、B，也就是$011\_\{2}=3\_\{10}$。
+* 複雜度：$T(n) \leq T(2 ^ \{ \lceil\{log(n+1)}\rceil − 1} − 1) + cn$
+
+1. 以$\lceil log(n+1)\rceil$，即MSB，是否為0作標準將數字分為A(0)，B(1)兩堆，
+2. 判斷A堆的大小是否為$2^\{(\lceil log(n+1)\rceil -1)}$，如果不是，跳到步驟4
+3. 表示缺少的數字應該出現在B堆，讓B為新的搜尋範圍，回到第一步
+4. 表示缺少的數字應該出現在A堆，讓A為新的搜尋範圍，回到第一步
+
+[reference](https://cs.nyu.edu/courses/summer08/G22.1170-001/hw02-soln.pdf)
+
+## 題三
+
+>Assume there are n supposedly identical VLSI chips that are capable of testing each other. There is a test jig that can accommodate two chips at a time. When the jig is loaded, each chip tests the other and reports whether it is good or bad. A good chip always reports accurately whether the other chip is good or bad, but the answer of a bad chip cannot be trusted. Show that the good chips can be identified with $O(n)$ pairwise tests, assuming that more than $\frac\{n}\{2}$ of the chips are good.
+
+***
+
+| A says    | B says    | Conclusion      |
+| :-------: | :-------: | :-------------: |
+| B is good | A is good | 2 good or 2 bad |
+| B is good | A is bad  | at least 1 bad  |
+| B is bad  | A is good | at least 1 bad  |
+| B is bad  | A is bad  | at least 1 bad  |
+
+```
+（題目假設超過n/2為好的晶片）
+步驟1: 將全部chip兩兩配對，然後做測試，若為奇數，則多的一個這輪先閒置
+步驟2: 捨棄測試結果出現bad的兩晶片
+步驟3: 測試結果為兩個good的，捨棄其中任意一張
+      （使好晶片的數量維持超過n/2）
+步驟4: 重複以上操作直到剩下1或2張晶片，則剩下的晶片必是好的
+
+從以上操作可得到一張好的晶片，故只要拿這張晶片測試想要測試的晶片，便可以馬上確定是不是好晶片。
+```
+
+簡單論證：
+超過$\frac\{n}\{2}$為好的晶片下最差的狀況是有$\frac\{n}\{2}-1$張壞晶片，既使在此情況下，如果我們故意把一張好的配一張壞的，也必定會有一組是兩張真正好的(表格表示的是晶片真正的狀態)：
+
+|   A    |   B    |
+| :----: | :----: |
+|  good  |   bad  |
+|  good  |   bad  |
+|  good  |   bad  |
+|  good  |  good  |
+
+如果我們亂分，有超過一組晶片是互説好的，我們會知道一定有一組是兩張壞的，但於此同時必然會產生另外一組好的：
+
+|   A    |   B    |
+| :----: | :----: |
+|  good  |   bad  |
+|  good  |  good  |
+|  bad   |   bad  |
+|  good  |  good  |
+
+如果組合2,3,4都回報一切正常，這時照演算法的步驟3把每個配對中的任一個移除，消減數量並且讓good保持在超過$\frac\{n}\{2}$，可以知道一直重複做下去會只剩下好的，其實就是簡單的鴿籠原理，我們只有$\frac\{n}\{2}$個配對數（籠子），但是卻有超過$\frac\{n}\{2}$個好晶片（鴿子），必有兩好晶片在同一個配對中。
+
+複雜度：$T(n) \leq T(\lceil\{n/2}\rceil) + \lfloor\{n/2}\rfloor$ = O(n)
+
+[reference](https://github.com/boxfish/Algorithms/wiki/VLSI-chip-testing)
+
+## 題四
+
+>Let T and P be two sequences such that $|P| \leq |T|$. Design a linear time algorithm to determine whether $P$ is a subsequence of $T$.
+
+***
+
+水題
+
+## 題五
+
+>Given a sequence $S$ of n nonnegative numbers $x\_1, x\_2, \dots , x\_n$, and an integer $k$, partition $S$ into $k$ or fewer consecutive subsequences such that the largest sum of these subsequences is minimized over all possible partitions.
+
+***
+
+整體概念是二分搜尋法＋貪婪法，先設定一個上限值$(upper+lower)/2$，然後依序把每群塞滿，塞到不超過上限值，最後k群都塞滿後檢查此解是否正確（每個數字都有被塞進一個群體裡面），如果此解正確的話就 $upper\leftarrow(upper+lower)/2$，一直做到 $lower \geq upper$，就能得到最小最大值。
+
+```
+1:
+    先指派二分搜尋用的上下界：
+    upper = sum of elements in sequence
+    lower = 整個sequence中最大的元素 （可以指派為0，但是會多做幾次）
+2:
+    指定一個界限 = (upper + lower)/2
+3:
+    接下來從sequence的頭開始分群（蘋果依序放入籃子的概念）
+    如果目前這個群再多放下一個數字就會超過界限的話就放進下一個群，直到每個群都裝滿
+4:
+    檢查是不是sequence中的每個數字都有被分到某一群
+    都有分到的情況：
+        把upper變為 (upper + lower)/2
+    否則：
+        把lower變為 (upper + lower)/2 + 1
+5:
+    如果lower < upper 則回到步驟 2
+```
+
+## 題六
+
+>You have inherited the publishing rights to n songs by the Raucous Rockers. You want to release a boxed set of d compact disks, each of which can hold at most m minutes of music. To satisfy the fans, you must put the songs in chronological order, but you can omit songs (regardless of when they were recorded) if necessary. Of course, no song can be split across a disk. Given a list of the song lengths in chronological order, your task is to figure out the maximum number of songs that can be recorded on the set of disks subject to these criteria.
+
+***
+
+你有n首歌，然後有d張光碟，每個光碟統一最多放m分鐘的音樂，題目會依照年份給排序過的歌單，要求在依照年份排序且每首歌不可以分在兩片CD的情形下，找出能存放最多首歌的組合。
+
+先定義DP陣列為 dp\[i\]\[j\]\[k\] 表示有i首歌要放入第j張光碟，且該光碟容量為k時最多可以放幾首歌的情形，並定義第i首歌的長度為 minute\[i\]。
+如同01背包，就是在考慮這首歌該不該放進去這張cd的情形
+
+**空間複雜度尚未優化的方法：**
+
+```
+邊界條件：DP陣列初始全為0
+遞迴關係：
+    不放入：
+        dp[i][j][k] = dp[i-1][j][k], if minute[i] > k
+    放入時:
+        a.如果要當該光碟的第一首歌，應該找上一張光碟裝滿的狀態:
+            dp[i-1][j-1][k]+1
+        b.如果不想當該光碟的第一首歌，應該找該光碟的上一首歌：
+            dp[i-1][j][k-minute[i]]+1
+        因此式子應該為
+        dp[i][j][k] = max(a,b)
+答案：dp[n][d][m]
+```
+
+空間優化的方法就跟背包問題一樣，反正他i是越來越大，所以可以降一維。
+
+>老師：P[i,j] = n，前i首選了j首，可以放n張唱片
+
+## 題七
+
+>Solve “Bitonic Euclidean traveling-salesman problem” in chapter 15 of the book [CLRS].
+
+***
+
+給一堆點有 x, y 座標，要求設計一個路線讓銷售員可以在x軸上嚴格遞增的到最右邊的點，然後在x軸上嚴格遞減的到最左邊的點，每個點都必須被拜訪，求最短的走法。(沒有相同的x座標)
+
+ >老師：如果 $P\_n$ 跟 $P\_\{n-1}$ 是一定要連的話，就先把那個邊消掉，把問題改成解 $P\_n$ 到 $P\_\{n-1}$
+
+* [解法-英文](http://blog.csdn.net/yxc135/article/details/9570501)
+* [解法-中文](http://blog.csdn.net/xiajun07061225/article/details/8092247)
+
+## 題八
+
+>Consider the activity-selection problem appears in p.41 of unit-5. Now, assume that each given activity is associated with a positive weight. Design an algorithm to find an independent subset of activities (activities that can be allowed to use the same resource) whose sum of weights is maximized.
+
+***
+
+* DP
+* 首先講所有活動按照結束時間排序，然後將它們編號成$1\sim n$
+* 最每個活動找出一個，不會跟他衝突，且index最大的活動出來，假設為$i$，則表示目前這個活動絕對不會跟$1~\
+sim i$產生衝突（因為我們是照結束時間排序，不可能目前活動的開始時間跟$i$沒有交集但是跟$i-1$有交集)。
+* 對於每個活動作類似背包為題的做法，對活動j有兩種情況：有j在解當中，沒有j在解當中，遞迴下去可得解。
+
+[解法](http://www.cs.princeton.edu/~wayne/cs423/lectures/dynamic-programming-4up.pdf)
+
+## 題九
+
+> Solve Problem 10003 “Cutting Sticks” in the ACM web site.
+
+***
+
+* [英文題目](https://uva.onlinejudge.org/external/100/10003.pdf)
+* [中文題目](http://luckycat.kshs.kh.edu.tw/homework/q10003.htm)
+
+給定一個長度 $l$ 的木棒，必須將其切斷 $n$ 次，切斷的位置分別為 $c_1$~ $c_n$，($0 < c_i < l$)。
+每切一刀的成本為「切斷前」該木棒的長度，求達成目標所需的最小成本。
+
+```
+cost[x,y] = min(i = x+1 ~ y-1) \{ cost[x,i] + cost[i,y] + (c[y] - c[x]) }
+(0 <= x, y <= n+1, c[0] = 0, c[n+1] = l)
+
+example:
+  l = 10
+  n = 4
+c[] = 4 5 7 8
+The minimum cutting is 22.
+-1       0       5      10      15      22
+-1      -1       0       3       7      12
+-1      -1      -1       0       3       8
+-1      -1      -1      -1       0       3
+-1      -1      -1      -1      -1       0
+-1      -1      -1      -1      -1      -1
+```
+
+## 題十
+
+>Given a list of n positive integers d1, d2, ..., dn, we want to efficiently determine whether there exists a simple undirected graph whose nodes have degrees precisely d1, d2, ..., dn. Design an algorithm to solve this problem.
+
+***
+
+貪婪法(有數學解)
+
+```
+1. 從degree最大的點開始，當作x
+2. 把除了x以外degree最大的幾個點與x link
+3. 找degree次大的點作為x，回到步驟二直到沒有剩下任何一點
+```
+
+> 老師：放這裡應該是貪婪
+
+[morris's blog (p35)](https://www.slideshare.net/Morris1028/aaex4-group2-29653458)
+[Erdős–Gallai_theorem](https://en.wikipedia.org/wiki/Erd%C5%91s%E2%80%93Gallai_theorem)
+
+## 題十一
+
+>Given a weighted graph, find a spanning tree such that the maximal edge weight of the tree is minimized over all spanning trees.
+
+***
+
+* $O(|E|log|V|)$ : by Kruskal's algorithm：
+  * A MST is necessarily a MBST, but a MBST is not necessarily a MST.
+所以我們可以直接用 Kruskal's algorithm 來找MST，同時他也會是MBST。
+
+* $O(|E|)$ : by Camerini's algorithm
+
+```
+1. 將圖中所有的邊分成兩半，其中一半的所有邊的weight都不大於另一半中任意一個邊的weight
+2. 檢查以weight較小的的半邊和所有點組合出的subgraph(G_s)：
+    (1) if G_s is connected: 代表G_s的MBST就是G的MBST，以G_s當作輸入回到步驟1.
+    (2) else: 將各個connected compont視為一個super vertex
+        (a) if 只剩下2個super vertex和1個邊: 將他們連接後即為MBST
+        (b) else: 以這個新的圖G'當作輸入回到步驟1.
+```
+
+* [演算法筆記 - Minimum Bottleneck Spanning Tree](http://www.csie.ntnu.edu.tw/~u91029/SpanningTree.html#6)
+* [Wikipedia - Minimum Bottleneck Spanning Tree](https://en.wikipedia.org/wiki/Minimum_bottleneck_spanning_tree)
+
+## 題十二
+
+>Solve Problem 11264 “Coin Collector” in the ACM web site.
+
+***
+
+* [英文題目](https://uva.onlinejudge.org/external/112/11264.pdf)
+* [中文題目](http://rubyacm.blogspot.tw/2011/12/11264-coin-collector.html)
+
+* $Sum(i-1) < c[i]$是多餘的條件，因為會被上一步的$Sum(i) = Sum(i-1)+c[i] < c[i+1]$所覆蓋
+
+```
+思路：（貪婪）
+1. 面值最大的硬幣c[n-1]必選。（反證：如果兌換了x元卻沒有選中它，可知 x < c[n-1]，於是用 x+c[n-1] 元去兌換可以得到一個更好解。）
+2. 假設Sum(i)是c[1]~c[i]中被選中的貨幣的面額和，那麼一定有Sum(i) < c[i+1]。（反證：若 Sum(i) >= c[i+1]，那銀行肯定會給他c[i+1]面值的硬幣。）
+3. 按照2.中所說，如果有 Sum(i) = Sum(i-1)+c[i] < c[i+1]，那麼c[i]將被選中，構築選取序列。
+
+example:
+n = 6
+c[1~n] =  1  3  6  8 15 20
+Sum(i) =  1
+          v              v    // 頭尾先選
+          
+Sum(i) =  1  4
+          v  v           v
+
+Sum(i) =  1  4 10
+          v  v           v
+
+Sum(i) =  1  4 -> 11
+          v  v     v     v
+
+Sum(i) =  1  4 -> 11 26
+          v  v     v     v
+
+Sum(i) =  1  4 -> 11 ->  20 // 到底了，選取完畢
+```
+
+[reference](http://blog.csdn.net/synapse7/article/details/12262029)

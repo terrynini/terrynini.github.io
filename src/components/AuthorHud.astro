@@ -1,0 +1,13 @@
+---
+const { authorName, authorLink, avatarSrc, title } = Astro.props;
+---
+
+<aside class="author-hud">
+    <div class="author-hud-content glitchable">
+        <img src={avatarSrc} alt={`${authorName}'s avatar`} class="author-avatar" />
+        <div class="author-info">
+            <h4><a href={authorLink}>{authorName}</a></h4>
+            <p class="title">{title}</p>
+        </div>
+    </div>
+</aside>

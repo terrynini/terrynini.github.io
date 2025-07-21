@@ -1,0 +1,579 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><meta name="generator" content="Astro v5.11.1"><title>NiNi's Den. CyberSec Blog</title><link rel="stylesheet" href="/src/styles/cyber-space-theme.css"><link rel="stylesheet" href="/src/styles/light-theme.css"><style>.post-image-wrapper[data-astro-cid-no5unav3]{margin:1.5em auto;max-width:100%;position:relative;display:inline-block}.post-image-wrapper[data-astro-cid-no5unav3]:before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(var(--color-accent-r),var(--color-accent-g),var(--color-accent-b),1);mix-blend-mode:color;pointer-events:none;transition:opacity .3s ease-in-out;opacity:1}.post-image-wrapper[data-astro-cid-no5unav3]:hover:before{opacity:0}.post-image[data-astro-cid-no5unav3]{display:block;max-width:100%;height:auto;border:1px solid var(--color-border);box-shadow:0 0 10px #0009;transition:all .3s ease-in-out}.post-image[data-astro-cid-no5unav3]:hover{filter:brightness(1) contrast(1);box-shadow:0 0 15px rgba(var(--color-accent-r),var(--color-accent-g),var(--color-accent-b),.7)}
+</style></head> <body style="margin: 0; padding-top: 60px;"> <script>
+            // Apply theme from localStorage immediately to prevent FOUC
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.add(savedTheme);
+            } else {
+                document.body.classList.add('theme-light'); // Default theme
+                localStorage.setItem('theme', 'theme-light');
+            }
+        </script> <button id="theme-toggle" class="theme-toggle-btn">
+切換主題
+</button> <nav class="main-nav"> <ul class="main-nav-list"> <li class="main-nav-item"><a href="/" class="main-nav-link">Home</a></li> <li class="main-nav-item"><a href="/about" class="main-nav-link">About</a></li> </ul> </nav>  <div class="article-page-wrapper"> <aside class="author-hud"> <div class="author-hud-content glitchable"> <img src="//avatars2.githubusercontent.com/u/15998206" alt="NiNi's avatar" class="author-avatar"> <div class="author-info"> <h4><a href="https://balsn.tw/">NiNi</a></h4> <p class="title">Security Researcher</p> </div> </div> </aside> <div class="container"> <article class="post-content"> <h1>2019::PragyanCTF</h1> <p class="post-meta">Published: 2019-03-12 | Category: CTF</p> <p>Wanna try ghidra in reversing so I play Pragyan CTF.
+Did not have time to solve them all.
+Pragyan CTF is a much easier CTF, a good target for me to start writing my blog…
+It’s a good way to force me to understand every details and improve my English writing skill (maybe).</p>
+<h1 id="web">Web</h1>
+<h2 id="cookie-monster">Cookie Monster</h2>
+<p>The value of flag in cookie is the md5 result of flag’s slices.</p>
+<pre><code>bc54f4d60f1cec0f9a6cb70e13f2127a    md5 pc
+114d6a415b3d04db792ca7c0da0c7a55    md5 tf
+b2984e12969ad3a3a2a4d334b8fb385a    md5 {c
+6f570c477ab64d17825ef2d2dfcb6fe4    md5 0o
+988287f7a1eb966ffc4e19bdbdeec7c3    md5 ki
+0d4896d431044c92de2840ed53b6fbbd    md5 3s
+f355d719add62ceea8c150e5fbfae819    md5 _@
+12eccbdd9b32918131341f38907cbbb5    md5 re
+639307d281416ad0642faeaae1f098c4    md5 _y
+96bc320e4d72edda450c7a9abc8a214f    md5 Um
+c716fb29298ad96a3b31757ec9755763    md5 _b
+51de5514f3c808babd19f42217fcba49    md5 Ut
+05cb7dc333ca611d0a8969704e39a9f0    md5 _t
+bc781c76baf5589eef4fb7b9247b89a0    md5 HE
+ff108b961a844f859bd7c203b7366f8e    md5 y_
+2349277280263dff980b0c8a4a10674b    md5 @l
+0b1cdc9fe1f929e469c5a54ffe0b2ed5    md5 s0
+364641d04574146d9f88001e66b4410f    md5 _r
+c758807125330006a4375357104f9a82    md5 3v
+fcfdc12fb4030a8c8a2e19cf7b075926    md5 Ea
+440c5c247c708c6e46783e47e3986889    md5 L_
+97a7bf81a216e803adfed8bd013f4b85    md5 @_
+c1d12de20210d8c1b35c367536e1c255    md5 l0
+a8655da06c5080d3f1eb6af7b514e309    md5 t}
+</code></pre>
+<p>flag:
+<code>pctf{c0oki3s_@re_yUm_bUt_tHEy_@ls0_r3vEaL_@_l0t}</code></p>
+<h2 id="game-of-faces">Game of Faces</h2>
+<p>A form hidden behind the first color block, just upload any picture then you get a base64 encoded string which decoded as <code>The_scroll_says=the_night_kingVSvalyrian.txt</code></p>
+<p>Get the flag at <code>/the_night_kingVSvalyrian.txt</code></p>
+<p>flag:
+<code>pctf{You_L00K_Wi3Rd_IN_H3R3}</code></p>
+<h2 id="mandatory-php">Mandatory PHP</h2>
+<h3 id="final-solution">final solution</h3>
+<p><a href="http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&val1=rUs&val3=12&val4=16">http://159.89.166.12:14000/?val2=WoAHh%2525252525252525252521&amp;val1=rUs&amp;val3=12&amp;val4=16</a></p>
+<h3 id="detail">detail</h3>
+<pre><code class="language-php">$a=hash(&quot;sha256&quot;,$a);
+$a=(log10($a**(0.5)))**2;
+</code></pre>
+<p>Find a string which’s sha256 result’s prefix is <code>1e</code>, so that it would be consider as scientific notation at first line. When <code>$a=&#39;rUs&#39;</code>, the result of sha256 is <code>1e40afafd2290d3f1e0cbc86cd9bbec0df8627b32730ea72e0dce67fe49a2f30</code>, would be consider as <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align:-0.05ex" xmlns="http://www.w3.org/2000/svg" width="4.05ex" height="2.022ex" role="img" focusable="false" viewBox="0 -871.8 1790.1 893.8" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-1-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-1-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path id="MJX-1-TEX-N-34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-1-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-1-TEX-N-30" transform="translate(500,0)"></use></g><g data-mml-node="TeXAtom" transform="translate(1033,393.1) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><use data-c="34" xlink:href="#MJX-1-TEX-N-34"></use><use data-c="30" xlink:href="#MJX-1-TEX-N-30" transform="translate(500,0)"></use></g></g></g></g></g></svg></mjx-container> at second line and the last result is <code>400</code>, which is <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align:-0.186ex" xmlns="http://www.w3.org/2000/svg" width="9.266ex" height="2.14ex" role="img" focusable="false" viewBox="0 -864 4095.6 946" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-2-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-2-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path id="MJX-2-TEX-N-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path><path id="MJX-2-TEX-N-36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-2-TEX-N-31"></use><use data-c="32" xlink:href="#MJX-2-TEX-N-32" transform="translate(500,0)"></use></g><g data-mml-node="mn" transform="translate(1033,393.1) scale(0.707)"><use data-c="32" xlink:href="#MJX-2-TEX-N-32"></use></g></g><g data-mml-node="mo" transform="translate(1658.8,0)"><use data-c="2B" xlink:href="#MJX-2-TEX-N-2B"></use></g><g data-mml-node="msup" transform="translate(2659,0)"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-2-TEX-N-31"></use><use data-c="36" xlink:href="#MJX-2-TEX-N-36" transform="translate(500,0)"></use></g><g data-mml-node="mn" transform="translate(1033,393.1) scale(0.707)"><use data-c="32" xlink:href="#MJX-2-TEX-N-32"></use></g></g></g></g></svg></mjx-container>, done.</p>
+<p>next check:</p>
+<pre><code class="language-php">for($i=1;$i&lt;=10;$i++){
+    if($b==urldecode($b))
+        die(&#39;duck&#39;);
+    else
+        $b=urldecode($b);
+}
+if($b===&quot;WoAHh!&quot;)
+</code></pre>
+<p>It apply urldecode 10 times on <code>$b</code>, so we have to encode <code>WoAHh!</code> 10 times, also. The result should be <code>WoAHh%25252525252525252521</code>. But,the url would be decoded once by default, we have to do one more encode, which would be <code>WoAHh%252525252525252525252521</code></p>
+<p>flag:
+<code>pctf{b3_c4r3fu1_w1th_pHp_f31145}</code></p>
+<h1 id="forensics">Forensics</h1>
+<h2 id="welcome">Welcome</h2>
+<pre><code class="language-sh">binwalk -e welcome.jpeg
+unzip d.zip
+</code></pre>
+<p>The password for <code>a.zip</code> is in the secret.bmp, <code>dGhlIHBhc3N3b3JkIGlzOiBoMzExMF90aDNyMyE==</code>, decoded as <code>the password is: h3110_th3r3!</code>
+Then it give us a a.png, the flag is hidden in the white background</p>
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset" data-astro-cid-no5unav3> <img src="/_astro/a.BfEP7CFG_25YRCJ.webp" alt data-astro-cid-no5unav3="true" loading="lazy" decoding="async" fetchpriority="auto" width="1324" height="1136" class="post-image"> </div> 
+<p>flag:
+<code>pctf{st3gs0lv3_1s_u53ful}</code></p>
+<h2 id="magic-pngs">Magic PNGs</h2>
+<p><code>you_cant_see_me.png</code> is a broken png, fix it to get the password for <code>tryme.zip</code>
+First, fix the header , the header should be <code>8950 4e47 1d0a 1a0a</code> instead of <code>8950 4e47 2e0a 2e0a</code>.Next, find ascii string <code>idat</code> in png , this is the name of <code>IDAT</code> chunk, the string should be uppercase. Finally, fix two CRC checksums. then we get a picture of mask from movie <em>V for Vendetta</em>.</p>
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset" data-astro-cid-no5unav3> <img src="/_astro/see.BiWOuOTm_ZzoY3T.webp" alt data-astro-cid-no5unav3="true" loading="lazy" decoding="async" fetchpriority="auto" width="205" height="246" class="post-image"> </div> 
+<p>According to the hint, the password for <code>tryme.zip</code> should be <code>MD5 (&quot;h4CK3RM4n&quot;) = 2c919f82ee2ed6985d5c5e275d67e4f8</code></p>
+<p>flag:
+<code>pctf{y0u_s33_m33_n0w!}</code></p>
+<h2 id="save-earth">Save Earth</h2>
+<p>Some usb packages, extract the Leftover Capture Data by
+<code>tshark -r ./SaveEarth.pcap -T fields -e usb.capdata &gt; leftover.txt</code></p>
+<p>It doesn’t look like some keyboard strike or mouse position, but more like morse code.</p>
+<pre><code class="language-txt" metastring="leftover.txt">01:02:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:01:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:04:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+01:02:00:00:00:00:00:00
+</code></pre>
+<p>Get morse code</p>
+<pre><code class="language-sh">$ cut -d &#39;:&#39; -f 2 leftover.txt | sed -e &quot;s/01/ /g&quot; -e &#39;s/02/-/g&#39; -e &#39;s/04/./g&#39; | tr -d &#39;\n&#39;
+-.-. - ..-. ... ....- ...- ...--
+</code></pre>
+<p><code>-.-. - ..-. ... ....- ...- ...--</code> -&gt; <code>CTFS4V3</code></p>
+<p>flag is in lowercase</p>
+<p>flag:
+<code>ctf{s4v3}</code></p>
+<h2 id="slow-realization">Slow Realization</h2>
+<p>It gives us a flag.pdf and a jpeg picture</p>
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset" data-astro-cid-no5unav3> <img src="/_astro/scenery.B-Ml-VbR_lAP34.webp" alt data-astro-cid-no5unav3="true" loading="lazy" decoding="async" fetchpriority="auto" width="263" height="191" class="post-image"> </div> 
+<p>The <code>EOF</code> of jpeg file format is <code>ff d9</code>, so there is actually a mp3 file concated behind this jpeg. It’s OneRepublic - Counting Stars, but there are some morse code and a weird woman voice. The morse code is not the password, which is</p>
+<pre><code>.--. .- - .. . -. -.-. . .. ... - .... . -.-  . -.-- .--. -.-. - ..-. -. ----- - .... ...-- .-.  ...--
+PATIENCE IS THE KEY PCTF N0T H3R3
+</code></pre>
+<p>I thought that the password is inside the vocal between morse code. Tried to apply reverse, invert, or normalize individually on it, but I still can not get a clear version of the woman voice</p>
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset" data-astro-cid-no5unav3> <img src="/_astro/wave.CfKoMNZ3_1fnkO7.webp" alt data-astro-cid-no5unav3="true" loading="lazy" decoding="async" fetchpriority="auto" width="891" height="146" class="post-image"> </div> 
+<p>Luckily, I get the password by dictionary attack…, it turns out to be <code>congratulations</code>, WHAT ?
+It really sounds like that after I knew the real password is <code>congratualtions</code>,but it also sounds like <code>slow realization</code>?
+Can someone teach me how to get the password in right way?</p>
+<p>flag:
+<code>pctf{y0u_h34rd_m3_r1ght}</code></p>
+<h2 id="late-pr">Late PR</h2>
+<p>strings it, done
+Is this the intended solution ??</p>
+<p>flag:
+<code>pctf{Late_submissions_can_be_good}</code></p>
+<h1 id="cryptography">Cryptography</h1>
+<h2 id="spoiler">Spoiler</h2>
+<p>There are some additional information concated after the <code>%%EOF</code> of pdf</p>
+<pre><code>%%EOF0000006a0000006f0000006e000000730000006e0000006f000000770000006900000073000000640000007200000061000000670000006f0000006e00000062000000790000006200000069000000720000007400000068
+</code></pre>
+<p>It’s a hex string <code>6a6f6e736e6f776973647261676f6e62796269727468</code>, xor it with another hex string show in pdf.</p>
+<p>flag:
+<code>PCTF{JON_IS_TARGARYEN}</code></p>
+<h2 id="add-them-sneaky-polynomials">Add them Sneaky Polynomials</h2>
+<p>We get some polynomials equations:</p>
+<pre><code>p = x^406 + x^405 + x^402 + x^399 + x^397 + x^391 + x^390 + x^387 + x^386 + x^378 + x^374 + x^372 + x^371 + x^369 + x^367 + x^364 + x^360 + x^358 + x^357 + x^352 + x^350 + x^345 + x^344 + x^341 + x^336 + x^335 + x^334 + x^333 + x^331 + x^330 + x^329 + x^328 + x^327 + x^324 + x^322 + x^320 + x^314 + x^311 + x^308 + x^307 + x^303 + x^300 + x^299 + x^296 + x^295 + x^290 + x^289 + x^287 + x^279 + x^271 + x^266 + x^264 + x^262 + x^260 + x^257 + x^256 + x^252 + x^249 + x^248 + x^246 + x^243 + x^239 + x^238 + x^236 + x^233 + x^230 + x^227 + x^225 + x^223 + x^222 + x^220 + x^218 + x^216 + x^215 + x^209 + x^208 + x^207 + x^204 + x^202 + x^199 + x^190 + x^189 + x^185 + x^184 + x^180 + x^177 + x^176 + x^175 + x^172 + x^167 + x^166 + x^162 + x^160 + x^159 + x^155 + x^154 + x^149 + x^147 + x^143 + x^137 + x^135 + x^131 + x^129 + x^126 + x^124 + x^122 + x^116 + x^110 + x^108 + x^105 + x^104 + x^100 + x^99 + x^97 + x^94 + x^93 + x^90 + x^88 + x^87 + x^86 + x^85 + x^83 + x^75 + x^73 + x^69 + x^63 + x^62 + x^57 + x^54 + x^51 + x^44 + x^41 + x^38 + x^37 + x^36 + x^34 + x^29 + x^28 + x^26 + x^25 + x^21 + x^20 + x^19 + x^16 + x^15 + x^14 + x^13 + x^6 + x^5 + x^2
+
+q = x^399 + x^398 + x^396 + x^393 + x^392 + x^391 + x^388 + x^386 + x^384 + x^381 + x^377 + x^376 + x^368 + x^364 + x^360 + x^355 + x^354 + x^353 + x^352 + x^348 + x^346 + x^345 + x^344 + x^343 + x^335 + x^334 + x^329 + x^326 + x^325 + x^321 + x^318 + x^317 + x^315 + x^314 + x^311 + x^307 + x^306 + x^304 + x^300 + x^296 + x^293 + x^291 + x^282 + x^277 + x^270 + x^263 + x^261 + x^260 + x^256 + x^254 + x^253 + x^252 + x^251 + x^248 + x^245 + x^242 + x^241 + x^239 + x^238 + x^236 + x^232 + x^226 + x^225 + x^222 + x^220 + x^219 + x^214 + x^209 + x^208 + x^207 + x^206 + x^202 + x^200 + x^196 + x^191 + x^190 + x^186 + x^181 + x^180 + x^178 + x^177 + x^169 + x^168 + x^165 + x^164 + x^163 + x^162 + x^161 + x^159 + x^157 + x^156 + x^151 + x^149 + x^148 + x^147 + x^146 + x^144 + x^141 + x^140 + x^138 + x^137 + x^136 + x^134 + x^133 + x^132 + x^130 + x^129 + x^128 + x^126 + x^123 + x^121 + x^113 + x^109 + x^103 + x^101 + x^100 + x^95 + x^93 + x^91 + x^85 + x^84 + x^81 + x^74 + x^73 + x^71 + x^68 + x^67 + x^54 + x^52 + x^51 + x^50 + x^48 + x^46 + x^45 + x^43 + x^39 + x^35 + x^32 + x^31 + x^30 + x^29 + x^21 + x^15 + x^14 + x^9 + x^8 + x^5 + x^4 + x^2 + 1
+
+r = x^404 + x^402 + x^396 + x^389 + x^387 + x^386 + x^384 + x^382 + x^376 + x^373 + x^367 + x^366 + x^365 + x^362 + x^361 + x^358 + x^356 + x^355 + x^354 + x^353 + x^352 + x^349 + x^348 + x^347 + x^345 + x^343 + x^340 + x^334 + x^332 + x^331 + x^328 + x^327 + x^326 + x^322 + x^317 + x^316 + x^314 + x^313 + x^312 + x^310 + x^309 + x^308 + x^305 + x^304 + x^303 + x^301 + x^300 + x^299 + x^296 + x^295 + x^292 + x^291 + x^290 + x^288 + x^287 + x^286 + x^285 + x^283 + x^279 + x^278 + x^274 + x^271 + x^269 + x^268 + x^266 + x^265 + x^263 + x^261 + x^260 + x^259 + x^258 + x^256 + x^254 + x^252 + x^251 + x^250 + x^249 + x^244 + x^243 + x^242 + x^237 + x^236 + x^228 + x^225 + x^224 + x^223 + x^222 + x^221 + x^215 + x^214 + x^213 + x^212 + x^205 + x^201 + x^200 + x^199 + x^197 + x^193 + x^192 + x^191 + x^190 + x^189 + x^188 + x^187 + x^182 + x^180 + x^175 + x^174 + x^173 + x^167 + x^166 + x^163 + x^158 + x^156 + x^155 + x^153 + x^151 + x^150 + x^149 + x^143 + x^142 + x^140 + x^139 + x^136 + x^135 + x^133 + x^129 + x^126 + x^125 + x^123 + x^121 + x^118 + x^117 + x^116 + x^115 + x^113 + x^110 + x^106 + x^105 + x^104 + x^103 + x^102 + x^98 + x^95 + x^92 + x^89 + x^87 + x^85 + x^81 + x^80 + x^77 + x^76 + x^75 + x^74 + x^71 + x^70 + x^67 + x^66 + x^64 + x^63 + x^60 + x^59 + x^58 + x^56 + x^54 + x^53 + x^48 + x^44 + x^41 + x^39 + x^38 + x^35 + x^34 + x^31 + x^29 + x^28 + x^27 + x^22 + x^21 + x^20 + x^17 + x^14 + x^12 + x^11 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1
+</code></pre>
+<p>According to challenge’s description, we can extract a string from these equations</p>
+<p>Obviously, if we plug <code>x=2</code> into equations we can get some “binary strings”.
+For example, <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align:-0.339ex" xmlns="http://www.w3.org/2000/svg" width="36.741ex" height="2.244ex" role="img" focusable="false" viewBox="0 -841.7 16239.7 991.7" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-3-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path id="MJX-3-TEX-N-35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"></path><path id="MJX-3-TEX-N-2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path><path id="MJX-3-TEX-N-34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path><path id="MJX-3-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-3-TEX-N-3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJX-3-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msup"><g data-mml-node="mn"><use data-c="32" xlink:href="#MJX-3-TEX-N-32"></use></g><g data-mml-node="mn" transform="translate(533,363) scale(0.707)"><use data-c="35" xlink:href="#MJX-3-TEX-N-35"></use></g></g><g data-mml-node="mo" transform="translate(1158.8,0)"><use data-c="2B" xlink:href="#MJX-3-TEX-N-2B"></use></g><g data-mml-node="msup" transform="translate(2159,0)"><g data-mml-node="mn"><use data-c="32" xlink:href="#MJX-3-TEX-N-32"></use></g><g data-mml-node="mn" transform="translate(533,363) scale(0.707)"><use data-c="34" xlink:href="#MJX-3-TEX-N-34"></use></g></g><g data-mml-node="mo" transform="translate(3317.8,0)"><use data-c="2B" xlink:href="#MJX-3-TEX-N-2B"></use></g><g data-mml-node="msup" transform="translate(4318,0)"><g data-mml-node="mn"><use data-c="32" xlink:href="#MJX-3-TEX-N-32"></use></g><g data-mml-node="mn" transform="translate(533,363) scale(0.707)"><use data-c="32" xlink:href="#MJX-3-TEX-N-32"></use></g></g><g data-mml-node="mo" transform="translate(5476.8,0)"><use data-c="2B" xlink:href="#MJX-3-TEX-N-2B"></use></g><g data-mml-node="msup" transform="translate(6477,0)"><g data-mml-node="mn"><use data-c="32" xlink:href="#MJX-3-TEX-N-32"></use></g><g data-mml-node="mn" transform="translate(533,363) scale(0.707)"><use data-c="31" xlink:href="#MJX-3-TEX-N-31"></use></g></g><g data-mml-node="mo" transform="translate(7635.8,0)"><use data-c="2B" xlink:href="#MJX-3-TEX-N-2B"></use></g><g data-mml-node="mn" transform="translate(8636,0)"><use data-c="31" xlink:href="#MJX-3-TEX-N-31"></use></g><g data-mml-node="mo" transform="translate(9413.8,0)"><use data-c="3D" xlink:href="#MJX-3-TEX-N-3D"></use></g><g data-mml-node="msub" transform="translate(10469.5,0)"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-3-TEX-N-31"></use><use data-c="31" xlink:href="#MJX-3-TEX-N-31" transform="translate(500,0)"></use><use data-c="30" xlink:href="#MJX-3-TEX-N-30" transform="translate(1000,0)"></use><use data-c="31" xlink:href="#MJX-3-TEX-N-31" transform="translate(1500,0)"></use><use data-c="31" xlink:href="#MJX-3-TEX-N-31" transform="translate(2000,0)"></use><use data-c="31" xlink:href="#MJX-3-TEX-N-31" transform="translate(2500,0)"></use></g><g data-mml-node="TeXAtom" transform="translate(3033,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><use data-c="32" xlink:href="#MJX-3-TEX-N-32"></use></g></g></g><g data-mml-node="mo" transform="translate(14183.9,0)"><use data-c="3D" xlink:href="#MJX-3-TEX-N-3D"></use></g><g data-mml-node="mn" transform="translate(15239.7,0)"><use data-c="35" xlink:href="#MJX-3-TEX-N-35"></use><use data-c="35" xlink:href="#MJX-3-TEX-N-35" transform="translate(500,0)"></use></g></g></g></svg></mjx-container>, that is the ascii code for <code>7</code>.
+After evaluation, we get some meaningless strings.
+But once we xor them together, the flag shows up</p>
+<p>flag:
+<code>pctf{f1n1t3_f13lds_4r3_m0r3_us3ful_th4n_y0u_th1nk}</code></p>
+<h2 id="the-order-of-the-phoenix">The Order of the Phoenix</h2>
+<p>After google the hint <code>Eleven scientists are working on a secret project.......?</code>, it’s a challenge about Shamir’s Secret Sharing. Read the content of QRcode first</p>
+<pre><code>1-d301da5536a5d8b8e2be50a7584127eb3704025f048cf72335f1b301b852b30a
+2-e1af01e2f7887b63c068823cbcd812f91899678656456db71dfa9ab1fbb1bd26
+3-dc60d55a411ccfd4a44e6a9799774dd6207dffdfcab4b442075ead165fa7ecb
+4-510c9c8f6aaacebf16bb5fd9e2cd8c0845ec483bd49bf57fa4151e5b672c73b0
+5-bd4f58a846bb9e47a7402e22df13002aef3bf3048011674269eaff39154c62bf
+6-7c61f3ee00ab759a6853f041e74ae2378144a96b662230888d6ba6412c646190
+7-d01f29e42de0ab1fb183a35d06a2ac6117acaad2b3017671846c7b380e83d6bb
+8-1268bf4430c0b1a4c568a302da92421bc672aceb57fef3401f2434cfc3bf740b
+9-b52781fd38b0185bd1a8a92a92dbf01c99eddbb50b86f65a882ad8a7fa313e9d
+a-424b493442128adbeef5ce33f18c6c5996cdd97e4922644a4479bb4e05f8846f
+</code></pre>
+<p>Guess the hexadecimal digits split by <code>-</code> are x and y on the x-y plane, then …
+We have to sovle an equation which derives from these coordinates by <a href="https://en.wikipedia.org/wiki/Lagrange_polynomial">Lagrange polynomial</a>. I did’t decrypt it on my own implementation, the problems is that I used the wrong the prime. Using a github repo call <a href="https://github.com/blockstack/secret-sharing">secret-sharing</a> to help me.</p>
+<p>plain text:
+<code>pctf{sh4m1r3_w4s_4_gr34t_m4n}\n</code></p>
+<p>flag:
+<code>pctf{sh4m1r3_w4s_4_gr34t_m4n}</code></p>
+<p><a href="https://medium.com/taipei-ethereum-meetup/%E7%A7%81%E9%91%B0%E5%88%86%E5%89%B2-shamirs-secret-sharing-7a70c8abf664">reference</a></p>
+<h2 id="help-rabin">Help Rabin</h2>
+<p>It’s <a href="https://en.wikipedia.org/wiki/Rabin_cryptosystem">Rabin cryptosystem</a>, which needs the factor <code>p</code>, <code>q</code> of n to do the decryption. The problem in here is that it generates <code>n</code> by mutiple two primes which are close to each other, this makes us are able to factor <code>n</code> by brute force.</p>
+<pre><code class="language-py" metastring="brute.py">from decimal import *
+from Crypto.PublicKey import RSA
+
+key = RSA.importKey(open(&quot;./publickey.pem&quot;).read())
+getcontext().prec = 200
+n = Decimal(key.n)
+p = n.sqrt()
+
+while n % p != 0:
+    p += 1
+
+q = n/p
+(p,q) = (int(p),int(q))
+
+</code></pre>
+<p>Then follow the steps on wiki, we can get the plaintext in one of the 4 decrypted messages:</p>
+<p><code>Hey Rabin, would you like to be the front end to my back end? Here is your flag: pctf{R4b1n_1s_th3_cut3st}</code></p>
+<p>flag:
+<code>pctf{R4b1n_1s_th3_cut3st}</code></p>
+<h2 id="easy-rsa">Easy RSA</h2>
+<p>It gives some parameter used in RSA</p>
+<pre><code>e=217356749319385698521929657544628507680950813122965981036139317973675569442588326220293299168756490163223201593446006249622787212268918299733683908813777695992195006830244088685311059537057855442978678020950265617092637544349098729925492477391076560770615398034890984685084288600014953201593750327846808762513
+n=413514550275673527863957027545525175432824699510881864021105557583918890022061739148026915990124447164572528944722263717357237476264481036272236727160588284145055425035045871562541038353702292714978768468806464985590036061328334595717970895975121788928626837881214128786266719801269965024179019247618967408217
+c=337907824405966440030495671003069758278111764297629248609638912154235544001123799434176915113308593275372838266739188034566867280295804636556069233774555055521212823481663542294565892061947925909547184805760988117713501561339405677394457210062631040728412334490054091265643226842490973415231820626551757008360
+</code></pre>
+<p>The <code>e</code> is too big so that may cause the <code>d</code> become small enough to satisfy the condition for wiener’s attack
+I used <a href="https://github.com/nccgroup/featherduster">featherduster</a> to apply weiner’s attack here and get <code>d</code> successfully</p>
+<p><code>d=12978409760901509356642421072925801006324287746872153539187221529835976408177</code></p>
+<p>The secret message is <code>Here is your flag, pctf{Sup3r_st4nd4rd_W31n3r_4tt4ck}\n</code></p>
+<p>flag:
+<code>pctf{Sup3r_st4nd4rd_W31n3r_4tt4ck}</code></p>
+<h2 id="decode-this">Decode This</h2>
+<p>There is a linear equations :</p>
+<pre><code class="language-py">    z = (x*key[0][0] + y*key[0][1])%26 + 97
+    w = (x*key[1][0] + y*key[1][1])%26 + 97
+</code></pre>
+<p>Cuz we know that there must be a <code>pctf</code> in plain text, it’s able to solve this equation. I didn’t get the flag in my first trial, cuz I assume that <code>pctf</code> is the prefix of plaintext. After a while, I realized that crypto challenges of Pragyan always like to give us some <code>xxxxxxx flag: pctf{xxxxxxx}</code>, so , all we need to do here is to brute force the position of <code>pctf</code> in the plaintext.</p>
+<p>Solving equation is ez in python, because there are lots of package doing this for us (z3, Sympy, sage … etc).</p>
+<p><code>ram has a little secret for you right here it is pctf i like climbing hills what about you</code></p>
+<h1 id="miscellaneous">Miscellaneous</h1>
+<h2 id="exorcism">EXORcism</h2>
+<p>It gives a txt file which contains lots of <code>1\n</code> and <code>0\n</code>, it’s a bitmap of an QRcode
+Convert it to image by python</p>
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset" data-astro-cid-no5unav3> <img src="/_astro/QRcode.DSt_QalI_Z2naVbY.webp" alt data-astro-cid-no5unav3="true" loading="lazy" decoding="async" fetchpriority="auto" width="100" height="100" class="post-image"> </div> 
+<p>The message is <code>160f15011d1b095339595138535f135613595e1a</code>, a meaningless string
+Xor the first 4 char with <code>pctf</code> to check if this was the xor result of flag , then the xor-key turned out to be <code>flag</code>.</p>
+<p>flag:
+<code>pctf{wh4_50_53r1u5?}</code></p>
+<h1 id="binary">Binary</h1>
+<h2 id="feed_me">Feed_me</h2>
+<p>Lazy, use socket and z3 to solve this</p>
+<p>flag:
+<code>pctf{p1zz4_t0pp3d_w1th_p1n34ppl3_s4uc3}</code></p>
+<h2 id="secret-keeper">Secret Keeper</h2>
+<p>Login as <code>admin</code> then it will print flag</p>
+<p>Obviously, it has a UAF bug after remove a user. It just clean and free the chunk of account, but not remove the user from the list, we can even login with null usernam and original password.
+What’s more, the first registed user’s username can be rewrote as admin</p>
+<h3 id="exploit">exploit</h3>
+<p>First, register a user with name <code>whatever</code> and password <code>whateverpassword</code>, then delete it
+Next, register another user with name <code>whatever2</code> and password <code>admin</code>
+Cuz this binary <code>malloc</code> for password first, the chunk which second registed user using for password is actually the same chunk of the first user’s username
+Now we can login as <code>admin</code> with password <code>whateverpassword</code> to get the flag.</p>
+<p>flag:
+<code>pctf{&quot;ThiS_S3rV1ce-1s$t0T411Y-cR4p_But_w3_34Rn_$$_4nyWaYs&quot;}</code></p>
+<h2 id="super-secure-vault">Super Secure Vault</h2>
+<p>The binary ask for  <code>key</code> and <code>password</code>.
+The key has to satisfy some modular equations :</p>
+<pre><code class="language-py">key % 27644437 == 213
+key % 10459 == 229
+key % 1489 == 25
+key % 1046527 == 83
+key % 16127 == 135
+</code></pre>
+<p>We can derive <code>key</code> easily from these equations by CRT (Chinese Remainder Theorem), which is <code>3087629750608333480917556</code></p>
+<p>If the <code>key</code> passes the verification , binary concats <code>27644437104591489104652716127</code> and <code>08</code> after the <code>key</code> in the <code>func2</code>. Then it will try to verify <code>password</code> by looking up a hard-coded array , <code>matrix</code>. In summary, it’s trivial, can be done by idapython.</p>
+<pre><code class="language-py" metastring="ida_sovler.py">from idaapi import *
+
+matrix = LocByName(&quot;matrix&quot;)
+
+key = &quot;3087629750608333480917556&quot; + &quot;27644437104591489104652716127&quot; +&quot;08&quot;
+
+v8 = 0
+v10 = len(key)/2
+
+passwd = []
+
+while v8 &lt; len(key)/2:
+    idx = int(key[v8:v8+2]+key[v10:v10+2])
+    passwd.append(Byte(matrix+idx))
+    v8 += 2
+    v10 += 2
+
+v9 = 0
+v11 = len(key)/2
+
+while v9 &lt; len(key)/2:
+    v4 = int(key[v9:v9+2])
+    v5 = int(key[v11:v11+2])
+    passwd.append(Byte(matrix+ 100*(v4*v4%97)+(v5*v5%97)))
+    v9 += 2
+    v11 += 2
+
+print &#39;&#39;.join(map(chr,passwd))
+</code></pre>
+<p>flag:
+<code>pctf{R3v3rS1Ng_#s_V311_L0t_Of_FuR}</code></p>
+<h2 id="armoury">Armoury</h2>
+<p>Format string vulneralbility, leak the GOT entry and find the correct version of libc.
+Then use <code>%n</code> in format string to overwrite the return address to one gadget.</p>
+<p>flag:
+<code>pctf{“W@r_1sN3v3R@_las41nG_s0lut1on#f0R_any_pr0bleM”}</code></p><style>
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > g > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+  stroke-width: 3;
+}
+</style> </article> </div> <aside class="article-outline-hud" data-augmented-ui="tl-clip tr-clip br-clip bl-clip border"> <div class="article-outline-hud-content glitchable"> <h2>文章大綱</h2> <nav> <ul> <li> <a href="#web">Web</a> </li><li> <a href="#cookie-monster">Cookie Monster</a> </li><li> <a href="#game-of-faces">Game of Faces</a> </li><li> <a href="#mandatory-php">Mandatory PHP</a> </li><li> <a href="#final-solution">final solution</a> </li><li> <a href="#detail">detail</a> </li><li> <a href="#forensics">Forensics</a> </li><li> <a href="#welcome">Welcome</a> </li><li> <a href="#magic-pngs">Magic PNGs</a> </li><li> <a href="#save-earth">Save Earth</a> </li><li> <a href="#slow-realization">Slow Realization</a> </li><li> <a href="#late-pr">Late PR</a> </li><li> <a href="#cryptography">Cryptography</a> </li><li> <a href="#spoiler">Spoiler</a> </li><li> <a href="#add-them-sneaky-polynomials">Add them Sneaky Polynomials</a> </li><li> <a href="#the-order-of-the-phoenix">The Order of the Phoenix</a> </li><li> <a href="#help-rabin">Help Rabin</a> </li><li> <a href="#easy-rsa">Easy RSA</a> </li><li> <a href="#decode-this">Decode This</a> </li><li> <a href="#miscellaneous">Miscellaneous</a> </li><li> <a href="#exorcism">EXORcism</a> </li><li> <a href="#binary">Binary</a> </li><li> <a href="#feed_me">Feed_me</a> </li><li> <a href="#secret-keeper">Secret Keeper</a> </li><li> <a href="#exploit">exploit</a> </li><li> <a href="#super-secure-vault">Super Secure Vault</a> </li><li> <a href="#armoury">Armoury</a> </li> </ul> </nav> </div> </aside> </div> <div id="persistent-notes-overlay"></div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const highlightElements = document.querySelectorAll('.persistent-highlight');
+            const notesOverlay = document.getElementById('persistent-notes-overlay');
+            const containerElement = document.querySelector('.container');
+
+            const positionNotes = () => {
+                notesOverlay.innerHTML = ''; 
+                if (!containerElement) return; 
+
+                
+                if (window.innerWidth > 1024) {
+                    const containerRect = containerElement.getBoundingClientRect();
+                    const noteWidth = 220; 
+                    const margin = 60; 
+
+                    highlightElements.forEach(highlightEl => {
+                        const noteId = highlightEl.dataset.noteId;
+                        const noteText = highlightEl.dataset.noteText; 
+
+                        const rect = highlightEl.getBoundingClientRect();
+
+                        const noteDiv = document.createElement('div');
+                        noteDiv.className = 'persistent-note-item';
+                        noteDiv.setAttribute('data-note-id', noteId);
+                        noteDiv.innerHTML = `<p>${noteText}</p>`;
+
+                        
+                        noteDiv.style.position = 'absolute'; 
+                        noteDiv.style.top = `${rect.top}px`; 
+                        noteDiv.style.left = `${containerRect.left - noteWidth - margin}px`; 
+                        noteDiv.style.width = `${noteWidth}px`;
+
+                        notesOverlay.appendChild(noteDiv);
+
+                        
+                        highlightEl.addEventListener('mouseenter', () => {
+                            noteDiv.classList.add('sci-fi-active');
+                        });
+                        highlightEl.addEventListener('mouseleave', () => {
+                            noteDiv.classList.remove('sci-fi-active');
+                        });
+
+                        
+                        noteDiv.addEventListener('mouseenter', () => {
+                            highlightEl.classList.add('highlight-active');
+                        });
+                        noteDiv.addEventListener('mouseleave', () => {
+                            highlightEl.classList.remove('highlight-active');
+                        });
+                    });
+                }
+            };
+
+            
+            positionNotes();
+
+            
+            window.addEventListener('scroll', positionNotes);
+            window.addEventListener('resize', positionNotes);
+        });
+    </script> <style>
+        
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            display: block; 
+            margin: 0 auto; 
+        }
+
+        
+
+        #persistent-notes-overlay {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; 
+            z-index: 5; 
+        }
+
+        @media (max-width: 1200px) {
+            #persistent-notes-overlay {
+                display: none; 
+            }
+        }
+
+        .persistent-note-item {
+            pointer-events: auto; 
+            
+        }
+    </style>  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position: absolute; top: -9999px; left: -9999px;"> <defs> <filter id="dist-01"> <feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="8" result="noise" seed="0"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-02"> <feTurbulence id="turbulence" baseFrequency="0.2" numOctaves="8" result="noise" seed="1"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-03"> <feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-04"> <feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2" type="fractalNoise"></feTurbulence> <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="6"></feDisplacementMap> </filter> <!-- Additional Glitch Filters for more variety --> <filter id="dist-05"> <feTurbulence baseFrequency="0.05" numOctaves="4" result="noise" seed="3"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="10"></feDisplacementMap> </filter> <filter id="dist-06"> <feTurbulence baseFrequency="0.1" numOctaves="2" result="noise" seed="4"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"></feDisplacementMap> </filter> <filter id="dist-07"> <feTurbulence baseFrequency="0.03" numOctaves="6" result="noise" seed="5" type="fractalNoise"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="12"></feDisplacementMap> </filter> <filter id="dist-08"> <feTurbulence baseFrequency="0.08" numOctaves="3" result="noise" seed="6"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"></feDisplacementMap> </filter> </defs> </svg> <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const glitchableElements = document.querySelectorAll('.glitchable');
+                const filters = ['dist-01', 'dist-02', 'dist-03', 'dist-04', 'dist-05', 'dist-06', 'dist-07', 'dist-08'];
+
+                glitchableElements.forEach(el => {
+                    function applyGlitch() {
+                        const randomFilterId = filters[Math.floor(Math.random() * filters.length)];
+                        const glitchDuration = 0.08//Math.random() * (0.1 - 0.05) + 0.05; // Glitch lasts between 0.05 and 0.1 seconds
+                        const delayBeforeNextGlitch = Math.random() * (6 - 3) + 3; // Next glitch in 0.5 to 2 seconds
+
+                        el.style.filter = `url(#${randomFilterId})`;
+
+                        setTimeout(() => {
+                            el.style.filter = 'none';
+                            setTimeout(applyGlitch, delayBeforeNextGlitch * 1000);
+                        }, glitchDuration * 1000);
+                    }
+
+                    // Initial glitch after a random delay
+                    setTimeout(applyGlitch, Math.random() * 3000); // Initial delay up to 3 seconds
+                });
+
+                // Theme switching logic
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const body = document.body;
+
+                function toggleTheme() {
+                    if (body.classList.contains('theme-red')) {
+                        body.classList.remove('theme-red');
+                        body.classList.add('theme-purple');
+                        localStorage.setItem('theme', 'theme-purple');
+                    } else if (body.classList.contains('theme-purple')) {
+                        body.classList.remove('theme-purple');
+                        body.classList.add('theme-blue');
+                        localStorage.setItem('theme', 'theme-blue');
+                    } else if (body.classList.contains('theme-blue')) {
+                        body.classList.remove('theme-blue');
+                        body.classList.add('theme-light');
+                        localStorage.setItem('theme', 'theme-light');
+                    } else {
+                        body.classList.remove('theme-light');
+                        body.classList.add('theme-red');
+                        localStorage.setItem('theme', 'theme-red');
+                    }
+                }
+
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', toggleTheme);
+                }
+            });
+        </script> <script type="module">document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".persistent-highlight").forEach(t=>{const s=t.dataset.noteId,o=t.dataset.noteText;if(!t||!s||!o)return;let e=null;e=document.createElement("div"),e.className="persistent-note-block",e.dataset.noteId=s,e.innerHTML=`<p>${o}</p>`;let n=t.closest("p");if(n===null){let a=t;for(;a&&a.nextElementSibling;)if(a=a.nextElementSibling,a.tagName==="P"){n=a;break}}n&&n.parentNode&&n.parentNode.insertBefore(e,n.nextSibling),t.addEventListener("mouseenter",()=>{e.classList.add("glow-active")}),t.addEventListener("mouseleave",()=>{e.classList.remove("glow-active")}),e.addEventListener("mouseenter",()=>{t.classList.add("highlight-active"),e.classList.add("glow-active")}),e.addEventListener("mouseleave",()=>{t.classList.remove("highlight-active"),e.classList.remove("glow-active")})})});</script> </body> </html>

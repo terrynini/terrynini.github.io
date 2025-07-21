@@ -1,0 +1,83 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  width?: number;
+  height?: number;
+  [key: string]: any; // Allow other props to be passed through
+}
+
+const { src, alt, width, height, ...rest } = Astro.props;
+
+let resolvedSrc = src;
+
+// Automatically resolve relative image paths based on the article's slug
+if (typeof src === 'string' && src.startsWith('./')) {
+  const slug = decodeURIComponent(Astro.url.pathname.split('/').filter(p => p).pop());
+  if (slug) {
+    const imageName = src.slice(2); // remove './'
+    const imagePath = `/src/assets/${slug}/${imageName}`;
+
+    // Use Vite's import.meta.glob to dynamically import the image
+    // This allows astro:assets to process it correctly
+    const images = import.meta.glob('/src/assets/**/*.{png,PNG,jpg,JPG,jpeg,gif,webp,svg,avif}');
+    
+    if (images[imagePath]) {
+      const { default: imageMetadata } = await images[imagePath]();
+      resolvedSrc = imageMetadata;
+    } else {
+      console.error(`[AugmentedImage] Image not found at path: ${imagePath}`);
+    }
+  }
+}
+---
+
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset">
+  <Image src={resolvedSrc} alt={alt} width={width} height={height} {...rest} class="post-image" />
+</div>
+
+<style>
+.post-image-wrapper {
+    margin: 1.5em auto; /* Center the wrapper and add vertical spacing */
+    max-width: 100%; /* Ensure it doesn't overflow its parent */
+    position: relative;
+    display: inline-block; /* Use inline-block to wrap the image snugly */
+  }
+
+
+.post-image-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b),1);/*, 0.8); /* Adjust opacity as
+ed */
+  mix-blend-mode: color; /* 'color', 'multiply', or 'screen' are good blend modes to try */
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.post-image-wrapper:hover::before {
+  opacity: 0;
+}
+
+.post-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    /*filter: brightness(0.7) contrast(0.8); /* Even lower brightness and contrast for dark backgrounds */
+    border: 1px solid var(--color-border); /* Subtle border */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6); /* Soft shadow */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+  }
+
+  .post-image:hover {
+    filter: brightness(1) contrast(1); /* Restore full brightness and contrast on hover */
+    box-shadow: 0 0 15px rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.7); /* Accent glow on hover */
+  }
+</style>

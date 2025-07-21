@@ -1,0 +1,188 @@
+---
+title: "2017::AIS3 pre-exam write up"
+description: ""
+publishDate: "2017-07-15"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+總之我終於擊敗惰性開始寫writeup了，去年剛開始接觸資安的時候好像還不知道AIS3，所以這是第一次參加AIS3，總之本來想好好解逆向結果解不出來只有12名，培訓時間還跟我要去日本的時間完美的重疊了，慘。<br/>
+
+### web1
+其實這題在幹嘛我忘記了
+### web2
+```php
+$msg = "";
+if (isset($_POST["username"]) and isset($_POST["password"]))
+{
+    $username = (string)$_POST["username"];
+    $password = (string)$_POST["password"];
+
+    $success = false;
+    foreach ($db as $row)
+    {
+        if ($username == $row["username"] and md5($password) == $row["password"])
+        {
+            $msg = "Successful login as $username. Here's your flag: ".$flag;
+            $success = true;
+            break;
+        }
+    }
+    if (!$success)
+    {
+        $msg = "Invalid username or password.";
+    }
+}
+```
+這題要求登入一個用php寫得簡單網頁，php做的就是用你的username去找他本來就寫好的一串md5 hash然後把你輸入的password也做md5之後使用 `==` 做比較，不難發現是php弱比較的利用，仔細看就會發現有一個md5 hash是 `0e` 開頭，把對應的username還有 `QNKCDZO` 當作密碼就會拿到flag了。
+### web3
+這題根本是從eduCTF拿過來再利用吧哈哈哈<br/>
+總之是LFI(local file inclusion)的漏洞，flag在哪我失憶了。
+### web4
+這題也有LFI的漏洞，不過靠LFI把index.php拉出來會發現他把一個upload的功能隱藏起來，從網址進去之後會發現它是一個只能上傳jpg圖片的功能，然後會告訴你上傳之後亂數產生的檔名，但是只是單純過濾副檔名，所以用phar搭配LFI的漏洞可以做出web shell，再來就只是拿flag而已。
+### Pwn1
+這題你輸入什麼他就直接跳到那裡執行這樣，有個function叫做youcanseeme，跳過去執行就好了，值得注意的是因為scanf吃到空白會停止，而剛好function的開頭位址會讓scnaf只吃到一半，所以要往後跳一點。
+### Pwn2
+用C++寫的一支程式，雖然是PE檔案格式，結果這題連分析也不用就知道要怎樣做了，關鍵在
+```cpp
+	struct user {
+		char name[20];
+		int pass;
+	} ais3_user;
+```
+因為C++中這種struct的記憶體會連在一起，所以輸入name的時候多敲幾個把pass壓過去就好了。
+### Reverse1
+直接執行，中間會產生flag。
+### Reverse2
+這題給了rev2和encrypted兩個檔案，encrypted是被rev2加密的flag
+，rev2加密的方式是用srand(time(NULL))之後，然後使用rand()來加密，程式內有顯示這支程式建立的時間是台灣時間 6/26。<br/>因為time(NULL)實際上傳回的是目前的unix timestamp，srand再以此做出亂數表，因此把6/26的unix timestamp開始一直用srand做出亂數表，然後跟encrypted做xor然後檢查是不是flag就好了。
+### Crypto1
+這題的flag被三個數值做xor，不過不需要做出個別值，因為xor之後完全沒有差別，因為知道flag是AIS3開頭，所以把xor的值解出來後把剩下的部分也xor出來就好了
+```cpp
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	int val1 = ?????????, val2 = ?????????, val3 = ???????, val4 = ??????, i, *ptr;
+	char flag[29] = "????????????????????????????"; // Hint: The flag begins with AIS3
+	
+	for(i = 0, ptr = (int*)flag ; i < 7 ; ++i)
+		printf("%d\n", ptr[i] ^ val1 ^ val2 ^ val3 ^ val4);
+	
+	/*
+	964600246
+	1376627084
+	1208859320
+	1482862807
+	1326295511
+	1181531558
+	2003814564
+	*/
+	
+	return 0;
+}
+```
+### Crypto2
+因為用了ECB mode ，所以每個區塊間沒有關聯，而且加密用的key也不會換，造成cut & paste attack。<br/>
+### Crypto3 & Crypto4
+sha1 collision，這兩題滿有趣的。<br/>
+在做比較的時候使用的是 `===` 而不是 `==` 所以不能用陣列的方法繞過，因此就是利用google在2月時找到的sha1碰撞，把兩個文件作為username還有password傳入。<br/>
+Crypto4 則是利用string() parse的時候會被`\00`截斷，加入題目要求的字串，而最後一個條件則是sha1的結果開頭要是`f00d`，只要在文件後面加入一堆`\00`，結果就會不一樣，所以就寫個腳本自動檢查就好了。
+```php
+<?php
+include("flag.php");
+
+if (isset($_GET["source"])) {
+    show_source(__FILE__);
+    exit();
+}
+
+function startsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+}
+
+if (isset($_POST["username"]) and isset($_POST["password"]))
+{
+    $username = (string)$_POST["username"];
+    $password = (string)$_POST["password"];
+
+    $h1 = sha1($username);
+    $h2 = sha1($password);
+
+    if ($username == $password)
+    {
+        $msg = "Your password can not be your username.";
+    }
+    else if ($h1 === $h2)
+    {
+        $msg = "Flag1: $flag1";
+
+        if (strpos($username, "Snoopy_do_not_like_cats_hahahaha") !== false and
+            strpos($password, "ddaa_is_PHD") !== false and
+            startsWith($h1, "f00d"))
+        {
+            $msg .= "</br>";
+            $msg .= "Flag2: $flag2";
+        }
+    }
+    else
+    {
+        $msg = "Invalid password.";
+    }
+}
+?>
+```
+
+### MISC2
+就只顯示了`I've sent you something :)`，網頁註解裡面有一個img的tag `<img src='sudoku.png'>`，把註解拿開後會顯示一張數獨的圖片：<br/><Image src="./sudoku.png" alt="" /><br/>
+然後我以為這題是steganography，結果跟原圖根本就連一bit都沒差別啊。<br/>
+用curl看header才會發現：<br/>
+<Image src="./AIS3_misc2_00.png" alt="" /><br/>
+decode後就會得到`S74G32.php`，進去後會看到一張png:<br/>
+<Image src="./AIS3_misc2_01.png" alt="" /><br/>
+總之我的膝蓋告訴我flag一定在白色的地方，因為他九成是png:<br/>
+<Image src="./AIS3_misc2_02.png" alt="" />
+### MISC4
+這題要ssh到一台主機，然後權限很低，flag就在眼前但是不能cat。
+有三個檔案flag、shell、shell.c，shell.c長這樣：
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int filter(char* cmd){
+        int r=0;
+        r += strstr(cmd, "=")!=0;
+        r += strstr(cmd, "PATH")!=0;
+        r += strstr(cmd, "export")!=0;
+        r += strstr(cmd, "/")!=0;
+        r += strstr(cmd, "\\")!=0;
+        r += strstr(cmd, "`")!=0;
+        r += strstr(cmd, "flag")!=0;
+        return r;
+}
+
+extern char** environ;
+void delete_env(){
+        char** p;
+        for(p=environ; *p; p++) memset(*p, 0, strlen(*p));
+}
+
+int main(int argc, char* argv[], char** envp){
+        setregid(getegid(), -1);
+        if(argc < 2) { return 0; }
+        delete_env();
+        putenv("PATH=/this_is_not_a_valid_path");
+        if(filter(argv[1])) return 0;
+        printf("%s\n", argv[1]);
+        system( argv[1] );
+        return 0;
+}
+
+```
+總之只能用sh內建的指令echo跟pwd啥的，加上一些神奇的東西就變成：
+<Image src="./AIS3_misc4_00.png" alt="" />

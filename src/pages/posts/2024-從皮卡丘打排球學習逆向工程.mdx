@@ -1,0 +1,554 @@
+---
+title: "2024::從皮卡丘打排球學習逆向工程"
+description: ""
+publishDate: "2024-09-22 00:59:43"
+category: "Reversing"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+去年在 AIS3 的軟體安全選修講了一門關於逆向工程的課《沒有 IDA 難道就無法逆向了嗎？IDA豈是如此不便之物！》。課堂中有一個現場的實作，是我帶著學生撰寫皮卡丘打排球的外掛程式，這是很久以前（2018?）旁聽交大的程式安全時，Lays 在課堂上展示的一個範例（講了整體概念，沒有時間帶到細節），那時候就覺得太酷了吧，我也來試試。所以這次也選擇讓它變成課程的一部分，讓 AIS3 的學生可以在獲得成就感的情境下熟悉 IDA 的操作，並知道如何透過對程式的理解來加速逆向的過程。
+
+如果你是來看熱鬧的可以直接跳到 [放置型皮卡丘打排球](#放置型皮卡丘打排球) 看最終成果；如果你想直接看外掛程式的部份，可以直接跳到 [注入王之力！](#注入王之力！)。
+
+## 你是誰？你在哪？你要幹嘛？
+
+本次逆向的目的是「還原皮卡丘打排球遊戲中的資料結構，透過操作記憶體進一步做出製作遊戲外掛」。最後實現的外掛功能有：
+1. 把兩個皮卡丘都改成電腦操作，讓電腦左右互搏！
+2. 用滑鼠操作排球（可以用 cheat engine 做到，但本次練習目的是讓學員熟悉分析時的思考方式）
+
+首先我們先列舉皮卡丘打排球這個程式有什麼特徵：
+1. 他是 GUI 程式
+2. 玩家透過鍵盤操作皮卡丘進行遊戲
+
+根據上述兩個資訊，我們可以加快逆向工程所需要的時間！
+
+## 皮卡！啟動！
+
+首先將 pikaball.exe 放入 IDA 中進行分析，那怎麼開始分析呢？平時我們透過字串或是 API 來定位我們想分析的邏輯。然而與操作皮卡丘相關的邏輯應該是不會包含字串，因此我們從 「玩家透過鍵盤操作皮卡丘進行遊戲」這個事實切入。
+
+在 IDA 中打開「Import」的分頁，搜尋「key」或是「keyboard」就可以發現皮卡丘打排球有使用鍵盤相關的 API 來獲得鍵盤狀態（這裡靠晶彥，或你要說瞎猜。有知識靠知識，沒知識靠通靈！）：
+
+<Image src="./1.png" alt="" />
+
+
+點擊名稱兩下，IDA 會帶我們 .idata 段，這裡是 PE 檔案格式用來存放外部 function 的一個地方：
+<Image src="./2.png" alt="" />
+
+
+在 `GetKeyboardState` 上面按快捷鍵 X，或是右鍵 ->「list cross reference to」來找到程式中有引用這個 function 的地方，我們會看到僅有一個 function 有使用到 `GetKeyboardState`：
+
+<Image src="./3.png" alt="" />
+
+
+點 `GetKeyboardState` 兩下跟隨後，按下 F5 進行反編譯，便可以約略猜出這個 function 的功能應該是：
+1. 呼叫 `GetKeyboardState` 獲得鍵盤狀態
+2. 將表示鍵盤狀態的陣列透過 bit or 壓縮成一個變數 `v3`
+
+<Image src="./4.png" alt="" />
+
+此時我會將 function 重新命名來節省記憶力，現在的函數名稱是「`sub_409370`」，意思是「位於程式記憶體位置 0x409370 的一個 subroutine」。在 `sub_409370` 名稱上面按快捷鍵 N，或是右鍵 ->「rename global item」來重新命名。這裡有個命名的小技巧：保留記憶體位置。除了方便定位之外，撞名時也不用想新名字。所以我們把它命名成「`GetKeyboard_40937`」：
+
+<Image src="./5.png" alt="" />
+
+接下來在新的 function 名稱 `GetKeyboard_40937` 上面按快捷鍵 X，或是右鍵 ->「list cross reference to」來找到程式中有引用這個 function 的地方，我們會看到僅有`sub_406F60` 一個 function 有使用它：
+<Image src="./6.png" alt="" />
+
+點擊兩下跟隨後會看到一個操作略微難懂的 function `sub_406F60`，此時還看不太懂。我們可以轉而看一下 `sub_406F60` 呼叫的第一個 function `sub_4092D0` 在做什麼：
+<Image src="./7.png" alt="" />
+
+在 `sub_4092D0` 中有個 API「`joyGetPosEx`」，通過名字應該很好猜到這是一個用來獲得遊戲手把（joystick）的狀態的 API。如果猜不到的話可以 google 到微軟手冊中的說明 [joyGetPosEx](https://learn.microsoft.com/en-us/windows/win32/api/joystickapi/nf-joystickapi-joygetposex)
+<Image src="./8.png" alt="" />
+
+所以我們可以先猜測這個略微難懂的 function `sub_406F60` 應該是獲得遊戲角色最新的操作，這裡將它叫做 `GetControlCode_406F60`
+
+<Image src="./9.png" alt="" />
+
+我們一樣在 `GetControlCode_406F60` 上面按 X，一樣只找到 `sub_401460` 一個 function 引用：
+
+<Image src="./10.png" alt="" />
+
+這裡可以透過一些經驗法則來猜測， `v4[0]`、`v4[1]` 其實是在記錄方向鍵是否有被按下，`v4[2]`、`v4[3]` 是另外兩個按鍵，可能是殺球的指令。
+此時，為了方便我們逆向，我們可以先建立一個資料結構。我們透過手動計算，因為 `v4` 是個 `_DWORD *` ，所以按照記憶體被存取的方法，這可能是一個包含了四個 int 的 struct，我們姑且先定義它為 `struct control`：
+
+```c
+struct control{
+	int x;
+	int y;
+	int key;
+	int another_key;
+}
+//所以 v4 實際上可以從 _DWORD * 被更精準的定義成下面這個樣子
+struct control* v4;
+```
+
+但是當資料結構一大的時候，逐一計算會很費時間。所以我們可以使用 IDA 的功能來快速定義 struct。首先在 `v4` 上面按右鍵，選擇「reset pointer type」
+<Image src="./11.png" alt="" />
+
+會看到 `v4` 不再是指標
+<Image src="./12.png" alt="" />
+
+接下來再對 `v4` 按一次右鍵，選擇「Create new struct type」
+<Image src="./13.png" alt="" />
+
+IDA 就會根據這個 `v4` 被存取的樣式來分析出記憶體的布局方式：
+<Image src="./14.png" alt="" />
+
+
+因為稍後我們會建立很多資料結構，所以這裡有個小技巧是，每個你創建的 structure 前面可以加上你愛用的前綴，這樣我們之後就會知道這是我們分析過後建立的資料結構（IDA 自己會引入一些資料結構，我們可能會混在一起）
+<Image src="./15.png" alt="" />
+
+按下 ok 後即可
+<Image src="./16.png" alt="" />
+
+此時不要忘記我們本來的目的，我們要做的事情是，基於「鍵盤輸入會影響皮卡丘物件」的這個事實，透過追蹤鍵盤操作的執行流程與資料流定位到皮卡丘物件。所以我們要找的是 `v4` 接下來去哪，但我們馬上就會發現他並沒有被使用，原因是 `v4` 這個「指標」也是從別的地方借來的（看第 15 行）
+<Image src="./17.png" alt="" />
+
+看到第 15 行，看得出來 `v4` 是從 `this` 這個物件取出的，所以我們先針對 `this` 重複剛剛的操作來重建 struct：「reset pointer type」->「create new structure」。因為這次沒辦法馬上猜出這個 structure 的意義，所以我們姑且就使用 IDA 給我們的名字，但是加上前綴跟使用他的 function 的位置來命名方便之後找到他。
+<Image src="./18.png" alt="" />
+
+此時注意 `v4` 這行，會發現型別沒有對上，所以我們接著打開「local type」的介面對 structure 進行調整，或是通過以下方法慢慢調整結構也可以的，首先我們先調整 `this->char30` 的型別
+<Image src="./19.png" alt="" />
+
+在 `char30` 上面按快捷鍵 Y 或是右鍵「set field type」，他實際上是一個 `nini_control` 的 array，而且有兩個元素
+<Image src="./20.png" alt="" />
+
+為什麼是兩個元素呢？這件事情可以通過下面的迴圈回推得到，注意迴圈裡有個 `++v4`，而 2 這個數字跟「兩隻」皮卡丘不謀而合，所以我們可以假設，只要看到有個 while 跑了兩次，很大機率是在處理跟兩隻皮卡丘有關係的邏輯。
+<Image src="./21.png" alt="" />
+
+
+當然為了方便辨識，我們也可以幫 `char30` 重新命名，在 `char30` 上面按 N 或是右鍵 rename field，重新命名為 `controls`
+<Image src="./22.png" alt="" />
+
+按下 f5 重新 decompile，像 `v4` 這種預設的名稱，會因為看到我們重新命名了 structure 中的的變數名稱，如 `controls`，將新名稱傳遞給 `v4`，所以 `v4` 也會被叫成一樣的名字方便閱讀：
+<Image src="./23.png" alt="" />
+
+好，此時往下滑應該可以看到我們的 `controls` 有被拿來使用
+<Image src="./24.png" alt="" />
+
+我們進入 `sub_404E30` ，會發現外層看起來只顯示一個參數，但是點進來後卻變成兩個參數：
+<Image src="./25.png" alt="" />
+
+這是因為 IDA 在我們進入 function 時分析了一次。我們回到外層就會發現外層也被同步更新了。這裡按 Esc 即可以回到外層，如果內容沒有更新只要按一下 f5 就可以。這裡發現 `controls` 被放到了第二個參數，而第一個參數 `this-dword28` 我們此時還不確定是什麼，但因為接下來的程式沒有使用到 `controls`，所以我們這裡可以大膽假設 `this-dword28` 應該存有皮卡丘的遊戲數據。
+<Image src="./26.png" alt="" />
+
+
+重新回到 `sub_404E30` 中，此時我們可以先修好 function 的定義，因為跟據傳進來的參數我們知道第二個參數的型別應該是 `nini_controls*` 才對，你可以選擇對 function 名稱按 Y 或是單純對 `a2` 按 Y，總之改好他。
+<Image src="./27.png" alt="" />
+
+用處有兩個：
+1. 我們可以繼續往下修正其他 function 的參數型別
+2. 假設有其他 function 也有呼叫這個 function，我們就可以反推第二個傳進來的變數應該是什麼型別（例如 `sub_404e30(v1, v2)`，假設 v2 本來被誤認成 int，我們就可以按 Y 去把它修正成 `nini_control*`）
+
+接下來就照心情隨便逛逛，看看哪裡有拿我們的 `nini_control` 做運算，先看 `sub_404F50` ，一樣先修好他的 type
+<Image src="./28.png" alt="" />
+
+只有 `sub_403AC0` 有用到，繼續跟進去，修正型別
+<Image src="./29.png" alt="" />
+
+這時候滑鼠點一下 `a2` 之後，整面的 `a2` 都會被 hightlight 起來（ghidra 也有一樣的功能，但要手動開啟），因為我們只在意 `a2` 到底被用去哪了，所以可以看一下 highlight 的地方找一下線索，譬如說我們發現 `a2` 被傳進 `sub_403D70` 做使用，我們一樣就跟進去
+<Image src="./30.png" alt="" />
+
+點進 `sub_403D70` 後，`sub_403D70` 從一個參數變成了兩個參數，Esc 回頭檢查一下
+<Image src="./31.png" alt="" />
+
+修正型別
+<Image src="./32.png" alt="" />
+
+
+往下滑就會發現好像中獎了，因為 `a2` 賦值給 `v20` 後， `v20` 被拿來跟兩個東西做運算，很有可能是皮卡丘
+<Image src="./33.png" alt="" />
+
+更下面一點也有拿 `speedY` 的操作來做運算，（在皮卡丘打排球裡按下再殺球會是一個急墜殺球）
+<Image src="./34.png" alt="" />
+
+這裡先看一下 `v20` 具體是怎麼用的
+<Image src="./35.png" alt="" />
+
+
+一樣跟進 `sub_401FE0` 並且修復型別。注意，這裡進去 `sub_401FE0` 後三個參數變成了四個，所以記得退回上一步檢查，重新 f5 應該會變成這樣
+<Image src="./36.png" alt="" />
+
+修復型別
+<Image src="./37.png" alt="" />
+
+從這裡開始，會發現 function 內容已經在根據 `a2` 的 `speedx` 跟 `speedy` 是 -1, 0 還是 1 來做出相對應的運算，而運算都針對在 `this` 這個指標上面，例如
+<Image src="./38.png" alt="" />
+
+所以很明顯的，`this` 就是皮卡丘物件了，透過一樣的手法，「reset pointer type」->「create new structure」，我們就叫他 `nini_pikachu`
+<Image src="./39.png" alt="" />
+
+一樣透過 `a2` 來分析，可以還原出一些皮卡丘這個物件的重要 member，例如下面 48 行附近的程式碼，我們可以猜到 `dwordA8` 應該就是皮卡丘的 X 座標
+<Image src="./40.png" alt="" />
+
+用前面教的方法，一樣對 `dwordA8` 重新命名，弄成好看的樣子 
+<Image src="./41.png" alt="" />
+
+接著分析看看 `dwordAC`，從 struct 來看在 `posX` 的後面（`posX` 是 0xA8，int 佔 4 byte，所以 0xAC 就是下一個），然後跟 `speedy` 有關係，244 看起來就是 Y 軸邊界檢查，`dwordB0` 看起來就是重力，所以 `dwordAC` 應該就是 `posY` 了，直接猜。（視窗的左上角是 x,y = 0,0，往右邊 x 增加，往下面 y 增加）
+<Image src="./42.png" alt="" />
+
+改名
+<Image src="./43.png" alt="" />
+
+此時稍微回到 function 一開始的地方，這裡有個呼叫，跟進去 `sub_402380` 看一下
+<Image src="./44.png" alt="" />
+
+修復型別（注意最後有個 `nini_control` 被傳進來，可以自行確認）
+<Image src="./45.png" alt="" />
+
+
+會發現，`control` 被清空了，然後透過一連串的運算重新決定 `control` 是什麼，所以我們可以確定，這個 function 就是電腦操作皮卡丘的邏輯
+<Image src="./46.png" alt="" />
+
+那我們可以把它重新命名
+<Image src="./47.png" alt="" />
+
+回到上一步呼叫他的地方
+<Image src="./48.png" alt="" />
+
+從這裡可以推理出來 `dwordA4` 就是決定一個皮卡丘角色是不是由電腦來操作的 bool，我們也重新命名他
+<Image src="./49.png" alt="" />
+
+好讓我們先把剛剛這個 function 也命名好，我們改成一個簡單易懂的名字
+<Image src="./50.png" alt="" />
+
+然後回到使用他的地方，可以用 Esc 或是用快捷鍵 X 的方式找到。看一下會發現我們的皮卡丘物件是從這個 function 的 `this` 裡被拿出來的
+<Image src="./51.png" alt="" />
+
+所以我們一樣幫 `this` 做一個 structure，因為它存了兩個玩家，所以姑且叫他 `nini_entities`
+<Image src="./52.png" alt="" />
+
+然後一樣我們要來修正 member `的類別，intC` 很明顯就是要改成 `nini_pikachu`
+<Image src="./53.png" alt="" />
+
+而且因為下面有個 do 迴圈，所以我們把它修正成 `nini_pikachu *intC[2]`，而 `v5` 應該是 `nini_pikachu**`，同時我們把 `intC` 重新命名成 `players`
+<Image src="./54.png" alt="" />
+
+很棒，那我們這裡可以回頭分析一下排球在哪裡，當然這一步，或是皮卡丘物件都可以透過動態分析定位到，但本次練習的目的是讓大家熟悉逆向工具的操作，還有分析時的思考方式，所以覺得好玩的話也可以自己動手用 Cheat Engine 動態分析來加速我們這整個定位到物件的流程。 
+
+接下來在同個 function 中稍微看一下會發現，在這個 funciton 中，只要運算皮卡丘的地方（do while 迴圈），`dword14` 就會莫名其妙的跟兩隻皮卡丘一起做運算，感覺有極高機率是在運算碰撞事件（皮卡丘撞到它），有可能是障礙物或是邊線，也有可能就是我們在找的球，所以可以試著分析看看。
+<Image src="./55.png" alt="" />
+
+
+那我們跟進第 31 行的 `sub_402DA0` 中，稍微看一下會發現，中間一段程式碼看起來像在處理球碰撞到視窗邊界，例如 38 行，看起來像是檢查 `位置+速度-球的圖片素材寬度/2 >= 螢幕寬度` (寫遊戲常見的運算，因為圖片的座標是由圖片矩形的左上角來定位，所以算碰撞的時候會把這個點加上素材寬度的一半，才會真的用圖片的正中心做運算)，如果是 true 的話就把 `this[14]` 變成 `-this[14]`(因為 `v2` 也是從 `this[14]` 拿出來的)，看起來 `this[14]` 就是球運動的速度。
+
+<Image src="./56.png" alt="" />
+
+一樣，幫 `this` 製作結構，這裡我們叫他 `nini_ball`，根據我們剛剛精彩的推論來重新命名結構
+<Image src="./57.png" alt="" />
+
+好，這裡的任務算是完成了，回到上一層呼叫這個 function 的地方
+<Image src="./58.png" alt="" />
+
+現在我們知道這個 member 跟 function 在做什麼了，嘗試命名跟修復型別(`nini_ball*`)
+<Image src="./59.png" alt="" />
+
+現在我們已經姑且復原了皮卡丘跟球的 struct （因為我們只是要控制球的位置還有打開皮卡丘的電腦模式，已經算是足夠）。但有個問題就是這些物件存在在指標中，而每次重新開始遊戲時，指標所分配到的位置都不一樣。然而在程式設計時，應該會有一個最上層的物件，是存在在 global 的地方來方便工程師使用物件，而 global 的位置就是我們可以定位到的，他不會隨著程式重新開啟而變動（因為這個遊戲的 code 沒有做位址空間組態隨機載入，ASLR），因此接下來我們要找這個最上層物件，我們的作弊程式就可以先定位到這個最上層物件，然後再一層一層定位到皮卡丘跟排球這三個指標這次執行的記憶體位置。
+
+所以我們就從 `403d70` 這個 function 開始，一層一層按快捷鍵 X 往上看物件是怎麼被傳遞下來的
+<Image src="./60.png" alt="" />
+
+好，先往上一層，這裡的 `this` 型別需要被我們修復成 `nini_entities*` （根據 `sub_403D70` 的參數型別）
+<Image src="./61.png" alt="" />
+
+往上滑到這個 function 的開頭
+<Image src="./62.png" alt="" />
+
+再往上一層，這裡的 `this+16` 是 `nini_entities*`，表示 `this` 又是另外一個物件，一樣，我們「create structure type」，並且修復類別與名稱
+<Image src="./63.png" alt="" />
+
+大概就長這樣，因為還不知道這個結構叫什麼好，姑且叫他 `nini_this_404F50`
+<Image src="./64.png" alt="" />
+
+再往上一層
+<Image src="./65.png" alt="" />
+
+一樣，根據 `sub_404F50` 的第一個參數的型別，我們修復一下參數
+<Image src="./66.png" alt="" />
+
+然後再往上一層，會發現 `nini_this_404F50` 其實是 `nini_this_401460` 中的一個 member
+<Image src="./67.png" alt="" />
+
+這裡一樣修復他的型別
+<Image src="./68.png" alt="" />
+
+一樣滑到 function 的最上面
+<Image src="./69.png" alt="" />
+
+然後往上一層，會發現我們跑到了奇怪的地方！
+<Image src="./70.png" alt="" />
+
+這裡其實就是 vtable，也就是一個用來記錄物件的 member function 的 array。那這個「某個物件」是什麼呢？在寫 C++ 的類別時，在該類別的 member function 中我們通常都可以使用 `this` 來找到自己，這個 `this` 實際上的實作方式就是把自己當作第一個參數傳進去所有 member function 裏面！所以表示什麼？表示 `sub_401460` 是 `nini_this_401460` 的 member function，而我們現在看到的正是 `nini_this_401460` 的 vtable。那接下來要怎麼辦？稍微往上滑，不要太大力，會發現前面有個地方有標籤 `off_40F000`，這表示 IDA 有發現這個位置有被別人使用，所以我們可以知道，這個位置很大機率就是 vtable 的起頭（因為要把 vtable 賦予給所有新創造的 `nini_this_401460` 物件）
+<Image src="./71.png" alt="" />
+
+接下來一樣，在 `off_40F000` 上按快捷鍵 X，會發現有兩個引用，而通常 vtable 會在物件的建構子跟解構子中被使用，我們隨便看一下第一個引用
+<Image src="./72.png" alt="" />
+
+這裡有一堆 new，基本上可以確定這是建構子
+<Image src="./73.png" alt="" />
+
+順手修復一下型別
+<Image src="./74.png" alt="" />
+
+然後一樣按 X 找到他的上一層，就回到了視窗的 main，而透過參數知道 `v5` 應該是一個 `nini_this_401460` 的 structure，讓我們跟著 `v5` 往下跟進 `sub_401240` 看看
+<Image src="./75.png" alt="" />
+
+修復型別
+<Image src="./76.png" alt="" />
+
+往下看到第 28 行， 進去 `sub_404BE0` 
+<Image src="./77.png" alt="" />
+
+會看到第二個參數因為有被拿去做一些 `GetDC` 等等的操作， IDA 有認出來他的型別是 `HWND`，意思是 handle of Window，也就是用來操作跟視窗相關的一個 handle（類似號碼牌的概念，拿著號碼牌就可以存取對應的視窗），這個 handle 對我們來說非常實用，因為我們要控制視窗的滑鼠點擊事件需要他。
+<Image src="./78.png" alt="" />
+
+所以我們可以回上一層修復 `gap4` 的名稱跟型別，同時往下看到第 30 行，呼叫 `sub_4062B0` 的這個 function
+<Image src="./79.png" alt="" />
+
+
+隨便點進去看看會發現，他把 `this` 設定到 global 變數上了！
+<Image src="./80.png" alt="" />
+
+所以我們的作弊程式只需要把 `0x4110D8` 當做一個 `nini_this_401460 *` 來解析的話就可以找到皮卡丘物件跟球物件了！接下來我們要匯出 struct，按下快捷鍵 shift + f1，或是如下圖所示從工具列打開 subview 中的 local types
+
+<Image src="./81.png" alt="" />
+
+在搜尋列上打我們先前常用的前綴就可以找出所有我們定義的 structure
+<Image src="./82.png" alt="" />
+
+這裡可以做一些簡單的修正，例如 `nini_this_401460`，他是最上層結構，我想把他重新命名成 `nini_program`，這裡就點選他
+<Image src="./83.png" alt="" />
+
+可以按 ctrl+E 或是右鍵 edit 來編輯
+<Image src="./84.png" alt="" />
+
+`nini_this_404F50`  也一樣，我想把它改成 `nini_game`
+<Image src="./85.png" alt="" />
+
+突然想到，回頭重新命名一下 `nini_program`，把 `nini_game*` 的這個 member 重新命名成 `game` 這個好懂一點的名字
+<Image src="./86.png" alt="" />
+
+框選全部想匯出的 struct，右鍵 export to header file，我們就可以快速把他們匯出成 C/C++ 方便使用的形式了。
+<Image src="./87.png" alt="" />
+
+
+## 注入王之力！
+
+注入我們的程式碼到遊戲中有很多方法，但因為皮卡丘打排球基本上沒有保護，所以我們也不用想太多花招。像我這種有禮貌的紳士就是請皮卡丘打排球的程式直接讀我們的 dll 進去讓我們作弊，拜託幾個勒。 在拜託之前，我們先來寫 dll，我們在 visual studio 中建立一個 dll 範本
+<Image src="./88.png" alt="" />
+
+因為 IDA 使用的型別名稱中多了個底線 `_DWORD` `_BYTE`
+所以使用前記得補上
+
+```cpp
+typedef DWORD _DWORD;
+typedef BYTE _BYTE;
+```
+
+複製貼上匯出的 structure 或是 include 都行，但下面這兩個沒用到可以刪了
+<Image src="./89.png" alt="" />
+
+我們講解一下 code 的部分，DllMain 就是 dll 被載入時首先執行的地方，這裡我們開一個 thread 執行 function `hakcingStart`，這樣才不會把遊戲程式卡死，
+
+```cpp
+//https://learn.microsoft.com/en-us/windows/win32/dlls/dllmain
+BOOL APIENTRY DllMain(HMODULE hModule,
+	DWORD  ul_reason_for_call,
+	LPVOID lpReserved
+)
+{
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)hackingStart, NULL, NULL, NULL);
+		break;
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+	case DLL_PROCESS_DETACH:
+		break;
+	}
+	return TRUE;
+}
+```
+
+接下來我們要做的事情有兩個：
+1. 劫持遊戲用來處理視窗消息的 function，這樣我們才能處理滑鼠事件
+2. 找個地方修改記憶體讓我們可以定住球或是把皮卡丘改成電腦模式。
+
+第 1. 步很直覺可以完成，首先我們先解析 `0x4110D8` 這個 global variable（我們前面逆向過了，用來存 program 的地方），因為不知道什麼時候他會初始化完成，所以寫個迴圈來等他完成我們再做後面的事情，完成後我們來看看 `hookWndProc` 做了什麼。
+
+```cpp
+nini_program* pProgram;
+BOOL(__stdcall* pfnGetKeyboardState)(PBYTE lpKeyState);
+void hackingStart() {
+	do {
+		pProgram = *(nini_program**)0x4110D8;
+		Sleep(200); //#include <time.h>
+	} while (!pProgram);
+	hookWndProc(pProgram);
+	//overwrite the address of GetKeyboardState in IAT
+	//save the real address of GetKeyboardState
+	pfnGetKeyboardState = GetKeyboardState;
+	hookIAT();
+}
+```
+
+這裡用了 `SetWindowLongPtr` 這個 function 把處理消息的函式改成我們寫的 `WndProc` ，而舊的消息處理會被回傳，所以我們用 `oldWndProc` 把他接起來。
+`WndProc` 裡面做的事情是去檢查滑鼠事件，然後用 `CallWindowProc` 去呼叫本來處理消息的函式，這樣其他事件才會正常被處理，到這裡我們已經處理完滑鼠的訊號了！
+
+```cpp
+WNDPROC oldWndProc = NULL;
+bool bBallFreeze = FALSE;
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message) {
+	case WM_RBUTTONDOWN:
+		bBallFreeze = TRUE;
+		break;
+	case WM_RBUTTONUP:
+		bBallFreeze = FALSE;
+		break;
+	}
+
+	return CallWindowProc(oldWndProc, hWnd, message, wParam, lParam);
+}
+
+void hookWndProc(nini_program* pProgram) {
+	//https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowlongptra
+	oldWndProc = (WNDPROC)SetWindowLongPtr(pProgram->hwnd, GWLP_WNDPROC, (LONG_PTR)WndProc);
+}
+```
+
+接下來要說第二件事情，找個地方修改記憶體讓我們可以定住球或是把皮卡丘改成電腦模式。我們可以有很多花招，但最快速簡單的方法是 IAT hijack。效果是當皮卡丘打排球程式去呼叫外部 function 的時候，會先執行我們的程式碼，才去做真正本來他想呼叫的外部 function，而且這個劫持的點應該要在皮卡丘真的移動之前（不然就會等到下一個 game tick 才作動，而且不確定會不會被覆寫）。
+
+這裡最理想的就是每輪都會執行，而且只被一個地方使用的 `GetKeyboardState`，所以回到我們的 `hackingStart`，因為等等我們會把 `GetKeyboardState` 在 IAT 上紀錄的位置劫持走，所以我們要先把它保存起來，不然後面我們就真的拿不到鍵盤輸入，之後才是使用 `hookIAT` 來進行劫持
+```cpp
+nini_program* pProgram;
+BOOL(__stdcall* pfnGetKeyboardState)(PBYTE lpKeyState);
+void hackingStart() {
+	do {
+		pProgram = *(nini_program**)0x4110D8;
+		Sleep(200); //#include <time.h>
+	} while (!pProgram);
+	hookWndProc(pProgram);
+	//overwrite the address of GetKeyboardState in IAT
+	//save the real address of GetKeyboardState
+	pfnGetKeyboardState = GetKeyboardState;
+	hookIAT();
+}
+```
+那我們來看看 hookIAT 做了啥，這裡透過 `GetModuleHandleA(NULL)` 得到整個皮卡丘打排球的程式在記憶體中的位置之後，我們就等於定位到了一個存在在 memory 上的 PE file，運用我們對 PE 程式的初淺理解（這裡有興趣的學員可以自行 google，我沒有時間了ＱＱ），找到 IAT 中用來紀錄外部 function `GetKeyboardState` 在哪裡的欄位，把他改寫成我們的壞壞函式 `hookedGetKeyboardState`。注意這裡用 `VirtualProtect` 把該記憶體位置的寫權限打開，因為那裡本來不能寫。
+```cpp
+#include <Windows.h>
+#include <winternl.h>
+void hookIAT() {
+	UINT_PTR uiPikaballBase = (UINT_PTR)GetModuleHandleA(NULL);
+	PIMAGE_DOS_HEADER pDosHeader = (PIMAGE_DOS_HEADER)uiPikaballBase;
+	PIMAGE_NT_HEADERS pNtHeaders = (PIMAGE_NT_HEADERS)(uiPikaballBase + pDosHeader->e_lfanew);
+	PIMAGE_DATA_DIRECTORY pImportsDirectory = (PIMAGE_DATA_DIRECTORY)&pNtHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
+	PIMAGE_IMPORT_DESCRIPTOR pImportDesccriptor = (PIMAGE_IMPORT_DESCRIPTOR)(uiPikaballBase + pImportsDirectory->VirtualAddress);
+
+	while (pImportDesccriptor->Name)
+	{
+		LPCSTR libraryName = (LPCSTR)(uiPikaballBase + pImportDesccriptor->Name);
+		if (!_stricmp(libraryName, "user32.dll")) {
+			LoadLibraryA(libraryName);
+			PIMAGE_THUNK_DATA pOriginalFirstThunk = (PIMAGE_THUNK_DATA)(uiPikaballBase + pImportDesccriptor->OriginalFirstThunk);
+			PIMAGE_THUNK_DATA pFirstThunk = (PIMAGE_THUNK_DATA)(uiPikaballBase + pImportDesccriptor->FirstThunk);
+
+			while (pOriginalFirstThunk->u1.AddressOfData)
+			{
+				PIMAGE_IMPORT_BY_NAME pFunctionName = (PIMAGE_IMPORT_BY_NAME)(uiPikaballBase + pOriginalFirstThunk->u1.AddressOfData);
+				if (!_stricmp(pFunctionName->Name, "GetKeyboardState"))
+				{
+					DWORD oldProtect = 0;
+					VirtualProtect((LPVOID)(&pFirstThunk->u1.Function), 4, PAGE_READWRITE, &oldProtect);
+
+					pFirstThunk->u1.Function = (DWORD)hookedGetKeyboardState;
+					VirtualProtect((LPVOID)(&pFirstThunk->u1.Function), 4, oldProtect, &oldProtect);
+					return;
+				}
+				else {
+					++pOriginalFirstThunk;
+					++pFirstThunk;
+				}
+			}
+		}
+		pImportDesccriptor++;
+	}
+}
+```
+
+那 `hookedGetKeyboardState` 做的事情就是我們真正作弊的邏輯了，把第二個玩家設定成電腦（這裡你可以把第一個玩家是電腦的設定關掉，你就可以玩左邊角色了，電腦玩家的演算法在左邊比較強）。 然後在`bBallFreeze` 是 true 的情況下，我們先 `GetCursorPos` 來獲得滑鼠的 x,y 座標，然後用 `ScreenToClient` 把滑鼠座標換算成在視窗內的滑鼠座標，接下來就是一頓操作讓球的座標跟滑鼠一樣然後速度歸零，最後的最後，去呼叫本來用來獲取鍵盤輸入的 function 確保程式不會出錯！
+```cpp
+BOOL WINAPI hookedGetKeyboardState(PBYTE lpKeyState) {
+	pProgram->game->entities->players[1]->isComputer = TRUE;
+	//pProgram->game->entities->player[0]->isComputer = FALSE;
+	if (bBallFreeze) {
+		POINT cursorPos;
+		GetCursorPos(&cursorPos);
+		ScreenToClient(pProgram->hwnd, &cursorPos);
+		pProgram->game->entities->ball->posX = cursorPos.x;
+		pProgram->game->entities->ball->posY = cursorPos.y;
+		pProgram->game->entities->ball->speedX =
+			pProgram->game->entities->ball->speedY = 0;
+	}
+	return pfnGetKeyboardState(lpKeyState);
+}
+```
+
+最後 export 一個其實沒東西的 function，方便我們等等去修改皮卡丘打排球的 IAT，讓他以為他需要使用我們 dll 中的 Dummy function。
+```cpp
+__declspec(dllexport) void Dummy() {}
+```
+接下來編譯成 dll 就可以了！記得選擇成 x86 才編譯，因為我們的遊戲也是 x86
+
+<Image src="./90.png" alt="" />
+<Image src="./upload_0f4a1d355e7a8c97e3c9a97ca525ff58.png" alt="" />
+
+
+看 compile 的資訊及可以找到 visual studio 把我們的 dll 放在哪
+<Image src="./upload_22105f59f02385c272a48f3243bbbbb1.png" alt="" />
+
+
+
+接下來，把 dll 複製到遊戲資料夾裡面。
+<Image src="./91.png" alt="" />
+
+接下來是最後一步了，我們要禮貌地請 PikaBall.exe 載入我們的作弊 dll，拜託幾個勒。請打開課程附件中的 CFF Explorer.exe（在 CFF_Explorer.zip 裏面）
+<Image src="./92.png" alt="" />
+載入
+<Image src="./93.png" alt="" />
+
+選擇 Import Adder
+<Image src="./94.png" alt="" />
+
+Add
+<Image src="./95.png" alt="" />
+
+選我們剛剛 compile 出來的 dll
+<Image src="./96.png" alt="" />
+
+選我們的 Dummy function 後使用 Import By Name
+<Image src="./97.png" alt="" />
+
+確認右手邊成功後，點選 Rebuild Import Table
+<Image src="./98.png" alt="" />
+成功
+<Image src="./99.png" alt="" />
+
+
+
+按存檔
+<Image src="./1h.png" alt="" />
+要不要覆蓋都行，我建議不要
+<Image src="./1h1.png" alt="" />
+存成 PikaBall_hack.exe
+<Image src="./1h2.png" alt="" />
+
+## 放置型皮卡丘打排球
+
+選擇單人遊戲時，不是由玩家挑戰電腦，而是電腦的左右互搏，把皮卡丘打排球玩成放置型遊戲！除此之外還可以透過右鍵控制排球，一圓跟皮卡丘玩傳接球的夢想。
+
+<video width="100%" height="400" src="/files/pika.mp4" controls="controls">
+The `<video>` tag is not supported by your browser.
+</video>

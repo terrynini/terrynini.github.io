@@ -1,0 +1,111 @@
+---
+// src/components/HudNote.astro
+interface Props {
+	note: string; // The annotation text for the HUD
+}
+
+const { note } = Astro.props;
+---
+
+<div class="hud-container">
+	<span class="highlighted-text"><slot /></span>
+	<div class="hud-note">
+		<p>{note}</p>
+	</div>
+</div>
+<script is:inline>
+	document.querySelectorAll('.hud-container').forEach(container => {
+		const note = container.querySelector('.hud-note');
+		container.addEventListener('mouseenter', () => {
+			if (note) {
+				// Temporarily display to get accurate dimensions
+				note.style.display = 'block';
+
+				const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+				// Reset positioning before checking to ensure accurate calculation
+				note.style.left = '';
+				note.style.right = '100%'; // Default to right side of highlighted text
+				note.style.transform = '';
+				note.style.marginLeft = '15px'; // Default margin
+				note.style.marginRight = '';
+
+				// Re-get rect after reset
+				const currentNoteRect = note.getBoundingClientRect();
+
+				// Check if note goes off-screen right
+				if (currentNoteRect.right > viewportWidth) {
+					note.style.right = '10px'; // Align to right edge of viewport with a small margin
+					note.style.left = 'auto';
+					note.style.marginLeft = '0'; // Remove default margin-left
+				}
+				// Check if note goes off-screen left (if it was forced left by previous rule)
+				else if (currentNoteRect.left < 0) {
+					note.style.left = '10px'; // Align to left edge of viewport with a small margin
+					note.style.right = 'auto';
+					note.style.marginRight = '0'; // Remove default margin-right
+				}
+			}
+		});
+
+		container.addEventListener('mouseleave', () => {
+			if (note) {
+				// Reset styles when hidden to avoid interference with next display
+				note.style.left = '100%'; // Reset to default right positioning
+				note.style.right = 'auto';
+				note.style.transform = ''; // Reset transform
+				note.style.marginLeft = '15px'; // Reset default margin
+				note.style.marginRight = '';
+				note.style.display = 'none'; // Hide it again
+			}
+		});
+	});
+</script>
+
+<style>
+	.hud-container {
+		position: relative;
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	.highlighted-text {
+		background-color: rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.3); /* Accent highlight */
+		color: var(--color-text-primary);
+		padding: 2px 4px;
+		border-radius: 3px;
+		transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.hud-container:hover .highlighted-text {
+		background-color: rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.5);
+		box-shadow: 0 0 8px rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.5);
+	}
+
+	.hud-note {
+		display: none;
+		position: absolute;
+		bottom: 100%; /* Position above the highlighted text */
+		left: 100%; /* Default: Position to the right of the highlighted text */
+		margin-left: 15px; /* Default: Space between text and note */
+		margin-bottom: 5px; /* Space between text and note */
+		width: 220px; /* Default width */
+		padding: 12px;
+		background-color: rgba(0, 0, 0, 0.7);
+		color: var(--color-text-primary);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		font-family: var(--font-family-primary);
+		font-size: 0.9em;
+		text-align: left;
+		z-index: 9999;
+		box-shadow: 0 0 15px rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.3);
+		transition: box-shadow 0.3s ease, background-color 0.3s ease;
+	}
+
+	.hud-container:hover .hud-note {
+		display: block;
+		box-shadow: 0 0 15px rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.8), 0 0 25px rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.6);
+		background-color: rgba(0, 0, 0, 0.95); /* Slightly darker on hover */
+	}
+</style>

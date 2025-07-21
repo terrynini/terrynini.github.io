@@ -1,0 +1,215 @@
+---
+title: "2025::Adding a custom Javascript API to Webkit"
+description: ""
+publishDate: "2025-07-09"
+category: "WebKit"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+Say if we want to add a custom function so that we can terminate the whole browser from JS by calling `window.NiNiTest.quit`, what should we do?
+
+First, we have to create files `NiNiTest.idl` and `NiNiTest.h` under the WebCore project:
+
+```text title="NiNiTest.idl"
+//
+//  NiNiTest.idl
+//  WebCore
+//
+//  Created by NiNi on 2025/6/30.
+//
+
+[
+    Exposed=Window
+] interface NiNiTest {
+    [CallWith=CurrentDocument] static undefined quit();
+};
+```
+
+```cpp title="NiNiTest.h"
+//
+//  NiNiTest.h
+//  WebCore
+//
+//  Created by NiNi on 2025/6/30.
+//
+
+#pragma once
+
+
+#include "Document.h"
+#include "Chrome.h"
+#include "ChromeClient.h"
+#include <wtf/Ref.h>
+#include <wtf/RefCounted.h>
+
+namespace WebCore {
+
+class NiNiTest : public RefCounted<NiNiTest>{
+    public:
+        static Ref<NiNiTest> create(ScriptExecutionContext& context)
+        {
+            return adoptRef(*new NiNiTest(downcast<Document>(context)));
+        }
+        static ExceptionOr<void> quit(Document& document)
+        {
+            if (auto* page = document.page())
+                page->chrome().client().requestBrowserQuit();
+            return { };
+        }
+    
+    private:
+        NiNiTest(Document&);
+    
+        Ref<Document> m_document;
+    };
+}
+```
+
+Appending a new line in `Source/WebCore/Sources.txt`:
+
+```
+JSNiNiTest.cpp
+```
+
+
+Add `$(WebCore)/NiNiTest.idl` to `JS_BINDING_IDLS` in  `Source/WebCore/DerivedSources.txt`
+
+```diff
+JS_BINDING_IDLS := \
++    $(WebCore)/NiNiTest.idl \
+```
+
+The webkit will generate corresponding `JSNiNiTest.cpp` and `JSNiNiTest.cpp` for us. 
+
+Now, because the `requestBrowserQuit` in `page->chrome().client().requestBrowserQuit();`  doesn't exist, we have to implement that function to make it come true. We add a virutal function in class `ChromeClient` in `/Source/WebCore/page/ChromeClient.h`
+
+```diff
+class ChromeClient {
+public:
++    virtual void requestBrowserQuit() { }
+```
+
+Then overwrite it in the derived class `WebChromeClient` in `Source/WebKit/WebProcess/WebCoreSupport/WebChromeClient.h`
+
+```diff
+class WebChromeClient final : public WebCore::ChromeClient {
+    WTF_MAKE_TZONE_ALLOCATED(WebChromeClient);
+public:
+    WebChromeClient(WebPage&);
+    ~WebChromeClient();
+
+    WebPage* page() const { return m_page.get(); }
++    void requestBrowserQuit() final; 
+```
+
+and `Source/WebKit/WebProcess/WebCoreSupport/WebChromeClient.cpp`.
+
+```diff
++void WebChromeClient::requestBrowserQuit()
++{
++    m_page->send(Messages::WebPageProxy::RequestBrowserQuit());
++}
+```
+
+We try to send a message through IPC to `WebPageProxy`, same, there is nothing can handle this message or even send it. 
+
+Adding a new function to class `WebPageProxy` in `Source/WebKit/UIProcess/WebPageProxy.h` 
+```diff
+class WebPageProxy final : public API::ObjectImpl<API::Object::Type::Page>, public IPC::MessageReceiver {
+public:
+    static Ref<WebPageProxy> create(PageClient&, WebProcessProxy&, Ref<API::PageConfiguration>&&);
+    virtual ~WebPageProxy();
+
+    void ref() const final { API::ObjectImpl<API::Object::Type::Page>::ref(); }
+    void deref() const final { API::ObjectImpl<API::Object::Type::Page>::deref(); }
+
+    USING_CAN_MAKE_WEAKPTR(IPC::MessageReceiver);
++    void requestBrowserQuit();
+```
+and `Source/WebKit/UIProcess/WebPageProxy.cpp`
+```diff
++void WebPageProxy::requestBrowserQuit()
++{
++    m_uiClient->runBrowserQuit(this);
++}
+```
+
+Adding it to the `Source/WebKit/UIProcess/WebPageProxy.messages.in `
+```diff
+messages -> WebPageProxy {
++    RequestBrowserQuit()
+    # UI messages
+```
+
+Actually close the application in by firstly adding a virtual function in  in `/Source/WebKit/UIProcess/API/APIUIClient.h`
+```diff
+class UIClient {
+    WTF_MAKE_TZONE_ALLOCATED(UIClient);
+public:
+    virtual ~UIClient() { }
+
++    virtual void runBrowserQuit(WebKit::WebPageProxy*) { }
+```
+
+Overwriting it in `UIClient` in `Source/WebKit/UIProcess/Cocoa/UIDelegate.h`
+```diff
+namespace WebKit {
+
+enum class TapHandlingResult : uint8_t;
+
+class UIDelegate : public CanMakeWeakPtr<UIDelegate> {
+    WTF_MAKE_TZONE_ALLOCATED(UIDelegate);
+public:
+    explicit UIDelegate(WKWebView *);
+    ~UIDelegate();
+
+    void ref() const;
+    void deref() const;
+
+#if ENABLE(CONTEXT_MENUS)
+    std::unique_ptr<API::ContextMenuClient> createContextMenuClient();
+#endif
+    std::unique_ptr<API::UIClient> createUIClient();
+
+    RetainPtr<id <WKUIDelegate> > delegate();
+    void setDelegate(id <WKUIDelegate>);
+
+private:
+#if ENABLE(CONTEXT_MENUS)
+    class ContextMenuClient : public API::ContextMenuClient {
+        WTF_MAKE_TZONE_ALLOCATED(ContextMenuClient);
+    public:
+        explicit ContextMenuClient(UIDelegate&);
+        ~ContextMenuClient();
+
+    private:
+        // API::ContextMenuClient
+        void menuFromProposedMenu(WebPageProxy&, NSMenu *, const ContextMenuContextData&, API::Object*, CompletionHandler<void(RetainPtr<NSMenu>&&)>&&) override;
+
+        WeakPtr<UIDelegate> m_uiDelegate;
+    };
+#endif
+
+    class UIClient : public API::UIClient, public CanMakeWeakPtr<UIClient> {
+        WTF_MAKE_TZONE_ALLOCATED(UIClient);
+    public:
+        explicit UIClient(UIDelegate&);
+        ~UIClient();
++        void runBrowserQuit(WebPageProxy*) final; 
+```
+
+and `Source/WebKit/UIProcess/Cocoa/UIDelegate.mm`
+```diff
++void UIDelegate::UIClient::runBrowserQuit(WebPageProxy*)
++{
++    [NSApp terminate:nil];
++}
+```
+
+If the webkit fail to find `JSNiNiTest.h`, try to clean to build folder of WebCore then try again, that should solve the issue.
+
+<Image src="./fail.png" alt="" />
+
+## Refs
+
+- [Adding a New WebIDL Interface · WebKit/WebKit Wiki](https://github.com/WebKit/WebKit/wiki/Adding-a-New-WebIDL-Interface)

@@ -1,0 +1,62 @@
+---
+title: "2017::SECCON::Write-up"
+description: ""
+publishDate: "2017-12-18"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+SHA-1 is dead - 100 point
+
+```
+SHA-1 is dead
+http://sha1.pwn.seccon.jp/
+Upload two files satisfy following conditions:
+
+file1 != file2
+SHA1(file1) == SHA1(file2)
+SHA256(file1) <> SHA256(file2)
+2017KiB < sizeof(file1) < 2018KiB
+2017KiB < sizeof(file2) < 2018KiB
+* 1KiB = 1024 bytes
+```
+
+Just download sha1 collision pdf made by Google, then concatenate it with something.
+Actually we don't need to check the result of SHA-256 of two pdf......
+Maybe wa can find a SHA-256 collision? 
+
+```python
+import requests
+import urllib2
+from  hashlib import sha1
+from  hashlib import sha256
+import urllib
+
+pdf1 = urllib2.urlopen("http://shattered.io/static/shattered-1.pdf").read()[:500]
+pdf2 = urllib2.urlopen("http://shattered.io/static/shattered-2.pdf").read()[:500]
+
+pdf1 = pdf1.ljust( 2065409, "\00") #padding pdf to 2017Kib + 1
+pdf2 = pdf2.ljust( 2065409, "\00")
+
+while True:
+    check1 = sha256(pdf1).hexdigest()
+    check2 = sha256(pdf2).hexdigest()
+    if check1 != check2:
+        break
+    else:
+        pdf1  = pdf1+"\00"
+        pdf2  = pdf2+"\00"
+
+file1 = open("upload1","w")
+file2 = open("upload2","w")
+file1.write(pdf1)
+file2.write(pdf2)
+
+
+print sha1(pdf1).hexdigest()
+print sha1(pdf2).hexdigest()
+print sha256(pdf1).hexdigest()
+print sha256(pdf2).hexdigest()
+print len(pdf1)
+print len(pdf2)
+```

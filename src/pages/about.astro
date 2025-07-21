@@ -1,0 +1,428 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { author } from '../config/author.js';
+import AugmentedImage from '../components/AugmentedImage.astro';
+---
+
+<Layout title={`About ${author.name}`}>
+  <div class="about-container">
+    <div class="about-header">
+      <img src={author.avatar} alt={`Avatar of ${author.name}`} />
+      <h1>{author.name}</h1>
+      <p>
+        TingYu Chen, aka NiNi, major in Cyber Security, member of <a href="https://balsn.tw/" target="_blank" rel="noopener noreferrer">Balsn</a>, love CTF and everything about computer science.
+      </p>
+    </div>
+
+    <div class="section">
+      <h2>// Interests //</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h4>Reverse Engineering</h4>
+        </div>
+        <div class="skill-card">
+          <h4>Binary Exploitation</h4>
+        </div>
+        <div class="skill-card">
+          <h4>Fuzzer Development</h4>
+        </div>
+        <div class="skill-card">
+          <h4>Red Team</h4>
+        </div>
+        <div class="skill-card">
+          <h4>Cryptography</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>// Honors //</h2>
+      <h3>Contest</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td><a href="https://www.zerodayinitiative.com/blog/2022/12/9/pwn2own-toronto-2022-day-four-results-and-master-of-pwn" target="_blank" rel="noopener noreferrer">Pwn2Own Toronto 2022</a>, <strong>Master of Pwn</strong></td>
+            <td style="text-align: right;">Dec 9th, 2022</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>International CTF</h3>
+      <h4>Play in Balsn</h4>
+      <table>
+        <tbody>
+          <tr>
+            <td>DEFCON 32 CTF Finals, 7th place (if this works we'll get fewer for next year)</td>
+            <td style="text-align: right;">Online, Aug. 2024</td>
+          </tr>
+          <tr>
+            <td>DEFCON 31 CTF Finals, 3rd place (TWN48)</td>
+            <td style="text-align: right;">Las Vegas, Aug. 2023</td>
+          </tr>
+          <tr>
+            <td>DEFCON 30 CTF Finals, 9th place (Balsn.217@TSJ.tw)</td>
+            <td style="text-align: right;">Online, Aug. 2022</td>
+          </tr>
+          <tr>
+            <td>DEFCON 29 CTF Finals, 5th place (HITCON⚔Balsn)</td>
+            <td style="text-align: right;">Online, Aug. 2021</td>
+          </tr>
+          <tr>
+            <td>DEFCON 28 CTF Finals, 3rd place (HITCON⚔Balsn)</td>
+            <td style="text-align: right;">Online, Aug. 2020</td>
+          </tr>
+          <tr>
+            <td>DEFCON 27 CTF Finals, 2nd place (HITCON⚔BFKinesiS)</td>
+            <td style="text-align: right;">Las Vegas, USA, Aug. 2019</td>
+          </tr>
+          <tr>
+            <td>DEFCON 26 CTF Finals, 12th place (BFS)</td>
+            <td style="text-align: right;">Las Vegas, USA, Aug. 2018</td>
+          </tr>
+          <tr>
+            <td>...</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Solo</h4>
+      <table>
+        <tbody>
+          <tr>
+            <td><a href="https://flare-on.com/" target="_blank" rel="noopener noreferrer">Flare-on</a> 8 Finisher #96 (#1 in Taiwan)</td>
+            <td style="text-align: right;">Online, 2021-11-29 11:21</td>
+          </tr>
+          <tr>
+            <td><a href="https://flare-on.com/" target="_blank" rel="noopener noreferrer">Flare-on</a> 7 Finisher #177 (#2 in Taiwan)</td>
+            <td style="text-align: right;">Online, 2020-10-21 10:16</td>
+          </tr>
+          <tr>
+            <td><a href="https://flare-on.com/" target="_blank" rel="noopener noreferrer">Flare-on</a> 6 Finisher #290 (#8 in Taiwan)</td>
+            <td style="text-align: right;">Online, 2019-09-27 06:05</td>
+          </tr>
+          <tr>
+            <td><a href="http://reversing.kr/rank.php" target="_blank" rel="noopener noreferrer">Reversing.kr</a> Finisher #26</td>
+            <td style="text-align: right;">Online, 2018-08-04 19:58</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Play in DoubleSigma</h4>
+      <table>
+        <tbody>
+          <tr>
+            <td>DefCamp CTF Finals, 5th place</td>
+            <td style="text-align: right;">Bucharest, Romania, Nov. 2018</td>
+          </tr>
+          <tr>
+            <td>HITCON CTF Finals, 12th place</td>
+            <td style="text-align: right;">Taipei, Taiwan, Nov. 2017</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Domestic CTF</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>AEGIS Finals, 6th place (Virtual Fox)</td>
+            <td style="text-align: right;">Nangang, Taiwan, Nov. 2020</td>
+          </tr>
+          <tr>
+            <td>金盾獎 Finals, 嶄露頭角獎 (ankleboy&banana)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Nov. 2020</td>
+          </tr>
+          <tr>
+            <td>AEGIS Finals, 3rd place (DoubleSigma)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Sep. 2019</td>
+          </tr>
+          <tr>
+            <td>金盾獎 Finals, <strong>1st place</strong> (curl kaibro.tw |sh)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Nov. 2019</td>
+          </tr>
+          <tr>
+            <td>AIS3 EOF Finals, <strong>1st place</strong> (DoubeSigma)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Jan. 2019</td>
+          </tr>
+          <tr>
+            <td>金盾獎 Finals, 鋒芒畢露獎 (DoubleSigma)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Oct. 2018</td>
+          </tr>
+          <tr>
+            <td>AEGIS Finals, 6th place</td>
+            <td style="text-align: right;">Taipei, Taiwan, Oct. 2018</td>
+          </tr>
+          <tr>
+            <td>AIS3 Finals, 3rd place</td>
+            <td style="text-align: right;">Taipei, Taiwan, Oct. 2018</td>
+          </tr>
+          <tr>
+            <td>AIS3 EOF Finals, <strong>1st place</strong> (DoubleSigma_Ethereum)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Feb. 2018</td>
+          </tr>
+          <tr>
+            <td>NTC/NCTU/NTUST 程式安全 Final CTF, <strong>1st place</strong></td>
+            <td style="text-align: right;">Online, Dec. 2017</td>
+          </tr>
+          <tr>
+            <td>金盾獎 Finals, 潛力無窮獎 (DoubleSigma)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Dec. 2017</td>
+          </tr>
+          <tr>
+            <td>金盾獎 Finalist (AHQ)</td>
+            <td style="text-align: right;">Taipei, Taiwan, Nov. 2016</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>// Portfolio //</h2>
+      <h3>Vulnerability Reports (Global)</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td><a href="https://www.zerodayinitiative.com/advisories/ZDI-25-127/" target="_blank" rel="noopener noreferrer">CVE-2025-2233</a></td>
+            <td>Samsung SmartThings Auth Bypass</td>
+          </tr>
+          <tr>
+            <td><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-48958" target="_blank" rel="noopener noreferrer">CVE-2024-48958</a></td>
+            <td>Libarchive OOB Read</td>
+          </tr>
+          <tr>
+            <td><a href="https://nvd.nist.gov/vuln/detail/CVE-2024-48957" target="_blank" rel="noopener noreferrer">CVE-2024-48957</a></td>
+            <td>Libarchive OOB Read</td>
+          </tr>
+          <tr>
+            <td>ClickHouse BugCrowd (2/2)</td>
+            <td>private</td>
+          </tr>
+          <tr>
+            <td>ClickHouse BugCrowd (1/2)</td>
+            <td>private</td>
+          </tr>
+          <tr>
+            <td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38165" target="_blank" rel="noopener noreferrer">CVE-2024-38165</a></td>
+            <td>Patch Bypassing of CVE-2024-26185</td>
+          </tr>
+          <tr>
+            <td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-26256" target="_blank" rel="noopener noreferrer">CVE-2024-26256</a></td>
+            <td>Libarchive Remote Code Execution</td>
+          </tr>
+          <tr>
+            <td><a href="https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-26185" target="_blank" rel="noopener noreferrer">CVE-2024-26185</a></td>
+            <td>Windows Compressed Folder Tampering</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.rarlab.com/rarnew.htm#27.%20Busgs%20fixed" target="_blank" rel="noopener noreferrer">CVE-2024-30370</a></td>
+            <td>WinRAR MotW bypass. Orange's work ,I actually do nothing</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.zerodayinitiative.com/advisories/ZDI-23-710/" target="_blank" rel="noopener noreferrer">CVE-2023-32154</a></td>
+            <td>RCE, pre-auth WAN RCE of MikroTik RouterOS</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.twcert.org.tw/tw/cp-132-7100-7a15c-1.html" target="_blank" rel="noopener noreferrer">CVE-2022-46308</a></td>
+            <td>BAC, able to update/remove all users</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.twcert.org.tw/tw/cp-132-7099-e8897-1.html" target="_blank" rel="noopener noreferrer">CVE-2022-46307</a></td>
+            <td>BAC, able to control door remotely</td>
+          </tr>
+          <tr>
+            <td><del>CVE-2021-3648</del> (duplicated QQ)</td>
+            <td>nm-new, CWE-835 Infinite Loop</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Vulnerability Reports (Taiwan)</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2023-00191" target="_blank" rel="noopener noreferrer">ZD-2023-00191</a></td>
+            <td>買動漫，可透過 Line 帳號惡意綁定他人帳號</td>
+          </tr>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2023-00190" target="_blank" rel="noopener noreferrer">ZD-2023-00190</a></td>
+            <td>買動漫 Open Redirect</td>
+          </tr>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2022-00909" target="_blank" rel="noopener noreferrer">ZD-2022-00909</a></td>
+            <td>陳寗嚴選購物網站除錯日誌外洩</td>
+          </tr>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2022-00471" target="_blank" rel="noopener noreferrer">ZD-2022-00471</a></td>
+            <td>Phison 公司網頁原始碼外洩</td>
+          </tr>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2021-00727" target="_blank" rel="noopener noreferrer">ZD-2021-00727</a></td>
+            <td>陽明交通大學資電亥客與安全碩士學位學程系所首頁原始碼外洩</td>
+          </tr>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2020-00737" target="_blank" rel="noopener noreferrer">ZD-2020-00737</a></td>
+            <td>中央大學學務處大一週會網頁已有後門</td>
+          </tr>
+          <tr>
+            <td><a href="https://zeroday.hitcon.org/vulnerability/ZD-2020-00342" target="_blank" rel="noopener noreferrer">ZD-2020-00342</a></td>
+            <td>中央大學服務學習網 SQL injection</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>// Presentation //</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td><a href="https://conf.devco.re/2025/agenda/" target="_blank" rel="noopener noreferrer">DEVCORE CONF 2025</a> 只需一次 API 呼叫的致命一擊：從硬體逆向到突破保護機制的精準攻擊</td>
+            <td style="text-align: right;">Mar. 15, 2025</td>
+          </tr>
+          <tr>
+            <td><a href="https://sitcon.org/2025/agenda/25cbbc/" target="_blank" rel="noopener noreferrer">SITCON 2025</a> 獨自升級的駭客：自由之路從框架開始</td>
+            <td style="text-align: right;">Mar. 8, 2025</td>
+          </tr>
+          <tr>
+            <td><a href="https://fahrplan.events.ccc.de/congress/2024/fahrplan/talk/YLNEYH/" target="_blank" rel="noopener noreferrer">CCC 38C3</a> From Convenience to Contagion: The Libarchive Vulnerabilities Lurking in Windows 11</td>
+            <td style="text-align: right;">Dec. 30, 2024</td>
+          </tr>
+          <tr>
+            <td><a href="https://hitcon.org/2024/CMT/agenda/5810ac11-caa8-4b1c-9ec0-873337747c4b/" target="_blank" rel="noopener noreferrer">HITCON 2024</a> 全境擴散：從 Windows 11 到 libarchive 的深層威脅與全面影響</td>
+            <td style="text-align: right;">Aug. 23, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://2023.hexacon.fr/conference/speakers/#MikroTik" target="_blank" rel="noopener noreferrer">Hexacon 2023</a>: A Comprehensive Review on the Less-Traveled Road: 9 Years of Overlooked MikroTik Pre-Auth RCE</td>
+            <td style="text-align: right;">Oct. 13, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://romhack.io/romhack-conference-2023-agenda/" target="_blank" rel="noopener noreferrer">RomHack 2023</a>: A Comprehensive Review on the Less-Traveled Road: 9 Years of Overlooked MikroTik Pre-Auth RCE</td>
+            <td style="text-align: right;">Sep. 16, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://hitcon.org/2023/CMT/agenda/955624ba-fca7-4a52-91a3-30ac4c742807/" target="_blank" rel="noopener noreferrer">HITCON 2023</a>: 入無人之徑：於 MikroTik 蟄伏九載的 Pre-Auth RCE</td>
+            <td style="text-align: right;">Aug. 18, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://forum.defcon.org/node/245713" target="_blank" rel="noopener noreferrer">DEFCON 2023</a>: A Comprehensive Review on the Less-Traveled Road: 9 Years of Overlooked MikroTik Pre-Auth RCE</td>
+            <td style="text-align: right;">Aug. 11, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://ais3.org/2023/Home/Course" target="_blank" rel="noopener noreferrer">AIS3 2023</a>: 挖礦初學指南：從 Fuzzing 到被動收入的輕鬆入門，只剩你不知道</td>
+            <td style="text-align: right;">Jul. 26, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://ais3.org/2023/Home/Course" target="_blank" rel="noopener noreferrer">AIS3 2023</a>: 沒有 IDA 難道就無法逆向了嗎？IDA豈是如此不便之物！</td>
+            <td style="text-align: right;">Jul. 25, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://conf.devco.re/2023/keynote/20230311_DEVCORE_Conference_Remote%20Door%20Execution_public.pdf" target="_blank" rel="noopener noreferrer">DEVCORE CONF 2023</a>: Remote Door Execution</td>
+            <td style="text-align: right;">Mar. 11, 2023</td>
+          </tr>
+          <tr>
+            <td><a href="https://ais3.org/2019/speaker.html" target="_blank" rel="noopener noreferrer">AIS3 2019</a>: Firmware security analysis</td>
+            <td style="text-align: right;">Jul. 30, 2019</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Summer Camp</a>: 逆向工程</td>
+            <td style="text-align: right;">Jul. 22, 2020</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Summer Camp</a>: 逆向工程</td>
+            <td style="text-align: right;">Jul. 16-17, 2019</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Winter Camp</a>: PWN-別pwn那裡</td>
+            <td style="text-align: right;">Dec. 16, 2018</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Winter Camp</a>: 逆向工程-逆逆！忍術！沒有F5之術</td>
+            <td style="text-align: right;">Dec. 15, 2018</td>
+          </tr>
+          <tr>
+            <td>臺灣好厲駭培訓課程: Attack&Defence 經驗分享</td>
+            <td style="text-align: right;">Aug. 25, 2018</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Summer Camp</a>: 逆向工程/PWN</td>
+            <td style="text-align: right;">Jul. 19, 2018</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Summer Camp</a>: 逆向工程</td>
+            <td style="text-align: right;">Jul. 18, 2018</td>
+          </tr>
+          <tr>
+            <td><a href="https://isip.moe.edu.tw/" target="_blank" rel="noopener noreferrer">ISIP Winter Camp</a>: 從程式 debug+reverse 到 PWN 搶旗大賽</td>
+            <td style="text-align: right;">Jan. 31, 2018</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>// Certifications //</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td><a href="https://www.credential.net/7512f37e-89d7-4112-bd1a-af43462a128e#acc.2WAmufrp" target="_blank" rel="noopener noreferrer">OffSec Exploitation Expert (OSEE)</a></td>
+            <td style="text-align: right;">Feb. 2025 - PRESENT</td>
+          </tr>
+          <tr>
+            <td><a href="https://www.credential.net/52ba9060-6c1b-4de4-8de6-3155e8b3ac9a#acc.MvUxjgV6" target="_blank" rel="noopener noreferrer">Offensive Security Certified Professional (OSCP)</a></td>
+            <td style="text-align: right;">Feb. 2021 - PRESENT</td>
+          </tr>
+          <tr>
+            <td>JLPT N3</td>
+            <td style="text-align: right;">Mar. 2021 - PRESENT</td>
+          </tr>
+        </tbody>
+      </table>
+      <AugmentedImage src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/136500332" alt="OffSec Exploitation Expert (OSEE) Certificate" inferSize={true} />
+      <AugmentedImage src="https://api.accredible.com/v1/frontend/credential_website_embed_image/certificate/49313741" alt="Offensive Security Certified Professional (OSCP) Certificate" inferSize={true} />
+    </div>
+
+    <div class="section">
+      <h2>// Educations //</h2>
+      <ul class="timeline">
+        <li class="timeline-item">
+          <h3>M. S., Graduate Degree Program of Cyber Security, <a href="https://www.nycu.edu.tw/en/" target="_blank" rel="noopener noreferrer">NYCU</a></h3>
+          <span class="date">Sep. 2019 - Jul. 2021</span>
+        </li>
+        <li class="timeline-item">
+          <h3>Bachelor of Science, in Computer Science, <a href="https://www.ncu.edu.tw/en" target="_blank" rel="noopener noreferrer">NCU</a></h3>
+          <span class="date">Sep. 2015 - Jun. 2019</span>
+        </li>
+        <li class="timeline-item">
+          <h3>National Wu-Ling Senior High School</h3>
+          <span class="date">Aug. 2012 - Jun. 2015</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>// Experience //</h2>
+      <ul class="timeline">
+        <li class="timeline-item">
+          <h3>Security Researcher, <a href="https://devco.re/" target="_blank" rel="noopener noreferrer">DEVCORE</a></h3>
+          <span class="date">May. 2022 - PRESENT</span>
+        </li>
+        <li class="timeline-item">
+          <h3>Information Technology Intern, <a href="https://www.mediatek.com/" target="_blank" rel="noopener noreferrer">Mediatek</a></h3>
+          <span class="date">Jul. 2019 - Aug. 2019</span>
+        </li>
+        <li class="timeline-item">
+          <h3>Part-time MIS, Health Center, <a href="https://www.ncu.edu.tw/en" target="_blank" rel="noopener noreferrer">NCU</a></h3>
+          <span class="date">Jan. 2016 - Jun. 2019</span>
+        </li>
+        <li class="timeline-item">
+          <h3>Part-time MIS, Network Systems Division, Computer Center, <a href="https://www.ncu.edu.tw/en" target="_blank" rel="noopener noreferrer">NCU</a></h3>
+          <span class="date">Jan. 2016 - Jun. 2017</span>
+        </li>
+      </ul>
+    </div>
+
+
+
+  </div>
+</Layout>

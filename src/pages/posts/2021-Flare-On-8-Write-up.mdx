@@ -1,0 +1,96 @@
+---
+title: "2021::Flare-On 8::Write-up"
+description: ""
+publishDate: "2021-11-23"
+category: "Flare-On"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+Being smart this year, not write write-up for each challenge, only the script for challenge 9, genius.
+
+OK, this year I'm the first person who finish all flare-on challenges out of 7 from Taiwan (there's actually an anonymous guy right behind me) and 96th (or 89th) in global ranking.
+
+# 9 - evil
+
+You should read the [official write-up](https://www.mandiant.com/resources/flare-on-8-challenge-solutions) for details, I'm only to explain my python script for deobfuscating the binary here.
+
+First, use python to implement the equivalent of the hash function in binary for searching specific API:
+
+```python hash.py
+import ctypes
+import sys
+
+a = sys.argv[1].encode()
+
+
+v18 = 64
+for i in range(len(a)):
+    v18 = ctypes.c_uint32(a[i] - 0x45523F21 * v18).value
+
+print(hex(v18))
+```
+
+Use the script above to generate the corresponding hash of Windows APIs, known_hash.py is available on [github](https://github.com/terrynini/CTF-writeup/blob/master/Flareon_2021/known_hash.py):
+
+```python known_hash.py
+known_hash = {b'CPAcquireContext': 1066826886, b'CPCreateHash': 3394046519, b'CPDecrypt': 3691957472, b'CPDeriveKey': 2034950283, b'CPDestroyHash': 1626920955, b'CPDestroyKey': 347407890, b'CPDuplicateHash': 2349519820, b'CPDuplicateKey': 2086498145, b'CPEncrypt': 2292368120, b'CPExportKey': 803397598, b'CPGenKey': 3709856188, b'CPGenRandom': 87208454, b'CPGetHashParam': 2821118198, b'CPGetKeyParam':
+...
+```
+
+Finally, because IDA Pro can determine the prototype of a function by matching the function's name. By creating a dummy section which used to place name of API . Then, replace all operations those causing the binary trap to vectored exception handler with call operation which points to the real API names in dummy section to make the decompile result easy to read. But due to the nature of IDA Pro, one have to run the `again` function and explicitly mark some data as code in IDA Pro multiple times:
+
+```python ida_deob.py
+import ida_bytes
+import idc
+import idaapi
+import ida_search
+import ida_idp
+import ida_name
+import ida_segment
+from known_hash import known_hash
+
+rev_known_hash = {known_hash[k]:k for k in known_hash}
+pos_table = {}
+seg_base = 0x5000000
+not_found = []
+ida_segment.add_segm(0, seg_base, seg_base+0x40000, 'flare_ptr', "BSS")
+
+def patch(cur_ea):
+    head = cur_ea
+    for i in range(100):
+        head = idc.prev_head(head)
+        if idc.print_insn_mnem(head) == "mov" and "ecx" == idc.print_operand(head, 0):
+            target = idc.print_operand(head, 1)
+            for ii in range(100):
+                head = idc.prev_head(head)
+                if idc.print_insn_mnem(head) == "mov" and target in  idc.print_operand(head, 0):
+                    func_hash = int(idc.print_operand(head, 1)[:-1], 16)
+                    if func_hash not in pos_table:
+                        pos_table[func_hash] = seg_base+ 4*len(pos_table)
+                    if not ida_idp.assemble(cur_ea, 0, cur_ea, True, f"call {rev_known_hash[func_hash].decode()}"):
+                        idc.set_name(pos_table[func_hash], rev_known_hash[func_hash].decode(), ida_name.SN_CHECK)
+                        ida_idp.assemble(cur_ea, 0, cur_ea, True, f"call {rev_known_hash[func_hash].decode()}")
+                    ida_bytes.patch_bytes(cur_ea+5, b'\x90\x90')
+                    break
+            break
+
+def again():
+    code_head = 0x401000
+    while code_head != idaapi.BADADDR:
+        if idc.print_insn_mnem(code_head) == "xor" and  idc.print_operand(code_head, 0) ==  idc.print_operand(code_head, 1):
+            next_head = idc.next_head(code_head)
+            if idc.print_insn_mnem(next_head) == "div" and  idc.print_operand(code_head, 0) ==  idc.print_operand(next_head, 1):
+                patch(code_head)
+            elif idc.print_insn_mnem(next_head) == "mov":
+                reg = idc.print_operand(code_head, 0)
+                op2 = idc.print_operand(next_head, 1)
+                op1 = idc.print_operand(next_head, 0)
+                if ('[' in op1 or '[' in op2 ) and (op2 in op1 or op1 in op2) and (reg in op1 and reg in op2):
+                        patch(code_head)
+        code_head  = idc.next_head(code_head)
+```
+
+Now, we have a nice and clean output:
+
+<Image src="./evil.png" alt="" />

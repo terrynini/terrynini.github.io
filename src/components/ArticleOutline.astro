@@ -1,0 +1,20 @@
+---
+const { headings } = Astro.props;
+---
+
+<aside class="article-outline-hud" data-augmented-ui="tl-clip tr-clip br-clip bl-clip border">
+    <div class="article-outline-hud-content glitchable">
+        <h2>文章大綱</h2>
+        <nav>
+            <ul>
+                {
+                    headings.map((heading) => (
+                        <li>
+                            <a href={`#${heading.slug}`}>{heading.text}</a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
+    </div>
+</aside>

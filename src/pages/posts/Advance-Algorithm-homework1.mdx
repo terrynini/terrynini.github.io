@@ -1,0 +1,328 @@
+---
+title: "Advance-Algorithm::homework1"
+description: ""
+publishDate: "2017-11-13"
+category: "Algorithm"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+整理一下何錦文教授高等演算法課上的作業。\
+作業題目好像都不太會變的樣子？\
+所以如果你有參考我整理的題目的話，留個言讓我知道我做功德了♥\
+有什麼問題都可以在下面留言討論，私訊我也可以。
+
+## problem 1
+
+>Recall the recursive program (discussed in the class) that computes the n-th Fibonacci number. Compute the number of additions used by the program.
+
+### solution
+
+$$ T(1) = 0$$
+
+$$ T(n) = T(n-1) + T(n-2) + 1 $$
+
+$$ T(n) < 2T(n-1) + 1 = 4T(n-2) + 2 + 1 = 8T(n-3) + 4 + 2 + 1 $$
+
+$$ T(n) < 2^kT(n-k) + \frac\{(1-2^k)}\{1-2} $$
+
+$$ if\;n-k=1,k=n-1$$
+
+$$ O(T(n)) = O( 2^\{n-1}T(1) + \frac\{1-2^\{n-1}}\{1-2} ) = O(2^n) $$
+
+
+## problem 2
+
+>Determine the space complexity of the quicksort algorithm.
+
+### solution
+
+For in-place quick sort, space complexity is determined by stacks used by recursive call.
+
+The best case, it needs `O(logn)` recursive call to sort, the space complexity is `O(logn)`.
+
+The worse case, it needs `O(n)` recursive call to sort, the space complexity is `O(n)`.
+
+We know the the average case of quick sort is that it need  `O(logn)` recursive call, so the space complexity of quicksort is `O(logn)`.
+
+## problem 3
+
+>Derive an exact closed formula of the merge sort recurrence relation $T(n): T(n) = T(\lfloor \frac\{n}\{2} \rfloor) + T(\lceil \frac\{n}\{2} \rceil) + n-1, T(1) = 0$
+
+### solution
+
+$$ T(n) = 2T(\frac\{n}\{2}) + n-1 = 4T(\frac\{n}\{4}) + n-2 + n-1 = 8T(\frac\{n}\{8}) + n-4 + n-2 + n-1 $$
+
+$$ T(n) = 2^kT(\frac\{n}\{2^k}) + kn + \frac\{1-2^k}\{1-2} $$
+
+$$ if \frac\{n}\{2^k} = 1 , k = log_2(n) $$
+
+$$ T(n) = nlog_2(n) + \frac\{1-n}\{1-2}$$
+
+
+## problem 4
+
+>Given a set of n+1 numbers out of the first 2n natural numbers 1, 2, ..., 2n, prove by mathematic induction that here are two numbers in the set, one of which divides the other. 
+
+### solution
+
+***Basis*** : $n = 1, 1|2 $
+Assume that, for $n = k$, it holds(select k+1 numbers from first 2k natural numbers).
+
+When $ n = k + 1 $(select k+2 numbers from first 2k+2 natural numbers), there are three situation:
+
+1. Each number we select is less or equal to 2k, means that we select k+2 numbers from first 2k natural numbers. Under this situation, it holds.
+
+2. One number we select is greater than 2k, means that we select remaining k+1 numbers from first 2k natural numbers. Under this situation, it holds.
+
+3. We select both 2k+1 and 2k+2 :
+  * If we select k+1, then $(k+1)|(2k+2)$. It holds.
+  * If not, then it's similar to the situation 2 ,which we select k+1 numbers from first 2k natural numbers.It means there exists $x|y$  in k+1 numbers we selected , if $ x \ne k+1, y \ne k+1 $,that means we can find $x|y$ in situation 3 without term k+1, but what if x or y equal to k+1 ?  if $x|y,y=k+1$,it mean $x$ is ALSO a factor of 2k+2. It still holds.
+
+$$ QED $$
+
+## problem 5
+
+>For an undirected graph $G=(V, E)$ and a vertex $v$ in $V$, let $G\backslash v$ denote the subgraph of $G$ obtained by removing $v$ and all the edges incident to $v$ from $G$. If $G$ is connected, prove that we can always find a vertex $v$ in $G$ such that $G\backslash v$ is connected.
+
+### solution
+
+We know that if a graph is connected, there is a spanning tree.
+
+Removing the leaf node of spanning tree still makes graph connected.
+
+
+## problem 6
+
+>Given $n \geq 1$ numbers x1, x2, ..., xn, show that the function $f(x) = \sum\_\{1\le i\le n}|x-x\_i|$ takes its minimum value at the median of these n number. Extend this result to the following problem: Given n pairs of numbers (a1, b1), ..., (an, bn) with each $ ai \ne 0 $ , determine the position at which the function $ f(x) = \sum\_\{1\le i\le n}|a\_ix-b\_i| $ takes its minimum value.
+
+### solution
+
+$$let\;M\;=\;median\;of\;x_i$$
+
+$$ x\_1 \le x\_2 \le ... \le x\_s \le A \le x\_\{s+1} \le ... \le x\_t \le M \le x\_\{t+1} \le ... \le x\_n $$
+
+1. If n is even and an arbitrary number A is less or equal than M:
+$$ n = 2t $$
+
+$$ f(A) =  \{\sum\_\{i=1}^s(A-x\_i) + \sum\_\{i=s+1}^n(x\_i-A)}$$
+
+$$ = \sum\_\{i=1}^t(A-M+M-x\_i) - \sum\_\{i=s+1}^t(A-x\_i)+\sum\_\{i=t+1}^n(x\_i-M+M-A) +\sum\_\{i=s+1}^t(x\_i-A)$$
+
+$$ = \sum\_\{i=1}^t(M-x\_i)+ t(A-M) + \sum\_\{i=t+1}^n(x\_i-M)+(n-t)(M-A) + 2\sum\_\{i=s+1}^t(x\_i-A)$$
+
+$$ = \sum\_\{i=1}^t(M-x\_i) + \sum\_\{i=t+1}^n(x\_i-M) + 2\sum\_\{i=s+1}^t(x\_i-A) +(n-2t)(M-A) $$
+
+$$ when\;A\;=\;M,\;2\sum\_\{i=s+1}^t(x\_i-A)\;has\;minimum\;value$$
+
+(Proof this when A>=M,and when n is odd, it's easy)
+
+Extend this result to  $ f(x) = \sum\_\{1\le i\le n}|a\_ix-b\_i| $ 
+
+$Let\;v\_i=|a\_i|,w\_i=\frac\{b\_i}\{a\_i}$
+
+$$f(x) = \sum\_\{1\le i\le n}|a\_ix-b\_i|$$ 
+
+$$= \sum\_\{1\le i\le n}|a\_i||x-\frac\{b\_i}\{a\_i}|$$
+
+$$= \sum\_\{1\le i\le n}v\_i|x-w\_i|$$
+
+$f(x) = \sum\_\{1\le i\le n}v\_i|x-w\_i|$ takes its minimum value at the median of the sequence :
+
+$$w\_1,w\_1,...,w\_1,...,w\_2,w\_2,...,w\_2,...,w\_n,w\_n,...,w\_n$$
+
+$$|v\_1||v\_2|....|v\_n|$$
+
+
+## problem 7
+
+> Prove the Helly Property on Trees: Given a tree T and k subtrees of T such that each pair of subtrees has at least one vertex in common, show that there is at least one vertex in 
+common to all the subtrees.
+
+### solution
+Definition of Helly Property :
+A family $\{A\_i: i \in I \}$ of subsets of a set $A$ is said to satisfy the Helly property,if $J \subseteq I$, and $A\_i\cap A\_j\ne \emptyset$, for every $i, j \in J$, then $\cap\_\{j\in J}A\_j\ne \emptyset$.
+
+Briefly, a set $J$ of sets $A\_i$ has the Helly property if for every subset $T$ of $J$ the following holds: if the elements of $T$ pairwise intersect, then the intersection of all elements of $T$ is also non-empty.
+
+<Image src="./Helly.png" alt="" />
+Quoted from [here](http://compalg.inf.elte.hu/~tony/Oktatas/TDK/FINAL/Chap%204.PDF)
+
+
+## problem 8
+
+>Let $d\_1, d\_2, ..., d\_n,\;n\le 2$, be positive integers. Prove that if $d\_1+ d\_2+ ...+ d\_n = 2n - 2$, then there exists a tree with n vertices of degrees exactly $d\_1, d\_2, ..., d\_n$. Based on your proof, design an efficient algorithm to construct such a tree. 
+
+### solution
+
+***Basis*** :
+when $n=1,d\_1=0$,it holds.
+when $n=2,d\_1=1,d\_2=1$ , it holds.
+
+***Induction*** :
+$$ Let\;d\_1\le d\_2\le d\_3\le ... \le d\_n $$
+
+$$ d\_1=1,otherwise, $$
+
+$$ d\_1+ d\_2+ ...+ d\_n \ge 2n \ge 2n - 2 $$
+
+$$ when\;n\ne 2, d\_n\ge 2,otherwise,$$
+
+$$ d\_1+ d\_2+ ...+ d\_n = n < 2n-2 $$
+
+Therefor
+$$ d\_1+ d\_2+ ...+ d\_n +d\_\{n+1} = 2(n+1)-2 = 2n  $$
+
+$$ d\_1+ d\_2+ ... + d\_n +d\_\{n+1} - 2 = 2n-2 $$
+
+$$ d\_1+ d\_2+ ... + (d\_n +d\_\{n+1} - 2) = 2n-2 $$
+
+$ d\_1+ d\_2+ ... + (d\_n + d\_\{n+1} - 2) $ satisfy the induction hypothesis, so there exist a tree with n vertices with these degrees.
+Remove  $(d\_\{n+1} - 1)$ neighbours from the vertix whose degree is $(d\_n + d\_\{n+1} - 2)$, connect those neighbours with a new node,and connect the new node with the vertix whose original degree is $(d\_n + d\_\{n+1} - 2)$.
+Then we get 
+$$ d\_1+ d\_2+ ... + d\_n +d\_\{n+1}  = 2n $$
+
+$$QED$$
+
+algorithm :
+
+1. Sort $d\_1+ d\_2+ ...+ d\_n$ in ascending order.
+2. Create a node $P$ with smallest degree in sequence excluding 1.
+3. Iterating from 1 to n,and add nodes to $P$ until the degree of p become 1.
+4. Go back to 2 until there is no more nodes can be added
+
+## problem 9
+
+>Let G=(V, E) be a directed graph (not necessarily acyclic). Design an efficient algorithm to label the vertices of the graph with distinct labels from 1 to |V| such that the label of each vertex v is greater than the label of at least one of v’s predecessors, or determine that no such labeling is possible. (A predecessor of v is a vertex w such that $wv \in E$)
+
+### solution
+
+You can find it in Morris's old blog. [Q8](http://mypaper.pchome.com.tw/zerojudge/post/1325745839)
+
+## problem 10
+
+>Give a linear-time algorithm that takes as input a tree and determines whether it has a perfect matching: a set of edges that touches each node exactly once. 
+
+### solution
+perfect matching : [English](http://mathworld.wolfram.com/PerfectMatching.html), [Chinese](http://www.csie.ntnu.edu.tw/~u91029/Matching.html)
+
+Because leaf nodes must match with their parent, we can perform a devide and conquer algorithm.
+
+|                     |                     |
+|-------------------- | --------------------|
+|<Image src="./1.png" alt="" />|<Image src="./2.png" alt="" />|
+|<Image src="./3.png" alt="" />|<Image src="./4.png" alt="" />|
+|<Image src="./5.png" alt="" />|<Image src="./6.png" alt="" />|
+|<Image src="./7.png" alt="" />|<Image src="./8.png" alt="" />|
+
+```c pseudo code
+#define UNMATCH 0
+#define MATCH   1
+#define FAIL    -1
+
+int PerfectMatching ( n )
+    if child of n == 0                  // if this node is leaf
+        return UNMATCH                  // told it's parent node that "this child node is unmatch"
+
+    match_flag <- UNMATCH               //state of current node
+    foreach child c of n                //loop to check the state of every child node of current node
+        state <- PerfectMatching( c )
+        if state == UNMATCH             //if child node is UNMATCH,
+            if match_flag == UNMATCH    //and current node is UNMATCH, too
+                match_flag = MATCH      // match them.
+            else                        // But if the state of current node is MATCH,
+                return FAIL             //means this tree won't be perfect matching
+        else if state == FAIL
+            return FAIL
+    return match_flag
+```
+
+## problem 11
+
+>Consider a variation of the towers of Hanoi. We no longer assume that all the disks are initially on one peg. They may be arbitrarily distributed among the three pegs, as long as they are ordered in decreasing sizes on each peg. The purpose remains to move all disks to one specified peg, under the same constraints as the original problem, with as few moves as possible. Design an algorithm to find a minimal sequence of moves. How about the reverse of the problem?
+
+### solution
+
+The solution is similar to original Hanoi problem
+
+Recursive Solution:
+1. Find the biggest disk
+2. If the disk is moveable to goal peg then move and go to 4, otherwise, go to 3.
+3. Set-up (N−1)-disk tower on non-goal peg.
+4. Back to 1
+
+## problem 12
+
+>Let T be an undirected tree. The distance between two vertices in T is the length of the path connecting these two vertices (neighbours have distance 1). The diameter of T is the maximal distance over all pairs of vertices. Design an algorithm to find the diameter of the given tree.
+
+### solution
+Because the highest two subtree of T determind the diameter of T.
+
+The algorithm look like this:
+
+1. Picking an arbitrary node, then find the farthest node $P_f$ from it.
+2. Next, find the farthest node $P_g$ from $P_f$.
+3. The distance between $P_g$ and $P_f$ is the diameter of T.
+
+It's easy to proof.
+
+## problem 13
+
+>Consider the iterative method for solving the towers of Hanoi problem described in Unit 2. Prove the correctness of the algorithm. 
+
+```c filename="iterative method"
+while (1) {
+    move the smallest disk from its current peg to the next peg in clockwise order;
+    if( all disks are correctly piled on someother peg ) break;
+    make the only move possible that does notinvolve the smallest disk;
+}
+```
+
+### solution
+We have three peg, $P\_0\;P\_1\;P\_2$ ,and  $K$ disks,$D\_1,D\_2,D\_3,...,D\_K$ ,$K \in N$.\
+Assume that all disks are at peg $P\_0$ initially.\
+$K$ is odd  : Disks will be moved to the peg $P\_\{(0+1)mod3}$\
+$K$ is even : Disks will be moved to the peg $P\_\{(0+2)mod3}$
+
+***Basis*** :\
+    $K=1$:\
+        Move $D\_1$ from $P\_0$ to  $P\_1$\
+        it holds.
+
+    $K=2$:\
+        Move $D\_1$ from $P\_0$ to  $P\_1$\
+        Move $D\_2$ from $P\_0$ to  $P\_2$\
+        Move $D\_1$ from $P\_1$ to  $P\_2$\
+        It holds
+
+***Induction*** :
+Assume that it holds when $K=n$ and n is odd.
+($D\_1,...,D\_K $ would be moved from $P\_0$ to $P\_1$)
+
+$When\;K=n+1$:\
+|\
+|Step1. Move top n disk from $P\_0$ to $P\_1$ (Induction hypothesis)\
+|\
+|Step2. Last move of previous step is moving smallest disk from $P\_0$ to $P\_1$, \
+|so the next move is moving $D\_\{n+1}$ from $P\_0$ to $P\_2$\
+|\
+|Step3. Move n disk from $P\_1$ to $P\_2$ (Induction hypothesis)\
+|\
+|All disks are being moved from $P\_0$ to $P\_2$, it holds\
+|
+
+Assume that it holds when $K=n$ and n is even.
+($D\_1,...,D\_K $ would be moved from $P\_0$ to $P\_2$)
+
+$When\;K=n+1$:\
+|\
+|Step1. Move top n disk from $P\_0$ to $P\_2$ (Induction hypothesis)\
+|\
+|Step2. Last move of previous step is moving smallest disk from $P\_0$ to $P\_2$,\
+|so the next move is moving $D\_\{n+1}$ from $P\_0$ to $P\_1$\
+|\
+|Step3. Move n disk from $P\_2$ to $P\_1$ (Induction hypothesis)\
+|\
+|All disks are being moved from $P\_0$ to $P\_1$, it holds\
+|
+
+$$QED$$

@@ -1,0 +1,37 @@
+---
+export async function getStaticPaths() {
+  return [
+      { params: { slug: "2025-How-to-Find-the-Latest-WebKit-Safari-Patches/"}},
+      { params: { slug: "2017-SECCON-Write-up/"}},
+      { params: { slug: "2021-QEMU-AFL-and-TCG/"}},
+      { params: { slug: "2019-PragyanCTF/"}},
+      { params: { slug: "Advance-Algorithm-homework2/"}},
+      { params: { slug: "2019-CONFidence/"}},
+      { params: { slug: "Advance-Algorithm-homework3/"}},
+      { params: { slug: "2018-0CTF-Quals-g0g0g0/"}},
+      { params: { slug: "Advance-Algorithm-homework1/"}},
+      { params: { slug: "2019-PlaidCTF/"}},
+      { params: { slug: "2019-Flare-On-6-Record/"}},
+      { params: { slug: "2018-ASIS-Quals-reverse/"}},
+      { params: { slug: "2018-RealWorldCTF-Qual/"}},
+      { params: { slug: "2025-Adding-a-custom-Javascript-API-to-Webkit/"}},
+      { params: { slug: "2025-OSEE-Exam-Uncovered-Cracking-OSEE-in-Taipei/"}},
+      { params: { slug: "2019-0CTF-Quals-Sanitize/"}},
+      { params: { slug: "2017-HITCON-Quals-Sakura-English/"}},
+      { params: { slug: "2022-BalsnCTF-ProjectO-Write-up/"}},
+      { params: { slug: "2021-Flare-On-8-Write-up/"}},
+    ]
+}
+const slug = Astro.params.slug;
+const target = `/posts/${Array.isArray(slug) ? slug.join('/') : slug}`;
+---
+
+<html>
+  <head>
+    <meta http-equiv="refresh" content=`0; url=${target}` />
+    <link rel="canonical" href={target} />
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a>...</p>
+  </body>
+</html>

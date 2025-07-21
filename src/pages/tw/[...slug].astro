@@ -1,0 +1,47 @@
+---
+export async function getStaticPaths() {
+  return [
+      { params: { slug: "2021-OSCP-回顧與分享/"}},
+      { params: { slug: "2024-CTF轉生—不轉生就拿出真本事/"}},
+      { params: { slug: "TIL-AVX-Base64/"}},
+      { params: { slug: "2018-Reversing-KR-Record/"}},
+      { params: { slug: "Advance-Algorithm-homework6/"}},
+      { params: { slug: "2024-幫部落格增加註釋的功能！/"}},
+      { params: { slug: "TIL-FaceBook-GIF-memory-exposure/"}},
+      { params: { slug: "2017-AIS3-pre-exam-write-up/"}},
+      { params: { slug: "2017-HITCON-qual-Sakura/"}},
+      { params: { slug: "程式安全-HW3-Write-up/"}},
+      { params: { slug: "OS-NachOS-HW1/"}},
+      { params: { slug: "2019-AIS3-前測官方解/"}},
+      { params: { slug: "TIL-利用-Chakra-JIT-繞過-DEP-和-CFG/"}},
+      { params: { slug: "Advance-Algorithm-homework7/"}},
+      { params: { slug: "TIL-Windows-Services-Debug/"}},
+      { params: { slug: "2024-從皮卡丘打排球學習逆向工程/"}},
+      { params: { slug: "2023-自由美利堅-上羚羊峽谷之旅/"}},
+      { params: { slug: "TIL-攻擊LCG-線性同餘生成器/"}},
+      { params: { slug: "2025-EXP-401-用五天課程通透十年的知識體系—愛藏版/"}},
+      { params: { slug: "Advance-Algorithm-homework4/"}},
+      { params: { slug: "2020-AIS3-前測官方解/"}},
+      { params: { slug: "Reversing-kr-write-up-1/"}},
+      { params: { slug: "2020-程式安全-HW0-Write-up/"}},
+      { params: { slug: "程式安全-HW4-Write-up/"}},
+      { params: { slug: "Advance-Algorithm-homework5/"}},
+      { params: { slug: "2018-AIS3-pre-exam/"}},
+      { params: { slug: "2020-Flare-On-7-Write-up/"}},
+    ]
+}
+
+const slug = Astro.params.slug;
+const targetSlug = Array.isArray(slug) ? slug.map(s => encodeURIComponent(s)).join('/') : encodeURIComponent(slug);
+const target = `/posts/${targetSlug}`;
+---
+
+<html>
+  <head>
+    <meta http-equiv="refresh" content=`0; url=${target}` />
+    <link rel="canonical" href={target} />
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a>...</p>
+  </body>
+</html>

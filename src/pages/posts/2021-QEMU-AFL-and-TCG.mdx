@@ -1,0 +1,187 @@
+---
+title: "2021::QEMU::AFL++ and TCG"
+description: ""
+publishDate: "2021-05-29"
+category: "QEMU"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+Rewriting some of notes in my obsidian into a post seems to be a good idea.
+
+## TCG
+
+TCG is abbreviation of Tiny Code Generator, the TCG frontend lifts target instructions into TCG-IR and the TCG backend lowers the TCG-IR into host instructions. The [tcg/README](https://github.com/qemu/qemu/tree/master/tcg#readme) is a good place to start.
+
+Because TCG-IR is relatively simple, some target instructions are hard to be implemented by pure TCG-IR. Helper functions provides another way to implement these instruction.
+
+## Code Review
+
+Take QEMU-5.0.0-rc4 for example, how QEMU emulating `syscall` instruction of i386 is at line 7381 of `target/i386/tcg/translate.c` :
+
+```c target/i386/tcg/translate.c =7381
+#ifdef TARGET_X86_64
+
+    case 0x105: /* syscall */
+        /* XXX: is it usable in real mode ? */
+        gen_update_cc_op(s);
+        gen_jmp_im(s, pc_start - s->cs_base);
+        gen_helper_syscall(cpu_env, tcg_const_i32(s->pc - pc_start));
+        /* TF handling for the syscall insn is different. The TF bit is  checked
+           after the syscall insn completes. This allows #DB to not be
+           generated after one has entered CPL0 if TF is set in FMASK.  */
+        gen_eob_worker(s, false, true);
+        break;
+
+```
+
+Functions with prefix `gen` are responsible for generating corresponding [backend-ops](https://wiki.qemu.org/Documentation/TCG/backend-ops), but `get_helper_syscall` is more special.
+
+The function `get_helper_syscall` will insert a call backend-op into TCG code, and the target of the call instruction is function `helper_syscall`, which is at line 979 of `target/i386/tcg/seg_helper.c`. (use `CONFIG_USER_ONLY` to choose different implementation for user mode emulation and full system emulation)
+
+```c target/i386/tcg/seg_helper.c =979
+#ifdef TARGET_X86_64
+#if defined(CONFIG_USER_ONLY)
+void helper_syscall(CPUX86State *env, int next_eip_addend)
+{
+    ...
+}
+#else
+void helper_syscall(CPUX86State *env, int next_eip_addend)
+{
+	...
+}
+#endif
+#endif
+```
+
+So, calling a custom helper function from TCG is easy, takes AFL++ for example.
+
+## AFL++ and TCG
+
+AFL++ is the community version of well-known coverage-based greybox fuzzer AFL, the way it used to track the code coverage during fuzzing process is to insert a instruction to call function `afl_maybe_log` at the beginning of each basic block at compile time.
+
+The function `afl_maybe_log` will add the corresponding element by 1 in the bitmap shared with AFL++, and the way to index the bitmap is using the hash value of token of current basic block and previous basic block ( `cur_loc` and `afl_prev_loc` ), and the token value was assigned randomly at compile time.
+
+```c
+cur_loc = 0x123;
+afl_area_ptr[cur_loc ^ afl_prev_loc]++;
+afl_prev_loc = cur_loc >> 1;
+```
+
+In a scenario where the source code is unavailable, which is very common, it's not possible to insert `afl_maybe_log` at compile time, so AFL++ has QEMU mode to perform the so-called dynamic instrumentation.
+
+AFL++ use it's own forked version of QEMU, [qemuafl](https://github.com/AFLplusplus/qemuafl), which will insert `afl_maybe_log` into TCG-IR while generating TCG-IR of each basic block so it can benefit from block chaining.
+
+To add a new helper, we need to declare the helper function at `accel/tcg/tcg-runtime.h` , or if the helper only works on specific architecture, it should be declared at `target/<arch>/helper.h` .
+
+```c accel/tcg/tcg-runtime.h
+DEF_HELPER_FLAGS_1(afl_maybe_log, TCG_CALL_NO_RWG, void, tl)
+
+```
+
+The `N` of macro `DEF_HELPER_FLAGS_N` means the number of arguments, this macro will declare a function `helper_afl_maybe_log` which returns nothing and takes one argument.
+
+The `TCG_CALL_NO_RWG` is alias of `TCG_CALL_NO_READ_GLOBALS`, it means helper does not read globals (either directly or through an exception). It implies `TCG_CALL_NO_WRITE_GLOBALS`.
+
+The definition of `DEF_HELPER_FLAGS_1` in `exec/helper-proto.h` is:
+
+```c exec/helper-proto.h
+#define DEF_HELPER_FLAGS_1(name, flags, ret, t1) \
+dh_ctype(ret) HELPER(name) (dh_ctype(t1));
+```
+
+But why we need a macro only for declaration? And where it use the `flags` variable? It's actually a cool macro trick here!
+
+Actually, the macro `DEF_HELPER_FLAGS_1` was undefined  at the end of the `exec/helper-proto.h` :
+
+```c exec/helper-proto.h
+#undef DEF_HELPER_FLAGS_0
+#undef DEF_HELPER_FLAGS_1
+#undef DEF_HELPER_FLAGS_2
+#undef DEF_HELPER_FLAGS_3
+#undef DEF_HELPER_FLAGS_4
+#undef DEF_HELPER_FLAGS_5
+#undef DEF_HELPER_FLAGS_6
+#undef DEF_HELPER_FLAGS_7
+
+#endif /* HELPER_PROTO_H */
+
+```
+
+Let's take a look at `include/tcg/tcg-op.h` , which includes two files:
+
+```c include/tcg/tcg-op.h
+#include "exec/helper-proto.h"
+#include "exec/helper-gen.h"
+```
+
+Surprisingly, there is another definition of `DEF_HELPER_FLAGS_1` in `exec/helper-gen.h` !
+
+```c exec/helper-gen.h
+#define DEF_HELPER_FLAGS_1(name, flags, ret, t1)                        \
+static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
+
+    dh_arg_decl(t1, 1))                                                 \
+
+{                                                                       \
+  TCGTemp *args[1] = { dh_arg(t1, 1) }; \
+  tcg_gen_callN(HELPER(name), dh_retvar(ret), 1, args); \
+}
+
+```
+
+As we can see, this is used to define another function `gen_helper_afl_maybe_log` here. The first argument of `tcg_gen_callN` is the target of call instruction, which is `HELPER(name)` here. The macro `HELPER` is used to insert `helper_` in front of the given name. What `gen_helper_afl_maybe_log` do is to generate a call instruction to call `helper_afl_maybe_log` in TCG code !
+
+After the declaration, next step is defining it, qemuafl defines the function `helper_afl_maybe_log` in the `accel/tcg/translate-all.c` :
+
+```c accel/tcg/translate-all.c =71
+void HELPER(afl_maybe_log)(target_ulong cur_loc)
+{
+
+    register uintptr_t afl_idx = cur_loc ^ afl_prev_loc;
+
+    INC_AFL_AREA(afl_idx);
+
+    afl_prev_loc = cur_loc >> 1;
+}
+```
+
+Now, it's possible to call the custom function from TCG. As mentioned, AFL++ insert `afl_may_log` at the beginning of each basic block to gather the coverage information during fuzzing. Because QEMU also uses basic block as a unit while translating TCG code into host code, it's easy to  insert `afl_may_log` at the beginning of each basic block.
+
+In the function `tb_gen_code` , we can observe that qemuafl call function `afl_gen_trace(pc)` before generating machine code:
+
+```c accel/tcg/translate-all.c
+
+    tcg_ctx->cpu = env_cpu(env);
+    afl_gen_trace(pc);
+    gen_intermediate_code(cpu, tb, max_insns);
+    tcg_ctx->cpu = NULL;
+    max_insns = tb->icount;
+
+    trace_translate_block(tb, tb->pc, tb->tc.ptr);
+
+    /* generate machine code */
+
+```
+
+Let's inspect the definition of `afl_gen_trace` and highlight the last three lines:
+
+```c accel/tcg/translate-all.c
+/* Generates TCG code for AFL's tracing instrumentation. */
+static void afl_gen_trace(target_ulong cur_loc) {
+
+  ...
+
+  TCGv cur_loc_v = tcg_const_tl(cur_loc);
+  gen_helper_afl_maybe_log(cur_loc_v);
+  tcg_temp_free(cur_loc_v);
+
+}
+```
+
+To use `gen_helper_afl_maybe_log` to generate a call in TCG code, the parameter have to be converted to TCG variables, `tcg_const_tl(cur_loc_v)` is used to generate a TCG temporary with value `cur_loc` , and although it's "const", it did create a temporary, we have to free it after use to reduce the memory usage.
+
+## End
+
+And, that's it, qemuafl inserts a call instruction at the beginning of each basic block's TCG code, once a basic block is being executed, it must call the custom helper function, `HELPER(afl_maybe_log)`, to record the code coverage first. AFL is actually using the same strategy, but I was reviewing the source code of AFL++, I use it as example here.

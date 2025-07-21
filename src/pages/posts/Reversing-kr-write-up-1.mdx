@@ -1,0 +1,50 @@
+---
+title: "Reversing.kr #1"
+description: ""
+publishDate: "2017-07-20"
+category: "Reversing"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+本來想把9題擠一篇的，但想想還是分一下好了，
+總之Easy系列完全就是 easy peasy lemon squeezy
+這篇共4題，還沒解題建議不要先看。
+
+## Easy Crack
+首先發現輸入密碼錯誤時會跳出錯誤訊息：
+<Image src="./EasyCrack001.png" alt="" />
+以 Incorrect Password 作為關鍵字搜尋disassemble的位址
+往上一點會發現上面有字串的判斷邏輯：
+<Image src="./EasyCrack002.png" alt="" />
+慢慢比對就可以把flag拼出來了：
+<Image src="./EasyCrack003.png" alt="" />
+## Easy Keygen
+題目要求我們找到序號為 5B134977135E7D13 時，名字應該會是什麼
+分析後發現程式會把[0x10,0x20,0x30]作為key不斷xor輸入的字串
+然後把加密後的字串的ascii用hex印出來
+寫個腳本反解回去就好了:
+
+```python
+from binascii import *
+
+serial = bytearray(unhexlify("5B134977135E7D13"))
+key = [0x10, 0x20, 0x30]
+flag = ""
+
+for i in range(len(serial)):
+    flag += chr(serial[i] ^ key[i%len(key)])
+
+print(flag)
+```
+
+## Easy Unpack
+總之這殼還滿簡單的，解壓縮結束時有個jmp，跟過去就是OEP了
+本來以為兩個段是像upx一樣，一個段解壓縮進去另外一個段再執行，
+但是其中一個段好像沒有執行權限。
+
+## Easy ELF
+丟進gdb下幾個斷點就可以知道要求輸入的長度是5，
+並且對字元做xor然後做檢查
+看是要逆算回來還是做個fuzzing就好了
+
+

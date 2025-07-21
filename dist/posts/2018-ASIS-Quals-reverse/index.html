@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><meta name="generator" content="Astro v5.11.1"><title>NiNi's Den. CyberSec Blog</title><link rel="stylesheet" href="/src/styles/cyber-space-theme.css"><link rel="stylesheet" href="/src/styles/light-theme.css"><style>.post-image-wrapper[data-astro-cid-no5unav3]{margin:1.5em auto;max-width:100%;position:relative;display:inline-block}.post-image-wrapper[data-astro-cid-no5unav3]:before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(var(--color-accent-r),var(--color-accent-g),var(--color-accent-b),1);mix-blend-mode:color;pointer-events:none;transition:opacity .3s ease-in-out;opacity:1}.post-image-wrapper[data-astro-cid-no5unav3]:hover:before{opacity:0}.post-image[data-astro-cid-no5unav3]{display:block;max-width:100%;height:auto;border:1px solid var(--color-border);box-shadow:0 0 10px #0009;transition:all .3s ease-in-out}.post-image[data-astro-cid-no5unav3]:hover{filter:brightness(1) contrast(1);box-shadow:0 0 15px rgba(var(--color-accent-r),var(--color-accent-g),var(--color-accent-b),.7)}
+</style></head> <body style="margin: 0; padding-top: 60px;"> <script>
+            // Apply theme from localStorage immediately to prevent FOUC
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.add(savedTheme);
+            } else {
+                document.body.classList.add('theme-light'); // Default theme
+                localStorage.setItem('theme', 'theme-light');
+            }
+        </script> <button id="theme-toggle" class="theme-toggle-btn">
+切換主題
+</button> <nav class="main-nav"> <ul class="main-nav-list"> <li class="main-nav-item"><a href="/" class="main-nav-link">Home</a></li> <li class="main-nav-item"><a href="/about" class="main-nav-link">About</a></li> </ul> </nav>  <div class="article-page-wrapper"> <aside class="author-hud"> <div class="author-hud-content glitchable"> <img src="//avatars2.githubusercontent.com/u/15998206" alt="NiNi's avatar" class="author-avatar"> <div class="author-info"> <h4><a href="https://balsn.tw/">NiNi</a></h4> <p class="title">Security Researcher</p> </div> </div> </aside> <div class="container"> <article class="post-content"> <h1>2018::ASIS-Quals::reverse</h1> <p class="post-meta">Published: 2018-05-04 | Category: CTF</p> <p>Another excuse, I had my wisdom tooth extracted, or I could solve them(rev) all.</p>
+<h2 id="warmup">WarmUp</h2>
+<p>Obviously, it’s a C program which was compacted to one line with some <code>#define</code>.
+After formatted, it looks like:</p>
+<pre><code class="language-c">#include &lt;stdint.h&gt;
+#define M 37
+#define	q (2+M/M)
+#define	v (q/q)
+#define	ef ((v+q)/2)
+#define	f (q-v-ef)
+#define k (8-ef)
+struct b {
+  int64_t y[13];
+} S;
+int m = 1811939329, N = 1, t[1 &lt;&lt; 26] = {2}, a, * p, i, e = 73421233, s, c, U = 1;
+g(d, h) {
+  for (i = s; i &lt; 1 &lt;&lt; 25; i *= 2) d = d * 1 LL * d % m;
+  for (p = t; p &lt; t + N; p += s)
+    for (i = s, c = 1; i; i--) a = p[s] * (h ? c : 1 LL) % m, p[s] = (m * 1 U + * p - a) * (h ? 1 LL : c) % m, * p = (a * 1 U + * p) % m, p++, c = c * 1 LL * d % m;
+}
+l() {
+  while (e /= 2) {
+    N *= 2;
+    U = U * 1 LL * (m + 1) / 2 % m;
+    for (s = N; s /= 2;) g(136, 0);
+    for (p = t; p &lt; t + N; p++) * p = * p * 1 LL * * p % m * U % m;
+    for (s = 1; s &lt; N; s *= 2) g(839354248, 1);
+    for (a = 0, p = t; p &lt; t + N;) a += * p &lt;&lt; (e &amp; 1), * p++ = a % 10, a /= 10;
+  }
+}
+z(n) {
+  int y = 3, j, c;
+  for (j = 2; j &lt;= n;) {
+    l();
+    for (c = 2; c &lt;= y - 1; c++) {
+      l();
+      if (y % c == 0) break;
+    }
+    if (c == y) {
+      l();
+      j++;
+    }
+    y++;
+  }
+  l();
+  return y - 1;
+}
+main(a, pq) char * pq; {
+  int b = sizeof(S), y = b, j = M;
+  l();
+  int x[M] = {
+    b - M - sizeof((short int) a),
+    (b &gt;&gt; v) + (k &lt;&lt; v) + (v &lt;&lt; (q | ef)) + z(v + (ef &lt;&lt; v)),
+    (z(k * ef) &lt;&lt; v) - pow(ef, f),
+    z(((j - ef * k) | (ef &lt;&lt; k &gt;&gt; v) / k - ef &lt;&lt; v) - ef),
+    (((y + M) &amp; b) &lt;&lt; (k / q + ef)) - z(ef + v),
+    ((ef &lt;&lt; k) - v) &amp; y,
+    y * v + v,
+    (ef &lt;&lt; (q * ef - v - (k &gt;&gt; ef))) * q - v,
+    (f &lt;&lt; q) | (ef &lt;&lt; (q * f + k)) - j + k,
+    (z(z(z(z(z(v))))) * q) &amp; (((j / q) - (ef &lt;&lt; v)) &lt;&lt; q) | (j + (q | (ef &lt;&lt; v))),
+    y | (q + v),
+    (ef &lt;&lt; ef) - v + ef * (((j &gt;&gt; ef) | j) - v + ef - q + v),
+    (z(j &amp; (b &lt;&lt; ef)) &amp; (z(v &lt;&lt; v) &lt;&lt; k)) - (q &lt;&lt; v) - q,
+    (k &lt;&lt; q) + q,
+    (z(y) &gt;&gt; (ef &lt;&lt; v)) + (z(k + v)) - q,
+    (z(z(k &amp; ef | j)) &amp; b | ef | v &lt;&lt; f &lt;&lt; q &lt;&lt; v &amp; ef &gt;&gt; k | q &lt;&lt; ef &lt;&lt; v | k | q) + z(v &lt;&lt; v) + v,
+    (ef &gt;&gt; v) * q * z(k - v) + z(ef &lt;&lt; ef &amp; q | k) + ef,
+    z(k &lt;&lt; k) &amp; v &amp; k | y + k - v,
+    z(f &gt;&gt; ef | k &gt;&gt; ef | v | k) * (ef &gt;&gt; v) * q,
+    (ef &lt;&lt; k - ef &lt;&lt; v &gt;&gt; q &lt;&lt; ef * ef) - j + (ef &lt;&lt; v),
+    z(ef * k) * z(v &lt;&lt; v) + k - v,
+    z((z(k) &lt;&lt; z(v))) &amp; y | k | v,
+    z(ef &lt;&lt; ef &lt;&lt; v &lt;&lt; v) / ef + z(v &lt;&lt; ef | k | (b &gt;&gt; q) &amp; y - f) - (ef &lt;&lt; q) + (k - v) - ef,
+    k &lt;&lt; (ef + q) / z(ef) * z(q) &amp; z(k &lt;&lt; k) | v,
+    ((z(y | j &gt;&gt; k * ef)) % ef &lt;&lt; z(v &lt;&lt; v &lt;&lt; v) &gt;&gt; q &lt;&lt; q | j) / ef + v,
+    (j - ef &lt;&lt; ef &lt;&lt; v * z(v &gt;&gt; v &lt;&lt; v) &gt;&gt; ef) / ef % z(k &lt;&lt; j) + q,
+    z(k - v) + k | z(ef &lt;&lt; k &gt;&gt; v &lt;&lt; f) - z(q &lt;&lt; q) * ef &gt;&gt; v,
+    (z(ef | y &amp; j | k) % q | j + ef &lt;&lt; z(k | ef) % k &lt;&lt; q | ef | k &lt;&lt; ef &lt;&lt; q / ef | y / ef + j &gt;&gt; q) &amp; k &lt;&lt; j | ef + v,
+    84,
+    z(v * ef &lt;&lt; ef &lt;&lt; q) * q % ef &lt;&lt; k | k | q - v,
+    ((z(20) * v) | (f &gt;&gt; q) | (k &lt;&lt; k)) / ef - (ef &lt;&lt; (v * q + ef)) - (k &lt;&lt; q) + z(k) - q
+  };
+  while (j--) {
+    putchar(x[M - v - j]);
+  }
+  printf(&quot; From ASIS With Love &lt;3\n&quot;);
+  return 0;
+}
+</code></pre>
+<p>It just do some calculate then ouput the flag, but it took lots of time.I found that function <code>l</code> and function <code>g</code>, they are basically doing nothing.I deleted the function <code>l</code>, <code>g</code> ,and local variables <code>int m = 1811939329, N = 1, t[1 &lt;&lt; 26] = {2}, a, * p, i, e = 73421233, s, c, U = 1;</code>,after compilation &amp; execution, the flag popped out immediately.</p>
+<h2 id="baby-c">Baby C</h2>
+<p>This binary was  obfuscated by movfuscator, and it’s my first time to solve such challenge, so that I did not realize that this was obfuscated at first time…</p>
+<p>Using <code>gdb</code>, I found that uses <code>sigaction</code> to register callback function for <code>SIGSEGV</code>, <code>SIGILL</code>, then the binary will try to trigger them by accessing invalid address, so the binary can jump into libc to execute <code>strncmp</code> to compare that wether the <code>input[3:14]</code> equals to <code>m0vfu3c4t0r!</code> or not.</p>
+<p>I used <a href="https://github.com/kirschju/demovfuscator">demovfuscator</a> to deobfuscate the binary, but there were still so much <code>mov</code> in binary. I thought the description of challenge, <strong>This babyc needed swaddling!</strong>,means that it used movfuscator more than one time,but I was wrong…
+Since the tool is still in development phase, I only used the function to generate flow chat.</p>
+<div class="post-image-wrapper aug-border aug-br--inset aug-bl--inset aug-tr--inset aug-tl--inset" data-astro-cid-no5unav3> <img src="/_astro/flow.tOuI7cUz_1rUVxu.webp" alt data-astro-cid-no5unav3="true" loading="lazy" decoding="async" fetchpriority="auto" width="461" height="1191" class="post-image"> </div> 
+<p>(You can solve this challenge without any deobfuscator, it’s not so hard)</p>
+<p>Before every branch, the corresponding char would show up many times. So I got the flag.</p>
+<h2 id="echo">Echo</h2>
+<p>Putting it into IDA, I realized that this is actually a brainfuck interpretor.And I found a <code>flag</code> string in binary.</p>
+<p>Also, I found the brainfuck hard coded in this binary by <code>gdb</code>:</p>
+<pre><code class="language-brainfuck">&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;[&lt;&lt;&lt;&lt;+&lt;+&gt;&gt;&gt;&gt;&gt;-]&lt;&lt;&lt;&lt;&lt;[-&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;[&lt;+&lt;+&gt;&gt;-]&lt;&lt;[-&gt;&gt;+&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;[&lt;&lt;+&lt;+&gt;&gt;&gt;-]&lt;&lt;&lt;[-&gt;&gt;&gt;+&lt;&lt;&lt;]&gt;[&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;-]&lt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;,[.,]
+</code></pre>
+<p>It’s not so hard to find out that this brainfuck code will decode the <code>flag</code> in binary, and there is a loop <code>[.,]</code> to implement <code>echo</code> in the end.</p>
+<p>This part is trap, the brainfuck code <code>[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]&gt;[+]</code> is equivalent to:</p>
+<pre><code class="language-c">while( *char ){
+    ++*char;
+}
+char += 1;
+
+while( *char ){
+    ++*char;
+}
+char += 1;
+...so on
+</code></pre>
+<p>It set the chars in <code>flag</code> to <code>0</code>, remove it to get the flag.</p>
+<h2 id="density">Density</h2>
+<p>It just use some rule to expand the original input(with random string), then encoded them with base 64.</p>
+<h2 id="left-or-right">Left or Right?</h2>
+<p>There were so much Rust reverseing challenge recently…
+I am still too slow to analyze such program.</p>
+<p>They are not so hard ・゜・(PД`q｡)・ ゜・</p>
+<p>Blame on my wisdom teeth.</p> </article> </div> <aside class="article-outline-hud" data-augmented-ui="tl-clip tr-clip br-clip bl-clip border"> <div class="article-outline-hud-content glitchable"> <h2>文章大綱</h2> <nav> <ul> <li> <a href="#warmup">WarmUp</a> </li><li> <a href="#baby-c">Baby C</a> </li><li> <a href="#echo">Echo</a> </li><li> <a href="#density">Density</a> </li><li> <a href="#left-or-right">Left or Right?</a> </li> </ul> </nav> </div> </aside> </div> <div id="persistent-notes-overlay"></div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const highlightElements = document.querySelectorAll('.persistent-highlight');
+            const notesOverlay = document.getElementById('persistent-notes-overlay');
+            const containerElement = document.querySelector('.container');
+
+            const positionNotes = () => {
+                notesOverlay.innerHTML = ''; 
+                if (!containerElement) return; 
+
+                
+                if (window.innerWidth > 1024) {
+                    const containerRect = containerElement.getBoundingClientRect();
+                    const noteWidth = 220; 
+                    const margin = 60; 
+
+                    highlightElements.forEach(highlightEl => {
+                        const noteId = highlightEl.dataset.noteId;
+                        const noteText = highlightEl.dataset.noteText; 
+
+                        const rect = highlightEl.getBoundingClientRect();
+
+                        const noteDiv = document.createElement('div');
+                        noteDiv.className = 'persistent-note-item';
+                        noteDiv.setAttribute('data-note-id', noteId);
+                        noteDiv.innerHTML = `<p>${noteText}</p>`;
+
+                        
+                        noteDiv.style.position = 'absolute'; 
+                        noteDiv.style.top = `${rect.top}px`; 
+                        noteDiv.style.left = `${containerRect.left - noteWidth - margin}px`; 
+                        noteDiv.style.width = `${noteWidth}px`;
+
+                        notesOverlay.appendChild(noteDiv);
+
+                        
+                        highlightEl.addEventListener('mouseenter', () => {
+                            noteDiv.classList.add('sci-fi-active');
+                        });
+                        highlightEl.addEventListener('mouseleave', () => {
+                            noteDiv.classList.remove('sci-fi-active');
+                        });
+
+                        
+                        noteDiv.addEventListener('mouseenter', () => {
+                            highlightEl.classList.add('highlight-active');
+                        });
+                        noteDiv.addEventListener('mouseleave', () => {
+                            highlightEl.classList.remove('highlight-active');
+                        });
+                    });
+                }
+            };
+
+            
+            positionNotes();
+
+            
+            window.addEventListener('scroll', positionNotes);
+            window.addEventListener('resize', positionNotes);
+        });
+    </script> <style>
+        
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            display: block; 
+            margin: 0 auto; 
+        }
+
+        
+
+        #persistent-notes-overlay {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; 
+            z-index: 5; 
+        }
+
+        @media (max-width: 1200px) {
+            #persistent-notes-overlay {
+                display: none; 
+            }
+        }
+
+        .persistent-note-item {
+            pointer-events: auto; 
+            
+        }
+    </style>  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position: absolute; top: -9999px; left: -9999px;"> <defs> <filter id="dist-01"> <feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="8" result="noise" seed="0"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-02"> <feTurbulence id="turbulence" baseFrequency="0.2" numOctaves="8" result="noise" seed="1"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-03"> <feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-04"> <feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2" type="fractalNoise"></feTurbulence> <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="6"></feDisplacementMap> </filter> <!-- Additional Glitch Filters for more variety --> <filter id="dist-05"> <feTurbulence baseFrequency="0.05" numOctaves="4" result="noise" seed="3"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="10"></feDisplacementMap> </filter> <filter id="dist-06"> <feTurbulence baseFrequency="0.1" numOctaves="2" result="noise" seed="4"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"></feDisplacementMap> </filter> <filter id="dist-07"> <feTurbulence baseFrequency="0.03" numOctaves="6" result="noise" seed="5" type="fractalNoise"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="12"></feDisplacementMap> </filter> <filter id="dist-08"> <feTurbulence baseFrequency="0.08" numOctaves="3" result="noise" seed="6"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"></feDisplacementMap> </filter> </defs> </svg> <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const glitchableElements = document.querySelectorAll('.glitchable');
+                const filters = ['dist-01', 'dist-02', 'dist-03', 'dist-04', 'dist-05', 'dist-06', 'dist-07', 'dist-08'];
+
+                glitchableElements.forEach(el => {
+                    function applyGlitch() {
+                        const randomFilterId = filters[Math.floor(Math.random() * filters.length)];
+                        const glitchDuration = 0.08//Math.random() * (0.1 - 0.05) + 0.05; // Glitch lasts between 0.05 and 0.1 seconds
+                        const delayBeforeNextGlitch = Math.random() * (6 - 3) + 3; // Next glitch in 0.5 to 2 seconds
+
+                        el.style.filter = `url(#${randomFilterId})`;
+
+                        setTimeout(() => {
+                            el.style.filter = 'none';
+                            setTimeout(applyGlitch, delayBeforeNextGlitch * 1000);
+                        }, glitchDuration * 1000);
+                    }
+
+                    // Initial glitch after a random delay
+                    setTimeout(applyGlitch, Math.random() * 3000); // Initial delay up to 3 seconds
+                });
+
+                // Theme switching logic
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const body = document.body;
+
+                function toggleTheme() {
+                    if (body.classList.contains('theme-red')) {
+                        body.classList.remove('theme-red');
+                        body.classList.add('theme-purple');
+                        localStorage.setItem('theme', 'theme-purple');
+                    } else if (body.classList.contains('theme-purple')) {
+                        body.classList.remove('theme-purple');
+                        body.classList.add('theme-blue');
+                        localStorage.setItem('theme', 'theme-blue');
+                    } else if (body.classList.contains('theme-blue')) {
+                        body.classList.remove('theme-blue');
+                        body.classList.add('theme-light');
+                        localStorage.setItem('theme', 'theme-light');
+                    } else {
+                        body.classList.remove('theme-light');
+                        body.classList.add('theme-red');
+                        localStorage.setItem('theme', 'theme-red');
+                    }
+                }
+
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', toggleTheme);
+                }
+            });
+        </script> <script type="module">document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".persistent-highlight").forEach(t=>{const s=t.dataset.noteId,o=t.dataset.noteText;if(!t||!s||!o)return;let e=null;e=document.createElement("div"),e.className="persistent-note-block",e.dataset.noteId=s,e.innerHTML=`<p>${o}</p>`;let n=t.closest("p");if(n===null){let a=t;for(;a&&a.nextElementSibling;)if(a=a.nextElementSibling,a.tagName==="P"){n=a;break}}n&&n.parentNode&&n.parentNode.insertBefore(e,n.nextSibling),t.addEventListener("mouseenter",()=>{e.classList.add("glow-active")}),t.addEventListener("mouseleave",()=>{e.classList.remove("glow-active")}),e.addEventListener("mouseenter",()=>{t.classList.add("highlight-active"),e.classList.add("glow-active")}),e.addEventListener("mouseleave",()=>{t.classList.remove("highlight-active"),e.classList.remove("glow-active")})})});</script> </body> </html>

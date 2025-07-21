@@ -1,0 +1,13 @@
+---
+title: "TIL::AVX Base64"
+description: ""
+publishDate: "2020-01-28"
+category: "TodayILearn"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+雖然不是 TIL 了，總之在解 flare-on 2019 的時候也有遇到一題包裝成 vm 題的 AVX 運算的 base64，當初沒有發現直接當作加密流程逆著算，看到 flag 才知道是 base64 ....
+
+
+透過 AVX2 讓大量運算可以同時執行，加速到幾乎跟 memcpy 一樣快，原始的 [paper](https://arxiv.org/abs/1704.00605) 及 [github](https://github.com/lemire/fastbase64) ， 另外還有透過其他種 SIMD 的運算（AVX2, AVX512F, AVX512BW ...等等）來加速的做法 [github](https://github.com/WojciechMula/base64simd)。

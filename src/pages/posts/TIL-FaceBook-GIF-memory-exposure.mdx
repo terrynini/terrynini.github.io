@@ -1,0 +1,19 @@
+---
+title: "TIL::FaceBook_GIF_memory_exposure"
+description: ""
+publishDate: "2019-03-15"
+category: "TodayILearn"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+[原文](https://www.vulnano.com/2019/03/facebook-messenger-server-random-memory.html)
+[延伸 1](https://medium.com/@kunal94/imagemagick-gif-coder-vulnerability-leads-to-memory-disclosure-hackerone-e9975a6a560e)
+[GIF Palettes](https://en.wikipedia.org/wiki/GIF#Palettes)
+
+## CVE-2017–15277
+
+在 ImageMagick（7.0.6–1）和 Graphicsmagick（1.3.26），在解析時，如果 GIF 中沒有定義任何的 palettes，會因為 palettes 的記憶體沒有進行任何初始化，導致上色的時候使用本來記憶體中殘留的資料造成記憶體洩漏。
+
+- 原始 POC [gifoeb](https://github.com/neex/gifoeb)
+
+- [原文](https://www.vulnano.com/2019/03/facebook-messenger-server-random-memory.html) 及 [延伸 1](https://medium.com/@kunal94/imagemagick-gif-coder-vulnerability-leads-to-memory-disclosure-hackerone-e9975a6a560e) 的作者分別在 Facebook Message 及 HackerOne 上嘗試成功。

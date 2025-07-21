@@ -1,0 +1,181 @@
+---
+title: "2017::HITCON-qual::Sakura"
+description: ""
+publishDate: "2017-11-07"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+要求輸入 400 個字元
+然後會把輸入當作20*20的陣列丟入function做驗證
+有 150 個迴圈
+在進入迴圈會把需要的 local 變數設好
+流程如下
+
+```
+取一個本地變數出來
+每個迴圈做的次數不等
+
+迴圈
+    根據剛剛取出的數為準從使用者輸入中拿字元出來
+    檢查範圍是否在1~9
+    不能有重複的數字
+    都沒問題就把它累加進本回圈的sum並且放入sha256要用的陣列中
+    再取一次本地變數出來
+迴圈結束
+
+檢查sum是否符合本迴圈要求的數值
+通過150個迴圈的話則會印出flag
+```
+我看有人用angr解，但是我覺得塞位置給 angr avoid 有點麻煩<br/>
+不如把 psudocode dump 出來用正規表達取變數直接生一段 z3 code 解限制式<br/>
+
+方便等等 parse 先把一些奇怪的 function name 修改一下<br/>
+大多數只是單純回傳，我命名為 nothing<br/>
+有做加法再回傳的命名為 plus_數字<br/>
+把 psudocode 放進 `sakura_de.c` <br/>
+然後前面 local variable 的指定式長得太大眾臉了，我把它移到 `variable` 文字檔<br/>
+
+**solver.py**
+
+```python
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import re
+
+f = open("./sakura_de.c", "r").read()
+
+#get the variable and constraint of every loop
+idx     = re.findall("v[0-9]* = \(__int64 \*\)nothing_[0-9]*\(\(__int64\)\&v([0-9]*)\)", f)
+loop_n  = re.findall("v[0-9]* = plus_([0-9]*)", f)
+con     = re.findall("\( v[0-9]* \!= ([0-9]*) \)", f)
+
+f = open("./variables", "r").read()
+
+#get the local variable on stack
+equ   = re.findall("v([0-9]*) = ([0-9]*);", f) 
+stack = [0]*1944
+for ( x , y ) in equ:
+    stack[int(x)] = int(y)
+
+get_stack = lambda a,b: (stack[int(idx[a])+b*2] + (stack[int(idx[a])+1+b*2] <<32))
+
+
+z3_code = """
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+from z3 import *
+
+s = Solver()
+"""
+
+#add constraint to z3
+for row in range(20):
+    for col in range(20):
+        name = chr(ord('A')+row) + str(col)
+        z3_code += "{} = Int('{}')\n".format(name,name)
+        z3_code += "s.add( 0 < {} , {} < 10)\n".format(name,name)
+
+for j in range(150):
+    loop = int(int(loop_n[j])/8)
+    this_loop = []
+    for i in range(loop):
+        xx = get_stack(j,i)
+        row =  xx&0xffffffff
+        col = xx>>32
+        this_loop.append((row, col))
+
+    for i in range(0,len(this_loop)-1):
+        (row, col) = this_loop[i]
+        a = chr(ord('A')+row) + str(col)
+        for k in range(i+1,len(this_loop)):
+            (row, col) = this_loop[k]
+            b = chr(ord('A')+row) + str(col)
+            z3_code += "s.add( {} != {})\n".format(a, b)
+    z3_code += "s.add("
+    for i in range(len(this_loop)):
+        (row, col) = this_loop[i]
+        a = chr(ord('A')+row) + str(col)
+        z3_code += " {} + ".format(a)
+    z3_code += " 0 == {})\n".format(con[j])
+
+z3_code += """
+s.check()
+m = s.model()
+sakura = [0]*400
+
+for i in m:
+    row = ord(str(i)[0]) - ord('A')
+    col = int(str(i)[1:])
+    sakura[ 20*row + col ] = str(m[i])
+
+print ''.join(sakura)
+"""
+
+exec z3_code
+```
+
+**sakura_de.c (partial)**
+
+```c
+__int64 __fastcall sub_850(__int64 UserInput)
+{
+  v604 = (__int64 *)nothing_16((__int64)&v904);
+  v754 = plus_16((__int64)&v904);
+  while ( v604 != (__int64 *)v754 )
+  {
+    v1 = *v604;
+    *(&OutPutArray[20 * (signed int)v1] + SHIDWORD(v1)) = *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1));
+    v454 = *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1)) - '0';
+    if ( v454 <= 0 || v454 > 9 )
+      Success = 0;
+    if ( (v304 >> v454) & 1 )
+      Success = 0;
+    v304 |= 1 << v454;
+    v154 += v454;
+    ++v604;
+  }
+  if ( v154 != 17 )
+    Success = 0;
+  v155 = 0;
+  v305 = 0;
+  v605 = (__int64 *)nothing_16((__int64)&v908);
+  v755 = plus_16((__int64)&v908);
+  while ( v605 != (__int64 *)v755 )
+  {
+    v2 = *v605;
+    *(&OutPutArray[20 * (signed int)v2] + SHIDWORD(v2)) = *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2));
+    v455 = *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2)) - 48;
+    if ( v455 <= 0 || v455 > 9 )
+      Success = 0;
+    if ( (v305 >> v455) & 1 )
+      Success = 0;
+    v305 |= 1 << v455;
+    v155 += v455;
+    ++v605;
+  }
+  if ( v155 != 3 )
+    Success = 0;
+```
+
+**variables (partial)**
+
+```c
+  v904 = 1;
+  v905 = 6;
+  v906 = 2;
+  v907 = 6;
+  v908 = 1;
+  v909 = 7;
+  v910 = 2;
+  v911 = 7;
+  v912 = 2;
+  v913 = 1;
+  v914 = 3;
+  v915 = 1;
+  v1312 = 2;
+  v1313 = 2;
+  v1314 = 3;
+  v1315 = 2;
+```

@@ -1,0 +1,34 @@
+---
+title: "TIL::利用 Chakra JIT 繞過 DEP 和 CFG"
+description: ""
+publishDate: "2019-03-17"
+category: "TodayILearn"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+[原文](https://www.freebuf.com/articles/system/89616.html)
+
+# JIT Spray
+
+透過讓 JIT 編譯某些設計過的指令，在記憶體中構造出想要的 shellcode。
+
+緩解的方法是利用隨機生成的 key 加密常數，而 Chakra 也會隨機插入指令。
+
+[上次一個高中生在 Chakra 上找到的洞有一部分也跟常數的加密有關，在某些時候其實 JIT 沒有真的隨機生成 key](https://media.ccc.de/v/35c3-9657-from_zero_to_zero_day)
+
+- https://en.wikipedia.org/wiki/JIT_spraying
+
+# CFG
+
+基本上就是將編譯後的 function 入口的記憶體位置壓縮成一個 bitmap 方便查表，如果在表上是`1`表示是可信賴的 function 入口，否則就當作是後來被惡意產生的。
+
+## 實作細節
+
+- https://www.anquanke.com/post/id/85493
+- https://xz.aliyun.com/t/2587
+
+
+# 原文摘要
+
+在 Chakra 中 JIT Spray 的防禦措施，是在常數大小大於 `2 bytes` 時才會作用，但是可以在陣列賦值的指令中把偏移也當作是 JIT Spray的一部份，因此繞過了 DEP。
+但是因為由此生成的 shellcode 入口並沒有被記錄在 CFG 表上，所以還是會被擋下來，而繞過的方法是，Chakra 本身在正常使用 JIT 的時候，一定會動態生成編譯好的 function ，那 Chakra 又是怎樣通過 CFG 的呢？ Chakra 透過一個早就寫好的 function 入口（所以有記錄在 CFG 表上）來跳到那些 JIT 動態編譯的 function 中，因此可以藉此跳板來跳到剛才 JIT Spray 構造的 shellcode 上。

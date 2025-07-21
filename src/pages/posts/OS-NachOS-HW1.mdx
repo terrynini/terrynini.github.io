@@ -1,0 +1,534 @@
+---
+title: "OS::NachOS::HW1"
+description: ""
+publishDate: "2018-05-29"
+category: "OS"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+## Install
+NachOS 必須要裝在 32bits 的環境下，如果要裝在 64bits 下要進行 patch `patch -p1 < nachos-linux-64bit.diff`
+
+## Multiprogramming
+
+在還未對 NachOS 進行修改的時候，執行 `test1`、`test2` 時會發現跟 source code 的行為不一樣。
+
+```sh
+./nachos –e ../test/test1 –e ../test/test2
+```
+因為原本的 NachOS 並沒有為多個程式做記憶體的管理，雖然有開啟虛擬記憶體，但是基本上沒有作為，所以當多份程式同時執行時就會重疊到其他程式正在使用的 page ，然後發生錯誤，為此我們要修改 `code/userprog/addrspace.cc`、`code/userprog/addrspace.h`，使程式的虛擬記憶體映射到沒有人使用的實體記憶體，而不是互相糾纏。
+
+首先從 `addrspace.cc` 開始，建構式直接弄了一個跟實體記憶體一樣大的 `pageTable` ， 然後還全數映射，但是其實我們的程式沒這麼大，我們只要分配到跟程式一樣大就好了，不過程式的大小必須要到讀了檔案格式才會知道，所以我們可以把這整段 code 註解掉，把映射記憶體這件事挪到 `AddrSpace::Load` 中。
+
+還有一行 `bzero(kernel->machine->mainMemory, MemorySize);` 不曉得為什麼被註解了，不過應該要清空記憶體才對，但將記憶體分給多個程式後就不能這樣暴力的把所有記憶體清零，所以我在後面的程式會每分配一頁就清空一頁的記憶體。
+
+```cpp code/userprog/addrspace.cc
+AddrSpace::AddrSpace()
+{
+    pageTable = new TranslationEntry[NumPhysPages];
+    for (unsigned int i = 0; i < NumPhysPages; i++) {
+        pageTable[i].virtualPage = i;   // for now, virt page # = phys page #
+        pageTable[i].physicalPage = i;
+//      pageTable[i].physicalPage = 0;
+        pageTable[i].valid = TRUE;
+//      pageTable[i].valid = FALSE;
+        pageTable[i].use = FALSE;
+        pageTable[i].dirty = FALSE;
+        pageTable[i].readOnly = FALSE;  
+    }
+    // 清空記憶體，但是不知道為什麼被註解掉了。
+//    bzero(kernel->machine->mainMemory, MemorySize);
+}
+```
+
+接下來在 `AddrSpace::Load` 中我們有這樣一個 `ASSERT`，`numPages` 就是程式所需要的 `page` 數量，用來判斷是否有超過實體記憶體的大小，超過就噴exception，因為等等我們要把記憶體分給多個程式，我們要改成 `<= 空閒的 page` 才對。
+
+```cpp code/userprog/addrspace.cc
+ASSERT(numPages <= NumPhysPages);
+```
+
+在往後一點我們有一段 code 把我們的 `code` 段跟 `data` 段 load 進記憶體，但是這裡填的是 `virtualAddr` ，本來這樣填是因為虛擬記憶體本沒做事，完全跟實體記憶體一樣 —— 還記得建構式裡 `pageTable[i].virtualPage = i;   // for now, virt page # = phys page #`？但現在我們必須要換算虛擬記憶體對應的實體記憶體位置再讀入這樣才是正確的。
+
+```cpp code/userprog/addrspace.cc
+// then, copy the code and data segments into memory
+if (noffH.code.size > 0) {
+    DEBUG('a', "Initializing code segment, at 0x%x, size %d\n",noffH.code.virtualAddr, noffH.code.size);
+    executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]),noffH.code.size, noffH.code.inFileAddr);
+}
+if (noffH.initData.size > 0) {
+    DEBUG('a', "Initializing data segment, at 0x%x, size %d\n",noffH.initData.virtualAddr, noffH.initData.size);
+    executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]),noffH.initData.size, noffH.initData.inFileAddr);
+} 
+```
+
+因此先新增兩 `static` 變數（ `static` 是這個 `class` 所共享），用來記錄所有實體頁的使用狀況，以及當前還有多少實體頁是可以使用的，並記得在 `addrspace.cc` 中對 `static` 變數做初始化。
+
+```cpp code/userprog/addrspace.h
+class AddrSpace {
+    ...
+    private:
+        ...
+        static bool PhyPageStatus[NumPhysPages];
+        static int NumFreePages;
+
+}
+```
+
+```cpp code/userprog/addrspace.cc
+#define PAGE_OCCU true
+#define PAGE_FREE false
+bool AddrSpace::PhyPageStatus[NumPhysPages] = {PAGE_FREE};
+int AddrSpace::NumFreePages = NumPhysPages;
+```
+
+並且根據剛剛提到的每一點對 `addrspace.cc` 做修改。
+### 清除建構式
+
+把沒必要的映射拿掉：
+```cpp code/userprog/addrspace.cc
+AddrSpace::AddrSpace()
+{
+}
+```
+### 分配實體頁
+這邊可以自己維護一個 `pool` ，把剛 `free` 掉的 `page` 用 `linklist` 存起來，要用就先去這個地方找，不過沒關係，我們就用最樸素（ naive ）的方法 —— 一個一個看，有可以用的就直接抓來用。
+
+這邊我用了 `bzero(&kernel->machine->mainMemory[idx * PageSize], PageSize);` 來清零分配到的 `page`，因為我沒看載入的實作（ ReadAt ），但是正常放入 `memory` 時，如果程式不滿一個 `page` ，那應該要有 Null Padding ，先把記憶體清零就能保證剩餘的部分都是零了。
+
+```cpp code/userprog/addrspace.cc
+bool AddrSpace::Load(char *fileName)
+{
+    ...
+    //檢查是否有足夠的空閒實體頁
+    ASSERT(numPages <= NumFreePages);
+    //進行分配
+    pageTable = new TranslationEntry[numPages];
+    for(unsigned int i = 0, idx = 0; i < numPages; i++) {
+        pageTable[i].virtualPage = i;
+        while(idx < NumPhysPages && AddrSpace::PhyPageStatus[idx] == PAGE_OCCU) idx++;
+        AddrSpace::PhyPageStatus[idx] = PAGE_OCCU;
+        AddrSpace::NumFreePages--;
+        //清空即將分配的 page
+        bzero(&kernel->machine->mainMemory[idx * PageSize], PageSize);
+        pageTable[i].physicalPage = idx;
+        pageTable[i].valid = true;
+        pageTable[i].use = false;
+        pageTable[i].dirty = false;
+        pageTable[i].readOnly = false;
+    }
+
+    DEBUG(dbgAddr, "Initializing address space: " << numPages << ", " << size);
+    ...
+}
+```
+### 更改讀取位置
+本來是直接放入檔案結構裡面紀錄的 `virtualAddr` ，但是那是因為還沒有設定好，這裡我們要找出映射後的實體位置，所以我們抓 `virtualAddr`先除 `PageSize` 求得是第幾個 `page`，然後索引 `pageTable` 找到對應的實體頁是第幾頁，接著乘上每個 `page` 的大小得到該實體頁的實體記憶體，這時我們已經知道在第幾個實體頁了，不過我們不知道在這一頁的哪裡，所以我們拿本來的 `virtualAddr mod PageSize` 求得在 page 內的偏移，加上剛剛拿到的實體頁，就是對應的實體位址。
+```cpp code/userprog/addrspace.cc
+bool AddrSpace::Load(char *fileName)
+{
+    ...
+    DEBUG(dbgAddr, "Initializing address space: " << numPages << ", " << size);
+
+    if (noffH.code.size > 0) {
+        DEBUG(dbgAddr, "Initializing code segment.");
+    DEBUG(dbgAddr, noffH.code.virtualAddr << ", " << noffH.code.size);
+                executable->ReadAt(
+        &(kernel->machine->mainMemory[pageTable[noffH.code.virtualAddr/PageSize].physicalPage * PageSize + (noffH.code.virtualAddr%PageSize)]),
+            noffH.code.size, noffH.code.inFileAddr);
+    }
+    if (noffH.initData.size > 0) {
+        DEBUG(dbgAddr, "Initializing data segment.");
+    DEBUG(dbgAddr, noffH.initData.virtualAddr << ", " << noffH.initData.size);
+        executable->ReadAt(
+        &(kernel->machine->mainMemory[pageTable[noffH.initData.virtualAddr/PageSize].physicalPage * PageSize + (noffH.initData.virtualAddr%PageSize)]),
+            noffH.initData.size, noffH.initData.inFileAddr);
+    }
+
+    delete executable;                  // close file
+    return TRUE;                        // success
+}
+```
+### 釋放實體頁
+執行結束，釋放掉我們使用的實體頁，後面的程式才能使用。
+
+```cpp code/userprog/addrspace.cc
+AddrSpace::~AddrSpace()
+{
+    //釋放本程式佔用的實體頁
+    for(int i = 0; i < numPages; i++){
+        AddrSpace::PhyPageStatus[pageTable[i].physicalPage] = PAGE_FREE;
+        AddrSpace::NumFreePages++;
+    }
+    delete pageTable;
+}
+```
+### 測試
+修改後執行就正常了
+```sh
+$ ./nachos  -e ../test/test1 -e ../test/test2
+Total threads number is 2
+Thread ../test/test1 is executing.
+Thread ../test/test2 is executing.
+Print integer:9
+Print integer:8
+Print integer:7
+Print integer:20
+Print integer:21
+Print integer:22
+Print integer:23
+Print integer:24
+Print integer:6
+return value:0
+Print integer:25
+return value:0
+No threads ready or runnable, and no pending interrupts.
+Assuming the program completed.
+Machine halting!
+
+Ticks: total 300, idle 8, system 70, user 222
+Disk I/O: reads 0, writes 0
+Console I/O: reads 0, writes 0
+Paging: faults 0
+Network I/O: packets received 0, sent 0
+```
+## System call : Sleep
+
+### syscall 主要流程
+首先我們要先幫我們的 syscall 編號，然後用組語定義 `sleep` 的行為（因為要用到組語的 `syscall` ，當然你也可以用 gcc 的內聯組語，但是沒必要），就是讓 c++ 跟 mips 中的 function 互相呼叫，所以在 compile 的時候要讓他們知道 symbol 在哪裡。
+
+```cpp code/userprog/syscall.h
+#define SC_ThreadFork   9
+#define SC_ThreadYield  10
+#define SC_PrintInt     11
+#define SC_Sleep        12
+...
+void PrintInt(int number);      //my System Call
+void Sleep(int number);
+```
+
+他 lib 放的位置有點詭異，不過這就是自己實作的 c library，自己刻作業系統的話也會碰到（[MyLittle-OS](https://github.com/terrynini/MyLittle-OS/tree/master/lib)），這裡我們要把 `Sleep` 這個 symbol 導出，這樣 c++ 寫的部分才能找得到，因此有 `.globl  Sleep`，而`.ent    Sleep`是說 Sleep 的 entry 在這裡。
+> 這裡還不算 syscall ，就只是一個系統 API，只是把 syscall 編號放進 `$2`，然後進行 syscall，這裡還沒有陷入核心。
+
+```cpp code/test/start.s
+/* Start.s 
+ * 
+ *      Assembly language assist for user programs running on top of Nachos.
+ * ...
+*/
+...
+        .globl  Sleep
+        .ent    Sleep
+Sleep:
+        addiu   $2,$0,SC_Sleep
+        syscall
+        j       $31
+        .end    Sleep
+```
+在進行完 syscall ，陷入核心後，NachOS 負責處理這塊的是 `exception.cc`，我們要來定義收到 SC_Sleep 這個 syscall 編號的時候所要做的行為。
+從其他本來定義好的 `case` 來看，傳參應該是放在 4，所以我們也照著做，然後這裡要說一下中斷。
+```cpp code/userprog/exception.cc
+// exception.cc 
+//      Entry point into the Nachos kernel from user programs.
+//      There are two kinds of things that can cause control to
+//      transfer back to here from user code:
+//
+    case SC_PrintInt:
+        val=kernel->machine->ReadRegister(4);
+        cout << "Print integer:" <<val << endl;
+        return;
+    case SC_Sleep:
+        val=kernel->machine->ReadRegister(4);
+        cout << "Sleep Time:" << val << "(ms)" << endl;
+        kernel->alarm->WaitUntil(val);
+        return;
+```
+
+### 中斷常式
+
+在開發作業系統的時候我們可以透過中斷控制器，例如 `Intel 8259A`，來遮蔽某些中斷訊號，其中包括時脈，如果我們不遮蔽它的話，處理器就會收到源源不斷的時脈中斷，NachOS有用軟體做類似的事情，而外部這個時脈，就是用軟體模擬的。
+```cpp code/machine/timer.cc
+// timer.cc 
+//      Routines to emulate a hardware timer device.
+//
+//      A hardware timer generates a CPU interrupt every X milliseconds.
+//      This means it can be used for implementing time-slicing.
+//
+```
+
+中斷的運作是這樣的，發生中斷 -> 作業系統找到中斷向量 -> 執行對應中斷常式，這裡時脈對應的中斷常式在 NachOS 裡面是 `Alarm`，`Alarm`中本來就有定義 `WaitUntil`，我們要利用這個 function 來實作 sleep，也就是每次時脈中斷觸發中斷常式的時候我們進行計數，當計數到達我們指定的 sleep 時間後，就把該 `Thread` 再次放回 Read Queue 裡面等待執行。
+
+在執行中斷的時候有分為上半部跟下半部，上半部是較緊急的部分，要馬上處理，所以要在關中斷的狀態下執行（不接受其他中斷），下半部則沒這麼急，可以在開中斷的情況下處理。
+
+> 本來我們應該要在 Scheduler 的地方實作 sleepList 才是正確的，不過這裡先求快速，實作一個塞在 Alarm 裡面的 sleepList 就好。
+
+```cpp code/threads/alarm.h
+// alarm.h 
+//      Data structures for a software alarm clock.
+//
+//      We make use of a hardware timer device, that generates
+//      an interrupt every X time ticks (on real systems, X is
+//      usually between 0.25 - 10 milliseconds).
+//
+//      From this, we provide the ability for a thread to be
+//      woken up after a delay; we also provide time-slicing.
+//
+//      NOTE: this abstraction is not completely implemented.
+//
+// Copyright (c) 1992-1996 The Regents of the University of California.
+// All rights reserved.  See copyright.h for copyright notice and limitation 
+// of liability and disclaimer of warranty provisions.
+
+#ifndef ALARM_H
+#define ALARM_H
+
+#include "copyright.h"
+#include "utility.h"
+#include "callback.h"
+#include "timer.h"
+#include <list>
+#include "thread.h"
+class sleepList {
+    public:
+        sleepList():_current_interrupt(0) {};
+        void PutToSleep(Thread *t, int x);
+    bool PutToReady();
+    bool IsEmpty();
+    private:
+        class sleepThread {
+            public:
+                sleepThread(Thread* t, int x):
+                    sleeper(t), when(x) {};
+                Thread* sleeper;
+                int when;
+        };
+
+    int _current_interrupt;
+    std::list<sleepThread> _threadlist;
+};
+// The following class defines a software alarm clock. 
+class Alarm : public CallBackObj {
+  public:
+    Alarm(bool doRandomYield);  // Initialize the timer, and callback 
+                // to "toCall" every time slice.
+    ~Alarm() { delete timer; }
+
+    void WaitUntil(int x);      // suspend execution until time > now + x
+  private:
+    Timer *timer;               // the hardware timer device
+    sleepList _sleepList;
+    void CallBack();            // called when the hardware
+                // timer generates an interrupt
+};
+#endif // ALARM_H
+
+```
+然後把 function 填好，相關註釋放在 code 裡面。
+
+> 這裡其實可以做得更好一點，就是每次在插入時就照順序插入，這樣在檢查要不要喚醒 Thread 的時候，就可以不用檢查到最後，只要發現現在這個 Thread 還不能喚醒，後面的也都不能喚醒
+
+```cpp code/threads/alarm.cc
+void Alarm::CallBack() {
+    Interrupt *interrupt = kernel->interrupt;
+    MachineStatus status = interrupt->getStatus();
+    bool woken = _sleepList.PutToReady();
+    //如果沒有程式需要計數了，就把時脈中斷遮蔽掉
+    if (status == IdleMode && !woken && _sleepList.IsEmpty()) {// is it time to quit?
+        if (!interrupt->AnyFutureInterrupts()) {
+            timer->Disable();   // turn off the timer
+        }
+    } else {                    // there's someone to preempt
+        interrupt->YieldOnReturn();
+    }
+}
+
+void Alarm::WaitUntil(int x) {
+    //關中斷
+    IntStatus oldLevel = kernel->interrupt->SetLevel(IntOff);
+    Thread* t = kernel->currentThread;
+    cout << "Alarm::WaitUntil go sleep" << endl;
+    _sleepList.PutToSleep(t, x);
+    //開中斷
+    kernel->interrupt->SetLevel(oldLevel);
+}
+
+bool sleepList::IsEmpty() {
+    return _threadlist.size() == 0;
+}
+
+void sleepList::PutToSleep(Thread*t, int x) {
+    ASSERT(kernel->interrupt->getLevel() == IntOff);
+    _threadlist.push_back(sleepThread(t, _current_interrupt + x));
+    t->Sleep(false);
+}
+
+bool sleepList::PutToReady() {
+    bool woken = false;
+    _current_interrupt ++;
+    for(std::list<sleepThread>::iterator it = _threadlist.begin();
+        it != _threadlist.end(); ) {
+        if(_current_interrupt >= it->when) {
+            woken = true;
+            cout << "sleepList::PutToReady Thread woken" << endl;
+            kernel->scheduler->ReadyToRun(it->sleeper);
+            it = _threadlist.erase(it);
+        } else {
+            it++;
+        }
+    }
+    return woken;
+}
+```
+
+### 測試
+撰寫兩個有用到 sleep 的程式，檢查正確性，這裡讓 sleep2 的週期是 sleep 的 $\frac{1}{10}$，然後要修改 `Makefile` 把兩隻程式加入編譯，還要把 coff 轉成 NachOS 自己定義的 noff 格式。
+
+```cpp code/test/sleep.c
+#include "syscall.h"
+main() {
+    int i;
+    for(i = 0; i < 5; i++) {
+        Sleep(1000000);
+        PrintInt(2222);
+    }
+    return 0;
+}
+```
+```cpp code/test/sleep2.c
+#include "syscall.h"
+main() {
+    int i;
+    for(i = 0; i < 20; i++) {
+        Sleep(100000);
+        PrintInt(10);
+    }
+    return 0;
+}
+```
+```makefile code/test/Makefile
+
+all: halt shell matmult sort test1 test2 sleep sleep2
+...
+sleep: sleep.o start.o
+        $(LD) $(LDFLAGS) start.o sleep.o -o sleep.coff
+        ../bin/coff2noff sleep.coff sleep
+
+sleep2: sleep2.o start.o
+        $(LD) $(LDFLAGS) start.o sleep2.o -o sleep2.coff
+        ../bin/coff2noff sleep2.coff sleep2
+```
+`make` 後執行 `./nachos -e ../test/sleep -e ../test/sleep2`
+
+正確的話前兩次會參雜 10 次的 `PrintInt(10)` 才執行一次的 `PrintInt(2222)`
+```sh
+Total threads number is 2
+Thread ../test/sleep is executing.
+Thread ../test/sleep2 is executing.
+Sleep Time:1000000(ms)
+Alarm::WaitUntil go sleep
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+Print integer:2222
+Sleep Time:1000000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:10
+Sleep Time:100000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+sleepList::PutToReady Thread woken
+Print integer:10
+return value:0
+Print integer:2222
+Sleep Time:1000000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:2222
+Sleep Time:1000000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:2222
+Sleep Time:1000000(ms)
+Alarm::WaitUntil go sleep
+sleepList::PutToReady Thread woken
+Print integer:2222
+return value:0
+No threads ready or runnable, and no pending interrupts.
+Assuming the program completed.
+Machine halting!
+```
+
+## 遭遇的困難
+我找不到 code 放在哪裡Ｒ，是沒有 document 還是故意沒有 document，我猜是故意沒有的

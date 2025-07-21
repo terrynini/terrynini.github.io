@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const allPostsGlob = import.meta.glob('./posts/*.mdx', { eager: true });
+const allPosts = Object.values(allPostsGlob);
+
+const posts = allPosts.sort((a, b) => new Date(b.frontmatter.publishDate).valueOf() - new Date(a.frontmatter.publishDate).valueOf()).map(post => ({
+    title: post.frontmatter.title,
+    description: post.frontmatter.description || 'No description available.',
+    url: post.url,
+}));
+---
+
+<Layout title="NiNi's Den">
+    <div class="article-page-wrapper">
+        <div class="container">
+            <header class="header">
+                <h1>NiNi's Den</h1>
+                    <p>A collection of personal logs, hands-on projects, and security insights from the field.</p>
+                    <p>Documenting the process, sharing the code, and exploring the depths of cybersecurity.</p>
+                </header>
+            <section class="latest-posts">
+                <h2>Latest Posts</h2>
+                <ul class="post-list">
+                    {
+                        posts.map((post) => (
+                            <li>
+                                <h2><a href={post.url}>{post.title}</a></h2>
+                                <p>{post.description}</p>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <footer class="footer">
+                <p>&copy; 2025 NiNi. All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+</Layout>

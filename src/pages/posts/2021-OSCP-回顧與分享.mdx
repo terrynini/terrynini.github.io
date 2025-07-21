@@ -1,0 +1,321 @@
+---
+title: "2021::OSCP::回顧與分享"
+description: ""
+publishDate: "2021-02-17"
+category: "Records"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+趁著期末考之後過年之前把 OSCP 考過了，為了讓每一分美金都發揮最大效用，趁著記憶猶新來寫一篇分享文好了，反正 Balsn meetup 也是這個主題ฅ(=ˇωˇ=)ฅ，這篇文章將會包含 OSCP 課程大綱、lab 環境介紹跟一些考試注意事項，在不違規的前提下把整個報名到考試的流程走一遍，讓整個 OSCP 的輪廓鮮明一點，應該能幫到未來有需要的人。
+
+
+## 報考動機
+
+除了被國網中心的破爛題目激到以外，就只是單純覺得好玩，當作另外一個 CTF 或是 Flare-On 的感覺，其實這張證照具體用途是什麼我也不是很確定，大致上就是 Offensive Security 這間公司的公信力夠高與 OSCP 不是筆試的關係，使得這張證照比較有說服力，我知道台灣有幾間公司有看這張，reddit 上也滿多人提到自己面試時遇到的公司很多會要求 OSCP 的資格，就算不要求，擁有 OSCP 的資格多少也會加點分，我是考完了才在查能幹嘛🤔️，知道哪裡用得上這張收據的人麻煩告訴我...
+
+但我現在可以很篤定的說，就算是以 Penetration Testing 為主軸來設計比賽，國網中心的那場比賽也真的是爛到有剩，裡面滿是路上撿來的靶機甚至還有 OSCP 教材裡面的範例題。
+
+## OSCP 簡介
+
+先簡單介紹一下什麼是 OSCP，OSCP 是 Offensive Security Certified Professional 的縮寫，也就是 Offensive Security 這間公司所認證的專家，但該公司其實有不只一種類型的課程，算進 Web Application 跟 Exploit Development，目前有六種課程跟對應的證照。
+
+<Image src="./oscp.png" alt="" />
+
+OSCP 對應的是 Penetration Testing with Kali Linux 這門課程，縮寫成 PWK，課程目標是教會學員怎麼用 Kali Linux 和裡面的資源來做滲透測試，課程最後有個 24 小時的考試，要合格的話得要在測驗中拿下至少 70 分，並且要在接下去的 24 小時裡提交滲透測試報告，如果細節不全或是沒達到某些要求會被倒扣甚至是該題拿零分，最後通過考試就可以拿到 OSCP 的資格及證照，所以這篇心得應該要叫做 PWK 回顧才對🤔️。
+
+<Image src="./pen-200.png" alt="" />
+
+官方自己是將 Penetration Testing with Kali Linux 縮寫成 PWK，更早以前叫做 PWB，因為那個時候的教材是 BackTrack，PWK 在 2020 年的時候有一次更新，教材內容跟 Lab 都有更新過，在 2021 的時候名字也統一更新了，現在用了統一的[數字編號](https://www.offensive-security.com/courses-and-certifications/#course-track-system) 來稱呼每個課程，PWK 就是現在的 PEN-200，從名字的 2 可以知道，官方把這個課程當作滲透測試裡最初階的課程（目前沒有 1 開頭的課程）。
+
+<Image src="./cds.png" alt="" />
+
+## 價格
+
+還沒更新之前 30 天的價格是 \$799，2020 更新之後 30 天是 \$999，貴到哭...
+重考跟中途延長的費用在[官方課程介紹](https://www.offensive-security.com/pwk-oscp/) 的最下面有寫到，這裡就只列出基本費用。
+
+<Image src="./price.png" alt="" />
+
+在我打 lab 的期間，Public network + IT department + Develop department + Admin department 的機器總數是 66 台，基本上沒有滲透經驗的話，30 天應該是沒有辦法活得健康又完成全部的 lab，尤其我是挑學期結束後的那一個月，所以如果有其他事情要忙應該會滿慘的。
+
+那這裡給出我的詳細狀況給大家做參考，我是跟室友[@NEO_ZR](https://twitter.com/NEO_ZR) 同時報名的，我平常主要都是投資在 binary 類型的題目，Web Application 跟滲透測試的概念跟戰隊裡其他人比起來薄弱很多，[@NEO_ZR](https://twitter.com/NEO_ZR) 的話，我們是 2019 年時用 `curl kaibro.tw | sh` 的隊名在金盾獎拿下冠軍的隊友，事前也沒有涉足滲透測試，大致上是這樣。
+
+實際上花在 lab 的時間是 19 天，前面 12 天在看 PWK 的教材還有忙學校的期末成績結算，我們的策略是分頭打不重複的機器，邊打邊寫 writeup，這樣不會過分劇透又可以留下參考避開雷點，應該是最有效率的方式，最後一週的時候我們都打到瓶頸（這個故事放在[Lab 的注意事項](#Lab-的注意事項)），就慢慢回頭做有 writeup 的題目，這個時候我完成 36 台、[@NEO_ZR](https://twitter.com/NEO_ZR) 完成 27 台，結束時，我總計是完成 36+27 減去重複的 5 台，就是 58 台，[@NEO_ZR](https://twitter.com/NEO_ZR) 最後幾台我就不確定了。
+
+下表是官方自己統計的數據，縱軸指的是考試的通過率，橫軸指的是完成多少台 lab，而且報名花的錢應該大部分都是砸在 lab 上，好好完成應該還是比較划算的，當然還是有替代方案的，統整在[練習平台](#練習平台) 的地方：
+
+<Image src="./pwk-stats.png" alt="" />
+
+## 報名及教材
+
+報名時可以在十天的範圍內選擇什麼時候開始課程，報名時要注意的是如果官方沒辦法從 Email Address 直接確認身份和登記的機構，那官方會要求掃描英文的 ID 上傳，這個情況下就是傳護照過去，報名程序完成後官方會給幾樣東西：
+
+1. 總共 428 支的教學影片，是整包 html 的那種形式
+2. 853 頁的 pdf 教材
+3. 用來連進 Lab 以及 Lab Control Panel 的 OpenVPN config
+4. 登入官方論壇的帳號密碼（不用 vpn 也能連上）
+
+比起影片的內容，pdf 會比較完整一點，然後還有一點就是，教材上面都有浮水印，不管是刻意或是不小心，只要流出的話證照就會被撤銷，當然也包含洩漏考試內容及有關這堂課的 tips。
+
+## 課程大綱
+
+事實上官方的[課程大綱](https://www.offensive-security.com/documentation/penetration-testing-with-kali.pdf) 就是那 853 頁 pdf 教材的大綱，直接看是最詳細了，各章的內容都不難，就是開始做 Lab 的時候要熟悉一下枚舉順序跟記得有什麼工具可以用。
+
+這裡是我的總結，數字的部分並沒有對上 pdf 的章節，大致上包含了：
+
+### 1. 基本 Kali Linux
+
+就一些基本的設定，Kali Linux 已經把很多常用工具整合進去，例如 wordlist 或是常用的 webshell 等，直接用 Kali 會省去很多麻煩，但我個人還是另外把工具跟 wordlist 都裝在 MacOS 或是 docker 裡面。
+
+### 2. 基本 Linux 操作
+
+常用 command、pipe 之類的那種很 basic 的東西。
+
+### 3. Netcat、Socat、Powershell、Powercat
+
+總之就是如何利用工具上傳下載檔案，以及如何彈 reverse shell 回來。
+
+### 4. Wireshark、Tcpdump
+
+就如何擷取封包，幫一些現成工具 debug 的時候才會用到。
+
+### 5. Bash scripting
+
+就很簡單的 Bash script 用法。
+
+### 6. Passive Information Gathering
+
+教材裡對 Passive 的定義基本上就是指不直接跟目標接觸所做的資訊蒐集，諸如 Whois、查 SSL、Google Hacking、OSINT 等。
+
+### 7. Active Information Gathering
+
+相對於 Passive，Active 指的是與目標直接接觸的資訊蒐集，例如 Port scan、根據 port 掃出來的服務做對應的枚舉，講枚舉可能有點抽象，具體的例子像是如果目標有開啟 SMB 服務，那就試試看能不能得到版本，或是具體上 Share 了什麼項目出來。
+
+### 8. 弱點掃描
+
+如何使用弱點掃描工具，包含大範圍弱點掃描，值得一提的是考試的時候是禁用大範圍弱掃的。
+
+### 9. Web Application 攻擊
+
+就那些 CTF 會遇到的各種套路。
+
+### 10. Buffer Overflow
+
+Windows 跟 Linux 的 BOF，但超簡單，連 stack 都不會細講，用最簡單的方式直接 exploit，蓋 return、找 gadget、跳 shellcode。
+
+### 11. Client-Side Attacks
+
+前面提到的東西基本上都是往一個 Server 打，假設有台主機作為 Client 去訪問已經被佔領的主機或是可控的有漏洞服務，那就有機會可以藉此打進去，例如 Microsoft Office 的巨集病毒或是 HTA Attack 等。
+
+### 12. Public Exploitation & Fixing Exploits
+
+如何尋找和使用公開的 Exploit，此外在某些情況下，因為防火牆或是情境些微不同，使用前可能需要調整 Exploit，在這部分也會提到。
+
+### 13. File Transfers
+
+這個他特別拉出來講應該是因為 Windows 環境有很多小技巧，因為 Linux 上常用的傳檔案方式，在 Windows 上明顯不可用，這裡有會講如何利用 Windows 上的相關工具來達到上傳的目的。
+
+### 14. Antivirus Evasion
+
+在有防毒軟體的情況下如何逃逸。
+
+### 15. Privilege Escalation
+
+跟 CTF 不同，滲透進一台主機時透過的可能是 apache 上的 web application，那開出來的 shell 有很大機率就是 www-data，不管是獲取機敏資料或是作為滲透測試中的立足點都稍嫌不足，所以這個部分是在講如何提權。
+
+### 16. Password Attacks
+
+基本上就是各類暴力枚舉密碼的工具。
+
+### 17. Port Redirection and Tunneling
+
+內網裡面會有不同網段，可能只能透過中間的一台機器做 proxy 來存取內網，這時候連 Port scan 都會有點小問題，主要的問題是 reverse shell **可能**沒辦法直接從裡面彈到最外面來，或是主機的某些具有弱點的服務因為防火牆的關係無法從遠端存取時，可以透過 port forwarding 的方式來解決。
+
+### 18. Active Directory Attacks
+
+Active Directory 是 Windows Server 上用來集中管理一個組織裡的使用者、群組、電腦等等的一個服務，中樞是一到多台的 Domain Controller，這部分主要是教如何枚舉及利用 NTLM 或 Kerberos 滲透 Domain 中的其他機器。
+
+### 19. The Metasploit Framework
+
+如何使用 Metasploit Framework，執得一提的是考試中只能選定一台機器使用，不論成功與否，對其他台機器使用會直接失格。
+
+### 20. PowerShell Empire
+
+在 Windows 上面做枚舉或是底層操作非常痛苦，沒有 PowerShell 基本上動不了，Powershell 寫起來基本上就是 C#，寫起來也不是特別輕巧，善用工具可以省下很多時間，PowerShell Empire 就是其中一個。
+
+### 21. Lab 範例
+
+這裡會用 Lab 示範前面提到的全部概念，但這裡的機器並不是那 66 台，所以官方才會說 Lab 有 70 台。
+
+## Lab 環境
+
+架構的示意圖取自[官網](https://www.offensive-security.com/offsec/pwk-labs-success/)，Lab 環境需透過 VPN 才能連上，下面的 Private Student Segment 是給學員使用的 Windows 機器可以任意 revert，不是共用的，裡面包含一些範例使用的工具等等，除此之外的機器都是跟別人共用，所以記得在開打之前先 revert，打完也要記得 revert，我做 Lab 時有一題明明就有防毒軟體，一堆人在論壇上講一些看起來就是用防毒軟體已經被關掉的打法在打...
+
+往上看到 Sandbox 裡面有四台機器，其實就是[課程大綱](#課程大綱) 裡面 Lab 示範的四台，除了這四台之外另外還有 66 台 Lab，Lab 的主要目標是拿到 `/root/proof.txt` 或是 `C:\Users\Administrator\proof.txt` 這種高權限的檔案，一開始滲透只能接觸到 Public Network 的機器，打下某些機器後會發現該機器有另外一個網段的 IP 同時也會發現`network-secret.txt`，這個檔案是用來開啟 Control Panel 跟論壇的對應區塊用的。
+
+<Image src="./pwk-labs.png" alt="" />
+
+## Lab 的 Learning Path
+
+官方其實有給出一條 [Learning Path](https://help.offensive-security.com/hc/en-us/articles/360050473812-PWK-Labs-Learning-Path) 給還沒進入狀況的人走，總共 11 台機器，不過我在玩的時候是 12 台，其中一台 JOE 一直是壞的...，看來現在是被拿下來了。
+
+Path 上雖然有標 easy、medium、hard 的難度，但我個人的感覺都是 easy，就是用來掌握一下整個 OSCP 的感覺。
+
+## Lab 的御三家
+
+> With Pain comes Sufferance and you get Humble
+
+這個超讚的標題是[vishnuraj](https://medium.com/@vishnu0002/with-pain-comes-sufferance-and-you-get-humble-3cc10ab47be9) 一篇介紹 OSCP 的文章所用的標題，這三台機器的 hostname 就叫做 Pain、Sufferance、Humble，據說是最難的三台，我解第二台就遇到 Pain，解完真的超氣= =，但也順便檢討為什麼基本的枚舉自己沒做完全，~~我是推薦去把這三台做完再去考試~~，把 Pain 做掉就好了，後面兩台應該是超過考試範圍了。
+
+## Lab 的注意事項
+
+因為 Lab 就是模擬一次真正的滲透測試，所以這整個假想的組織裡面的使用者跟電腦也都是息息相關的，包含他們的帳號密碼，所以每打完一台機器都要記得搜刮所有的 credential，在 Learning Path 裡面就已經有機器是相依的，如果沒有 credential 基本上做不出來。
+
+這也就是為什麼我們只有完成 58 台機器，因為剩下的好幾台機器都需要用到上一台機器搜刮出來的 credential 才能登入，接下來才是提權，最後的這整組機器的相依性是從 Develop department 的兩台機器串到 Public Network 的三台機器，然後再串回 IT 部門，我們是卡在那邊看論壇才知道...，不過 IT 裡面有一台 nina 就真的是單純來不及打。
+
+## 加分項目
+
+更前面有提到通過考試要 70 分，但如果提交 Lab 的 writeup 是有機會加五分的，writeup 的詳細程度要跟考試提交的報告一樣詳細，聽起來極度麻煩，所以我沒做，此外 Alpha、Beta 兩台機器因為教材裡面有教學所以不需要交。
+
+## 考試準備及注意事項
+
+Lab 結束之後在 120 天之內可以預約考試，建議早一點選時間，不然會剩下很爛的時間，例如什麼半夜兩點開始，我是選 2/5 早上九點，所以考試就是持續到 2/6 早上九點，考試的時候基本上是 24 小時被監控的狀態，webcam 是必備設備，只要清晰到可以看得到護照上的資料就沒問題了，考試時考生前 15 分鐘連進一個有聊天室功能的監考網頁，這段時間監考官會要求讓他看一下環境，然後提醒不能使用手機等，所以實際考試時間是 **23 小時 45 分鐘**，接下來的時間裡監考官會輪班盯著你的傻臉跟螢幕看。
+
+有一點要注意的是設定好 VPN 之後會需要跑 script 紀錄網路設定然後貼給監考官看，因為這門課就叫做 PWK 所以所有東西在 Kali 下運行一定是沒問題的，包括這個 script 本來就是針對 Linux 寫的，如果考試不想出包直接用 Kali 最保險，其他考試需要注意的東西大概如下：
+
+1. Writeup 需要截圖，24 小時一到 vpn 就會斷掉，沒有機會補圖，記得一直截圖，但是不行錄影
+2. Exploit 跟公開的版本如果沒差別只要附上 URL ，有差別則要指明哪裡有修改、為何要修改
+3. 需要提權的機器有 local.txt 跟 proof.txt 兩個檔案，差別在有沒有提權，根據我的經驗跟其他人的分享，拿到 local.txt 可以拿一半的分數（官方沒說）
+4. 必須拿到 interactive shell 並且在不移動 proof.txt 的情況下印出來才合法，所以 LFI 拿 proof 不算數
+5. 必須附上包含 `cat proof.txt` 以及 `ifconfig` 或 `ipconfig` 或 `ip a` 的截圖進 writeup，否則可能會被扣分或歸零
+6. 禁止事項
+    1. Spoofing，如 IP spoofing、ARP spoofing、DNS spoofing 那類
+    2. Commercial 版的工具，如 Metasploit Pro、Burp Pro，可以類推 IDA Pro 也是，但也用不到就是了
+    3. 自動化 exploit 工具，如 SQLmap 那類的
+    4. 大範圍弱掃，如 Nessus 那類的
+    5. 從考試環境下載任何檔案
+7. Metasploit 的 Auxiliary、Exploit、Post 模組只能對一台自選的機器使用，無論有沒有成功都不能換目標，包含 exploit check，建議要用的時候在聊天室跟監考官說一下
+8. 下面四個工具不受限於 Metasploit 只能對一台使用的限制
+    1. exploit/multi/handler
+    2. msfvenom
+    3. pattern_create.rb
+    4. pattern_offset.rb
+
+考試會有五題共 100 分的題目，配分是 10、20、20、25、25，一定有一題 25 分的 BOF 題，結合禁止事項的第五點，恩，可以想想看會發生什麼事，還有就是題目會塞很多誤導的東西，時間控管很重要。
+
+考試結束之後，學員有另外 24 個小時可以撰寫報告，這個報告的定位是寫給甲方看的那種報告，包括非技術細節及屁話，這裡是[官方的樣板](https://www.offensive-security.com/pwk-online/PWKv1-REPORT.doc)，我個人是用[社群的樣板](https://github.com/noraj/OSCP-Exam-Report-Template-Markdown)，步驟要詳細到可以 copy paste 就重現。
+
+最有趣的大概就是一直用第三人稱寫報告超級中二的，例如： OS-83952 found that the CMS is prone to LFI 之類的，呵呵。
+
+還有一個就是 rdesktop 如果是考試的網路環境，我在 MacOS 上面用畫面會撕裂，慢到幾乎不可用，但在 Kali 裡面加上選項 `-P -z` 速度差超多= =...，總之如果出事就回去用 Kali 就對了。
+
+## 免費資源
+
+這些是之前調查時整理出來的免費資源，雖然不是每個我都用過，但就統一放在這裡吧
+
+- [Kali Training](https://kali.training)，官方自己維護的 Kali 線上課程。
+- [Metasploit Unleashed](https://www.offensive-security.com/metasploit-unleashed/)，官方自己維護的 Metasploit 教學。
+- [Basic Linux Privilege Escalation](https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/)，很多人在論壇裡面也推薦，根據論壇紀錄，作者 g0tmi1k 也是 OffSec 的員工。
+- [OSCP: Developing a Methodology](https://falconspy.medium.com/oscp-developing-a-methodology-32f4ab471fd6)，我在整理這篇文章的時候才查到，滿完整的工具整理。
+- [Unofficial OSCP Approved Tools](https://falconspy.medium.com/unofficial-oscp-approved-tools-b2b4e889e707)，同上。
+- 自動枚舉腳本 (建議一開始做 Lab 先不要用，自己熟悉一下提權的枚舉流程，也不要只用單一腳本，記得交叉檢查)
+  - Linux
+    - [LinEnum](https://github.com/rebootuser/LinEnum)
+    - [LinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite)
+    - [Linux Smart Enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
+  - Windows
+    - [WinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite)
+    - [PrivescCheck](https://github.com/itm4n/PrivescCheck)
+- CheatSheets
+  - [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings)
+  - [Windows-Post-Exploitation](https://github.com/emilyanncr/Windows-Post-Exploitation)
+  - [Red Teaming Experiments](https://www.ired.team)
+  - [Active Directory Exploitation Cheat Sheet](https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet)
+
+## 練習平台
+
+因為官方的 Lab 滿貴的，所以很多人會選擇比較便宜或是免費的替代方案，我自己是把官方的 Lab 做完就半死不活了。
+
+- [HackTheBox](https://www.hackthebox.eu)
+- [VulnHub](https://www.vulnhub.com)
+- [RootMe](https://www.root-me.org/)
+
+## 我完成的機器（照解題序)
+
+\#  | Hostname | Remarks|
+:-:|:---------:|:-----:|
+1  | Phoenix  ||
+2  | Pain||
+3  | Alpha|            **Learning Path**|
+4  | Beta|             **Learning Path**|
+5  | Bob||
+6  | Ralph||
+7  | Sean |            **Learning Path**|
+8  | Leftturn||
+9  | Break||
+10 | Chris |          **Learning Path**|
+11 | Susie  |         **Learning Path**|
+12 | Mailman |        **Learning Path**|
+13 | Disco    |       **Learning Path**|
+14 | svclient08||
+15 | Luigi      |     **Admin dep**|
+16 | SV-DC01||
+17 | sv-file01||
+18 | svclient73||
+19 | fc4||
+20 | Jd||
+21 | Tricia|          **Admin dep**|
+22 | Harry  |         **Admin dep**|
+23 | Jack    |        **Admin dep**|
+24 | Mario    |       **Admin dep**|
+25 | Shared    |      **IT dep**|
+26 | 1nsider||
+27 | Alice   |        **Learning Path**|
+28 | Bethany  |       **Learning Path**|
+29 | gh0st||
+30 | Pi||
+31 | Timeclock|       **Develop dep**|
+32 | Mike||
+33 | Kaitlyn |        **Admin dep**|
+34 | Ekzameno |       **Admin dep**|
+35 | Adam      |      **Develop dep**|
+36 | John       |     **Develop dep**|
+37 | Carol       |    **Develop dep**|
+38 | Gamma||
+39 | XOR-APP59 |      **Learning Path**|
+40 | XOR-APP23||
+41 | XOR-APP07||
+42 | XOR-DC01||
+43 | Tophat||
+44 | Dotty||
+45 | Mail||
+46 | Peter||
+47 | Pedro||
+48 | Bruce||
+49 | Maria||
+50 | Hotline|         **Learning Path**|
+51 | Sufferance||
+52 | Jeff||
+53 | DJ||
+54 | Humble||
+55 | Core||
+56 | Kraken||
+57 | James  |         **Develop dep**|
+58 | Manager |        **Develop dep**|
+
+## 心得跟一些雜七雜八的東西
+
+一開始打 Lab 的時候真的會不小心掉進打 CTF 的思考習慣裡面，尤其有 Web Application 的機器除了提權的部分，整個感覺還是跟 CTF 相似的，不過心理上習慣 Lab 的形式之後就會慢慢有自己的手順了，看到 Web 除了先自己戳洞在哪，先找 Public Exploitation 不管在實務上還是 Lab 裡都是必要的步驟，找不到就算了，但找到可以節省很多時間。
+
+OSCP 整體的難度我覺得還是算偏低的，Web Application 的部分最難最難也就只有要想辦法 LFI to RCE，對於平常有在把玩的人應該是不成問題，論壇上甚至還有人是需要依靠 commix 才做得出基本的 command injection 題....，再來就是 Lab 所需的知識或是常識 (?) 並不一定包含在教材裡面，有很多道題目是我本來就試過或知道的梗，但另外一些就真的是學習了...建議還是把 Lab 都摸一遍比較划算一點，用身體學來的教訓記的比較久。
+
+另外一個收穫大概是看了一堆英文的屁話跟藏頭...因為論壇發言會被審查，具體的工具或是服務會被 `<spoiler>` 替換，或者是 SMB 變成 S\*\*\* 之類的，所以有些人會用更有創意一點的方式來自我審查？例如 `.ps1` 就會變成 PlayStation1、Metasploit 變成 The Forbidden Tool、Powershell Empire 變成 Darth Vader 等等，還有更多第一眼看到不知道在寫什麼鬼，但是解完看到會笑出來的英文詩，挺有收穫的...?
+
+接下來就是等我那張在疫情風暴下不知道什麼時候才會來的證照...
+
+---
+
+結果比我想的還要有效率，他們用 DHL 從菲律賓寄過來，東西 3/3 就已經躺在我家了，只是清明連假我才回家把它打開，酷...
+
+<Image src="./cert.jpg" alt="" />

@@ -1,0 +1,56 @@
+---
+title: "2019::PlaidCTF"
+description: ""
+publishDate: "2019-05-01"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+Played with Balsn, and get 4th this time.
+I have to construct my payload more carefully, wasted too much time on debugging.
+
+This is not a writeup for reading, just a kind of reminder for myself.
+
+# Misc::space saver
+
+## Solution1
+
+- `binwalk --dd=".*" space.dd`
+- `formost` would extract the same png, but missing the most important part !!
+- The password of rar is concated after the keyword `IEND` of each png
+
+## Solution2
+
+- mount the dd `mount -o loop space.dd /mnt/tmp`
+- scan for searching deleted files
+
+# Misc::can you guess me
+
+## intuitive solution
+
+also my solution
+
+`print(vars())`
+
+## error base
+
+this is interesting
+
+`help(flag)`
+
+## intended solution
+
+It's persuasive, because `exec`
+
+[link](`https://xerxes-break.tistory.com/414`)
+
+# Misc::Project Eulernt
+
+## Factor + random permutation and greedy
+
+This should be more efficiency ？
+
+## Factor + dfs
+
+This is the first thought came to my mind, did not find this solution on CTFtime's wirteup.
+But the writeup released by team ranked 2nd and 3rd are this kind.

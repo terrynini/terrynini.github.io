@@ -1,0 +1,189 @@
+---
+title: "2017::HITCON-Quals::Sakura::English"
+description: ""
+publishDate: "2017-11-07"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+Ask to input 400 chars, then take it as a 20*20 arry
+Next the binary run a function to verify the array
+If the verification were success, it would give you the SHA256 hash of you input, which is flag
+
+Let's take a look at the function I mentioned
+There are 150 while loops in this function
+Before loops, it initialize lots of variables
+Those loops are all similar to each:
+
+```
+V1      <- fetch a local variable
+counter <- call addition function to determine how many time to loop
+
+While
+    fetch a char from UserInput according to V1
+    the int(char) can only be 1~9, or fail
+    the int(char) can not repeat in this while loop, or fail
+    add the int(char) to local variable (sum) of this loop
+END
+
+sum should equal to a certain value, or fail
+
+```
+***!!Notice that if verification was failed, the binary would not stop immediately, it only set the flag to false***
+
+It's not so hard to find out that you can do some symbolic execution to get the right input
+But there are so many loops and so many variables
+This is a ppc problem (っ・Д・)っ
+
+Because I don't know how to quickly get the address that I want to put into the `avoid` of angr's explorer, I decided to use z3 solver.
+
+For convenient, let's name some weird function.
+Most of them just return the argument directly, so I named them `nothing`
+Some function would return the argument adding by a `number`, so I named them `plus_(number)`
+OK, I dumped psudocode to `sakura_de.c` and seperate the syntax of initializing local variables to a text file, `variable`
+
+Now, all I need to do is to write a script to generate a z3 script
+
+**solver.py**
+
+```python
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+import re
+
+f = open("./sakura_de.c", "r").read()
+
+#get the variable and constraint of every loop
+idx     = re.findall("v[0-9]* = \(__int64 \*\)nothing_[0-9]*\(\(__int64\)\&v([0-9]*)\)", f)
+loop_n  = re.findall("v[0-9]* = plus_([0-9]*)", f)
+con     = re.findall("\( v[0-9]* \!= ([0-9]*) \)", f)
+
+f = open("./variables", "r").read()
+
+#get the local variable on stack
+equ   = re.findall("v([0-9]*) = ([0-9]*);", f) 
+stack = [0]*1944
+for ( x , y ) in equ:
+    stack[int(x)] = int(y)
+
+get_stack = lambda a,b: (stack[int(idx[a])+b*2] + (stack[int(idx[a])+1+b*2] <<32))
+
+
+z3_code = """
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+from z3 import *
+
+s = Solver()
+"""
+
+#add constraint to z3
+for row in range(20):
+    for col in range(20):
+        name = chr(ord('A')+row) + str(col)
+        z3_code += "{} = Int('{}')\n".format(name,name)
+        z3_code += "s.add( 0 < {} , {} < 10)\n".format(name,name)
+
+for j in range(150):
+    loop = int(int(loop_n[j])/8)
+    this_loop = []
+    for i in range(loop):
+        xx = get_stack(j,i)
+        row =  xx&0xffffffff
+        col = xx>>32
+        this_loop.append((row, col))
+
+    for i in range(0,len(this_loop)-1):
+        (row, col) = this_loop[i]
+        a = chr(ord('A')+row) + str(col)
+        for k in range(i+1,len(this_loop)):
+            (row, col) = this_loop[k]
+            b = chr(ord('A')+row) + str(col)
+            z3_code += "s.add( {} != {})\n".format(a, b)
+    z3_code += "s.add("
+    for i in range(len(this_loop)):
+        (row, col) = this_loop[i]
+        a = chr(ord('A')+row) + str(col)
+        z3_code += " {} + ".format(a)
+    z3_code += " 0 == {})\n".format(con[j])
+
+z3_code += """
+s.check()
+m = s.model()
+sakura = [0]*400
+
+for i in m:
+    row = ord(str(i)[0]) - ord('A')
+    col = int(str(i)[1:])
+    sakura[ 20*row + col ] = str(m[i])
+
+print ''.join(sakura)
+"""
+
+exec z3_code
+```
+
+**sakura_de.c (partial)**
+
+```c
+__int64 __fastcall sub_850(__int64 UserInput)
+{
+  v604 = (__int64 *)nothing_16((__int64)&v904);
+  v754 = plus_16((__int64)&v904);
+  while ( v604 != (__int64 *)v754 )
+  {
+    v1 = *v604;
+    *(&OutPutArray[20 * (signed int)v1] + SHIDWORD(v1)) = *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1));
+    v454 = *(_BYTE *)(UserInput + 20LL * (signed int)v1 + SHIDWORD(v1)) - '0';
+    if ( v454 <= 0 || v454 > 9 )
+      Success = 0;
+    if ( (v304 >> v454) & 1 )
+      Success = 0;
+    v304 |= 1 << v454;
+    v154 += v454;
+    ++v604;
+  }
+  if ( v154 != 17 )
+    Success = 0;
+  v155 = 0;
+  v305 = 0;
+  v605 = (__int64 *)nothing_16((__int64)&v908);
+  v755 = plus_16((__int64)&v908);
+  while ( v605 != (__int64 *)v755 )
+  {
+    v2 = *v605;
+    *(&OutPutArray[20 * (signed int)v2] + SHIDWORD(v2)) = *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2));
+    v455 = *(_BYTE *)(UserInput + 20LL * (signed int)v2 + SHIDWORD(v2)) - 48;
+    if ( v455 <= 0 || v455 > 9 )
+      Success = 0;
+    if ( (v305 >> v455) & 1 )
+      Success = 0;
+    v305 |= 1 << v455;
+    v155 += v455;
+    ++v605;
+  }
+  if ( v155 != 3 )
+    Success = 0;
+```
+
+**variables (partial)**
+
+```c
+  v904 = 1;
+  v905 = 6;
+  v906 = 2;
+  v907 = 6;
+  v908 = 1;
+  v909 = 7;
+  v910 = 2;
+  v911 = 7;
+  v912 = 2;
+  v913 = 1;
+  v914 = 3;
+  v915 = 1;
+  v1312 = 2;
+  v1313 = 2;
+  v1314 = 3;
+  v1315 = 2;
+```

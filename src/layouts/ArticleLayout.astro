@@ -1,0 +1,128 @@
+---
+import Layout from './Layout.astro';
+import ArticleOutline from '../components/ArticleOutline.astro';
+import AuthorHud from '../components/AuthorHud.astro';
+import { author } from '../config/author.js';
+
+const { title, publishDate, category } = Astro.props.frontmatter;
+const { headings } = Astro.props;
+
+---
+
+<Layout title={title}>
+    <div class="article-page-wrapper">
+        <AuthorHud 
+            authorName={author.name} 
+            authorLink={author.link}
+            avatarSrc={author.avatar}
+            title={author.title}
+        />
+
+        <div class="container">
+            <article class="post-content">
+                <h1>{title}</h1>
+                <p class="post-meta">Published: {publishDate} | Category: {category}</p>
+                <slot />
+            </article>
+        </div>
+        <ArticleOutline headings={headings} />
+    </div>
+
+    <div id="persistent-notes-overlay"></div>
+
+    <script is:inline>
+        document.addEventListener('DOMContentLoaded', () => {
+            const highlightElements = document.querySelectorAll('.persistent-highlight');
+            const notesOverlay = document.getElementById('persistent-notes-overlay');
+            const containerElement = document.querySelector('.container');
+
+            const positionNotes = () => {
+                notesOverlay.innerHTML = ''; 
+                if (!containerElement) return; 
+
+                
+                if (window.innerWidth > 1024) {
+                    const containerRect = containerElement.getBoundingClientRect();
+                    const noteWidth = 220; 
+                    const margin = 60; 
+
+                    highlightElements.forEach(highlightEl => {
+                        const noteId = highlightEl.dataset.noteId;
+                        const noteText = highlightEl.dataset.noteText; 
+
+                        const rect = highlightEl.getBoundingClientRect();
+
+                        const noteDiv = document.createElement('div');
+                        noteDiv.className = 'persistent-note-item';
+                        noteDiv.setAttribute('data-note-id', noteId);
+                        noteDiv.innerHTML = `<p>${noteText}</p>`;
+
+                        
+                        noteDiv.style.position = 'absolute'; 
+                        noteDiv.style.top = `${rect.top}px`; 
+                        noteDiv.style.left = `${containerRect.left - noteWidth - margin}px`; 
+                        noteDiv.style.width = `${noteWidth}px`;
+
+                        notesOverlay.appendChild(noteDiv);
+
+                        
+                        highlightEl.addEventListener('mouseenter', () => {
+                            noteDiv.classList.add('sci-fi-active');
+                        });
+                        highlightEl.addEventListener('mouseleave', () => {
+                            noteDiv.classList.remove('sci-fi-active');
+                        });
+
+                        
+                        noteDiv.addEventListener('mouseenter', () => {
+                            highlightEl.classList.add('highlight-active');
+                        });
+                        noteDiv.addEventListener('mouseleave', () => {
+                            highlightEl.classList.remove('highlight-active');
+                        });
+                    });
+                }
+            };
+
+            
+            positionNotes();
+
+            
+            window.addEventListener('scroll', positionNotes);
+            window.addEventListener('resize', positionNotes);
+        });
+    </script>
+
+    <style is:inline>
+        
+        .post-content img {
+            max-width: 100%;
+            height: auto;
+            display: block; 
+            margin: 0 auto; 
+        }
+
+        
+
+        #persistent-notes-overlay {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; 
+            z-index: 5; 
+        }
+
+        @media (max-width: 1200px) {
+            #persistent-notes-overlay {
+                display: none; 
+            }
+        }
+
+        .persistent-note-item {
+            pointer-events: auto; 
+            
+        }
+    </style>
+</Layout>

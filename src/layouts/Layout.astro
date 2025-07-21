@@ -1,0 +1,162 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title ? `${title} | NiNi's Den. CyberSec Blog` : "NiNi's Den. CyberSec Blog"}</title>
+		<link rel="stylesheet" href="/src/styles/cyber-space-theme.css" />
+		<link rel="stylesheet" href="/src/styles/light-theme.css" />
+	</head>
+	<body style="margin: 0; padding-top: 60px;">
+        <script is:inline>
+            // Apply theme from localStorage immediately to prevent FOUC
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.add(savedTheme);
+                document.documentElement.dataset.theme = (savedTheme === 'theme-light') ? 'github-light' : 'poimandres';
+            } else {
+                document.body.classList.add('theme-light'); // Default theme
+                localStorage.setItem('theme', 'theme-light');
+                document.documentElement.dataset.theme = 'github-light';
+            }
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$']],
+                    displayMath: [['$$', '$$']]
+                }
+            };
+        </script>
+        <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js"></script>
+        <button id="theme-toggle" class="theme-toggle-btn">
+            切換主題
+        </button>
+        <nav class="main-nav">
+			<ul class="main-nav-list">
+				<li class="main-nav-item"><a href="/" class="main-nav-link">Home</a></li>
+				<li class="main-nav-item"><a href="/about" class="main-nav-link">About</a></li>
+			</ul>
+		</nav>
+		<slot />
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position: absolute; top: -9999px; left: -9999px;">
+			<defs>
+				<filter id="dist-01">
+					<feTurbulence id="turbulence" baseFrequency="0.02" numOctaves="8" result="noise" seed="0"/>
+					<feConvolveMatrix in="noise" order="3" result="snoise"
+					kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"/>
+					<feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6" />
+				</filter>
+				<filter id="dist-02">
+					<feTurbulence id="turbulence" baseFrequency="0.2" numOctaves="8" result="noise" seed="1"/>
+					<feConvolveMatrix in="noise" order="3" result="snoise"
+					kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"/>
+					<feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6" />
+				</filter>
+				<filter id="dist-03">
+					<feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2"/>
+					<feConvolveMatrix in="noise" order="3" result="snoise"
+					kernelMatrix="
+						0  -1   0
+						-1   5  -1
+						0  -1   0    
+					"/>
+					<feDisplacementMap id="displacement" in="SourceGraphic" in2="snoise" scale="6" />
+				</filter>
+				<filter id="dist-04">
+					<feTurbulence id="turbulence" baseFrequency="0.01" numOctaves="6" result="noise" seed="2" type="fractalNoise"/>
+					<feDisplacementMap id="displacement" in="SourceGraphic" in2="noise" scale="6" />
+				</filter>
+                <!-- Additional Glitch Filters for more variety -->
+                <filter id="dist-05">
+                    <feTurbulence baseFrequency="0.05" numOctaves="4" result="noise" seed="3"/>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" />
+                </filter>
+                <filter id="dist-06">
+                    <feTurbulence baseFrequency="0.1" numOctaves="2" result="noise" seed="4"/>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+                </filter>
+                <filter id="dist-07">
+                    <feTurbulence baseFrequency="0.03" numOctaves="6" result="noise" seed="5" type="fractalNoise"/>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" />
+                </filter>
+                <filter id="dist-08">
+                    <feTurbulence baseFrequency="0.08" numOctaves="3" result="noise" seed="6"/>
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+                </filter>
+			</defs> 
+		</svg>
+        <script is:inline>
+            document.addEventListener('DOMContentLoaded', () => {
+                const glitchableElements = document.querySelectorAll('.glitchable');
+                const filters = ['dist-01', 'dist-02', 'dist-03', 'dist-04', 'dist-05', 'dist-06', 'dist-07', 'dist-08'];
+
+                glitchableElements.forEach(el => {
+                    function applyGlitch() {
+                        const randomFilterId = filters[Math.floor(Math.random() * filters.length)];
+                        const glitchDuration = 0.08//Math.random() * (0.1 - 0.05) + 0.05; // Glitch lasts between 0.05 and 0.1 seconds
+                        const delayBeforeNextGlitch = Math.random() * (6 - 3) + 3; // Next glitch in 0.5 to 2 seconds
+
+                        el.style.filter = `url(#${randomFilterId})`;
+
+                        setTimeout(() => {
+                            el.style.filter = 'none';
+                            setTimeout(applyGlitch, delayBeforeNextGlitch * 1000);
+                        }, glitchDuration * 1000);
+                    }
+
+                    // Initial glitch after a random delay
+                    setTimeout(applyGlitch, Math.random() * 3000); // Initial delay up to 3 seconds
+                });
+
+                // Theme switching logic
+                const themeToggleBtn = document.getElementById('theme-toggle');
+                const body = document.body;
+
+                function toggleTheme() {
+                    let newThemeClass = '';
+                    let newExpressiveCodeTheme = '';
+
+                    if (body.classList.contains('theme-red')) {
+                        newThemeClass = 'theme-purple';
+                        newExpressiveCodeTheme = 'laserwave';
+                    } else if (body.classList.contains('theme-purple')) {
+                        newThemeClass = 'theme-blue';
+                        newExpressiveCodeTheme = 'tokyo-night';
+                    } else if (body.classList.contains('theme-blue')) {
+                        newThemeClass = 'theme-light';
+                        newExpressiveCodeTheme = 'github-dark-default';
+                    } else {
+                        newThemeClass = 'theme-red';
+                        newExpressiveCodeTheme = 'red';
+                    }
+
+                    body.classList.remove('theme-red', 'theme-purple', 'theme-blue', 'theme-light');
+                    body.classList.add(newThemeClass);
+                    localStorage.setItem('theme', newThemeClass);
+                    document.documentElement.dataset.theme = newExpressiveCodeTheme;
+                }
+
+                if (themeToggleBtn) {
+                    themeToggleBtn.addEventListener('click', toggleTheme);
+                }
+            });
+        </script>
+        <script src="/src/scripts/persistentHudNote.js"></script>
+	</body>
+</html>

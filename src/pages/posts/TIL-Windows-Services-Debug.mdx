@@ -1,0 +1,33 @@
+---
+title: "TIL::Windows Services Debug"
+description: ""
+publishDate: "2019-07-01"
+category: "TodayILearn"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+trace 了一隻很 G8 的程式，順手記錄一下在 windows 下，怎麼 attach 到一隻服務上面動態 debug。
+
+在 windows 下可以在 `HKLM\SYSTEM\CurrentControlSet\Services` 註冊服務，之後可以使用指令 `net start ServiceName` 來啟動該服務。[Microsoft 官方介紹了很多 Debug 方法](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/debugging-a-service-application)，但是在 Vista 的版本之後，因為服務都被放進 session0，所以 Debug 基本上只能透過 remote 或是 kernel 控制的 usermode debugger。
+
+安裝 Windows 官方 SDK 的 debug tool 後，透過 Global flag 來綁定程式啟動時自動 attach 的 Debugger ，設定成 cdb 讓 service 掛著，就可以從 WinDbg remote debug 該服務。
+
+
+
+有些服務是把 ImagePath 設定成 `%SYSTEMROOT%\System32\svchost.exe -k netsvcs -p `，透過 svchost 載入 ServiceDll 來啟動服務，這時候我們 attach 到的會是 `svchost.exe`，要找到正確的入口點可以先在 dll 被載入時中斷：
+
+```
+sxe ld nameofdll.dll
+```
+
+同時因為 dll 一定有 Export 一個 ServiceMain 的 Entry 給 svchost 來執行，所以可以在 Entry 上面下斷點，就可以重頭開始 trace：
+
+```
+bm /a nameofdll!*
+```
+
+必讀資源：
+
+- [WinDbg Commands](http://windbg.info/doc/1-common-cmds.html)
+- [Debugging Malware with WinDbg](https://www.ixiacom.com/company/blog/debugging-malware-windbg)
+- [Debugging Windows Services](https://musings.konundrum.org/2018/05/03/debugging-windows-services.html)

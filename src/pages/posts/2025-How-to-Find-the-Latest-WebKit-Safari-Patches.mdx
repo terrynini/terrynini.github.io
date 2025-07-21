@@ -1,0 +1,56 @@
+---
+title: "2025::How to Find the Latest WebKit (Safari) Patches"
+description: "Let's see how to pinpoint the latest patches of WebKit"
+publishDate: "2025-06-04"
+category: "WebKit"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+To track the latest WebKit CVEs, we rely on Apple’s security advisories. Apple publishes a document listing security updates and Rapid Security Responses for its software: [Apple security releases – Apple Support](https://support.apple.com/en-us/100100). As of this writing, the most recent security content is [iOS 18.5 and iPadOS 18.5](https://support.apple.com/en-us/122404), where you can clearly see each CVE number alongside its corresponding WebKit Bugzilla ID.
+
+## Issue
+
+<Image src="./0.png" alt="Your Alt Text" />
+However, most people do not have the privilegeS to view the Bugzilla entries for these security issues.
+<Image src="./1.png" alt='' />
+We can still locate the [specific Git commit on GitHub](https://github.com/WebKit/WebKit/commit/656bcbf0bc42e3c84175614f27effc58825c69ed) by the Bugzilla ID:
+<Image src="./2.png" alt='' />
+But If you search for the Bugzilla ID in GitHub’s search bar, you will probably find unrelated commits:
+<Image src="./3.png" alt='' />
+
+## Answer
+
+This happens because GitHub’s search functionality only indexes the main branch, whereas most security patches are committed to branches like `safari-7621-branch`. Therefore, the best way to find the patches you care about is to clone the entire WebKit repository and search by Git command. For example:
+
+```sh
+git clone https://github.com/WebKit/WebKit.git
+cd WebKit
+git log --all --grep='id=289653'
+
+commit 656bcbf0bc42e3c84175614f27effc58825c69ed
+Author: Nikolaos Mouchtaris <nmouchtaris@apple.com>
+Date:   Mon Mar 24 11:56:44 2025 -0700
+
+    Apple Safari Scrollbar Animation Use-After-Free Remote Code Execution Vulnerability
+    https://bugs.webkit.org/show_bug.cgi?id=289653
+    rdar://146505163
+    
+    Reviewed by Simon Fraser and Chris Dumez.
+    
+    Animations started by a WebScrollerImpDelegateMac have a chance of using a stale ScrollerMac
+    value if that delegate is replaced without invalidating the delegate's animations. Fix this by
+    calling invalidate on the WebScrollerImpDelegateMac before replacing it. Ensure this type of issue
+    doesn't occur by refactoring WebScrollerImpDelegateMac and WebScrollbarPartAnimationMac to use
+    smart pointers.
+    
+    * Source/WebCore/page/scrolling/mac/ScrollerMac.h:
+    * Source/WebCore/page/scrolling/mac/ScrollerMac.mm:
+    (-[WebScrollerImpDelegateMac setUpAlphaAnimation:featureToAnimate:animateAlphaTo:duration:]):
+    (-[WebScrollerImpDelegateMac scrollerImp:animateUIStateTransitionWithDuration:]):
+    (-[WebScrollerImpDelegateMac scrollerImp:animateExpansionTransitionWithDuration:]):
+    (WebCore::ScrollerMac::ref):
+    (WebCore::ScrollerMac::deref):
+    (WebCore::ScrollerMac::attach):
+    
+    Canonical link: https://commits.webkit.org/289651.311@safari-7621-branch
+```

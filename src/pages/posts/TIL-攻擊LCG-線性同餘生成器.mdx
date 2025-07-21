@@ -1,0 +1,13 @@
+---
+title: "TIL::攻擊LCG(線性同餘生成器)"
+description: ""
+publishDate: "2019-04-01"
+category: "TodayILearn"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+p4: https://tailcall.net/blog/cracking-randomness-lcgs/
+paper: https://www.pnas.org/content/pnas/61/1/25.full.pdf
+
+實用方面，p4 提到，在 LCG 內部參數未知的情況時，獲取足夠的亂數輸出，可以逆算回推所有的參數。
+而 paper 提到，這種 LCG 所產生的亂數其實並沒有很亂，從產生的序列中抓固定長度的數字當做高維度的點，可以被證明其實這些高維度的點，會出現在為數不多的 hyperplane 上面，也就是說，憑 LCG 所做出來的蒙地卡羅方法可能不夠好，因為事實上這些亂數並不夠亂。

