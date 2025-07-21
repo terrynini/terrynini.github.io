@@ -38,6 +38,7 @@ const addAugmentedImageImport = () => (tree) => {
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://blog.terrynini.tw',
   integrations: [
     expressiveCode({
       themes: ['github-dark-default','red','laserwave','tokyo-night']}),
