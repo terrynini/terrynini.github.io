@@ -946,3 +946,10 @@ blockquote {
 blockquote p {
   margin: 0;
 }
+
+mjx-container {
+  display: inline-grid;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
