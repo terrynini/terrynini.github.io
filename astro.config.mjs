@@ -2,8 +2,6 @@
 import { defineConfig } from 'astro/config';
 import expressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
-import remarkMath from 'remark-math';
-import rehypeMathjax from 'rehype-mathjax';
 
 /** @type {import('unified').Plugin} */
 const addAugmentedImageImport = () => (tree) => {

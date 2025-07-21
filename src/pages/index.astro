@@ -9,7 +9,7 @@ const posts = allPosts.sort((a, b) => {
   if (dateDiff !== 0) {
     return dateDiff;
   }
-  return a.frontmatter.title.localeCompare(b.frontmatter.title);
+  return b.frontmatter.title.localeCompare(a.frontmatter.title);
 }).map(post => ({
     title: post.frontmatter.title,
     description: post.frontmatter.description || 'No description available.',
