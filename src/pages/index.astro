@@ -4,7 +4,13 @@ import Layout from '../layouts/Layout.astro';
 const allPostsGlob = import.meta.glob('./posts/*.mdx', { eager: true });
 const allPosts = Object.values(allPostsGlob);
 
-const posts = allPosts.sort((a, b) => new Date(b.frontmatter.publishDate).valueOf() - new Date(a.frontmatter.publishDate).valueOf()).map(post => ({
+const posts = allPosts.sort((a, b) => {
+  const dateDiff = new Date(b.frontmatter.publishDate).getTime() - new Date(a.frontmatter.publishDate).getTime();
+  if (dateDiff !== 0) {
+    return dateDiff;
+  }
+  return a.frontmatter.title.localeCompare(b.frontmatter.title);
+}).map(post => ({
     title: post.frontmatter.title,
     description: post.frontmatter.description || 'No description available.',
     url: post.url,
