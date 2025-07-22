@@ -1,0 +1,51 @@
+---
+const { frontmatter, url } = Astro.props;
+
+const author = "terrynini38514";
+const licenseLink = "https://creativecommons.org/licenses/by-nc/4.0/";
+const licenseName = "CC BY-NC 4.0";
+
+const publishDate = new Date(frontmatter.publishDate).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: false,
+    timeZone: 'Asia/Taipei'
+});
+---
+
+<div class="copyright-block">
+    <p><strong>Original Author:</strong> {author}</p>
+    <p><strong>Original Link:</strong> <a href={url.href}>{url.href}</a></p>
+    <p><strong>Publish at:</strong> {publishDate} (Taiwan Time)</p>
+    <p><strong>Copyright:</strong> This article is licensed under <a href={licenseLink} target="_blank" rel="noopener noreferrer">{licenseName}</a></p>
+</div>
+
+<style>
+    .copyright-block {
+        margin-top: 3rem;
+        padding: 1.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        background-color: rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.1);
+        font-size: 0.9em;
+        line-height: 1.6;
+    }
+    .copyright-block p {
+        margin: 0.5rem 0;
+        color: var(--color-text-secondary);
+    }
+    .copyright-block strong {
+        color: var(--color-text-primary);
+    }
+    .copyright-block a {
+        color: var(--color-accent);
+        text-decoration: underline;
+    }
+    body.theme-light .copyright-block {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+</style>

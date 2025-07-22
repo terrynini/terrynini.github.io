@@ -10,7 +10,7 @@ if (!title) {
 }
 
 const slug = title.replace(/[\s!"#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]+/g, '-').replace(/-+$/, '');
-const date = new Date().toISOString().split('T')[0];
+const date = new Date().toISOString();
 
 const postFilePath = path.join('src/pages/posts', `${slug}.mdx`);
 const assetsFolderPath = path.join('src/assets', slug);

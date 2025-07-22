@@ -3,10 +3,18 @@ import Layout from './Layout.astro';
 import ArticleOutline from '../components/ArticleOutline.astro';
 import AuthorHud from '../components/AuthorHud.astro';
 import { author } from '../config/author.js';
-import Giscus from '../components/Giscus.astro';
+import Giscus from '../components/Giscus.astro'; 
+import Copyright from '../components/Copyright.astro';
 
 const { title, publishDate, category } = Astro.props.frontmatter;
 const { headings } = Astro.props;
+
+const formattedPublishDate = new Date(publishDate).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Asia/Taipei'
+});
 
 ---
 
@@ -22,8 +30,9 @@ const { headings } = Astro.props;
         <div class="container">
             <article class="post-content">
                 <h1>{title}</h1>
-                <p class="post-meta">Published: {publishDate} | Category: {category}</p>
+                <p class="post-meta">Published: {formattedPublishDate} (Taiwan Time) | Category: {category}</p>
                 <slot />
+                <Copyright frontmatter={Astro.props.frontmatter} url={Astro.url} />
             </article>
         </div>
         <Giscus />

@@ -90,7 +90,7 @@ java 是直譯式語言， compile 只是 compile 成 Java bytecode，幾乎所�
 
 在 `Visual/PanelEnding.java` 79 行附近可以找到一個變數叫做 flag ，內容看起來像是被加密過。
 
-```java Visual/PanelEnding.java=79
+```java title="Visual/PanelEnding.java" showLineNumbers startLineNumber=79
         this.lWest = new JLabel();
         this.lEast = new JLabel();
         this.flag = new byte[] { 89, 74, 75, 43, 126, 69, 120, 109, 68, 109, 109, 97, 73, 110, 45, 113, 102, 64, 121, 47, 111, 119, 111, 71, 114, 125, 68, 105, 127, 124, 94, 103, 46, 107, 97, 104 };        this.btnFont = new Font("Dialog", 1, 35);
@@ -101,7 +101,7 @@ java 是直譯式語言， compile 只是 compile 成 Java bytecode，幾乎所�
 
 繼續往下看，在 `setValue` 中看得出來當 `t == mc` 的時候，`cache` 會拿來跟 `flag` decrypt 然後印出來：
 
-```java Visual/PanelEnding.java=173
+```java title="Visual/PanelEnding.java" showLineNumbers startLineNumber=173
         if (t == mc) {
             for (int i = 0; i < cache.size(); ++i) {
                 final byte[] flag = this.flag;
@@ -115,13 +115,13 @@ java 是直譯式語言， compile 只是 compile 成 Java bytecode，幾乎所�
 
 然後追一下 `t`、`mc`、`cache` 分別是什麼，在 `Control/GameControl.java` 中可以找到 `t` 就是這個譜面總共有多少的音符， `mc` 就是遊戲結束時的 combo 數：
 
-```java Control/GameControl.java=291
+```java title="Control/GameControl.java" showLineNumbers startLineNumber=291
 this.pe.setValue(this.total, this.critical, this.early, this.late, this.miss, this.comboMax, this.info, this.cache);
 ```
 
 繼續往下追可以找到 cache 其實就是讀進來的譜面檔案
 
-```java Control/GameControl.java=143
+```java title="Control/GameControl.java" showLineNumbers startLineNumber=143
             while (br.ready()) {
                 final String s = br.readLine();
                 if (s.charAt(0) != '*') {
@@ -263,7 +263,7 @@ jmp rax
 
 到這裡就很清楚了，輸入的 ascii code 要等於前面有幾個`-`，這樣才會通過判定，可以知道正確的輸入是`[67, 56, 55, 54, 51, 33]`就是`C8763!`，把邏輯換成 C 會像是這樣：
 
-```c pseudo_code=
+```c title="pseudo_code" showLineNumbers
 if(input[0] == 'C'){
     if(input[1] == '8'){
         if(input[2] == '7'){
@@ -281,7 +281,7 @@ if(input[0] == 'C'){
 
 當然也可以直接跳過所有的`if`，只執行最後印 flag 的 code 就好了，可以用[線上工具](https://www.tutorialspoint.com/execute_brainfk_online.php)。
 
-```brainfuck print_flag
+```brainfuck title="print_flag"
 >>----[---->+<]>++.++++++++.++++++++++.>-[----->+<]>.+[--->++<]>+++.>-[--->+<]>-.[---->+++++<]>-.[-->+<]>---.[--->++<]>---.++[->+++<]>.+[-->+<]>+.[--->++<]>---.++[->+++<]>.+++.[--->+<]>----.[-->+<]>-----.[->++<]>+.-[---->+++<]>.--------.>-[--->+<]>.-[----->+<]>-.++++++++.--[----->+++<]>.+++.[--->+<]>-.-[-->+<]>---.++[--->+++++<]>.++++++++++++++.+++[->+++++<]>.[----->+<]>++.>-[----->+<]>.---[->++<]>-.++++++.[--->+<]>+++.+++.
 ```
 
@@ -312,7 +312,7 @@ if(input[0] == 'C'){
 
 基本上 main 做的事情就是 [Zero padding](https://en.wikipedia.org/wiki/Padding_(cryptography)#Zero_padding)
 
-```c main=
+```c title="main" showLineNumbers
 puts("My encryptor 0.1");
 puts("I didn't implement the decryptor");
 puts("So,you'll never find out my secret unless I am drunk");
@@ -335,7 +335,7 @@ free(s);
 
 沒什麼特別的，可以繼續往下看：
 
-```c sub_83A=
+```c title="sub_83A" showLineNumbers
 __int64 __fastcall sub_83A(unsigned int *a1, __int64 a2)
 {
   __int64 result; // rax
