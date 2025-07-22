@@ -1,0 +1,72 @@
+---
+title: "2025::Compiling VirtulBox 7.1.12 on Ubuntu"
+description: ""
+publishDate: "2025-07-22"
+category: "VirtulBox"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+## Install dependency
+
+### Qt Online Installer
+
+Download [Qt Online Installer](https://doc.qt.io/qt-6/qt-online-installation.html) to install Qt6(need to login,[download link after logging in](https://my.qt.io/download))
+
+- you have to login during the installation
+<Image src="./1.png" alt=""/>
+
+- Chose "Custom Installation"
+<Image src="./2.png" alt=""/>
+
+- Install all libraries
+
+<Image src="./3.png" alt=""/>
+
+### Packages
+
+```sh
+sudo apt-get install acpica-tools chrpath doxygen g++-multilib libasound2-dev libcap-dev libcurl4-openssl-dev libidl-dev libopus-dev libpam0g-dev libpulse-dev libsdl1.2-dev libsdl-ttf2.0-dev libssl-dev libvpx-dev libxcursor-dev libxinerama-dev libxml2-dev libxml2-utils libxmu-dev libxrandr-dev make nasm python3-dev python2.7-dev texlive texlive-fonts-extra texlive-latex-extra unzip xsltproc default-jdk libstdc++5 libxslt1-dev linux-kernel-headers makeself mesa-common-dev subversion yasm zlib1g-dev glslang-tools lib32z1 libc6-dev-i386 lib32gcc-s1 xsltproc docbook-xsl libdevmapper-dev pylint python3-psycopg2 python3-willow python3-pip
+pip3 install packaging
+```
+
+## VirtualBox
+
+### VirtualBox Source Code
+Download [Source Code](https://www.virtualbox.org/wiki/Downloads) from official website, don't pull it from github, which lacks some files:
+
+<Image src="./4.png" alt=""/>
+### Compiling
+
+Though the official build instructions is out dated, but worth a look, [Linux build instructions](https://www.virtualbox.org/wiki/Linux%20build%20instructions)
+
+Run `configure` first. Because we want to use the Qt we just installed, we have to specify the path by `--with-qt-dir`
+```sh
+./configure --disable-hardening --disable-docs --with-qt-dir=/home/nini/Qt/6.9.1/gcc_64/
+```
+
+Then setup the environment by `source ./env.sh`. The env.sh won't set `PATH` and `LD_LIBRARY_PATH` for us though we supply the path of Qt when configuring, we have to assign them by ourselves.
+
+```sh
+source ./env.sh 
+export PATH="/home/nini/Qt/6.9.1/gcc_64/:$PATH"
+export LD_LIBRARY_PATH="/home/nini/Qt/6.9.1/gcc_64/lib:$LD_LIBRARY_PATH"
+```
+
+Compiling
+```sh
+kmk KBUILD_TYPE=debug
+```
+Then compile and setupt the kernel module
+```sh
+out/linux.x86/release/bin/src
+./vboxdrv.sh setup
+./vboxdrv.sh start
+```
+We can run the VirtualBox now.
+```sh
+./VirtualBox
+```
+If you're already in the virtual machine, remeber to enable the nested virtualization. For example, in Hyper-V
+```sh
+Set-VMProcessor -VMName "Ubuntu 22.04 LTS" -ExposeVirtualizationExtensions $true  
+```
