@@ -466,6 +466,13 @@ p {
 }
 
 
+@media (min-width: 1201px) and (max-width: 1680px) {
+    .article-outline-hud, .author-hud {
+        left: auto;
+        right: 20px; /* Anchor to the right */
+    }
+}
+
 @media (max-width: 1200px) {
     .author-hud {
         position: relative;
