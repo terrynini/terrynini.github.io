@@ -26,13 +26,12 @@ import '../styles/light-theme.css';
 	</head>
 	<body style="margin: 0; padding-top: 60px;">
         <script is:inline>
-            // Apply theme from localStorage immediately to prevent FOUC
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
                 document.body.classList.add(savedTheme);
                 document.documentElement.dataset.theme = (savedTheme === 'theme-light') ? 'github-light' : 'poimandres';
             } else {
-                document.body.classList.add('theme-light'); // Default theme
+                document.body.classList.add('theme-light');
                 localStorage.setItem('theme', 'theme-light');
                 document.documentElement.dataset.theme = 'github-light';
             }
@@ -128,8 +127,7 @@ import '../styles/light-theme.css';
                         }, glitchDuration * 1000);
                     }
 
-                    // Initial glitch after a random delay
-                    setTimeout(applyGlitch, Math.random() * 3000); // Initial delay up to 3 seconds
+                    setTimeout(applyGlitch, Math.random() * 3000);
                 });
 
                 // Theme switching logic
@@ -165,6 +163,6 @@ import '../styles/light-theme.css';
                 }
             });
         </script>
-        <script src="/src/scripts/persistentHudNote.js"></script>
+        <script src={import.meta.env.BASE_URL + '/src/scripts/persistentHudNote.js'}></script>
 	</body>
 </html>

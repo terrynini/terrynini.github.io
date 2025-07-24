@@ -43,7 +43,7 @@ const formattedPublishDate = new Date(publishDate).toLocaleDateString('en-US', {
 
     <div id="persistent-notes-overlay"></div>
 
-    <script is:inline src="/src/scripts/giscus.js"></script>
+    <script is:inline src={import.meta.env.BASE_URL + 'scripts/giscus.js'}></script>
 
     <script is:inline>
         document.addEventListener('DOMContentLoaded', () => {
