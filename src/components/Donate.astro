@@ -1,0 +1,58 @@
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js' is:inline></script>
+<script is:inline>
+  let kofiWidgetLoaded = false;
+
+  function updateKofiButtonColor() {
+    if (typeof kofiWidgetOverlay !== 'undefined' && kofiWidgetLoaded) {
+      const bodyStyles = getComputedStyle(document.body);
+      const accentColor = bodyStyles.getPropertyValue('--color-accent').trim();
+      kofiWidgetOverlay.draw('terrynini38514', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': accentColor,
+        'floating-chat.donateButton.text-color': '#fff'
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const copyrightBlock = document.querySelector('.copyright-block');
+
+    if (copyrightBlock) {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !kofiWidgetLoaded) {
+            if (typeof kofiWidgetOverlay !== 'undefined') {
+              const bodyStyles = getComputedStyle(document.body);
+              const accentColor = bodyStyles.getPropertyValue('--color-accent').trim();
+              kofiWidgetOverlay.draw('terrynini38514', {
+                'type': 'floating-chat',
+                'floating-chat.donateButton.text': 'Support me',
+                'floating-chat.donateButton.background-color': accentColor,
+                'floating-chat.donateButton.text-color': '#fff'
+              });
+              kofiWidgetLoaded = true;
+              observer.disconnect();
+
+              const themeObserver = new MutationObserver((mutationsList) => {
+                for (const mutation of mutationsList) {
+                  if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    updateKofiButtonColor();
+                  }
+                }
+              });
+              themeObserver.observe(document.documentElement, { attributes: true });
+              themeObserver.observe(document.body, { attributes: true });
+            } else {
+              console.error('kofiWidgetOverlay is not defined when copyright-block intersected.');
+            }
+          }
+        });
+      }, { threshold: 0.1 });
+
+      observer.observe(copyrightBlock);
+    } else {
+      console.warn('Copyright block element not found. Ko-fi widget will not be loaded based on its visibility.');
+    }
+  });
+</script>
