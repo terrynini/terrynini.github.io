@@ -55,6 +55,8 @@ export LD_LIBRARY_PATH="/home/nini/Qt/6.9.1/gcc_64/lib:$LD_LIBRARY_PATH"
 Compiling
 ```sh
 kmk KBUILD_TYPE=debug
+#or you want a release build but with symbols
+kmk BUILD_TYPE=release VBOX_DO_STRIP=
 ```
 Then compile and setupt the kernel module
 ```sh
