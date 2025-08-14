@@ -58,6 +58,10 @@ kmk KBUILD_TYPE=debug
 #or you want a release build but with symbols
 kmk BUILD_TYPE=release VBOX_DO_STRIP=
 ```
+If any error occurs during compilation, try disabling guest additions first and then try again, that should solve most issues. You can modify the Config.kmk file or append an option after the kmk command:
+```sh
+kmk KBUILD_TYPE=debug VBOX_WITH_ADDITIONS=
+```
 Then compile and setupt the kernel module
 ```sh
 cd out/linux.x86/release/bin/src
