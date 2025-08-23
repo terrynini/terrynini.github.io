@@ -14,8 +14,10 @@
     "@astrojs/mdx": "^4.3.0",
     "astro": "^5.11.0",
     "astro-expressive-code": "^0.41.3",
+    "astro-mermaid": "^1.0.4",
     "augmented-ui": "^2.0.0",
     "expressive-code": "^0.41.3",
+    "mermaid": "^11.10.1",
     "shiki": "^3.7.0"
   }
 }

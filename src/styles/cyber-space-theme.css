@@ -939,6 +939,12 @@ td a:hover {
     z-index: 11; 
 }
 
+pre.mermaid{
+    svg {
+    background-color: white;
+    border-radius: 3px;
+    }
+}
 
 blockquote {
   background: rgba(var(--color-accent-r), var(--color-accent-g), var(--color-accent-b), 0.25);

@@ -1,7 +1,9 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import expressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
+import expressiveCode from 'astro-expressive-code';
+import mermaid from 'astro-mermaid';
+
 
 /** @type {import('unified').Plugin} */
 const addAugmentedImageImport = () => (tree) => {
@@ -38,11 +40,17 @@ const addAugmentedImageImport = () => (tree) => {
 export default defineConfig({
   site: 'https://blog.terrynini.tw',
   integrations: [
+    mermaid({
+      theme: 'base',
+      mermaidConfig: {
+        flowchart: { useMaxWidth: true, htmlLabels: false },
+      }
+    }),
     expressiveCode({
-      themes: ['github-dark-default','red','laserwave','tokyo-night']}),
+      themes: ['github-dark-default', 'red', 'laserwave', 'tokyo-night']
+    }),
     mdx({
       remarkPlugins: [addAugmentedImageImport],
-      
     }),
   ],
 });
