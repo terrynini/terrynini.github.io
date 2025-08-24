@@ -106,8 +106,9 @@ p {
     margin-bottom: 50px;
     border-radius: 8px;
     z-index: 10;
-    word-wrap: break-word;
-    word-break: break-all;
+    /* word-wrap: break-word; */
+    overflow-wrap: break-all;
+    /* word-break: break-all; */
 }
 
 
@@ -178,8 +179,9 @@ p {
 
 .post-content p {
     margin-bottom: 1em;
-    word-wrap: break-word;
-    word-break: break-all;
+    /* word-wrap: break-word;
+    word-break: break-all; */
+    overflow-wrap: break-all;
 }
 
 .post-content code {
