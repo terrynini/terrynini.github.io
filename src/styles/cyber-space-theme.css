@@ -107,7 +107,7 @@ p {
     border-radius: 8px;
     z-index: 10;
     /* word-wrap: break-word; */
-    overflow-wrap: break-all;
+    overflow-wrap: break-word;
     /* word-break: break-all; */
 }
 
@@ -181,7 +181,7 @@ p {
     margin-bottom: 1em;
     /* word-wrap: break-word;
     word-break: break-all; */
-    overflow-wrap: break-all;
+    overflow-wrap: break-word;
 }
 
 .post-content code {
