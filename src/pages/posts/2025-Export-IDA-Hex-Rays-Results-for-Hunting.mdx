@@ -1,0 +1,72 @@
+---
+title: "2025::Export IDA Hex-Rays Results for Hunting"
+description: "Write a script that dumps the Hex-Rays decompiler's result to files for code review"
+publishDate: "2025-11-06T02:06:03.361Z"
+category: "IDA"
+layout: "../../layouts/ArticleLayout.astro"
+---
+
+
+It's easy to export the Hex-Rays decompiler's result to files with the following command.
+```sh
+ida -Ohexrays:outfile.c:ALL -A <binary name or idb name>
+```
+
+The `-O` will pass options to the hexrays plugin and the plugin will export it's output to the `ouftile.c`. However, when the binary is huge, the result will definitely become much huger, and that's not friendly for humans or scan tools. We can write a snippet to slice the HexRay results by function. This is my version:
+
+```python
+import sys, os
+import idaapi
+import idautils
+import idc
+import ida_hexrays
+
+if not idaapi.init_hexrays_plugin():
+    print("Error: Hex-Rays decompiler plugin not available")
+    idaapi.qexit(1)
+
+outdir = 'decompiled'
+
+if not os.path.isabs(outdir):
+    outdir = os.path.join(os.getcwd(), outdir)
+os.makedirs(outdir, exist_ok=True)
+
+def pseudoCodeObjToString(pseudoCodeOBJ: ida_pro.strvec_t) -> str:
+	convertedObj: str = ""
+
+	for lineOBJ in pseudoCodeOBJ:
+		convertedObj += (ida_lines.tag_remove(lineOBJ.line) + "\n")
+
+	return convertedObj
+
+count = 0
+for ea in idautils.Functions():
+    func = idaapi.get_func(ea)
+    if not func:
+        continue
+    name = idc.get_func_name(ea)
+    try:
+        cfunc = ida_hexrays.decompile(func)
+    except Exception as e:
+        print(f"[!] Failed to decompile {name}@{ea:08X}: {e}")
+        continue
+
+    lines = pseudoCodeObjToString(cfunc.get_pseudocode())
+    fname = f"{count}_{ea:08X}.c"
+    count += 1
+    path = os.path.join(outdir, fname)
+    with open(path, "w") as f:
+        f.write(lines)
+    print(f"[+] Wrote {path}")
+
+idaapi.qexit(0)
+```
+
+Run IDA with the script we just created to analyze the bthport.sys. (it can also be bthport.sys.i64)
+```
+ida -A  -Lida_debug.log  -Sexport_funcs.py bthport.sys
+```
+
+Now, we should leverage source code level tools, such as Semgrep and Sourcetrail, among others.
+
+<Image src="./result.png" alt="" />
