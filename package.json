@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
+    "@astrojs/rss": "^4.0.15",
     "astro": "^5.11.0",
     "astro-expressive-code": "^0.41.3",
     "astro-mermaid": "^1.0.4",
