@@ -46,12 +46,13 @@ import '../styles/light-theme.css';
         <button id="theme-toggle" class="theme-toggle-btn">
             切換主題
         </button>
-        <nav class="main-nav">
+		<nav class="main-nav">
 			<ul class="main-nav-list">
-				<li class="main-nav-item"><a href="/" class="main-nav-link">Home</a></li>
-				<li class="main-nav-item"><a href="/about" class="main-nav-link">About</a></li>
-			</ul>
-		</nav>
+                <li class="main-nav-item"><a href="/" class="main-nav-link">Home</a></li>
+                <li class="main-nav-item"><a href="/about" class="main-nav-link">About</a></li>
+            </ul>
+        </nav>
+        <a href="/rss.xml" class="rss-fab glitchable" aria-label="RSS feed">RSS</a>
 		<slot />
 		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="position: absolute; top: -9999px; left: -9999px;">
 			<defs>
